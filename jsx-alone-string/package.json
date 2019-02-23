@@ -1,0 +1,64 @@
+{
+    "name": "jsx-alone",
+    "version": "1.0.0",
+    "description": "Write JSX without React or any other library",
+    "main": "dist/src/index.js",
+    "types": "dist/src/index.d.ts",
+    "typings": "dist/src/index.d.ts",
+    "scripts": {
+        "build": "npm run clean && tsc && npm run test-build-js && npm run sc-tsc",
+        "build-watch": "npx tsc -w",
+        "clean": "rm -rf dist compiled compiled_ts",
+        "test-run-js": "npm run test-build-js && npx tsc && node dist/spec",
+        "test-build-js": "tsc -p ./tsconfig-spec.json && cp spec/ported/backbone.stickit.js dist/spec/ported/backbone.stickit.js",
+        "sca-module-unit-test-build": "cd sca-module-unit-test && npm i && npm run build",
+        "sca-module-unit-test": "npm run sca-module-unit-test-build && cd sca-module-unit-test && npm i && sh build.sh && sca-unit-test --puppeteerNodeModulesPath /home/sg/git/WASM-ImageMagick/ --path ~/awa/kilimanjaro/ --modules SCTypesFrontEndCoreTests",
+        "test-run": " npx ts-node --project ./tsconfig-spec.json -T spec",
+        "test": "npm run build && npm run test-run && npm run test-run-js && npm run test-sca-module-unit-test",
+        "sc-tsc": "npx sc-tsc --tsconfigFilePath ./tsconfig.json --outputFolder compiled  --addTslibJsInFolder",
+        "clean-npm": "npm run clean && find . -name \"node_modules\" -exec rm -rf '{}' + ; find . -name \"package-lock.json\" -exec rm -rf '{}' +;",
+        "all": "npm run clean-npm && npm i && npm run build && npm test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/cancerberoSgx/suitecommerce-types.git"
+    },
+    "keywords": [
+        "SuiteCommerce",
+        "TypeScript",
+        "NetSuite",
+        "devtools",
+        "types",
+        "JavaScript",
+        "JSX",
+        "TSX",
+        "React"
+    ],
+    "author": "Sebastian Gurin",
+    "license": "MIT",
+    "homepage": "https://github.com/cancerberoSgx/suitecommerce-types",
+    "dependencies": {
+        "misc-utils-of-mine": "0.0.4",
+        "sc-types-frontend": "file:../sc-types-frontend"
+    },
+    "devDependencies": {
+        "@types/backbone": "^1.3.45",
+        "@types/jasmine": "^3.3.4",
+        "@types/jquery": "^3.3.29",
+        "@types/jsdom": "^12.2.1",
+        "@types/node": "^10",
+        "@types/shelljs": "^0.8.1",
+        "@types/underscore": "^1.8.9",
+        "backbone": "^1.3.3",
+        "jasmine": "^3.3.1",
+        "jquery": "^3.3.1",
+        "jsdom": "^13.1.0",
+        "sc-tsc": "file:../ts-devtools",
+        "shelljs": "^0.8.3",
+        "ts-node": "^7.0.1",
+        "ts-simple-ast": "^20.0.0",
+        "tsd-check": "^0.2.1",
+        "typescript": "^3.2.2",
+        "underscore": "^1.9.1"
+    }
+}

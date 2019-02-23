@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution":"node",
+    "lib": [
+      "es6", "dom"
+    ],
+
+    // "strict": true,
+    // "noEmitHelpers": true,
+    // "importHelpers": true,
+    "jsx": "react",
+    "jsxFactory": "ReactLike.createElement",
+    "declaration": true,
+    // "skipLibCheck": true, 
+    // "types": ["./declarations/domElementDeclarations"]
+  },
+  // "include":["src"],
+  // "exclude": ["spec", "dist", "compiled", "compiled_ts", "node_modules"]
+}
