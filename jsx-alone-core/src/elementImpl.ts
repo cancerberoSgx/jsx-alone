@@ -17,8 +17,11 @@ export function isTextNodeLike<T>(n: any): n is TextNodeLIke<T> {
 }
 
 
+export abstract class AbstractTextNodeLike<T> implements TextNodeLIke<T> {
+  constructor(public content: string) {}
+  abstract render(config?: RenderConfig): T
+}
 export abstract class AbstractElementLike<T> implements ElementLike<T> {
-  // private innerHtml: string | undefined
   attrs: {
     [name: string]: string
   }
@@ -29,26 +32,6 @@ export abstract class AbstractElementLike<T> implements ElementLike<T> {
     this.children = []
   }
   abstract render(config?: RenderConfig): T
-  // render(config: RenderConfig = defaultRenderConfig): string {
-  //   const newLine = config.indent ? `\n` : ``
-  //   const content = this.innerHtml ||
-  //     `${newLine}${this.indent({ ...config, indentLevel: (config.indentLevel || 0) + 1 })}${
-  //       this.children
-  //       .map(c => `${c.render({ ...config, indentLevel: (config.indentLevel || 0) + 1 })}`)
-  //       .join('')}${newLine}${this.indent(config)}`
-  //   return `<${this.tag}${Object.keys(this.attrs).map(a => ` ${a}="${this.attrs[a]}"`).join('')}>${content}</${this.tag}>`
-  // }
-
-  // protected indent(config:{indentLevel?: number, indentTabSize? : number}) {
-  //   // return config.indent ? _indent(config.indentLevel || 0, config.indentTabSize || 2) : ''
-  //   // const tabSize = config.indentTabSize || 2
-  //   const L = (config.indentLevel || 0) * (config.indentTabSize || 2)
-  //   const a=[]
-  //   for (let i = 0; i < L; i++) {
-  //     a.push(' ')
-  //   }
-  //   return a.join('')
-  // }
   setAttribute(name: string, value: string): void {
     this.attrs[name] = value
   }
@@ -56,7 +39,6 @@ export abstract class AbstractElementLike<T> implements ElementLike<T> {
     this.children.push(c)
     if (isElementLike<T>(c)) {
       c.parentElement = this
-      // this.children.push(c)
     }
   }
   abstract dangerouslySetInnerHTML(s: string): void
@@ -111,26 +93,3 @@ export abstract class AbstractElementLike<T> implements ElementLike<T> {
     return this.getRootAscendant().findDescendant(p)
   }
 }
-
-// const defaultRenderConfig = { indentLevel: 0, indentTabSize: 2 }
-
-
-// // heads up - we want this file to be independent, that's why we did't use misc utilities!
-
-
-// // heads up - we want this file to be independent, that's why we did't use misc utilities!
-
-// function checkThrow<T>(r?: T, msg = 'Throwing on undefined value'): T {
-//   if (!r) { throw new Error(msg) }
-//   return r
-// }
-
-// function _indent(i: number = 1, tabSize = 2): string {
-//   const a=[]
-//   for (let i = 0; i < i*tabSize; i++) {
-//     a.push(' ')
-//   }
-//   return a.join('')
-// }
-
-

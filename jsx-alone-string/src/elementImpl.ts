@@ -1,8 +1,9 @@
-import { AbstractElementLike, TextNodeLIke, AbstractElementClass } from 'jsx-alone-core'
-import { ElementLikeImplRenderConfig, defaultRenderConfig } from './config'
-import { indent } from './util'
+import { AbstractElementClass, AbstractElementLike, AbstractTextNodeLike } from 'jsx-alone-core';
+import { defaultRenderConfig, ElementLikeImplRenderConfig } from './config';
+import { indent } from './util';
 
 export class ElementLikeImpl extends AbstractElementLike<string> {
+  
   private innerHtml: string | undefined
 
   render(config: ElementLikeImplRenderConfig = defaultRenderConfig): string {
@@ -22,8 +23,10 @@ export class ElementLikeImpl extends AbstractElementLike<string> {
   }
 }
 
-export class TextNodeLikeImpl implements TextNodeLIke<string> {
-  constructor(public content: string) {}
+export class TextNodeLikeImpl extends AbstractTextNodeLike<string> {
+  constructor(content:string){
+    super(content)
+  }
   render(config: ElementLikeImplRenderConfig = defaultRenderConfig): string {
     return `${this.content}`
   }

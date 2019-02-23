@@ -23,6 +23,7 @@ export type ReactLikeFunction = (props: ReactLikeProps) => ReactLikeElement
 export type ReactLikeTag = string | ReactLikeComponent | ReactLikeFunction
 
 export interface NodeLike<T> {
+  // new(content:string):this
   render(config?: RenderConfig): T
 }
 

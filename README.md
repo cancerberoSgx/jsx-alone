@@ -23,3 +23,12 @@ npm install jsx-alone-string
 ```
 
 import { ReactLike } from 'jsx-alone-string'
+
+
+# TODO
+
+ * example-project
+ * React.Fragment
+ * minimal api in core for manipulate NodeLike before createElement
+ * Rename ReactLike to JSXAlone
+ * rename TextNodeLIke typo
