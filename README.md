@@ -1,6 +1,6 @@
 # JSX Alone 
 
-**Render JSX without libraries like React**
+**Render JSX without libraries like React with 0 overhead**
 
  * Two implementations: 
 
