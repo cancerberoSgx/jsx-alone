@@ -1,14 +1,20 @@
 import { ReactLike } from '..';
-
-export function test({ e, expected, label, expectedTabSize2 }: {
+import {expectTextEquals} from 'misc-utils-of-mine-describe-it-expect'
+export function test({ e, expected, label, expectedTabSize2, asCodeEquals }: {
   e: JSX.Element;
   expected: string;
   label: string;
   expectedTabSize2?: string;
+  asCodeEquals?: boolean
 }) {
   it(label + ' without indent', () => {
     const output = ReactLike.render(e, { indent: false, indentTabSize: 0 });
-    expect(output).toBe(expected);
+    if(asCodeEquals){
+      expectTextEquals(output, expected)
+    }
+    else {
+      expect(output).toBe(expected);
+    }
   });
   if (expectedTabSize2) {
     it(label + 'with indentTabSize: 2', () => {
