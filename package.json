@@ -6,12 +6,13 @@
   "main": "index.js",
   "scripts": {
     "build": "npx yamat run npm run build",
-    "build-watch": "npx yamat run npm run build-watch",
     "clean": "npx yamat run npm run clean",
-    "test-run": "npx yamat run npm run test",
-    "clean-npm": "npm run clean && find . -name \"node_modules\" -exec rm -rf '{}' + ; find . -name \"package-lock.json\" -exec rm -rf '{}' +;",
-    "all": "npm run clean-npm && npm test",
-    "test": "npx yamat run npm i && npm run build && npm run test-run"
+    "cleanPackageLock": "npx yamat run \"rm -rf package-lock.json\"",
+    "test": "npx yamat run npm test",
+    "all": "npm run clean && npm run build && npm test",
+    "yamat-link": "npx yamat link && npm run cleanPackageLock && npx yamat run npm i && npm run build && npm test",
+    "yamat-unlink-pack": "npx yamat unlink --version pack && npm run cleanPackageLock && npx yamat run npm i && npm test",
+    "yamat-patch-publish": "npx yamat run npm version patch && npx yamat unlink && npx yamat --break-on-error no run npm publish"
   },
   "repository": {
     "type": "git",
@@ -32,7 +33,10 @@
   "license": "MIT",
   "homepage": "https://github.com/cancerberoSgx/suitecommerce-types",
   "devDependencies": {
-    "concurrently": "^4.1.0",
     "yamat": "^0.1.1"
+  },
+  "dependencies": {
+    "misc-utils-of-mine-generic": "file:../misc-utils-of-mine/misc-utils-of-mine-generic",
+    "misc-utils-of-mine-typescript": "file:../misc-utils-of-mine/misc-utils-of-mine-typescript"
   }
 }

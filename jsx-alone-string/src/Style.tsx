@@ -1,7 +1,7 @@
+import {indent as indentImpl} from 'misc-utils-of-mine-generic'
 
 import { ReactLike } from './createElement'
-import { indent as indentImpl } from '../misc/misc';
-import { RenderConfig } from './jsx';
+import { ElementLikeImplRenderConfig } from './config';
 
 
 /** Render the <style> tag with all classes and styles inside. Usage example: 
@@ -59,5 +59,5 @@ export function Styles<T extends { [k: string]: ClassRule }>(styles: T): { style
 export type ClassRule = Partial<CSSStyleDeclaration> & { selectorPostfix?: string }
 interface StyleProps {
   classes: { [name: string]: ClassRule },
-  renderConfig?: RenderConfig
+  renderConfig?: ElementLikeImplRenderConfig
 }

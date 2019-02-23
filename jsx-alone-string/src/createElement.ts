@@ -1,8 +1,7 @@
-import { ElementLikeImpl, isNode, isReactLikeComponent, TextNodeLikeImpl, isElementLike } from './elementImpl';
-import { ClientCode, ElementLike, NodeLike, ReactLike as ReactLikeType, ReactLikeAttrs, ReactLikeChild, ReactLikeTag, RenderConfig } from './jsx';
-import * as jsx from './declarations/domElementDeclarations'
-
-
+import { ClientCode, ElementLike, NodeLike, ReactLike as ReactLikeType, ReactLikeAttrs, ReactLikeChild, ReactLikeTag, RenderConfig,  isNode, isReactLikeComponent, TextNodeLIke } from 'jsx-alone-core'
+import * as jsx from 'jsx-alone-core'
+import { ElementLikeImpl, TextNodeLikeImpl } from './elementImpl';
+import { defaultRenderConfig , ElementLikeImplRenderConfig} from './config';
 
 const throwOnUnrecognized = false
 function debug(err: string) {
@@ -16,8 +15,8 @@ function debug(err: string) {
 }
 
 const Module = {
-  createElement(tag: ReactLikeTag, attrs: ReactLikeAttrs = {}, ...children: ReactLikeChild[]): ElementLike {
-    var element: ElementLike;
+  createElement(tag: ReactLikeTag, attrs: ReactLikeAttrs = {}, ...children: ReactLikeChild[]): ElementLikeImpl {
+    var element: ElementLikeImpl;
     if (typeof tag === 'string') {
       element = new ElementLikeImpl(tag)
     }
@@ -78,7 +77,7 @@ const Module = {
     }
 
     children.filter(c => c).forEach(child => {
-      if (isNode(child)) {
+      if (isNode<string>(child)) {
         element.appendChild(child)
       }
       else if (Array.isArray(child)) {
@@ -86,7 +85,7 @@ const Module = {
           if (typeof c === 'string') {
             element.appendChild(new TextNodeLikeImpl(c))
           }
-          else if (isNode(c)) {
+          else if (isNode<string>(c)) {
             element.appendChild(c)
           }
           else {
@@ -103,26 +102,29 @@ const Module = {
 
   _renderConfig: undefined as RenderConfig | undefined,
 
-  render(el: JSX.Element, config: RenderConfig = {}): string {
-    return `
-${config.renderClientCode ? `<sc${''}ript>${Module.getClientCode().map(c => c.code).join('\n')}<${''}/`+`script>` : ``}
-${(el as any as NodeLike).render(config)}
-`.trim()
+//   render(el: JSX.Element, config: ElementLikeImplRenderConfig = {}): string {
+//     return `
+// ${config.renderClientCode ? `<script>${Module.getClientCode().map(c => c.code).join('\n')}<${''}/`+`script>` : ``}
+// ${(el as any as NodeLike<string>).render(config)}
+// `.trim()
+//   },
+  render(el: JSX.Element, config: ElementLikeImplRenderConfig = {}): string {
+    return `${(el as any as NodeLike<string>).render(config)}`
   },
 
-  registerClientCode(f: ClientCode) {
-    clientCode.push(f)
-  },
+  // registerClientCode(f: ClientCode) {
+  //   clientCode.push(f)
+  // },
 
-  getClientCode(): ClientCode[] {
-    return clientCode
-  },
+  // getClientCode(): ClientCode[] {
+  //   return clientCode
+  // },
 
 }
 
-const clientCode: ClientCode[] = []
+// const clientCode: ClientCode[] = []
 
-export const ReactLike: ReactLikeType = Module
+export const ReactLike: ReactLikeType<string> = Module
 
 //@ts-ignore
 ReactLike = Module // creates a global variable needed so emitted .js calls work. See tsconfig.json `"jsxFactory": "ReactLike.createElement",`
