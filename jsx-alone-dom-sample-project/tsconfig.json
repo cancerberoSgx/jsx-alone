@@ -4,9 +4,13 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "lib": ["es6", "dom"],
+    "outDir": "./dist",
+    "rootDir": ".",
     "jsx": "react",
     "jsxFactory": "JSXAlone.createElement",
     "declaration": true,
     "strict": true
-  }
+  },
+  "include": ["src"],
+  "exclude": ["spec", "dist", "node_modules"]
 }

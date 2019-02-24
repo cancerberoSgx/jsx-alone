@@ -33,7 +33,7 @@
   "license": "MIT",
   "homepage": "https://github.com/cancerberoSgx/jsx-alone",
   "dependencies": {
-    "jsx-alone-core": "0.0.2",
+    "jsx-alone-core": "file:../jsx-alone-core",
     "misc-utils-of-mine": "0.0.4"
   },
   "devDependencies": {

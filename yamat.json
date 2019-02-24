@@ -10,5 +10,10 @@
     {
         "name": "jsx-alone-string",
         "path": "./jsx-alone-string"
+    },
+    {
+        "name": "jsx-alone-dom-sample-project",
+        "path": "./jsx-alone-dom-sample-project"
     }
+    
 ]
