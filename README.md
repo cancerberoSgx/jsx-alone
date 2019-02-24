@@ -9,9 +9,10 @@
 
  * Very lightweight
  * HTML DOM Typings: it contains typings for HTML DOM just like React so you can type-check your HTML templates
- * Core implementations (string, dom) have minimal or no support for features beyond JSX so we keep them KISS and lightweight: 
-   * function attributes (event handlers) - . See below
-   * state, refs, context,  (like react 's)
+ * No support for **features beyond JSX**: (so we keep them KISS and lightweight) :
+   * No virtual dom
+   * No stateful components 
+   * limited support for function attributes (event handlers) 
    * ...But expect auxiliary projects that add some of these in the future...
 
 # String implementation
@@ -57,14 +58,12 @@ This feature is out of scope for JSX rendering. Some considerations:
  * the functions are rendered using Function.prototype.toString() so they are not transpiled (to es5), so be careful!
  * in both implementations, the functions will be evaluated in a complete different context (the DOM element event handler). None of the variables in the current scope , with exception of `this`,  will be present. 
    * in the dom implementation  globals will be available also, but in string implementation only `this` 
-   * in string implementation, even if `this` is available, if a method is called (`this.method()`) it might happen that the method implementation ends up calling code that is not available, so be careful.
- * in dom implementation, the functions will be evaluated in the context of
- * the f
+   * in string implementation, even if `this` is available, if a method is called (`this.method()`) it might happen that it ends up calling code that is not available (like a method or function in another file), so be careful.
+
 
 # TODO
 
- * performance comparison
+ * performance comparison against other template implementations like js string, handlebars, react, inferno (those that support isomorphic)
  * example-project
  * React.Fragment
- * minimal api in core for manipulate NodeLike before createElement
- * rename TextNodeLike typo
+ * minimal api in core for manipulate NodeLike before createElement - in another project. 

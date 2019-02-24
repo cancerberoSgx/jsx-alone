@@ -1,7 +1,7 @@
 {
   "name": "jsx-alone-core",
   "version": "0.0.1",
-  "description": "Write JSX without React or any other library, both in browser and server",
+  "description": "Write JSX without React or any other library, both in browser and server. Core package. ",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "typings": "dist/src/index.d.ts",
