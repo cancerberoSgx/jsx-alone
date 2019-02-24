@@ -69,6 +69,11 @@ the library includes HTML typings that were adapted from react. So they declare 
  * performance comparison against other template implementations like js string, handlebars, react, inferno (those that support isomorphic)
  * example-project
  * React.Fragment
- * minimal api in core for manipulate NodeLike before createElement - in another project. 
+ * createElement is in core and is not extensible. Let implementations hook in attributes, children and text rendering
  * rename ElementLikeImplRenderConfig to ImplRenderConfig
+ * remove react non standard attributes from typings
+
+# ideas
+
  * performance: for text we use document.createTextNode(this.content) - maybe is faster to use insertAdjacentText ? 
+ * DOM - support for function attributes - don't render as attributes instead use el.addEventListener and bind to function/variable/class element scope somehow.

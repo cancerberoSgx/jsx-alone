@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es2018",
     "module": "commonjs",
     "moduleResolution": "node",
-    "lib": ["es6", "dom"],
+    "lib": ["es2018", "dom"],
     "outDir": "./dist",
     "rootDir": ".",
     "jsx": "react",
