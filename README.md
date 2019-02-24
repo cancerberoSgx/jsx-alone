@@ -12,24 +12,53 @@
  * No support for **features beyond JSX**: (so we keep them KISS and lightweight) :
    * No virtual dom
    * No stateful components 
-   * limited support for function attributes (event handlers) 
+   * limited support for function attributes evaluation (event handlers). See below.        //TODO: link
    * ...But expect auxiliary projects that add some of these in the future...
+
+# Usage
+
+Both implementations have very similar API. The only difference is the call to `JSXAlone.render()`:
+
+ * string implementation returns a string (that can be returned in a http response)
+ * DOM implementation returns a HTMLElement (that can appended to the document)
+
+## tsconfig.json
+
+Both implementations needs a `tsconfig.json` with the following properties: 
+
+```json
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "jsxFactory": "JSXAlone.createElement"
+  }
+}
+```
+
 
 # String implementation
 
-```
-npm install jsx-alone-string
-```
-
-import { JSXAlone } from 'jsx-alone-string'
-
-TODO
+[See jsx-alone-string/README.md](jsx-alone-string/README.md)
 
 # DOM implementation
+
+[See jsx-alone-dom/README.md](jsx-alone-dom/README.md)
+
+# Performance
 
 TODO
 
 # Implementation details
+
+## Name equivalences with React
+
+ * the *`JSXAlone` namespace would be equivalent to "React" 
+ * Many Ract.* types are available in JSXAlone.* (just types)
+ * JSX.Element - the `JSX` type namespace is the same and provided by TypeScript
+ * React === JSXAlone 
+ * React.createElement === JSXAlone.createElement
+ * React.Element === JSXAlone.ElementLike
+ * React.Component === JSXAlone.ElementClass (very limited to JSX scope)
 
 ## function attributes (event handlers)
 
