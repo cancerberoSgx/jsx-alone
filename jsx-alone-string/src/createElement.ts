@@ -1,4 +1,4 @@
-import { NodeLike, ReactLike as ReactLikeType, createCreateElement } from 'jsx-alone-core';
+import { NodeLike, JSXAlone as JSXAloneType, createCreateElement } from 'jsx-alone-core';
 import { ElementLikeImplRenderConfig, defaultRenderConfig } from './config';
 import { ElementLikeImpl, TextNodeLikeImpl } from './elementImpl';
 
@@ -13,9 +13,9 @@ const Module = {
 
 }
 
-export const ReactLike: ReactLikeType<string> = Module
+export const JSXAlone: JSXAloneType<string> = Module
 
 //@ts-ignore
-ReactLike = Module // creates a global variable needed so emitted .js calls work. See tsconfig.json `"jsxFactory": "ReactLike.createElement",`
+JSXAlone = Module // creates a global variable needed so emitted .js calls work. See tsconfig.json `"jsxFactory": "JSXAlone.createElement",`
 
 

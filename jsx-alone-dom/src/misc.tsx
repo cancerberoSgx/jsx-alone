@@ -1,5 +1,5 @@
 import { ReactNode } from 'jsx-alone-core';
-import { ReactLike } from '.';
+import { JSXAlone } from '.';
 
 
 export type Children = ReactNode

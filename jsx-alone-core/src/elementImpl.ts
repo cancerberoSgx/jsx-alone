@@ -1,6 +1,6 @@
-import { ReactLikeComponent, NodeLike, ElementLike, TextNodeLIke, RenderConfig, Predicate, ReactLike } from '.'
+import { JSXAloneComponent, NodeLike, ElementLike, TextNodeLIke, RenderConfig, Predicate, JSXAlone } from '.'
 import {checkThrow} from 'misc-utils-of-mine-generic'
-export function isReactLikeComponent(c: any): c is ReactLikeComponent {
+export function isJSXAloneComponent(c: any): c is JSXAloneComponent {
   return c.prototype && c.prototype.render
 }
 

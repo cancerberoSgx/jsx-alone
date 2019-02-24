@@ -1,4 +1,4 @@
-import { ReactLike } from '..';
+import { JSXAlone } from '..';
 import {expectTextEquals} from 'misc-utils-of-mine-describe-it-expect'
 export function test({ e, expected, label, expectedTabSize2, asCodeEquals }: {
   e: JSX.Element;
@@ -8,7 +8,7 @@ export function test({ e, expected, label, expectedTabSize2, asCodeEquals }: {
   asCodeEquals?: boolean
 }) {
   it(label + ' without indent', () => {
-    const output = ReactLike.render(e, { indent: false, indentTabSize: 0 });
+    const output = JSXAlone.render(e, { indent: false, indentTabSize: 0 });
     if(asCodeEquals){
       expectTextEquals(output, expected)
     }
@@ -18,7 +18,7 @@ export function test({ e, expected, label, expectedTabSize2, asCodeEquals }: {
   });
   if (expectedTabSize2) {
     it(label + 'with indentTabSize: 2', () => {
-      const output = ReactLike.render(e, { indent: true, indentTabSize: 2 });
+      const output = JSXAlone.render(e, { indent: true, indentTabSize: 2 });
       expect(output).toBe(expectedTabSize2);
     });
   }

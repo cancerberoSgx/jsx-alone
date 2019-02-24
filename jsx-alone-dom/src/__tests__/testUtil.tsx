@@ -1,4 +1,4 @@
-import { ReactLike } from '..';
+import { JSXAlone } from '..';
 import {expectTextEquals} from 'misc-utils-of-mine-describe-it-expect'
 export function test({ e, expected, label,  asCodeEquals , caseInsensitive}: {
   e: JSX.Element;
@@ -13,7 +13,7 @@ export function test({ e, expected, label,  asCodeEquals , caseInsensitive}: {
       parent = document.createElement('div')
       document.body.appendChild(parent)
     }
-    const output: HTMLElement = ReactLike.render(e, {parent}) as any
+    const output: HTMLElement = JSXAlone.render(e, {parent}) as any
     expected = caseInsensitive ? expected.toLowerCase() : expected
     const result = caseInsensitive ? output.outerHTML.toLowerCase() : output.outerHTML
     if(asCodeEquals){

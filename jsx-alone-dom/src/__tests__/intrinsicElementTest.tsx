@@ -1,4 +1,4 @@
-import { ReactLike } from '..'
+import { JSXAlone } from '..'
 import { test } from './testUtil'
 
 describe('intrinsic elements', () => {

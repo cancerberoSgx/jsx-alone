@@ -20,7 +20,7 @@
 npm install jsx-alone-string
 ```
 
-import { ReactLike } from 'jsx-alone-string'
+import { JSXAlone } from 'jsx-alone-string'
 
 TODO
 
@@ -67,5 +67,5 @@ This feature is out of scope for JSX rendering. Some considerations:
  * example-project
  * React.Fragment
  * minimal api in core for manipulate NodeLike before createElement
- * Rename ReactLike to JSXAlone
+ * Rename JSXAlone to JSXAlone
  * rename TextNodeLIke typo

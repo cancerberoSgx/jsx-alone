@@ -1,6 +1,6 @@
 import {indent as indentImpl} from 'misc-utils-of-mine-generic'
 
-import { ReactLike } from './createElement'
+import { JSXAlone } from './createElement'
 import { ElementLikeImplRenderConfig } from './config';
 
 

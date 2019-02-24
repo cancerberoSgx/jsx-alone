@@ -1,26 +1,26 @@
-export type ReactLikeAttrs<ClassName extends string = string> = {
+export type JSXAloneAttrs<ClassName extends string = string> = {
   [k: string]: any
   className?: ClassName|ClassName[]
 }
 
-export type ReactLikeChild = ReactLikeElement | string;
+export type JSXAloneChild = JSXAloneElement | string;
 
-export type ReactLikeProps = ReactLikeAttrs & {
-  children: ReactLikeChild[];
+export type JSXAloneProps = JSXAloneAttrs & {
+  children: JSXAloneChild[];
 }
 
-export type ReactLikeValue = string | boolean | number
+export type JSXAloneValue = string | boolean | number
 
-export type ReactLikeElement = any // HTMLElement
+export type JSXAloneElement = any // HTMLElement
 
-export type ReactLikeComponent = {
-  new(props: ReactLikeProps): ReactLikeComponent
-  render(): ReactLikeElement
+export type JSXAloneComponent = {
+  new(props: JSXAloneProps): JSXAloneComponent
+  render(): JSXAloneElement
 }
 
-export type ReactLikeFunction = (props: ReactLikeProps) => ReactLikeElement
+export type JSXAloneFunction = (props: JSXAloneProps) => JSXAloneElement
 
-export type ReactLikeTag = string | ReactLikeComponent | ReactLikeFunction
+export type JSXAloneTag = string | JSXAloneComponent | JSXAloneFunction
 
 export interface NodeLike<T> {
   // new(content:string):this
@@ -53,8 +53,8 @@ export type Predicate<T, N extends NodeLike<T> = NodeLike<T>> = (e:N)=>boolean
 export interface RenderConfig {
 }
 
-export interface ReactLike<T> {
-  createElement(tag: ReactLikeTag, attrs: ReactLikeAttrs, ...children: ReactLikeChild[]): ElementLike<T>
+export interface JSXAlone<T> {
+  createElement(tag: JSXAloneTag, attrs: JSXAloneAttrs, ...children: JSXAloneChild[]): ElementLike<T>
   render(el: JSX.Element, config: RenderConfig): T
   // registerClientCode(f: ClientCode): void
   // getClientCode(): ClientCode[]

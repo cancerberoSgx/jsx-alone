@@ -1,5 +1,5 @@
-import { AbstractElementLike, isNode, isReactLikeComponent } from './elementImpl';
-import { ReactLikeAttrs, ReactLikeChild, ReactLikeTag } from './types';
+import { AbstractElementLike, isNode, isJSXAloneComponent } from './elementImpl';
+import { JSXAloneAttrs, JSXAloneChild, JSXAloneTag } from './types';
 
 const throwOnUnrecognized = false
 
@@ -12,12 +12,12 @@ export function debug(err: string) {
 }
 
 export function createCreateElement<T>(impl: { new (tag: string): any }, textNodeImpl: { new (content: string): any }) {
-  return function createElement(tag: ReactLikeTag, attrs: ReactLikeAttrs = {}, ...children: ReactLikeChild[]): AbstractElementLike<T> {
+  return function createElement(tag: JSXAloneTag, attrs: JSXAloneAttrs = {}, ...children: JSXAloneChild[]): AbstractElementLike<T> {
     var element: AbstractElementLike<T>
     if (typeof tag === 'string') {
       element = new impl(tag)
     } else {
-      if (isReactLikeComponent(tag)) {
+      if (isJSXAloneComponent(tag)) {
         element = new tag({ ...attrs, children: children }).render()
       } else {
         element = tag({ ...attrs, children: children })
@@ -66,7 +66,7 @@ export function createCreateElement<T>(impl: { new (tag: string): any }, textNod
       }
     }
     if (typeof tag === 'string') {
-      // don't render children for function or classes since they are responsible of render their children
+      // don't render children for function or classes since they are responsible of render their own children
       children
         .filter(c => c)
         .forEach(child => {

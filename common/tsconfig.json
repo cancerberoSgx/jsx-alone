@@ -7,7 +7,7 @@
       "es6", "dom"
     ],
     "jsx": "react",
-    "jsxFactory": "ReactLike.createElement",
+    "jsxFactory": "JSXAlone.createElement",
     "declaration": true,
     "strict": true
   },

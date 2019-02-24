@@ -1,8 +1,8 @@
 import { ElementClass } from '../elementImpl'
 import { Props } from '../misc'
-import { ReactLikeElement } from 'jsx-alone-core'
+import { JSXAloneElement } from 'jsx-alone-core'
 import { test } from './testUtil';
-import { ReactLike } from '..';
+import { JSXAlone } from '..';
 
 describe('functions', () => {
   let f1 = (props: { people: { name: string; age: number }[] }) => (
@@ -21,7 +21,7 @@ describe('functions', () => {
     expected: `<ul><li>seba has half of 9 years old</li><li>laura has half of 16 years old</li></ul>`
   })
 
-  let F2 = (props: { age: number; children: ReactLikeElement }) => (
+  let F2 = (props: { age: number; children: JSXAloneElement }) => (
     <div className="wrapper">
       {props.age}
       {props.children}
