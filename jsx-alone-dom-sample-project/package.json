@@ -4,7 +4,7 @@
   "description": "",
   "private": true,
   "scripts": {
-    "build": "npx tsc && npx browserify dist/src/main.js -o build/bundle.js"
+    "build": "sh build.sh"
   },
   "repository": {
     "type": "git",

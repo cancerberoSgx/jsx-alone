@@ -1,5 +1,5 @@
 import * as faker from 'faker'
-import { array, randomInt } from './randomInt'
+import { array, randomInt } from './util'
 import { Person } from './types'
 
 export function buildModel(config: Config) {

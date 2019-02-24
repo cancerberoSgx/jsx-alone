@@ -1,5 +1,12 @@
+import { ElementClass } from 'jsx-alone-dom';
+import { Person } from './types';
 import { Children, JSXAlone } from 'jsx-alone-dom';
-import { Person } from "./types";
+
+export class App extends ElementClass<{people: Person[]}> {
+  render() {
+    return <People people={this.props.people} />;
+  }
+}
 
 const Button = (props: { name: string; children: Children }) => (
   <button
@@ -27,9 +34,7 @@ const Person = (props: Person) => (
   </tr>
 )
 
-export const Comp = (props: {names: string[]})=><ul>{props.names.map(n=><li>{name}</li>)}</ul>
-
-export const People = (props: { people: Person[] }) => (
+const People = (props: { people: Person[] }) => (
   <table className="person">
     <thead>
       <th>
@@ -45,3 +50,5 @@ export const People = (props: { people: Person[] }) => (
     </tbody>
   </table>
 )
+
+

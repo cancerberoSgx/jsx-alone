@@ -1,6 +1,3 @@
-export interface Props {
-  people: Person[];
-}
 export interface Person {
   name: string;
   age: number;
