@@ -1,5 +1,9 @@
 # JSX Alone DOM implementation
 
+```
+npm install jsx-alone-dom
+```
+
 
 ```jsx
 import { JSXAlone, ElementClass } from 'jsx-alone-dom'

@@ -1,3 +1,3 @@
-# JSX Alone 
+# JSX Alone Core package
 
-Write JSX without React or any other library. Core package
+TODO some notes

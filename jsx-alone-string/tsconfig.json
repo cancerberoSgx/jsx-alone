@@ -5,5 +5,4 @@
     "rootDir": ".",
   },
   "include":["src"],
-  // "exclude": ["spec", "dist", "compiled", "compiled_ts", "node_modules"]
 }
