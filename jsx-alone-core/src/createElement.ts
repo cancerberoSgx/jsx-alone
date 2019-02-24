@@ -11,16 +11,7 @@ export function debug(err: string) {
   }
 }
 
-// abstract class ElementLikeImpl<T> extends AbstractElementLike<T>{
-//   new(tag: ReactLikeTag)
-// }
-// interface TextNodeLikeImpl<T> extends TextNodeLIke<T>{
-//   new(tag: ReactLikeTag)
-// }
-
 export function createCreateElement<T>(impl: {new(tag: ReactLikeTag)}, textNodeImpl : {new(content: ReactLikeTag)}) {
-
-  // type  AbstractElementLike<T> = AbstractElementLike<T>
 
   return function createElement(tag: ReactLikeTag, attrs: ReactLikeAttrs = {}, ...children: ReactLikeChild[]):  AbstractElementLike<T> {
     var element:  AbstractElementLike<T>;

@@ -1,21 +1,15 @@
 {
+  "extends": "../common/tsconfig.json",
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "moduleResolution":"node",
-    "lib": [
-      "es6", "dom"
-    ],
+
+  //   "lib": [
+  //     "es6"
+  //   ],
+
     "outDir": "./dist",
-    "rootDir": ".",
-    // "strict": true,
-    "noEmitHelpers": true,
-    "importHelpers": true,
-    "jsx": "react",
-    "jsxFactory": "ReactLike.createElement",
-    "declaration": true,
-    "skipLibCheck": true, 
-    // "types": ["./declarations/domElementDeclarations"]
+    "rootDir": ".", 
+    "noStrictGenericChecks": true
+
   },
   "include":["src"],
   "exclude": ["spec", "dist", "compiled", "compiled_ts", "node_modules"]

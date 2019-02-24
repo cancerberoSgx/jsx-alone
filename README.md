@@ -63,6 +63,7 @@ This feature is out of scope for JSX rendering. Some considerations:
 
 # TODO
 
+ * performance comparison
  * example-project
  * React.Fragment
  * minimal api in core for manipulate NodeLike before createElement

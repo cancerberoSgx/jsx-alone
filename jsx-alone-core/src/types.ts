@@ -24,7 +24,7 @@ export type ReactLikeTag = string | ReactLikeComponent | ReactLikeFunction
 
 export interface NodeLike<T> {
   // new(content:string):this
-  render(config?: RenderConfig): T
+  render(config: RenderConfig): T
 }
 
 export interface TextNodeLIke<T> extends NodeLike<T> {
@@ -55,7 +55,7 @@ export interface RenderConfig {
 
 export interface ReactLike<T> {
   createElement(tag: ReactLikeTag, attrs: ReactLikeAttrs, ...children: ReactLikeChild[]): ElementLike<T>
-  render(el: JSX.Element, config?: RenderConfig): T
+  render(el: JSX.Element, config: RenderConfig): T
   // registerClientCode(f: ClientCode): void
   // getClientCode(): ClientCode[]
 }

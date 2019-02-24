@@ -52,20 +52,3 @@ describe('intrinsic elements', () => {
 </div>`
   })
 })
-
-describe('functions', () => {
-  let f = (props: { people: { name: string; age: number }[] }) => (
-    <ul>
-      {props.people.map(p => (
-        <li>
-          {p.name} has half of {Math.trunc(p.age / 2)} years old
-        </li>
-      ))}
-    </ul>
-  )
-  test({
-    label: 'should render element children on any depth',
-    e: f({ people: [{ name: 'seba', age: 18 }, { name: 'laura', age: 33 }] }),
-    expected: `<ul><li>seba has half of 9 years old</li><li>laura has half of 16 years old</li></ul>`
-  })
-})

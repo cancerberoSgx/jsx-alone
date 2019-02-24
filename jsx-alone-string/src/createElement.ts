@@ -1,5 +1,5 @@
 import { NodeLike, ReactLike as ReactLikeType, createCreateElement } from 'jsx-alone-core';
-import { ElementLikeImplRenderConfig } from './config';
+import { ElementLikeImplRenderConfig, defaultRenderConfig } from './config';
 import { ElementLikeImpl, TextNodeLikeImpl } from './elementImpl';
 
 
@@ -7,7 +7,7 @@ const Module = {
   
   createElement: createCreateElement<string>(ElementLikeImpl, TextNodeLikeImpl),
 
-  render(el: JSX.Element, config: ElementLikeImplRenderConfig = {}): string {
+  render(el: JSX.Element, config: ElementLikeImplRenderConfig = defaultRenderConfig): string {
     return `${((el as any) as NodeLike<string>).render(config)}`
   }
 
