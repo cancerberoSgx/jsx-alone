@@ -14,13 +14,13 @@ describe('function attributes', () => {
 
   
   const f1 = (props: {name: string}) => <button onClick={e=>{
-    alert(this.name)
+    alert(props.name)
   }}></button>
   test({
     label: 'function element accessing this',
     e: f1({name: 'hello'}),
     expected: `<button onClick=\"_this = __this__ = this; (e => {
-      alert(this.name);
+      alert(props.name);
     }).apply(_this, arguments)\"></button>`,
     asCodeEquals: true,
     caseInsensitive: true

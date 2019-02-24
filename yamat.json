@@ -1,26 +1,14 @@
 [
     {
-        "name": "ts-fix-all-errors",
-        "path": "./ts-fix-all-errors"
+        "name": "jsx-alone-core",
+        "path": "./jsx-alone-core"
     },
     {
-        "name": "sc-types-frontend-globals",
-        "path": "./sc-types-frontend-globals"
+        "name": "jsx-alone-dom",
+        "path": "./jsx-alone-dom"
     },
     {
-        "name": "sc-types-frontend-core",
-        "path": "./sc-types-frontend-core"
-    },
-    {
-        "name": "sc-types-frontend",
-        "path": "./sc-types-frontend"
-    },
-    {
-        "name": "ts-devtools",
-        "path": "./ts-devtools"
-    },
-    {
-        "name": "sc-types-frontend-extras",
-        "path": "./sc-types-frontend-extras"
+        "name": "jsx-alone-string",
+        "path": "./jsx-alone-string"
     }
 ]
