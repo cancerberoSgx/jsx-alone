@@ -22,11 +22,8 @@
     "url": "git+https://github.com/cancerberoSgx/jsx-alone.git"
   },
   "keywords": [
-    "SuiteCommerce",
+    "without react",
     "TypeScript",
-    "NetSuite",
-    "devtools",
-    "types",
     "JavaScript",
     "JSX",
     "TSX",

@@ -1,15 +1,9 @@
 {
   "extends": "../common/tsconfig.json",
   "compilerOptions": {
-
-  //   "lib": [
-  //     "es6"
-  //   ],
-
     "outDir": "./dist",
     "rootDir": ".", 
     "noStrictGenericChecks": true
-
   },
   "include":["src"],
   "exclude": ["spec", "dist", "compiled", "compiled_ts", "node_modules"]

@@ -6,16 +6,9 @@
     "lib": [
       "es6", "dom"
     ],
-
-    // "strict": true,
-    // "noEmitHelpers": true,
-    // "importHelpers": true,
     "jsx": "react",
     "jsxFactory": "ReactLike.createElement",
     "declaration": true,
-    // "skipLibCheck": true, 
-    // "types": ["./declarations/domElementDeclarations"]
+    "strict": true
   },
-  // "include":["src"],
-  // "exclude": ["spec", "dist", "compiled", "compiled_ts", "node_modules"]
 }
