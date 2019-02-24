@@ -2,47 +2,57 @@ import { AbstractElementClass, AbstractElementLike, AbstractTextNodeLike } from 
 import { ElementLikeImplRenderConfig } from './config';
 
 export class ElementLikeImpl extends AbstractElementLike<HTMLElement | Text> {
-  private _element: HTMLElement | undefined
+  private _innerHtml: string|undefined;
+  // private _element: HTMLElement | undefined
 
-  render(config: ElementLikeImplRenderConfig): HTMLElement | Text {
-    const el = this._getElement()
+  render(config: ElementLikeImplRenderConfig={}): HTMLElement | Text {
+    // const el = this._getElement()
+    const el = document.createElement(this.tag)
     Object.keys(this.attrs).forEach(attribute => {
       el.setAttribute(attribute, this.attrs[attribute])
     })
+    if(this._innerHtml){
+      el.innerHTML=this._innerHtml
+    }
     this.children.forEach(c => {
-      c.render({ parent: el })
+      c.render({ ...config, parent: el })
     })
-    config.parent.appendChild(el)
+    if(config.parent) {
+      config.parent.appendChild(el)
+    }
     return el
   }
 
-  private _getElement(): HTMLElement {
-    if (!this._element) {
-      this._element = document.createElement(this.tag)
-    }
-    return this._element
-  }
+  // private _getElement(): HTMLElement {
+  //   if (!this._element) {
+  //     this._element = document.createElement(this.tag)
+  //   }
+  //   return this._element
+  // }
 
   dangerouslySetInnerHTML(s: string): void {
-    this._getElement().innerHTML = s
+    this._innerHtml= s
   }
 }
 
 export class TextNodeLikeImpl extends AbstractTextNodeLike<HTMLElement | Text> {
-  private _node: Text | undefined
+  // private _node: Text | undefined
 
-  render(config: ElementLikeImplRenderConfig): HTMLElement | Text {
-    const n = this._getNode()
-    config.parent.appendChild(n)
-    return n
-  }
-
-  private _getNode(): Text {
-    if (!this._node) {
-      this._node = document.createTextNode(this.content)
+  render(config: ElementLikeImplRenderConfig={}): HTMLElement | Text {
+    // const n = this._getNode()
+    const text = document.createTextNode(this.content)
+    if(config.parent) {
+      config.parent.appendChild(text)
     }
-    return this._node
+    return text
   }
+
+  // private _getNode(): Text {
+  //   if (!this._node) {
+  //     this._node = document.createTextNode(this.content)
+  //   }
+  //   return this._node
+  // }
 }
 
 export abstract class ElementClass<P = {}> extends AbstractElementClass<HTMLElement | Text, P> {}

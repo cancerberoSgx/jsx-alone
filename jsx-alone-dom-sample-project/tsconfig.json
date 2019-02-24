@@ -8,9 +8,8 @@
     "rootDir": ".",
     "jsx": "react",
     "jsxFactory": "JSXAlone.createElement",
-    "declaration": true,
     "strict": true
   },
   "include": ["src"],
-  "exclude": ["spec", "dist", "node_modules"]
+  "exclude": ["spec", "dist", "build", "public", "node_modules"]
 }

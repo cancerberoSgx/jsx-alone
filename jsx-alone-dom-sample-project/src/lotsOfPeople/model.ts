@@ -2,6 +2,8 @@ import * as faker from 'faker'
 import { array, randomInt } from './util'
 import { Person } from './types'
 
+export const MODEL_CONFIG = { peopleCount: 100, friendsCount: 20 }
+
 export function buildModel(config: Config) {
   return {
     people: makePeople(config)

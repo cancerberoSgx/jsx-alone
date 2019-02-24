@@ -24,7 +24,7 @@ export type JSXAloneTag = string | JSXAloneComponent | JSXAloneFunction
 
 export interface NodeLike<T> {
   // new(content:string):this
-  render(config: RenderConfig): T
+  render(config?: RenderConfig): T
 }
 
 export interface TextNodeLike<T> extends NodeLike<T> {
@@ -55,7 +55,7 @@ export interface RenderConfig {
 
 export interface JSXAlone<T> {
   createElement(tag: JSXAloneTag, attrs: JSXAloneAttrs, ...children: JSXAloneChild[]): ElementLike<T>
-  render(el: JSX.Element, config: RenderConfig): T
+  render(el: JSX.Element, config?: RenderConfig): T
   // registerClientCode(f: ClientCode): void
   // getClientCode(): ClientCode[]
 }

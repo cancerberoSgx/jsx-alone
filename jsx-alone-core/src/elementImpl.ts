@@ -27,20 +27,25 @@ export abstract class AbstractElementLike<T> implements ElementLike<T> {
   }
   children: NodeLike<T>[]
   parentElement?: ElementLike<T>
+  
   constructor(public tag: string) {
     this.attrs = {}
     this.children = []
   }
+
   abstract render(config?: RenderConfig): T
+
   setAttribute(name: string, value: string): void {
     this.attrs[name] = value
   }
+
   appendChild(c: NodeLike<T>): void {
     this.children.push(c)
     if (isElementLike<T>(c)) {
       c.parentElement = this
     }
   }
+  
   abstract dangerouslySetInnerHTML(s: string): void
 
   findDescendant(p: Predicate<T>): ElementLike<T> | undefined {
@@ -92,4 +97,5 @@ export abstract class AbstractElementLike<T> implements ElementLike<T> {
     // TODO: this should start searching in the near children, sibling and parents, and only after that look on far nodes
     return this.getRootAscendant().findDescendant(p)
   }
+  
 }

@@ -60,6 +60,9 @@ This feature is out of scope for JSX rendering. Some considerations:
    * in the dom implementation  globals will be available also, but in string implementation only `this` 
    * in string implementation, even if `this` is available, if a method is called (`this.method()`) it might happen that it ends up calling code that is not available (like a method or function in another file), so be careful.
 
+## React attributes
+
+the library includes HTML typings that were adapted from react. So they declare react non standard things like HTMLInputElement defaultValue attribute. These currently won't work - they will be rendered as attributes and because are non standard won't have effect on the visuals. 
 
 # TODO
 
@@ -67,3 +70,5 @@ This feature is out of scope for JSX rendering. Some considerations:
  * example-project
  * React.Fragment
  * minimal api in core for manipulate NodeLike before createElement - in another project. 
+ * rename ElementLikeImplRenderConfig to ImplRenderConfig
+ * performance: for text we use document.createTextNode(this.content) - maybe is faster to use insertAdjacentText ? 
