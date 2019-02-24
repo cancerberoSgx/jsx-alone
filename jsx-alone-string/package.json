@@ -1,6 +1,6 @@
 {
   "name": "jsx-alone-string",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Write JSX without React or any other library, both in browser and server. This is the string implementation (server and browser)",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -33,7 +33,7 @@
   "license": "MIT",
   "homepage": "https://github.com/cancerberoSgx/jsx-alone",
   "dependencies": {
-    "jsx-alone-core": "file:../jsx-alone-core",
+    "jsx-alone-core": "0.0.2",
     "misc-utils-of-mine": "0.0.4"
   },
   "devDependencies": {
