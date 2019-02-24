@@ -17,11 +17,6 @@
 
 # Usage
 
-Both implementations have very similar API. The only difference is the call to `JSXAlone.render()`:
-
- * string implementation returns a string (that can be returned in a http response)
- * DOM implementation returns a HTMLElement (that can appended to the document)
-
 ## tsconfig.json
 
 Both implementations needs a `tsconfig.json` with the following properties: 
@@ -34,6 +29,31 @@ Both implementations needs a `tsconfig.json` with the following properties:
   }
 }
 ```
+
+# render()
+
+```jsx
+import { JSXAlone, ElementClass } from 'jsx-alone-dom'
+
+// example function element
+const TaskPageLink = props => <a href={`pages/tasks/${props.task}_small.html`}>{props.children}</a>
+
+// render the App and append the generated element to body
+const tasks = ['Wash dishes', 'Go outside', 'Play soccer']
+const app = <ul>
+  {tasks.map(task => <li>
+      <TaskPageLink task={task}>{task}</TaskPageLink>
+    </li>
+  )}
+</ul>
+const el = JSXAlone.render(app)
+document.body.appendChild(el)
+```
+Notes: 
+
+ * Both implementations have very similar API. The only difference is the call to `JSXAlone.render()`:
+  * string implementation returns a string (that can be returned in a http response)
+  * DOM implementation returns a HTMLElement (that can appended to the document)
 
 
 # String implementation

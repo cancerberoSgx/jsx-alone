@@ -29,3 +29,23 @@
 // const app = <App name="John Doe" tasks={tasks} />
 // const el = JSXAlone.render(app)
 // document.body.appendChild(el)
+
+
+
+// // generated using jsx-alone-dom-sample-project/dist/preserve/src/simple/main.jsx
+
+// import { JSXAlone, ElementClass } from 'jsx-alone-dom'
+
+// // example function element
+// const TaskPageLink = props => <a href={`pages/tasks/${props.task}_small.html`}>{props.children}</a>
+
+// // render the App and append the generated element to body
+// const tasks = ['Wash dishes', 'Go outside', 'Play soccer']
+// const app = <ul>
+//   {tasks.map(task => <li>
+//       <TaskPageLink task={task}>{task}</TaskPageLink>
+//     </li>
+//   )}
+// </ul>
+// const el = JSXAlone.render(app)
+// document.body.appendChild(el)
