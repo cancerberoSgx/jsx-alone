@@ -1,15 +1,15 @@
 {
+  
   "compilerOptions": {
-    "target": "es2018",
+    "target": "es5",
     "module": "commonjs",
-    "moduleResolution": "node",
-    "lib": ["es2018", "dom"],
+    "lib": ["es5", "dom"],
     "outDir": "./dist",
     "rootDir": ".",
     "jsx": "react",
     "jsxFactory": "JSXAlone.createElement",
     "strict": true
+
   },
   "include": ["src"],
-  "exclude": ["spec", "dist", "build", "public", "node_modules"]
 }

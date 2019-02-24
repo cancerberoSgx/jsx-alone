@@ -5,5 +5,4 @@
     "rootDir": "."
   },
   "include": ["src"],
-  "exclude": ["spec", "dist", "node_modules"]
 }

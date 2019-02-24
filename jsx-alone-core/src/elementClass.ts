@@ -14,7 +14,6 @@ export interface IElementClass<T, P={}> {
 export abstract class AbstractElementClass<T, P={}> implements IElementClass<T, P> {
 
   constructor(public readonly props: ElementClassProps<P>) {
-    this.props = props
   }
 
   abstract render(): JSX.Element

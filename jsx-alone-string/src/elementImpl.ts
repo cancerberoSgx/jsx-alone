@@ -24,9 +24,9 @@ export class ElementLikeImpl extends AbstractElementLike<string> {
 }
 
 export class TextNodeLikeImpl extends AbstractTextNodeLike<string> {
-  constructor(content:string){
-    super(content)
-  }
+  // constructor(content:string){
+  //   super(content)
+  // }
   render(config: ElementLikeImplRenderConfig = defaultRenderConfig): string {
     return `${this.content}`
   }

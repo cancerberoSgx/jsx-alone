@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
-    "lib": ["es6", "dom"],
+    "lib": ["es5", "dom"],
     "jsx": "react",
     "jsxFactory": "JSXAlone.createElement",
     "declaration": true,

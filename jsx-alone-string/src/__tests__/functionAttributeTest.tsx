@@ -1,13 +1,13 @@
-import { JSXAlone } from '..'
-import { ElementClass } from '../elementImpl'
-import { test } from './testUtil'
+import { JSXAlone } from '..';
+import { test } from './testUtil';
 
 describe('function attributes', () => {
 
   test({
     label: 'intrinsic element',
     e: <button onClick={e=>{alert('click')}}>click</button>,
-    expected: `<button onClick=\"_this = __this__ = this; (e => { alert('click'); }).apply(_this, arguments)\">click</button>`
+    expected: `<button onClick="_this = __this__ = this; (function (e) { alert('click'); }).apply(_this, arguments)">click</button>`,
+    asCodeEquals: true,
   })
 
   
@@ -18,9 +18,7 @@ describe('function attributes', () => {
   test({
     label: 'function element accessing this',
     e: f1({name: 'hello'}),
-    expected: `<button onClick=\"_this = __this__ = this; (e => {
-      alert(props.name);
-    }).apply(_this, arguments)\"></button>`,
+    expected: `<button onClick="_this = __this__ = this; (function (e) { alert(props.name); }).apply(_this, arguments)"></button>`,
     asCodeEquals: true
   })
 

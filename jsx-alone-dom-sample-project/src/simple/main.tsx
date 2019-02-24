@@ -1,11 +1,14 @@
 import { JSXAlone, ElementClass } from 'jsx-alone-dom'
 
-// example element function
+// example function element
 const TaskPageLink = (props: { children: string; task: string }) => 
   <a href={`pages/tasks/${props.task}_small.html`}>{props.children}</a>
 
-// example element class that renders some given information and uses Button
+// example class element that renders given information and uses previous TaskPageLink element
 class App extends ElementClass<{ name: string; tasks: string[] }> {
+  // constructor(props: any){
+  //   super(props)
+  // }
   render() {
     return <article>
       <h3>Welcome {this.props.name}!</h3>
@@ -21,7 +24,8 @@ class App extends ElementClass<{ name: string; tasks: string[] }> {
 }
 
 // render the App and append the generated element to body
-const app = <App name="John Doe" 
+const app = <App 
+  name="John Doe" 
   tasks={['Wash dishes', 'Go outside', 'Play soccer']} 
   />
 const el = JSXAlone.render(app)

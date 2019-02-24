@@ -1,7 +1,6 @@
 import { ElementClass } from 'jsx-alone-dom'
 import { Person } from './types'
 import { Children, JSXAlone } from 'jsx-alone-dom'
-import { MODEL_CONFIG } from './model';
 
 export class App extends ElementClass<{ people: Person[], peopleCount:number, friendsCount: number }> {
   render() {

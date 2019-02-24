@@ -1,22 +1,37 @@
 {
   "name": "jsx-alone-dom",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Write JSX without React or any other library, both in browser and server. DOM implementation",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
   "typings": "dist/src/index.d.ts",
   "scripts": {
-    "build": "npx tsc",
+    "build": "npx tsc && npx shx rm -rf dist/**/__tests__",
     "build-watch": "npx tsc -w",
     "test": "npx jest --testPathIgnorePatterns /dist/",
-    "test-js": "npm run build && npx jest --testMatch \"**/dist/**/__tests__/**/*.js\"",
+    "test-js": "npx tsc && npx jest --testMatch \"**/dist/**/__tests__/**/*.js\"",
     "test-clean": "npx jest --clearMocks",
     "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand --no-cache --clearMocks",
     "test-watch": "npm test -- --watch",
     "clean": "rm -rf build/ dist/ && npm run test-clean",
     "all": "npm run clean && npm run build && npm test",
-    "prepare": "npm run all"
+    "prepare": "npm run build && npx shx rm -rf dist/**/__tests__"
   },
+  "dependencies": {
+    "jsx-alone-core": "file:../jsx-alone-core"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.6",
+    "@types/node": "^10.12.18",
+    "jest": "^24.1.0",
+    "misc-utils-of-mine-describe-it-expect": "0.0.9",
+    "shx": "^0.3.2",
+    "ts-jest": "^24.0.0",
+    "typescript": "^3.2.2"
+  },
+  "author": "Sebastian Gurin",
+  "license": "MIT",
+  "homepage": "https://github.com/cancerberoSgx/jsx-alone",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cancerberoSgx/jsx-alone.git"
@@ -29,20 +44,6 @@
     "TSX",
     "React"
   ],
-  "author": "Sebastian Gurin",
-  "license": "MIT",
-  "homepage": "https://github.com/cancerberoSgx/jsx-alone",
-  "dependencies": {
-    "jsx-alone-core": "file:../jsx-alone-core"
-  },
-  "devDependencies": {
-    "@types/jest": "^24.0.6",
-    "@types/node": "^10.12.18",
-    "jest": "^24.1.0",
-    "misc-utils-of-mine-describe-it-expect": "0.0.6",
-    "ts-jest": "^24.0.0",
-    "typescript": "^3.2.2"
-  },
   "jest": {
     "preset": "ts-jest"
   }

@@ -1,5 +1,5 @@
 {
-  "name": "suitecommerce-types",
+  "name": "jsx-alone",
   "version": "1.0.0",
   "private": true,
   "description": "monorepo containing suitecommerce types for different areas.",
@@ -10,9 +10,9 @@
     "cleanPackageLock": "npx yamat run \"rm -rf package-lock.json\"",
     "test": "npx yamat run npm test",
     "all": "npm run clean && npm run build && npm test",
-    "yamat-link": "npx yamat link && npm run cleanPackageLock && npx yamat run npm i && npm run build && npm test",
-    "yamat-unlink-pack": "npx yamat unlink --version pack && npm run cleanPackageLock && npx yamat run npm i && npm test",
-    "yamat-patch-publish": "npx yamat run npm version patch && npx yamat unlink && npx yamat --break-on-error no run npm publish"
+    "yamat-link": "npx yamat link && npm run cleanPackageLock && npx yamat run npm i && npm run build",
+    "yamat-unlink-pack": "npx yamat unlink --version pack && npm run cleanPackageLock && npx yamat run npm i && npm run build",
+    "yamat-patch-publish": "npx yamat run npm version patch && npm run cleanPackageLock && npx yamat run npm i&& npx yamat unlink && npx yamat --break-on-error no run npm publish"
   },
   "repository": {
     "type": "git",
