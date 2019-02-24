@@ -27,7 +27,7 @@ export interface NodeLike<T> {
   render(config: RenderConfig): T
 }
 
-export interface TextNodeLIke<T> extends NodeLike<T> {
+export interface TextNodeLike<T> extends NodeLike<T> {
   content: string
 }
 

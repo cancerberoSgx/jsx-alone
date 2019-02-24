@@ -1,4 +1,4 @@
-import { JSXAloneComponent, NodeLike, ElementLike, TextNodeLIke, RenderConfig, Predicate, JSXAlone } from '.'
+import { JSXAloneComponent, NodeLike, ElementLike, TextNodeLike, RenderConfig, Predicate, JSXAlone } from '.'
 import {checkThrow} from 'misc-utils-of-mine-generic'
 export function isJSXAloneComponent(c: any): c is JSXAloneComponent {
   return c.prototype && c.prototype.render
@@ -12,12 +12,12 @@ export function isElementLike<T>(n: any): n is ElementLike<T> {
   return n && n.setAttribute
 }
 
-export function isTextNodeLike<T>(n: any): n is TextNodeLIke<T> {
+export function isTextNodeLike<T>(n: any): n is TextNodeLike<T> {
   return n && n.content && !isElementLike(n)
 }
 
 
-export abstract class AbstractTextNodeLike<T> implements TextNodeLIke<T> {
+export abstract class AbstractTextNodeLike<T> implements TextNodeLike<T> {
   constructor(public content: string) {}
   abstract render(config?: RenderConfig): T
 }

@@ -2,7 +2,6 @@ import { NodeLike, JSXAlone as JSXAloneType, createCreateElement } from 'jsx-alo
 import { ElementLikeImplRenderConfig, defaultRenderConfig } from './config';
 import { ElementLikeImpl, TextNodeLikeImpl } from './elementImpl';
 
-
 const Module = {
   
   createElement: createCreateElement<string>(ElementLikeImpl, TextNodeLikeImpl),
@@ -15,7 +14,7 @@ const Module = {
 
 export const JSXAlone: JSXAloneType<string> = Module
 
-//@ts-ignore
-JSXAlone = Module // creates a global variable needed so emitted .js calls work. See tsconfig.json `"jsxFactory": "JSXAlone.createElement",`
+// //@ts-ignore
+// JSXAlone = Module // creates a global variable needed so emitted .js calls work. See tsconfig.json `"jsxFactory": "JSXAlone.createElement",`
 
 

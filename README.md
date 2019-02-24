@@ -67,5 +67,4 @@ This feature is out of scope for JSX rendering. Some considerations:
  * example-project
  * React.Fragment
  * minimal api in core for manipulate NodeLike before createElement
- * Rename JSXAlone to JSXAlone
- * rename TextNodeLIke typo
+ * rename TextNodeLike typo

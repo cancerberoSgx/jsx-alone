@@ -1,4 +1,4 @@
-import { ElementLike as BaseElementLike, NodeLike as BaseNodeLike, TextNodeLIke as BaseTextNodeLike } from 'jsx-alone-core';
+import { ElementLike as BaseElementLike, NodeLike as BaseNodeLike, TextNodeLike as BaseTextNodeLike } from 'jsx-alone-core';
 
 export interface NodeLike extends  BaseNodeLike<string>{}
 
