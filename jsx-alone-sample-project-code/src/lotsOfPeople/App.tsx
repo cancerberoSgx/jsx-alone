@@ -43,7 +43,7 @@ const EditButton = (props: { name: string; children: Children }) => (
 No context here that's why we need to do the following: 
 Name: "${e.currentTarget.getAttribute('data-name')}"
 `.trim())
-      debugger
+      // debugger
     }}>
     {props.children}
   </button>
@@ -79,9 +79,9 @@ const People = (props: { people: Person[] }) => (
       </tr>
     </thead>
     <tbody>
-      {props.people.map(p => (
+      {props.people.map(p => 
         <Person {...p} />
-      ))}
+      )}
     </tbody>
   </table>
 )

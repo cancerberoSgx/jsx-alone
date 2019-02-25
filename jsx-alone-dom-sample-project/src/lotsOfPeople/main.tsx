@@ -1,7 +1,10 @@
 import { lotsOfPeople, Renderer, printMs, LotsOfPeopleRendererConfig } from 'jsx-alone-sample-project-code'
 import { JSXAlone } from 'jsx-alone-dom'
 
+// let el_ : JSX.Element
+// let JSXAloneRenderT:number
 const renderer: Renderer = (app: JSX.Element, config: LotsOfPeopleRendererConfig) => {
+  // el_ = app
   // measures onload
   const onloadT0 = Date.now()
   console.time('onload')
@@ -15,13 +18,13 @@ const renderer: Renderer = (app: JSX.Element, config: LotsOfPeopleRendererConfig
   }
 
   // measures render
+  const JSXAloneRenderT0 = Date.now()
   console.time('JSXAlone.render()')
   const el = JSXAlone.render(app)
   console.timeEnd('JSXAlone.render()')
+  const JSXAloneRenderT = Date.now() - JSXAloneRenderT0
 
   // measures appendChild TODO: timing
-  const JSXAloneRenderT0 = Date.now()
-  const JSXAloneRenderT = Date.now() - JSXAloneRenderT0
   let root = document.getElementById('jsx-alone-sample-project-code')
   if (root) {
     root.remove()
@@ -35,9 +38,10 @@ const renderer: Renderer = (app: JSX.Element, config: LotsOfPeopleRendererConfig
   document.getElementById('timings_JSXAloneCreateElement')!.innerHTML = printMs(config.JSXAloneCreateElementT)
   document.getElementById('timings_JSXAloneRender')!.innerHTML = printMs(JSXAloneRenderT)
 
-  var app = <div>{new Date().toDateString()}</div>
-  const e = JSXAlone.render(app)
-  console.log(e)
+  // var app = <div>{new Date().toDateString()}</div>
+  // const e = JSXAlone.render(app)
+  // console.log(e)
 }
 
+// lotsOfPeople(renderer.bind(null, el_!, {JSXAloneRenderT: JSXAloneRenderT!}))
 lotsOfPeople(renderer)

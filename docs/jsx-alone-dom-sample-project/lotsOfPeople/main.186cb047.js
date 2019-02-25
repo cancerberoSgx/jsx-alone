@@ -2275,8 +2275,7 @@ var EditButton = function EditButton(props) {
   return JSXAlone.createElement("button", {
     "data-name": props.name,
     onClick: function onClick(e) {
-      alert(("\nNo context here that's why we need to do the following: \nName: \"" + e.currentTarget.getAttribute('data-name') + "\"\n").trim());
-      debugger;
+      alert(("\nNo context here that's why we need to do the following: \nName: \"" + e.currentTarget.getAttribute('data-name') + "\"\n").trim()); // debugger
     }
   }, props.children);
 };
@@ -2336,8 +2335,9 @@ var JSXAlone = impl_1.getJSXAlone();
 function renderApp(renderer, config) {
   if (config === void 0) {
     config = model_2.MODEL_CONFIG;
-  } // buildModel
+  }
 
+  renderer_ = renderer; // buildModel
 
   var buildModelT0 = Date.now();
   console.time('buildModel');
@@ -2358,7 +2358,15 @@ function renderApp(renderer, config) {
   });
 }
 
-exports.renderApp = renderApp; // (window as any).renderAppLotsOfPeople = renderApp
+exports.renderApp = renderApp;
+var renderer_;
+
+if (typeof window !== 'undefined') {
+  // (window as any).renderAppLotsOfPeople = renderApp
+  window.renderAppLotsOfPeople = function (config) {
+    return renderApp(renderer_, config);
+  };
+}
 },{"./model":"45O1","./App":"IAey","../impl":"JVGL"}],"wC2p":[function(require,module,exports) {
 "use strict";
 
@@ -3020,9 +3028,12 @@ Object.defineProperty(exports, "__esModule", {
 
 var jsx_alone_sample_project_code_1 = require("jsx-alone-sample-project-code");
 
-var jsx_alone_dom_1 = require("jsx-alone-dom");
+var jsx_alone_dom_1 = require("jsx-alone-dom"); // let el_ : JSX.Element
+// let JSXAloneRenderT:number
+
 
 var renderer = function renderer(app, config) {
+  // el_ = app
   // measures onload
   var onloadT0 = Date.now();
   console.time('onload');
@@ -3037,12 +3048,12 @@ var renderer = function renderer(app, config) {
   }; // measures render
 
 
+  var JSXAloneRenderT0 = Date.now();
   console.time('JSXAlone.render()');
   var el = jsx_alone_dom_1.JSXAlone.render(app);
-  console.timeEnd('JSXAlone.render()'); // measures appendChild TODO: timing
+  console.timeEnd('JSXAlone.render()');
+  var JSXAloneRenderT = Date.now() - JSXAloneRenderT0; // measures appendChild TODO: timing
 
-  var JSXAloneRenderT0 = Date.now();
-  var JSXAloneRenderT = Date.now() - JSXAloneRenderT0;
   var root = document.getElementById('jsx-alone-sample-project-code');
 
   if (root) {
@@ -3055,11 +3066,11 @@ var renderer = function renderer(app, config) {
   document.getElementById('timings_onload').innerHTML = 'N/E';
   document.getElementById('timings_buildModel').innerHTML = jsx_alone_sample_project_code_1.printMs(config.buildModelT);
   document.getElementById('timings_JSXAloneCreateElement').innerHTML = jsx_alone_sample_project_code_1.printMs(config.JSXAloneCreateElementT);
-  document.getElementById('timings_JSXAloneRender').innerHTML = jsx_alone_sample_project_code_1.printMs(JSXAloneRenderT);
-  var app = jsx_alone_dom_1.JSXAlone.createElement("div", null, new Date().toDateString());
-  var e = jsx_alone_dom_1.JSXAlone.render(app);
-  console.log(e);
-};
+  document.getElementById('timings_JSXAloneRender').innerHTML = jsx_alone_sample_project_code_1.printMs(JSXAloneRenderT); // var app = <div>{new Date().toDateString()}</div>
+  // const e = JSXAlone.render(app)
+  // console.log(e)
+}; // lotsOfPeople(renderer.bind(null, el_!, {JSXAloneRenderT: JSXAloneRenderT!}))
+
 
 jsx_alone_sample_project_code_1.lotsOfPeople(renderer);
 },{"jsx-alone-sample-project-code":"wC2p","jsx-alone-dom":"MNUJ"}]},{},["wdqJ"], null)

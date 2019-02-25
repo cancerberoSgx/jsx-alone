@@ -7,7 +7,7 @@ import { getJSXAlone } from '../impl';
 const JSXAlone = getJSXAlone()
 
 export function renderApp(renderer: Renderer<LotsOfPeopleRendererConfig>,  config: LotsOfPeopleConfig = MODEL_CONFIG) {
-
+  renderer_=renderer
   // buildModel
   const buildModelT0 = Date.now();
   console.time('buildModel');
@@ -26,6 +26,8 @@ export function renderApp(renderer: Renderer<LotsOfPeopleRendererConfig>,  confi
 
   renderer(app, {buildModelT, JSXAloneCreateElementT});
 }
-
-
-// (window as any).renderAppLotsOfPeople = renderApp
+let renderer_:  Renderer<LotsOfPeopleRendererConfig>
+if(typeof window !=='undefined'){
+  // (window as any).renderAppLotsOfPeople = renderApp
+  (window as any).renderAppLotsOfPeople = (config: LotsOfPeopleConfig)=>renderApp(renderer_, config)
+}
