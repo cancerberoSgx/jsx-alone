@@ -1,5 +1,5 @@
 import { lotsOfPeople, Renderer, printMs, LotsOfPeopleRendererConfig } from 'jsx-alone-sample-project-code'
-import { JSXAlone } from 'jsx-alone-dom'
+import { JSXAlone } from 'jsx-alone-string'
 
 const renderer: Renderer = (app: JSX.Element, config: LotsOfPeopleRendererConfig) => {
   // measures onload
@@ -17,7 +17,7 @@ const renderer: Renderer = (app: JSX.Element, config: LotsOfPeopleRendererConfig
   // measures render
   const JSXAloneRenderT0 = Date.now()
   console.time('JSXAlone.render()')
-  const el = JSXAlone.render(app)
+  const s = JSXAlone.render(app)
   console.timeEnd('JSXAlone.render()')
   const JSXAloneRenderT = Date.now() - JSXAloneRenderT0
 
@@ -28,7 +28,7 @@ const renderer: Renderer = (app: JSX.Element, config: LotsOfPeopleRendererConfig
   }
   root = document.createElement('dir')
   root.setAttribute('id', 'jsx-alone-sample-project-code')
-  root.appendChild(el)
+  root.innerHTML=s
   document.body.appendChild(root)
 
   document.getElementById('timings_onload')!.innerHTML = 'N/E'

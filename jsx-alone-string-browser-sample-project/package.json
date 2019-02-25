@@ -1,0 +1,36 @@
+{
+  "name": "jsx-alone-dom-sample-project",
+  "version": "0.0.2",
+  "description": "",
+  "private": true,
+  "source": true,
+  "scripts": {
+    "build": "npx tsc",
+    "docs": "sh build.sh",
+    "test": "npm run build"
+  },
+  "dependencies": {
+    "jsx-alone-string": "file:../jsx-alone-string",
+    "jsx-alone-sample-project-code": "file:../jsx-alone-sample-project-code",
+    "misc-utils-of-mine-random-data": "0.0.4"
+  },
+  "devDependencies": {
+    "parcel": "^1.11.0",
+    "typescript": "^3.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cancerberoSgx/jsx-alone.git"
+  },
+  "keywords": [
+    "without react",
+    "TypeScript",
+    "JavaScript",
+    "JSX",
+    "TSX",
+    "React"
+  ],
+  "author": "Sebastian Gurin",
+  "license": "MIT",
+  "homepage": "https://github.com/cancerberoSgx/jsx-alone"
+}

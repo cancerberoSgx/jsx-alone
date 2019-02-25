@@ -143,7 +143,7 @@ the library includes HTML typings that were adapted from react. So they declare 
  * createElement is in core and is not extensible. Let implementations hook in attributes, children and text rendering
  * rename ElementLikeImplRenderConfig to ImplRenderConfig
  * remove react non standard attributes from typings
-
+ * we are escaping attribute values in string impl only for function type - should we do it also for the rest ?
 # ideas
 
  * performance: for text we use document.createTextNode(this.content) - maybe is faster to use insertAdjacentText ? 

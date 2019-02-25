@@ -713,10 +713,8 @@ function createCreateElement(_a) {
             element.setAttribute(name_1, name_1);
           }
         } else if (typeof value === 'function') {
-          var code = "_this = __this__ = this; (" + value.toString() + ").apply(_this, arguments)"; // const escaped = code.replace(/\"/gim, '\\"')
-
-          var escaped = escapeAttributes ? escapeAttributes(code) : code; // code.replace(/\"/gim, '&quot;')
-
+          var code = "_this = __this__ = this; (" + value.toString() + ").apply(_this, arguments)";
+          var escaped = escapeAttributes ? escapeAttributes(code) : code;
           element.setAttribute(name_1, escaped);
         } else if (value !== false && value != null) {
           if (name_1 === 'className') {
@@ -774,7 +772,7 @@ function createCreateElement(_a) {
 }
 
 exports.createCreateElement = createCreateElement;
-exports.AbstractJSXAlone = null; // export {AbstractJSXAlone as JSXAlone}
+exports.AbstractJSXAlone = null;
 },{"./elementImpl":"vmAk"}],"k98/":[function(require,module,exports) {
 "use strict";
 

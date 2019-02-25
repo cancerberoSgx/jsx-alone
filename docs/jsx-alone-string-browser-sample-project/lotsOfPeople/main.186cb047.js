@@ -1520,7 +1520,7 @@ exports.AbstractTextNodeLike = elementImpl_1.AbstractTextNodeLike;
 exports.AbstractElementLike = elementImpl_1.AbstractElementLike;
 
 __export(require("./misc"));
-},{"./elementImpl":"3p56","./elementClass":"+nOU","./createElement":"rCe5","./misc":"URgR"}],"WEkw":[function(require,module,exports) {
+},{"./elementImpl":"3p56","./elementClass":"+nOU","./createElement":"rCe5","./misc":"URgR"}],"C/Rc":[function(require,module,exports) {
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -1530,7 +1530,7 @@ __export(require("./flat"));
 __export(require("./array"));
 __export(require("./prototypeFind"));
 
-},{"./flat":"+2od","./array":"PTjC","./prototypeFind":"vHoL"}],"DXfs":[function(require,module,exports) {
+},{"./flat":"+2od","./array":"PTjC","./prototypeFind":"vHoL"}],"mWoT":[function(require,module,exports) {
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -1560,7 +1560,7 @@ function removeWhites(s, replaceWith = ' ') {
 }
 exports.removeWhites = removeWhites;
 
-},{"../array":"WEkw","./changeText":"Jo5K","./getPreviousMatchingPos":"dKNz","./quote":"YTm+","./json":"wN23","./shorter":"mBGu","./html":"QVJl"}],"SYKP":[function(require,module,exports) {
+},{"../array":"C/Rc","./changeText":"Jo5K","./getPreviousMatchingPos":"dKNz","./quote":"YTm+","./json":"wN23","./shorter":"mBGu","./html":"QVJl"}],"NfZW":[function(require,module,exports) {
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -1570,7 +1570,7 @@ __export(require("./formatDate"));
 __export(require("./printMs"));
 __export(require("./time"));
 
-},{"./formatDate":"MN8/","./printMs":"1aZv","./time":"ix8C"}],"8M/7":[function(require,module,exports) {
+},{"./formatDate":"MN8/","./printMs":"1aZv","./time":"ix8C"}],"8QnR":[function(require,module,exports) {
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -1581,7 +1581,7 @@ __export(require("./array"));
 __export(require("./misc"));
 __export(require("./time"));
 
-},{"./string":"DXfs","./array":"WEkw","./misc":"oHCM","./time":"SYKP"}],"k0NB":[function(require,module,exports) {
+},{"./string":"mWoT","./array":"C/Rc","./misc":"oHCM","./time":"NfZW"}],"D56h":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1709,7 +1709,7 @@ function () {
 }();
 
 exports.AbstractElementLike = AbstractElementLike;
-},{"misc-utils-of-mine-generic":"8M/7"}],"U/x1":[function(require,module,exports) {
+},{"misc-utils-of-mine-generic":"8QnR"}],"LbiZ":[function(require,module,exports) {
 "use strict";
 
 var __extends = this && this.__extends || function () {
@@ -1789,7 +1789,7 @@ function (_super) {
 }(ElementClass);
 
 exports.AbstractElementClass = AbstractElementClass;
-},{"./elementImpl":"k0NB"}],"/Hzm":[function(require,module,exports) {
+},{"./elementImpl":"D56h"}],"TYq4":[function(require,module,exports) {
 "use strict";
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1930,7 +1930,7 @@ function createCreateElement(_a) {
 
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
-},{"./elementImpl":"k0NB"}],"TuGG":[function(require,module,exports) {
+},{"./elementImpl":"D56h"}],"TiN9":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2015,7 +2015,7 @@ exports.If = If;
 function isNotFalsy(a) {
   return !!a;
 }
-},{".":"dIAC"}],"dIAC":[function(require,module,exports) {
+},{".":"kF9h"}],"kF9h":[function(require,module,exports) {
 "use strict";
 
 function __export(m) {
@@ -2040,7 +2040,25 @@ exports.AbstractTextNodeLike = elementImpl_1.AbstractTextNodeLike;
 exports.AbstractElementLike = elementImpl_1.AbstractElementLike;
 
 __export(require("./misc"));
-},{"./elementImpl":"k0NB","./elementClass":"U/x1","./createElement":"/Hzm","./misc":"TuGG"}],"KmFW":[function(require,module,exports) {
+},{"./elementImpl":"D56h","./elementClass":"LbiZ","./createElement":"TYq4","./misc":"TiN9"}],"xhWP":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.defaultRenderConfig = { indentLevel: 0, indentTabSize: 2 };
+
+},{}],"CLcs":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function indent(config) {
+    var L = (config.indentLevel || 0) * (config.indentTabSize || 0);
+    var a = [];
+    for (var i = 0; i < L; i++) {
+        a.push(' ');
+    }
+    return a.join('');
+}
+exports.indent = indent;
+
+},{}],"/cDs":[function(require,module,exports) {
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -2068,39 +2086,27 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
+var config_1 = require("./config");
+var util_1 = require("./util");
 var ElementLikeImpl = /** @class */ (function (_super) {
     __extends(ElementLikeImpl, _super);
     function ElementLikeImpl() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    // private _element: HTMLElement | undefined
     ElementLikeImpl.prototype.render = function (config) {
         var _this = this;
-        if (config === void 0) { config = {}; }
-        // const el = this._getElement()
-        var el = document.createElement(this.tag);
-        Object.keys(this.attrs).forEach(function (attribute) {
-            el.setAttribute(attribute, _this.attrs[attribute]);
-        });
-        if (this._innerHtml) {
-            el.innerHTML = this._innerHtml;
-        }
-        this.children.forEach(function (c) {
-            c.render(__assign({}, config, { parent: el }));
-        });
-        if (config.parent) {
-            config.parent.appendChild(el);
-        }
-        return el;
+        if (config === void 0) { config = config_1.defaultRenderConfig; }
+        var newLine = config.indent ? "\n" : "";
+        var content = this.innerHtml ||
+            "" + newLine + util_1.indent(__assign({}, config, { indentLevel: (config.indentLevel || 0) + 1 })) + this.children
+                .map(function (c) { return "" + c.render(__assign({}, config, { indentLevel: (config.indentLevel || 0) + 1 })); })
+                .join('') + newLine + util_1.indent(config);
+        return "<" + this.tag + Object.keys(this.attrs)
+            .map(function (a) { return " " + a + "=\"" + _this.attrs[a] + "\""; })
+            .join('') + ">" + content + "</" + this.tag + ">";
     };
-    // private _getElement(): HTMLElement {
-    //   if (!this._element) {
-    //     this._element = document.createElement(this.tag)
-    //   }
-    //   return this._element
-    // }
     ElementLikeImpl.prototype.dangerouslySetInnerHTML = function (s) {
-        this._innerHtml = s;
+        this.innerHtml = s;
     };
     return ElementLikeImpl;
 }(jsx_alone_core_1.AbstractElementLike));
@@ -2110,15 +2116,12 @@ var TextNodeLikeImpl = /** @class */ (function (_super) {
     function TextNodeLikeImpl() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    // private _node: Text | undefined
+    // constructor(content:string){
+    //   super(content)
+    // }
     TextNodeLikeImpl.prototype.render = function (config) {
-        if (config === void 0) { config = {}; }
-        // const n = this._getNode()
-        var text = document.createTextNode(this.content);
-        if (config.parent) {
-            config.parent.appendChild(text);
-        }
-        return text;
+        if (config === void 0) { config = config_1.defaultRenderConfig; }
+        return "" + this.content;
     };
     return TextNodeLikeImpl;
 }(jsx_alone_core_1.AbstractTextNodeLike));
@@ -2132,50 +2135,166 @@ var ElementClass = /** @class */ (function (_super) {
 }(jsx_alone_core_1.ElementClass));
 exports.ElementClass = ElementClass;
 
-},{"jsx-alone-core":"dIAC"}],"Hbm/":[function(require,module,exports) {
+},{"jsx-alone-core":"kF9h","./config":"xhWP","./util":"CLcs"}],"zyVy":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
+var config_1 = require("./config");
 var elementImpl_1 = require("./elementImpl");
 var config = {
     impl: elementImpl_1.ElementLikeImpl,
     textNodeImpl: elementImpl_1.TextNodeLikeImpl,
+    escapeAttributes: function (s) { return s.replace(/\"/gim, '&quot;'); }
 };
 var Module = {
     createElement: jsx_alone_core_1.createCreateElement(config),
     render: function (el, config) {
-        return el.render(config);
+        if (config === void 0) { config = config_1.defaultRenderConfig; }
+        return "" + el.render(config);
     }
 };
 exports.JSXAlone = Module;
-// //@ts-ignore
-// JSXAlone = Module // creates a global variable needed so emitted .js calls work. See tsconfig.json `"jsxFactory": "JSXAlone.createElement",`
 
-},{"jsx-alone-core":"dIAC","./elementImpl":"KmFW"}],"jxZo":[function(require,module,exports) {
+},{"jsx-alone-core":"kF9h","./config":"xhWP","./elementImpl":"/cDs"}],"9ujb":[function(require,module,exports) {
+"use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(require("./flat"));
+__export(require("./array"));
+__export(require("./prototypeFind"));
+
+},{"./flat":"+2od","./array":"PTjC","./prototypeFind":"vHoL"}],"Yw14":[function(require,module,exports) {
+"use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+const array_1 = require("../array");
+__export(require("./changeText"));
+__export(require("./getPreviousMatchingPos"));
+__export(require("./quote"));
+__export(require("./json"));
+__export(require("./shorter"));
+__export(require("./html"));
+function repeat(n, s) {
+    return array_1.array(n, s).join('');
+}
+exports.repeat = repeat;
+function indent(i = 1, tabSize = 2) {
+    return repeat(i * tabSize, ' ');
+}
+exports.indent = indent;
+function getPosition(string, subString, index) {
+    return string.split(subString, index).join(subString).length;
+}
+exports.getPosition = getPosition;
+function removeWhites(s, replaceWith = ' ') {
+    return s.replace(/\s+/gm, replaceWith).trim();
+}
+exports.removeWhites = removeWhites;
+
+},{"../array":"9ujb","./changeText":"Jo5K","./getPreviousMatchingPos":"dKNz","./quote":"YTm+","./json":"wN23","./shorter":"mBGu","./html":"QVJl"}],"iToV":[function(require,module,exports) {
+"use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(require("./formatDate"));
+__export(require("./printMs"));
+__export(require("./time"));
+
+},{"./formatDate":"MN8/","./printMs":"1aZv","./time":"ix8C"}],"bTtz":[function(require,module,exports) {
+"use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(require("./string"));
+__export(require("./array"));
+__export(require("./misc"));
+__export(require("./time"));
+
+},{"./string":"Yw14","./array":"9ujb","./misc":"oHCM","./time":"iToV"}],"AP0d":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var misc_utils_of_mine_generic_1 = require("misc-utils-of-mine-generic");
+var createElement_1 = require("./createElement");
+/** Render the <style> tag with all classes and styles inside. Usage example:
+```
+const fieldTable: ClassRule = {
+  selectorPostfix: ' td',
+  border: '1px solid #aaaaaa',
+  padding: '2px'
+}
+const sublistFieldTable: ClassRule = {
+  ...fieldTable,
+  fontSize: '0.95em',
+  border: '1px solid #ededed'
+}
+const messageFromRedirect: ClassRule = {
+  border: '2px solid green'
+}
+const { styles, classes } = Styles({ fieldTable, sublistFieldTable, messageFromRedirect})
+return <div>
+  <Style classes={styles}></Style>
+  <p className={classes.messageFromRedirect}>{props.msg}</p>
+    ```
+*/
+exports.Style = function (props) {
+    function indent(n) {
+        return props.renderConfig && props.renderConfig.indent ? misc_utils_of_mine_generic_1.indent(n) : '';
+    }
+    function fixProperty(s) {
+        var t;
+        while (t = /([A-Z])/.exec(s)) {
+            s = s.substring(0, t.index) + '-' + t[1].toLowerCase() + s.substring(t.index + 1, s.length);
+        }
+        return s;
+    }
+    return createElement_1.JSXAlone.createElement("style", null, Object.keys(props.classes).map(function (c) {
+        return indent(1) + "." + c + (props.classes[c] && props.classes[c].selectorPostfix ? props.classes[c].selectorPostfix : '') + " {" + Object.keys(props.classes[c]).filter(function (p) { return p !== 'selectorPostfix'; }).map(function (p) { return "\n" + indent(2) + fixProperty(p) + ": " + props.classes[c][p] + ";"; }).join("") + "\n}";
+    }).join('\n'));
+};
+/** build a styles and classnames from a class styles mapped object so is easy to type-check classnames and use them . See `Style` for usage example */
+function Styles(styles) {
+    var classes = {};
+    Object.keys(styles).forEach(function (k) {
+        classes[k] = k;
+    });
+    return {
+        styles: styles, classes: classes
+    };
+}
+exports.Styles = Styles;
+
+},{"misc-utils-of-mine-generic":"bTtz","./createElement":"zyVy"}],"o3Jh":[function(require,module,exports) {
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./createElement"));
+__export(require("./Style"));
 var elementImpl_1 = require("./elementImpl");
 exports.ElementClass = elementImpl_1.ElementClass;
 
-},{"./createElement":"Hbm/","./elementImpl":"KmFW"}],"JVGL":[function(require,module,exports) {
+},{"./createElement":"zyVy","./Style":"AP0d","./elementImpl":"/cDs"}],"JVGL":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var jsx_alone_dom_1 = require("jsx-alone-dom");
+var jsx_alone_string_1 = require("jsx-alone-string");
 
 function getJSXAlone() {
-  return jsx_alone_dom_1.JSXAlone;
+  return jsx_alone_string_1.JSXAlone;
 }
 
 exports.getJSXAlone = getJSXAlone;
-},{"jsx-alone-dom":"jxZo"}],"IAey":[function(require,module,exports) {
+},{"jsx-alone-string":"o3Jh"}],"IAey":[function(require,module,exports) {
 "use strict";
 
 var __extends = this && this.__extends || function () {
@@ -2395,7 +2514,7 @@ var renderApp_1 = require("./lotsOfPeople/renderApp");
 exports.lotsOfPeople = renderApp_1.renderApp;
 
 __export(require("./util"));
-},{"./lotsOfPeople/renderApp":"z8rF","./util":"/5mC"}],"XwTw":[function(require,module,exports) {
+},{"./lotsOfPeople/renderApp":"z8rF","./util":"/5mC"}],"RQYH":[function(require,module,exports) {
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -2405,7 +2524,7 @@ __export(require("./flat"));
 __export(require("./array"));
 __export(require("./prototypeFind"));
 
-},{"./flat":"+2od","./array":"PTjC","./prototypeFind":"vHoL"}],"7sk5":[function(require,module,exports) {
+},{"./flat":"+2od","./array":"PTjC","./prototypeFind":"vHoL"}],"KX5j":[function(require,module,exports) {
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -2435,7 +2554,7 @@ function removeWhites(s, replaceWith = ' ') {
 }
 exports.removeWhites = removeWhites;
 
-},{"../array":"XwTw","./changeText":"Jo5K","./getPreviousMatchingPos":"dKNz","./quote":"YTm+","./json":"wN23","./shorter":"mBGu","./html":"QVJl"}],"PJyN":[function(require,module,exports) {
+},{"../array":"RQYH","./changeText":"Jo5K","./getPreviousMatchingPos":"dKNz","./quote":"YTm+","./json":"wN23","./shorter":"mBGu","./html":"QVJl"}],"fliG":[function(require,module,exports) {
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -2445,7 +2564,7 @@ __export(require("./formatDate"));
 __export(require("./printMs"));
 __export(require("./time"));
 
-},{"./formatDate":"MN8/","./printMs":"1aZv","./time":"ix8C"}],"dgX+":[function(require,module,exports) {
+},{"./formatDate":"MN8/","./printMs":"1aZv","./time":"ix8C"}],"y6pc":[function(require,module,exports) {
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -2456,7 +2575,7 @@ __export(require("./array"));
 __export(require("./misc"));
 __export(require("./time"));
 
-},{"./string":"7sk5","./array":"XwTw","./misc":"oHCM","./time":"PJyN"}],"vmAk":[function(require,module,exports) {
+},{"./string":"KX5j","./array":"RQYH","./misc":"oHCM","./time":"fliG"}],"TgJL":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2584,7 +2703,7 @@ function () {
 }();
 
 exports.AbstractElementLike = AbstractElementLike;
-},{"misc-utils-of-mine-generic":"dgX+"}],"0Bvz":[function(require,module,exports) {
+},{"misc-utils-of-mine-generic":"y6pc"}],"8O+M":[function(require,module,exports) {
 "use strict";
 
 var __extends = this && this.__extends || function () {
@@ -2664,7 +2783,7 @@ function (_super) {
 }(ElementClass);
 
 exports.AbstractElementClass = AbstractElementClass;
-},{"./elementImpl":"vmAk"}],"fbNL":[function(require,module,exports) {
+},{"./elementImpl":"TgJL"}],"MFEV":[function(require,module,exports) {
 "use strict";
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -2805,7 +2924,7 @@ function createCreateElement(_a) {
 
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
-},{"./elementImpl":"vmAk"}],"k98/":[function(require,module,exports) {
+},{"./elementImpl":"TgJL"}],"TXrL":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2890,7 +3009,7 @@ exports.If = If;
 function isNotFalsy(a) {
   return !!a;
 }
-},{".":"BB47"}],"BB47":[function(require,module,exports) {
+},{".":"HpCL"}],"HpCL":[function(require,module,exports) {
 "use strict";
 
 function __export(m) {
@@ -2915,7 +3034,7 @@ exports.AbstractTextNodeLike = elementImpl_1.AbstractTextNodeLike;
 exports.AbstractElementLike = elementImpl_1.AbstractElementLike;
 
 __export(require("./misc"));
-},{"./elementImpl":"vmAk","./elementClass":"0Bvz","./createElement":"fbNL","./misc":"k98/"}],"gNvY":[function(require,module,exports) {
+},{"./elementImpl":"TgJL","./elementClass":"8O+M","./createElement":"MFEV","./misc":"TXrL"}],"Y5I1":[function(require,module,exports) {
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -2943,39 +3062,27 @@ var __assign = (this && this.__assign) || function () {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
+var config_1 = require("./config");
+var util_1 = require("./util");
 var ElementLikeImpl = /** @class */ (function (_super) {
     __extends(ElementLikeImpl, _super);
     function ElementLikeImpl() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    // private _element: HTMLElement | undefined
     ElementLikeImpl.prototype.render = function (config) {
         var _this = this;
-        if (config === void 0) { config = {}; }
-        // const el = this._getElement()
-        var el = document.createElement(this.tag);
-        Object.keys(this.attrs).forEach(function (attribute) {
-            el.setAttribute(attribute, _this.attrs[attribute]);
-        });
-        if (this._innerHtml) {
-            el.innerHTML = this._innerHtml;
-        }
-        this.children.forEach(function (c) {
-            c.render(__assign({}, config, { parent: el }));
-        });
-        if (config.parent) {
-            config.parent.appendChild(el);
-        }
-        return el;
+        if (config === void 0) { config = config_1.defaultRenderConfig; }
+        var newLine = config.indent ? "\n" : "";
+        var content = this.innerHtml ||
+            "" + newLine + util_1.indent(__assign({}, config, { indentLevel: (config.indentLevel || 0) + 1 })) + this.children
+                .map(function (c) { return "" + c.render(__assign({}, config, { indentLevel: (config.indentLevel || 0) + 1 })); })
+                .join('') + newLine + util_1.indent(config);
+        return "<" + this.tag + Object.keys(this.attrs)
+            .map(function (a) { return " " + a + "=\"" + _this.attrs[a] + "\""; })
+            .join('') + ">" + content + "</" + this.tag + ">";
     };
-    // private _getElement(): HTMLElement {
-    //   if (!this._element) {
-    //     this._element = document.createElement(this.tag)
-    //   }
-    //   return this._element
-    // }
     ElementLikeImpl.prototype.dangerouslySetInnerHTML = function (s) {
-        this._innerHtml = s;
+        this.innerHtml = s;
     };
     return ElementLikeImpl;
 }(jsx_alone_core_1.AbstractElementLike));
@@ -2985,15 +3092,12 @@ var TextNodeLikeImpl = /** @class */ (function (_super) {
     function TextNodeLikeImpl() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    // private _node: Text | undefined
+    // constructor(content:string){
+    //   super(content)
+    // }
     TextNodeLikeImpl.prototype.render = function (config) {
-        if (config === void 0) { config = {}; }
-        // const n = this._getNode()
-        var text = document.createTextNode(this.content);
-        if (config.parent) {
-            config.parent.appendChild(text);
-        }
-        return text;
+        if (config === void 0) { config = config_1.defaultRenderConfig; }
+        return "" + this.content;
     };
     return TextNodeLikeImpl;
 }(jsx_alone_core_1.AbstractTextNodeLike));
@@ -3007,36 +3111,152 @@ var ElementClass = /** @class */ (function (_super) {
 }(jsx_alone_core_1.ElementClass));
 exports.ElementClass = ElementClass;
 
-},{"jsx-alone-core":"BB47"}],"S0OW":[function(require,module,exports) {
+},{"jsx-alone-core":"HpCL","./config":"xhWP","./util":"CLcs"}],"PHuq":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
+var config_1 = require("./config");
 var elementImpl_1 = require("./elementImpl");
 var config = {
     impl: elementImpl_1.ElementLikeImpl,
     textNodeImpl: elementImpl_1.TextNodeLikeImpl,
+    escapeAttributes: function (s) { return s.replace(/\"/gim, '&quot;'); }
 };
 var Module = {
     createElement: jsx_alone_core_1.createCreateElement(config),
     render: function (el, config) {
-        return el.render(config);
+        if (config === void 0) { config = config_1.defaultRenderConfig; }
+        return "" + el.render(config);
     }
 };
 exports.JSXAlone = Module;
-// //@ts-ignore
-// JSXAlone = Module // creates a global variable needed so emitted .js calls work. See tsconfig.json `"jsxFactory": "JSXAlone.createElement",`
 
-},{"jsx-alone-core":"BB47","./elementImpl":"gNvY"}],"MNUJ":[function(require,module,exports) {
+},{"jsx-alone-core":"HpCL","./config":"xhWP","./elementImpl":"Y5I1"}],"RGsG":[function(require,module,exports) {
+"use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(require("./flat"));
+__export(require("./array"));
+__export(require("./prototypeFind"));
+
+},{"./flat":"+2od","./array":"PTjC","./prototypeFind":"vHoL"}],"m49I":[function(require,module,exports) {
+"use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+const array_1 = require("../array");
+__export(require("./changeText"));
+__export(require("./getPreviousMatchingPos"));
+__export(require("./quote"));
+__export(require("./json"));
+__export(require("./shorter"));
+__export(require("./html"));
+function repeat(n, s) {
+    return array_1.array(n, s).join('');
+}
+exports.repeat = repeat;
+function indent(i = 1, tabSize = 2) {
+    return repeat(i * tabSize, ' ');
+}
+exports.indent = indent;
+function getPosition(string, subString, index) {
+    return string.split(subString, index).join(subString).length;
+}
+exports.getPosition = getPosition;
+function removeWhites(s, replaceWith = ' ') {
+    return s.replace(/\s+/gm, replaceWith).trim();
+}
+exports.removeWhites = removeWhites;
+
+},{"../array":"RGsG","./changeText":"Jo5K","./getPreviousMatchingPos":"dKNz","./quote":"YTm+","./json":"wN23","./shorter":"mBGu","./html":"QVJl"}],"XQI1":[function(require,module,exports) {
+"use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(require("./formatDate"));
+__export(require("./printMs"));
+__export(require("./time"));
+
+},{"./formatDate":"MN8/","./printMs":"1aZv","./time":"ix8C"}],"Hxkq":[function(require,module,exports) {
+"use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(require("./string"));
+__export(require("./array"));
+__export(require("./misc"));
+__export(require("./time"));
+
+},{"./string":"m49I","./array":"RGsG","./misc":"oHCM","./time":"XQI1"}],"V5o3":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var misc_utils_of_mine_generic_1 = require("misc-utils-of-mine-generic");
+var createElement_1 = require("./createElement");
+/** Render the <style> tag with all classes and styles inside. Usage example:
+```
+const fieldTable: ClassRule = {
+  selectorPostfix: ' td',
+  border: '1px solid #aaaaaa',
+  padding: '2px'
+}
+const sublistFieldTable: ClassRule = {
+  ...fieldTable,
+  fontSize: '0.95em',
+  border: '1px solid #ededed'
+}
+const messageFromRedirect: ClassRule = {
+  border: '2px solid green'
+}
+const { styles, classes } = Styles({ fieldTable, sublistFieldTable, messageFromRedirect})
+return <div>
+  <Style classes={styles}></Style>
+  <p className={classes.messageFromRedirect}>{props.msg}</p>
+    ```
+*/
+exports.Style = function (props) {
+    function indent(n) {
+        return props.renderConfig && props.renderConfig.indent ? misc_utils_of_mine_generic_1.indent(n) : '';
+    }
+    function fixProperty(s) {
+        var t;
+        while (t = /([A-Z])/.exec(s)) {
+            s = s.substring(0, t.index) + '-' + t[1].toLowerCase() + s.substring(t.index + 1, s.length);
+        }
+        return s;
+    }
+    return createElement_1.JSXAlone.createElement("style", null, Object.keys(props.classes).map(function (c) {
+        return indent(1) + "." + c + (props.classes[c] && props.classes[c].selectorPostfix ? props.classes[c].selectorPostfix : '') + " {" + Object.keys(props.classes[c]).filter(function (p) { return p !== 'selectorPostfix'; }).map(function (p) { return "\n" + indent(2) + fixProperty(p) + ": " + props.classes[c][p] + ";"; }).join("") + "\n}";
+    }).join('\n'));
+};
+/** build a styles and classnames from a class styles mapped object so is easy to type-check classnames and use them . See `Style` for usage example */
+function Styles(styles) {
+    var classes = {};
+    Object.keys(styles).forEach(function (k) {
+        classes[k] = k;
+    });
+    return {
+        styles: styles, classes: classes
+    };
+}
+exports.Styles = Styles;
+
+},{"misc-utils-of-mine-generic":"Hxkq","./createElement":"PHuq"}],"idtX":[function(require,module,exports) {
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./createElement"));
+__export(require("./Style"));
 var elementImpl_1 = require("./elementImpl");
 exports.ElementClass = elementImpl_1.ElementClass;
 
-},{"./createElement":"S0OW","./elementImpl":"gNvY"}],"wdqJ":[function(require,module,exports) {
+},{"./createElement":"PHuq","./Style":"V5o3","./elementImpl":"Y5I1"}],"wdqJ":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -3045,7 +3265,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var jsx_alone_sample_project_code_1 = require("jsx-alone-sample-project-code");
 
-var jsx_alone_dom_1 = require("jsx-alone-dom");
+var jsx_alone_string_1 = require("jsx-alone-string");
 
 var renderer = function renderer(app, config) {
   // measures onload
@@ -3064,7 +3284,7 @@ var renderer = function renderer(app, config) {
 
   var JSXAloneRenderT0 = Date.now();
   console.time('JSXAlone.render()');
-  var el = jsx_alone_dom_1.JSXAlone.render(app);
+  var s = jsx_alone_string_1.JSXAlone.render(app);
   console.timeEnd('JSXAlone.render()');
   var JSXAloneRenderT = Date.now() - JSXAloneRenderT0; // measures appendChild TODO: timing
 
@@ -3076,7 +3296,7 @@ var renderer = function renderer(app, config) {
 
   root = document.createElement('dir');
   root.setAttribute('id', 'jsx-alone-sample-project-code');
-  root.appendChild(el);
+  root.innerHTML = s;
   document.body.appendChild(root);
   document.getElementById('timings_onload').innerHTML = 'N/E';
   document.getElementById('timings_buildModel').innerHTML = jsx_alone_sample_project_code_1.printMs(config.buildModelT);
@@ -3085,5 +3305,5 @@ var renderer = function renderer(app, config) {
 };
 
 jsx_alone_sample_project_code_1.lotsOfPeople(renderer);
-},{"jsx-alone-sample-project-code":"wC2p","jsx-alone-dom":"MNUJ"}]},{},["wdqJ"], null)
+},{"jsx-alone-sample-project-code":"wC2p","jsx-alone-string":"idtX"}]},{},["wdqJ"], null)
 //# sourceMappingURL=main.186cb047.map
