@@ -1,9 +1,12 @@
 import { JSXAlone, ElementClass } from 'jsx-alone-dom';
+import { MouseEvent, AbstractCoreMouseEvent, Children } from 'jsx-alone-core';
+
 // example function element
 const TaskPageLink = (props: {
   children: string;
   task: string;
 }) => <a href={`pages/tasks/${props.task}_small.html`}>{props.children}</a>;
+
 // example class element that renders given information and uses previous TaskPageLink element
 class App extends ElementClass<{
   name: string;
@@ -20,6 +23,7 @@ class App extends ElementClass<{
     </article>;
   }
 }
+
 
 // render the App and append the generated element to body
 const app = <App name="John Doe" tasks={['Wash dishes', 'Go outside', 'Play soccer']} />;

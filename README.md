@@ -67,14 +67,17 @@ Both implementations have very similar API. The only difference is the call to `
   * DOM implementation returns a `HTMLElement` (that can appended to the document)
   * `render()` also accepts a an extra parameter for configuration, for example, string implementation can be configured to indent the output code, tab size, etc 
 
+# Demos
+
+Generated html pages, using both implementations are available in [samples](https://cancerberosgx.github.io/jsx-alone/index.html). Some are static html pages generated server side with string implementation and other are JS programs rendering JSX in the browser with DOM implementation.
 
 # String implementation
 
-[See jsx-alone-string/README.md](jsx-alone-string/README.md)
+See  [jsx-alone-string/README.md](jsx-alone-string/README.md)
 
 # DOM implementation
 
-[See jsx-alone-dom/README.md](jsx-alone-dom/README.md)
+See [jsx-alone-dom/README.md](jsx-alone-dom/README.md)
 
 # Performance
 
@@ -86,8 +89,8 @@ See [IMPLEMENTATION.md](IMPLEMENTATION.md)
 
 # Limitations
 
-[LIMITATIONS.md](LIMITATIONS.md)
+See [LIMITATIONS.md](LIMITATIONS.md)
 
 # TODO
 
-see [TODO.md](TODO.md)
+See [TODO.md](TODO.md)

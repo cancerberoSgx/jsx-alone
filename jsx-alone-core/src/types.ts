@@ -56,13 +56,16 @@ export interface RenderConfig {
 export interface JSXAlone<T> {
   createElement(tag: JSXAloneTag, attrs: JSXAloneAttrs, ...children: JSXAloneChild[]): ElementLike<T>
   render(el: JSX.Element, config?: RenderConfig): T
-  // registerClientCode(f: ClientCode): void
-  // getClientCode(): ClientCode[]
 }
 
-export interface ClientCode {
-  name?: string,
-  code: string,
-  description?: string
-}
 
+type FunctionAttributesMode = 'preserve'|'toString-this'|'toString'
+export interface CreateCreateElementConfig {
+  impl: { 
+  new (tag: string): any }, 
+textNodeImpl: { new (content: string): any }
+escapeAttributes?: (s: string)=>string
+functionAttributes?: FunctionAttributesMode
+onElementReady?(e: ElementLike<any>):ElementLike<any>
+onElementCreate?(event: { elementLike: ElementLike<any>,  elementClassInstance?: JSXAloneComponent}):void // TODO: expose function element context
+}

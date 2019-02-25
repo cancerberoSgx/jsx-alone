@@ -314,7 +314,7 @@ type ReactText = string | number;
 type ReactChild = ReactElement<any> | ReactText;
 
 export interface ReactNodeArray extends Array<ReactNode> { }
-type ReactFragment = {} | ReactNodeArray;
+export type ReactFragment = {} | ReactNodeArray;
 export type ReactNode = ReactChild | ReactFragment | ReactPortal | boolean | null | undefined;
 
 //

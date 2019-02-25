@@ -23,7 +23,7 @@ export abstract class AbstractTextNodeLike<T> implements TextNodeLike<T> {
 }
 export abstract class AbstractElementLike<T> implements ElementLike<T> {
   attrs: {
-    [name: string]: string
+    [name: string]: any
   }
   children: NodeLike<T>[]
   parentElement?: ElementLike<T>

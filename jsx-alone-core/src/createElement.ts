@@ -1,5 +1,5 @@
-import { AbstractElementLike, isNode, isJSXAloneComponent } from './elementImpl';
-import { JSXAloneAttrs, JSXAloneChild, JSXAloneTag, JSXAlone } from './types';
+import { AbstractElementLike, isNode, isJSXAloneComponent as isClassElementClass } from './elementImpl';
+import { JSXAloneAttrs, JSXAloneChild, JSXAloneTag, JSXAlone, ElementLike, CreateCreateElementConfig, JSXAloneComponent } from './types';
 
 const throwOnUnrecognized = false
 
@@ -10,37 +10,42 @@ export function debug(err: string) {
     console.error(err)
   }
 }
-interface CreateElementConfig {
-  impl: { 
-  new (tag: string): any }, 
-textNodeImpl: { new (content: string): any }
-escapeAttributes?: (s: string)=>string
-
-}
-export function createCreateElement<T>({impl, textNodeImpl, escapeAttributes}: CreateElementConfig) {
+export function createCreateElement<T>(config: CreateCreateElementConfig) {
+  const {impl, textNodeImpl, escapeAttributes, functionAttributes, onElementReady, onElementCreate} = config
   return function createElement(tag: JSXAloneTag, attrs: JSXAloneAttrs = {}, ...children: JSXAloneChild[]): AbstractElementLike<T> {
-    var element: AbstractElementLike<T>
+    let element: AbstractElementLike<T>
+    let elementClassInstance: JSXAloneComponent|undefined
     if (typeof tag === 'string') {
       element = new impl(tag)
     } else {
-      if (isJSXAloneComponent(tag)) {
-        element = new tag({ ...attrs, children: children }).render()
+      if (isClassElementClass(tag)) {
+        elementClassInstance=new tag({ ...attrs, children: children })
+        element = elementClassInstance.render()
       } else {
         element = tag({ ...attrs, children: children })
+        //TODO: expose function element context
       }
       attrs = {}
     }
+    if(onElementCreate){
+      onElementCreate({elementLike: element, elementClassInstance})
+    }
     for (let name in attrs) {
       if (name && attrs.hasOwnProperty(name)) {
-        var value: any = attrs[name]
+        let value: any = attrs[name]
         if (typeof value === 'boolean') {
           if (value === true) {
             element.setAttribute(name, name)
           }
         } else if (typeof value === 'function') {
-          const code = `_this = __this__ = this; (${value.toString()}).apply(_this, arguments)`
-          const escaped = escapeAttributes ? escapeAttributes(code) : code
-          element.setAttribute(name, escaped)
+          if(!functionAttributes || functionAttributes==='preserve'){
+            element.setAttribute(name, value)
+          }
+          else{
+            const code = functionAttributes==='toString-this' ? `_this = __this__ = this; (${value.toString()}).apply(_this, arguments)`:value.toString()
+            const escaped = escapeAttributes ? escapeAttributes(code) : code
+            element.setAttribute(name, escaped)
+          }
         } else if (value !== false && value != null) {
           if (name === 'className') {
             if (typeof value === 'string') {
@@ -92,6 +97,9 @@ export function createCreateElement<T>({impl, textNodeImpl, escapeAttributes}: C
             element.appendChild(new textNodeImpl(child))
           }
         })
+    }
+    if(onElementReady){
+      element=onElementReady(element)
     }
     return element
   }

@@ -3153,6 +3153,32 @@ exports.ElementClass = elementImpl_1.ElementClass;
 },{"./createElement":"S0OW","./elementImpl":"gNvY"}],"wdqJ":[function(require,module,exports) {
 "use strict";
 
+var __extends = this && this.__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -3161,43 +3187,80 @@ var jsx_alone_sample_project_code_1 = require("jsx-alone-sample-project-code");
 
 var jsx_alone_dom_1 = require("jsx-alone-dom");
 
-var renderer = function renderer(app, config) {
-  // measures onload
-  var onloadT0 = Date.now();
-  console.time('onload');
+var Button =
+/** @class */
+function (_super) {
+  __extends(Button, _super);
 
-  window.onload = function () {
-    console.timeEnd('onload');
-    var onloadT = Date.now() - onloadT0;
-    document.getElementById('timings_onload').innerHTML = jsx_alone_sample_project_code_1.printMs(onloadT);
-    document.getElementById('timings_buildModel').innerHTML = jsx_alone_sample_project_code_1.printMs(config.buildModelT);
-    document.getElementById('timings_JSXAloneCreateElement').innerHTML = jsx_alone_sample_project_code_1.printMs(config.JSXAloneCreateElementT);
-    document.getElementById('timings_JSXAloneRender').innerHTML = jsx_alone_sample_project_code_1.printMs(JSXAloneRenderT);
-  }; // measures render
-
-
-  var JSXAloneRenderT0 = Date.now();
-  console.time('JSXAlone.render()');
-  var el = jsx_alone_dom_1.JSXAlone.render(app);
-  console.timeEnd('JSXAlone.render()');
-  var JSXAloneRenderT = Date.now() - JSXAloneRenderT0; // measures appendChild TODO: timing
-
-  var root = document.getElementById('jsx-alone-sample-project-code');
-
-  if (root) {
-    root.remove();
+  function Button() {
+    return _super !== null && _super.apply(this, arguments) || this;
   }
 
-  root = document.createElement('dir');
-  root.setAttribute('id', 'jsx-alone-sample-project-code');
-  root.appendChild(el);
-  document.body.appendChild(root);
-  document.getElementById('timings_onload').innerHTML = 'N/E';
-  document.getElementById('timings_buildModel').innerHTML = jsx_alone_sample_project_code_1.printMs(config.buildModelT);
-  document.getElementById('timings_JSXAloneCreateElement').innerHTML = jsx_alone_sample_project_code_1.printMs(config.JSXAloneCreateElementT);
-  document.getElementById('timings_JSXAloneRender').innerHTML = jsx_alone_sample_project_code_1.printMs(JSXAloneRenderT);
-};
+  Button.prototype.render = function () {
+    return jsx_alone_dom_1.JSXAlone.createElement("button", {
+      onClick: this.props.onClick
+    }, this.props.children);
+  };
 
-jsx_alone_sample_project_code_1.lotsOfPeople(renderer);
+  return Button;
+}(jsx_alone_dom_1.ElementClass);
+
+var Container =
+/** @class */
+function (_super) {
+  __extends(Container, _super);
+
+  function Container() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  Container.prototype.render = function () {
+    return jsx_alone_dom_1.JSXAlone.createElement("div", null, this.props.children);
+  };
+
+  return Container;
+}(jsx_alone_dom_1.ElementClass);
+
+var App =
+/** @class */
+function (_super) {
+  __extends(App, _super);
+
+  function App() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  App.prototype.foo = function () {
+    return jsx_alone_sample_project_code_1.printMs(Date.now());
+  };
+
+  App.prototype.render = function () {
+    var _this = this;
+
+    return jsx_alone_dom_1.JSXAlone.createElement(Container, null, jsx_alone_dom_1.JSXAlone.createElement("p", null, " just some tests for function attributes context", jsx_alone_dom_1.JSXAlone.createElement("button", {
+      onClick: function onClick(e) {
+        console.log(_this.props.name, _this.foo());
+      }
+    }, "Render!"), jsx_alone_dom_1.JSXAlone.createElement(Container, null, " ", jsx_alone_dom_1.JSXAlone.createElement("button", {
+      onClick: function onClick(e) {
+        console.log(_this.props.name, _this.foo());
+      }
+    }, "sss!")), jsx_alone_dom_1.JSXAlone.createElement(Button, {
+      onClick: function onClick(e) {
+        console.log(_this.props.name, _this.foo());
+      }
+    }, "second")));
+  };
+
+  return App;
+}(jsx_alone_dom_1.ElementClass); // render the App and append the generated element to body
+
+
+var app = jsx_alone_dom_1.JSXAlone.createElement(App, {
+  name: "John Doe",
+  tasks: ['Wash dishes', 'Go outside', 'Play soccer']
+});
+var el = jsx_alone_dom_1.JSXAlone.render(app);
+document.body.appendChild(el);
 },{"jsx-alone-sample-project-code":"wC2p","jsx-alone-dom":"MNUJ"}]},{},["wdqJ"], null)
 //# sourceMappingURL=main.186cb047.map

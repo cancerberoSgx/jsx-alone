@@ -1,9 +1,10 @@
 import { NodeLike, ElementLike } from './types';
 import { isElementLike } from './elementImpl';
+import { ReactNode } from './declarations/domElementDeclarations';
 
-export type ElementClassProps<P> = (Readonly<{ children?: JSX.Element }> & Readonly<P>)
+export type ElementClassProps<P> = ( Readonly<{ children?: ReactNode}>&Readonly<P> )
 
-export interface IElementClass<T, P={}> {
+export interface IElementClass<P={}> {
   props: ElementClassProps<P>
   render(): JSX.Element
 }
@@ -11,7 +12,7 @@ export interface IElementClass<T, P={}> {
 /**
  * A Class able to render() JSX. Similar to React.Component but only supporting properties, without state, context, ref, did/will methods, etc.
  */
-export abstract class ElementClass<T, P={}> implements IElementClass<T, P> {
+export abstract class ElementClass<T, P={}> implements IElementClass<P> {
 
   constructor(public readonly props: ElementClassProps<P>) {
   }

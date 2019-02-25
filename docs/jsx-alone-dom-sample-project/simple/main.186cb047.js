@@ -671,10 +671,13 @@ function debug(err) {
 
 exports.debug = debug;
 
-function createCreateElement(_a) {
-  var impl = _a.impl,
-      textNodeImpl = _a.textNodeImpl,
-      escapeAttributes = _a.escapeAttributes;
+function createCreateElement(config) {
+  var impl = config.impl,
+      textNodeImpl = config.textNodeImpl,
+      escapeAttributes = config.escapeAttributes,
+      functionAttributes = config.functionAttributes,
+      onElementReady = config.onElementReady,
+      onElementCreate = config.onElementCreate;
   return function createElement(tag, attrs) {
     if (attrs === void 0) {
       attrs = {};
@@ -687,61 +690,78 @@ function createCreateElement(_a) {
     }
 
     var element;
+    var elementClassInstance;
 
     if (typeof tag === 'string') {
       element = new impl(tag);
     } else {
       if (elementImpl_1.isJSXAloneComponent(tag)) {
-        element = new tag(__assign({}, attrs, {
+        elementClassInstance = new tag(__assign({}, attrs, {
           children: children
-        })).render();
+        }));
+        element = elementClassInstance.render();
       } else {
         element = tag(__assign({}, attrs, {
           children: children
-        }));
+        })); //TODO: expose function element context
       }
 
       attrs = {};
     }
 
-    for (var name_1 in attrs) {
-      if (name_1 && attrs.hasOwnProperty(name_1)) {
-        var value = attrs[name_1];
+    if (onElementCreate) {
+      onElementCreate({
+        elementLike: element,
+        elementClassInstance: elementClassInstance
+      });
+    }
 
-        if (typeof value === 'boolean') {
-          if (value === true) {
+    var _loop_1 = function _loop_1(name_1) {
+      if (name_1 && attrs.hasOwnProperty(name_1)) {
+        var value_1 = attrs[name_1];
+
+        if (typeof value_1 === 'boolean') {
+          if (value_1 === true) {
             element.setAttribute(name_1, name_1);
           }
-        } else if (typeof value === 'function') {
-          var code = "_this = __this__ = this; (" + value.toString() + ").apply(_this, arguments)";
-          var escaped = escapeAttributes ? escapeAttributes(code) : code;
-          element.setAttribute(name_1, escaped);
-        } else if (value !== false && value != null) {
+        } else if (typeof value_1 === 'function') {
+          if (!functionAttributes || functionAttributes === 'preserve') {
+            element.setAttribute(name_1, value_1);
+          } else {
+            var code = functionAttributes === 'toString-this' ? "_this = __this__ = this; (" + value_1.toString() + ").apply(_this, arguments)" : value_1.toString();
+            var escaped = escapeAttributes ? escapeAttributes(code) : code;
+            element.setAttribute(name_1, escaped);
+          }
+        } else if (value_1 !== false && value_1 != null) {
           if (name_1 === 'className') {
-            if (typeof value === 'string') {
-              element.setAttribute('class', value);
-            } else if (Array.isArray(value) && value.length && typeof value[0] === 'string') {
-              element.setAttribute('class', value.join(' '));
+            if (typeof value_1 === 'string') {
+              element.setAttribute('class', value_1);
+            } else if (Array.isArray(value_1) && value_1.length && typeof value_1[0] === 'string') {
+              element.setAttribute('class', value_1.join(' '));
             } else {
-              debug("unrecognized className value " + _typeof(value) + " " + value);
+              debug("unrecognized className value " + _typeof(value_1) + " " + value_1);
             }
           } else {
-            element.setAttribute(name_1, value.toString());
+            element.setAttribute(name_1, value_1.toString());
           }
-        } else if (_typeof(value) === 'object') {
+        } else if (_typeof(value_1) === 'object') {
           if (name_1 === 'style') {
-            element.setAttribute('style', "" + Object.keys(value).map(function (p) {
-              return p + ": " + value[p];
+            element.setAttribute('style', "" + Object.keys(value_1).map(function (p) {
+              return p + ": " + value_1[p];
             }).join('; '));
-          } else if (name_1 === 'dangerouslySetInnerHTML' && value && typeof value.__html === 'string') {
-            element.dangerouslySetInnerHTML(value.__html);
+          } else if (name_1 === 'dangerouslySetInnerHTML' && value_1 && typeof value_1.__html === 'string') {
+            element.dangerouslySetInnerHTML(value_1.__html);
           } else {
             debug("unrecognized object attribute \"" + name_1 + "\" - the only object attribute supported is \"style\"");
           }
         } else {
-          debug("unrecognized attribute \"" + name_1 + "\" with type " + _typeof(value));
+          debug("unrecognized attribute \"" + name_1 + "\" with type " + _typeof(value_1));
         }
       }
+    };
+
+    for (var name_1 in attrs) {
+      _loop_1(name_1);
     }
 
     if (typeof tag === 'string') {
@@ -765,6 +785,10 @@ function createCreateElement(_a) {
           element.appendChild(new textNodeImpl(child));
         }
       });
+    }
+
+    if (onElementReady) {
+      element = onElementReady(element);
     }
 
     return element;
@@ -916,32 +940,40 @@ var ElementLikeImpl = /** @class */ (function (_super) {
     function ElementLikeImpl() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    // private _element: HTMLElement | undefined
     ElementLikeImpl.prototype.render = function (config) {
         var _this = this;
         if (config === void 0) { config = {}; }
-        // const el = this._getElement()
         var el = document.createElement(this.tag);
+        // this is the context in which  function attributes of this and descendants will be evaluated. It's set up by createCreateElementConfig see below.
+        var elementClassInstance = (this.parentElement && this.parentElement._elementClassInstance) || this._elementClassInstance;
         Object.keys(this.attrs).forEach(function (attribute) {
-            el.setAttribute(attribute, _this.attrs[attribute]);
+            var value = _this.attrs[attribute];
+            var a = attribute.toLowerCase();
+            var functionAttributes = ['onclick'];
+            if (typeof value === 'function' && functionAttributes.includes(a)) {
+                var fn = elementClassInstance ? value.bind(elementClassInstance) : value;
+                el.addEventListener(a.substring(2, a.length), fn);
+            }
+            else {
+                el.setAttribute(attribute, value);
+            }
         });
         if (this._innerHtml) {
             el.innerHTML = this._innerHtml;
         }
         this.children.forEach(function (c) {
+            if (elementClassInstance) {
+                ;
+                c._elementClassInstance = elementClassInstance || c._elementClassInstance;
+            }
             c.render(__assign({}, config, { parent: el }));
         });
         if (config.parent) {
             config.parent.appendChild(el);
         }
+        delete this._elementClassInstance;
         return el;
     };
-    // private _getElement(): HTMLElement {
-    //   if (!this._element) {
-    //     this._element = document.createElement(this.tag)
-    //   }
-    //   return this._element
-    // }
     ElementLikeImpl.prototype.dangerouslySetInnerHTML = function (s) {
         this._innerHtml = s;
     };
@@ -953,10 +985,8 @@ var TextNodeLikeImpl = /** @class */ (function (_super) {
     function TextNodeLikeImpl() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    // private _node: Text | undefined
     TextNodeLikeImpl.prototype.render = function (config) {
         if (config === void 0) { config = {}; }
-        // const n = this._getNode()
         var text = document.createTextNode(this.content);
         if (config.parent) {
             config.parent.appendChild(text);
@@ -974,25 +1004,40 @@ var ElementClass = /** @class */ (function (_super) {
     return ElementClass;
 }(jsx_alone_core_1.ElementClass));
 exports.ElementClass = ElementClass;
+exports.createCreateElementConfig = {
+    impl: ElementLikeImpl,
+    textNodeImpl: TextNodeLikeImpl,
+    functionAttributes: 'preserve',
+    onElementCreate: function (_a) {
+        var elementLike = _a.elementLike, elementClassInstance = _a.elementClassInstance;
+        if (elementClassInstance) {
+            elementLike._elementClassInstance = elementClassInstance;
+        }
+    }
+    // onElementReady(e: ElementLike<any>){
+    // const eventNames= ['onclick']
+    // Object.keys(e.attrs).filter(n=>eventNames.includes(n.toLowerCase())).forEach(n=>{
+    //   const code = e.attrs[n] // should be function
+    //   if(typeof code==='function'){
+    //     // delete e.attrs[n]
+    //   }
+    // })
+    // return e
+    // }
+};
 
 },{"jsx-alone-core":"BB47"}],"S0OW":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var elementImpl_1 = require("./elementImpl");
-var config = {
-    impl: elementImpl_1.ElementLikeImpl,
-    textNodeImpl: elementImpl_1.TextNodeLikeImpl,
-};
 var Module = {
-    createElement: jsx_alone_core_1.createCreateElement(config),
+    createElement: jsx_alone_core_1.createCreateElement(elementImpl_1.createCreateElementConfig),
     render: function (el, config) {
         return el.render(config);
     }
 };
 exports.JSXAlone = Module;
-// //@ts-ignore
-// JSXAlone = Module // creates a global variable needed so emitted .js calls work. See tsconfig.json `"jsxFactory": "JSXAlone.createElement",`
 
 },{"jsx-alone-core":"BB47","./elementImpl":"gNvY"}],"MNUJ":[function(require,module,exports) {
 "use strict";
