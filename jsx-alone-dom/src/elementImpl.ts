@@ -18,11 +18,9 @@ export class ElementLikeImpl extends AbstractElementLike<HTMLElement | Text> {
 
     Object.keys(this.attrs).forEach(attribute => {
       const value = this.attrs[attribute]
-      const a = attribute.toLowerCase()
-      const functionAttributes = ['onclick', 'onchange']
-      if (typeof value === 'function' && functionAttributes.includes(a)) {
+      if (typeof value === 'function') {
         let fn = elementClassInstance ? value.bind(elementClassInstance) : value
-        el.addEventListener(a.substring(2, a.length), fn) 
+        el.addEventListener(attribute.substring(2, attribute.length).toLowerCase(), fn) 
       } else {
         el.setAttribute(attribute, value)
       }

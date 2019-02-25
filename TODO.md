@@ -5,6 +5,7 @@
  * ISSUE: test that `this` works on function attributes and review if we want that option.
  * ISSUE - <If> in dom impl : props.children is array
  * ISSUE string indentation no new lines
+ * issue: DOM :function elements dont' have access to its context (`this`)
  * performance comparison against other template implementations like js string, handlebars, react, inferno (those that support isomorphic)
  * run dom sample project in jsdom for automatic report
  * React.Fragment
