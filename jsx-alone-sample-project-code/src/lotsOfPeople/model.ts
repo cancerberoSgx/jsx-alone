@@ -1,7 +1,8 @@
-import { array } from './util'
-import { Person } from './types'
-import {names, numbers} from 'misc-utils-of-mine-random-data'
-export const MODEL_CONFIG = { peopleCount: 100, friendsCount: 20 }
+import { array } from '../util'
+import { Person, LotsOfPeopleConfig } from './types'
+import { names, numbers } from 'misc-utils-of-mine-random-data'
+
+export const MODEL_CONFIG: LotsOfPeopleConfig = { peopleCount: 100, friendsCount: 20 }
 
 export function buildModel(config: Config) {
   return {
@@ -22,7 +23,9 @@ function makePeople(config: Config): Person[] {
       friends: [] as any
     }))
     .map((p, i, a) => {
-      p.friends = array(numbers.integer(Math.trunc(config.friendsCount/2), config.friendsCount)).map(i => a[numbers.integer(0, a.length-1)])
+      p.friends = array(numbers.integer(Math.trunc(config.friendsCount / 2), config.friendsCount)).map(
+        i => a[numbers.integer(0, a.length - 1)]
+      )
       return p
     })
 }

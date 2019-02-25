@@ -991,10 +991,7 @@ function (_super) {
 
   function App() {
     return _super !== null && _super.apply(this, arguments) || this;
-  } // constructor(props: any){
-  //   super(props)
-  // }
-
+  }
 
   App.prototype.render = function () {
     return jsx_alone_dom_1.JSXAlone.createElement("article", null, jsx_alone_dom_1.JSXAlone.createElement("h3", null, "Welcome ", this.props.name, "!"), jsx_alone_dom_1.JSXAlone.createElement("p", null, "These are your tasks:"), jsx_alone_dom_1.JSXAlone.createElement("ul", null, this.props.tasks.map(function (task) {
@@ -1013,27 +1010,6 @@ var app = jsx_alone_dom_1.JSXAlone.createElement(App, {
   tasks: ['Wash dishes', 'Go outside', 'Play soccer']
 });
 var el = jsx_alone_dom_1.JSXAlone.render(app);
-document.body.appendChild(el); // import { JSXAlone, ElementClass } from 'jsx-alone-dom'
-// const Button = (props: { name: string; children: JSX.Element, onClick: ()=>void }) => (
-//   <button
-//     onClick={e=>props.onClick()}
-//   >{props.children}</button>
-// )
-// const model: Model = {
-// }
-// interface Model {
-//   todos: TODO[]
-// }
-// interface TODO{
-//   name: string
-//   description?: string
-// }
-// export class App extends ElementClass<Model> {
-//   render() {
-//     return <article>
-//       <h3>Welcome {this.props.name}!</h3>
-//     </article>
-//   }
-// }
+document.body.appendChild(el);
 },{"jsx-alone-dom":"MNUJ"}]},{},["wdqJ"], null)
 //# sourceMappingURL=main.186cb047.map

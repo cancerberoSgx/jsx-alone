@@ -5,6 +5,7 @@ export function array<T = number>(n: number, sample?: T): T[] {
   }
   return a as T[];
 }
+
 export function printMs(ms: number, config: {
   minutes?: boolean;
   seconds?: boolean;

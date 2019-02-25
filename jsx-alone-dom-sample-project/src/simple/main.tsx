@@ -1,31 +1,28 @@
-import { JSXAlone, ElementClass } from 'jsx-alone-dom'
-
+import { JSXAlone, ElementClass } from 'jsx-alone-dom';
 // example function element
-const TaskPageLink = (props: { children: string; task: string }) => 
-  <a href={`pages/tasks/${props.task}_small.html`}>{props.children}</a>
-
+const TaskPageLink = (props: {
+  children: string;
+  task: string;
+}) => <a href={`pages/tasks/${props.task}_small.html`}>{props.children}</a>;
 // example class element that renders given information and uses previous TaskPageLink element
-class App extends ElementClass<{ name: string; tasks: string[] }> {
+class App extends ElementClass<{
+  name: string;
+  tasks: string[];
+}> {
   render() {
     return <article>
       <h3>Welcome {this.props.name}!</h3>
       <p>These are your tasks:</p>
-      <ul>{this.props.tasks.map(task => 
-          <li>
-            <TaskPageLink task={task}>{task}</TaskPageLink>
-          </li>
-        )}
+      <ul>{this.props.tasks.map(task => <li>
+        <TaskPageLink task={task}>{task}</TaskPageLink>
+      </li>)}
       </ul>
-    </article>
+    </article>;
   }
 }
 
 // render the App and append the generated element to body
-const app = <App 
-  name="John Doe" 
-  tasks={['Wash dishes', 'Go outside', 'Play soccer']} 
-  />
-const el = JSXAlone.render(app)
+const app = <App name="John Doe" tasks={['Wash dishes', 'Go outside', 'Play soccer']} />;
+const el = JSXAlone.render(app);
 document.body.appendChild(el)
-
 

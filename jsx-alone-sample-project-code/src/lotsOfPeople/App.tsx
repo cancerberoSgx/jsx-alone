@@ -4,7 +4,7 @@ import { Children, JSXAlone } from 'jsx-alone-dom'
 
 export class App extends ElementClass<{ people: Person[], peopleCount:number, friendsCount: number }> {
   render() {
-    return <div id="lotsOfPeopleRoot">
+    return <div>
       <h1>Lots of people to print</h1>
       <p>
         People count: <input id="peopleCount" value={this.props.peopleCount+''} type="number"></input>
