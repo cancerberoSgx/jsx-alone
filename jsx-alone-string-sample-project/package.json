@@ -12,11 +12,12 @@
   "dependencies": {
     "jsx-alone-sample-project-code": "file:../jsx-alone-sample-project-code",
     "jsx-alone-string": "file:../jsx-alone-string",
-    "misc-utils-of-mine-dom": "file:../../misc-utils-of-mine/misc-utils-of-mine-dom",
+    "misc-utils-of-mine-generic": "file:../../misc-utils-of-mine/misc-utils-of-mine-generic",
     "misc-utils-of-mine-random-data": "0.0.4"
   },
   "devDependencies": {
     "@types/node": "^10.12.27",
+    "ts-node": "^8.0.2",
     "typescript": "^3.2.2"
   },
   "repository": {

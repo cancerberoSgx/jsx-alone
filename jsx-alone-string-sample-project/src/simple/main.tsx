@@ -26,5 +26,10 @@ export function renderSimple() {
   }
 
   // render the App and append the generated element to body
-  return <App name="John Doe" tasks={['Wash dishes', 'Go outside', 'Play soccer']} />
+  const el = <App name="John Doe" tasks={['Wash dishes', 'Go outside', 'Play soccer']} />
+  console.time('render')
+  const s = JSXAlone.render(el)
+  console.timeEnd('render')
+
+  return s
 }

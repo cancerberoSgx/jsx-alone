@@ -11,7 +11,7 @@ export interface IElementClass<T, P={}> {
 /**
  * A Class able to render() JSX. Similar to React.Component but only supporting properties, without state, context, ref, did/will methods, etc.
  */
-export abstract class AbstractElementClass<T, P={}> implements IElementClass<T, P> {
+export abstract class ElementClass<T, P={}> implements IElementClass<T, P> {
 
   constructor(public readonly props: ElementClassProps<P>) {
   }
@@ -30,4 +30,4 @@ export abstract class AbstractElementClass<T, P={}> implements IElementClass<T, 
     return this.childrenAsArray().find(e => true) as ElementLike<P> | undefined
   }
 }
-
+export abstract class AbstractElementClass<P={}> extends ElementClass<any, P>{}

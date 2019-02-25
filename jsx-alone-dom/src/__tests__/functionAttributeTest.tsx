@@ -1,5 +1,4 @@
 import { JSXAlone } from '..'
-import { ElementClass } from '../elementImpl'
 import { test } from './testUtil'
 
 describe('function attributes', () => {

@@ -1,4 +1,4 @@
-import { AbstractElementClass, AbstractElementLike, AbstractTextNodeLike } from 'jsx-alone-core';
+import {  AbstractElementLike, AbstractTextNodeLike, ElementClass as AbstractElementClass } from 'jsx-alone-core';
 import { ElementLikeImplRenderConfig } from './config';
 
 export class ElementLikeImpl extends AbstractElementLike<HTMLElement | Text> {

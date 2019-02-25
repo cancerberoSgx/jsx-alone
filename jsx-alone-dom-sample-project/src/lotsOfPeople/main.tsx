@@ -2,6 +2,8 @@ import { lotsOfPeople, Renderer, printMs, LotsOfPeopleRendererConfig } from 'jsx
 // import { LotsOfPeopleRendererConfig } from 'jsx-alone-sample-project-code/dist/src/lotsOfPeople/types';
 import { JSXAlone } from 'jsx-alone-dom'
 
+  //@ts-ignore
+window.JSXAloneImplName__ === 'dom'
 const renderer: Renderer = (app: JSX.Element, config: LotsOfPeopleRendererConfig) => {
   // measures onload
   const onloadT0 = Date.now()

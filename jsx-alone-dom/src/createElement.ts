@@ -2,7 +2,6 @@ import { NodeLike, JSXAlone as JSXAloneType, createCreateElement } from 'jsx-alo
 import { ElementLikeImplRenderConfig } from './config';
 import { ElementLikeImpl, TextNodeLikeImpl } from './elementImpl';
 
-document.body.insertAdjacentHTML
 const Module = {
   
   createElement: createCreateElement<HTMLElement|Text>(ElementLikeImpl, TextNodeLikeImpl),

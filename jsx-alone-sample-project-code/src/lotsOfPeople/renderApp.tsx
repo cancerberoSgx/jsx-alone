@@ -1,10 +1,10 @@
-import { JSXAlone } from 'jsx-alone-dom';
 import { buildModel } from './model';
 import { App } from './App';
-import { printMs } from '../util';
 import { MODEL_CONFIG } from './model'
 import { Renderer } from '..';
 import { LotsOfPeopleConfig, LotsOfPeopleRendererConfig } from './types';
+import { getJSXAlone } from '../impl';
+const JSXAlone = getJSXAlone()
 
 export function renderApp(renderer: Renderer<LotsOfPeopleRendererConfig>,  config: LotsOfPeopleConfig = MODEL_CONFIG) {
 
@@ -28,4 +28,4 @@ export function renderApp(renderer: Renderer<LotsOfPeopleRendererConfig>,  confi
 }
 
 
-(window as any).renderAppLotsOfPeople = renderApp
+// (window as any).renderAppLotsOfPeople = renderApp

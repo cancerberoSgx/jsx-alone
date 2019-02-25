@@ -1,5 +1,5 @@
 import { AbstractElementLike, isNode, isJSXAloneComponent } from './elementImpl';
-import { JSXAloneAttrs, JSXAloneChild, JSXAloneTag } from './types';
+import { JSXAloneAttrs, JSXAloneChild, JSXAloneTag, JSXAlone } from './types';
 
 const throwOnUnrecognized = false
 
@@ -90,3 +90,7 @@ export function createCreateElement<T>(impl: { new (tag: string): any }, textNod
     return element
   }
 }
+
+export const AbstractJSXAlone : JSXAlone<any> = null as any 
+
+// export {AbstractJSXAlone as JSXAlone}

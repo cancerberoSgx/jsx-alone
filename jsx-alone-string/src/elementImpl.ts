@@ -1,4 +1,4 @@
-import { AbstractElementClass, AbstractElementLike, AbstractTextNodeLike } from 'jsx-alone-core';
+import { ElementClass as AbstractElementClass, AbstractElementLike, AbstractTextNodeLike } from 'jsx-alone-core';
 import { defaultRenderConfig, ElementLikeImplRenderConfig } from './config';
 import { indent } from './util';
 

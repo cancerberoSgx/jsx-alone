@@ -8,3 +8,4 @@ export * from './elementClass'
 export * from './createElement'
 
 export {AbstractTextNodeLike, AbstractElementLike} from './elementImpl'
+export * from './misc'
