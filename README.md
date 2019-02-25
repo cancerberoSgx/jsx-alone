@@ -67,13 +67,16 @@ Generated html pages, using both implementations are available in [samples](http
 # Motivation
 
  * **JSX rendering only**: Be able to render JSX/TSX without having to use a library that a has lots other features or "way of" doing things 
- * maintain core implementations lightest and fastest as possible
  * support both DOM rendering and string rendering for server side rendering of static content (stream rendering to come)
+ * maintain core implementations lightest and fastest as possible:
+   * DOM implementation should be small ( < 5kb)
+   * string implementation should be as least as well known template engines like handlebars or lodash's
  * Provide 100% of HTML DOM Typings experience: it contains typings for HTML DOM just like React so you can type-check your HTML templates
+ * DOM implementation should support function attributes (event handlers) evaluation access 100% current scope
  * No support for **features beyond JSX**: (so we keep them KISS and lightweight) :
    * No virtual dom
    * No stateful components 
-   * very limited support for function attributes in string implementation (event handlers) (see [limitations](LIMITATIONS.md))
+   * string implementation has very limited support function attributes (event handlers) evaluation access current scope (see [limitations](LIMITATIONS.md))
    * *...But expect auxiliary projects that add some of these in the future...*
 
 # String implementation
