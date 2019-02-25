@@ -19,7 +19,18 @@
 
 ## Function attributes (event handlers)
 
-In both implementations JSX like the following:
+### DOM implementation
+
+Is 100% supported in  DOM implementation
+ <!-- has acceptable support: 
+
+ * event handlers must have an acendant  elementClass and that will be the context of all descendant's handlers. This is accomplished by binding the root ElementClass (instance) with the function attributes so 'this' will be that element class instance for all of them. -->
+
+### String implementation
+
+String implementation has serious limitations:
+
+A JSX like the following:
 
 ```
 <button onClick={e=>{alert('click')}}>click</button>

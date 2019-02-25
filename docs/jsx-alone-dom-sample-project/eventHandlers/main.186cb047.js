@@ -104,7 +104,952 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   // Override the current require with this new one
   return newRequire;
-})({"/5mC":[function(require,module,exports) {
+})({"X94W":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+// export function flatDeep<T = any>(arr1: T[][] | T[]): T[] {
+//   return (arr1 as any[]).reduce((acc, val) => (Array.isArray(val) ? acc.concat(flatDeep(val)) : acc.concat(val)), [])
+// }
+function flatDeep(arr1) {
+    return arr1.reduce((acc, val) => Array.isArray(val) ? acc.concat(flatDeep(val)) : acc.concat(val), []);
+}
+exports.flatDeep = flatDeep;
+function flat(arr) {
+    return arr.reduce((a, b) => a.concat(b));
+}
+exports.flat = flat;
+function flatReadOnly(arr) {
+    return arr && arr.length ? arr.reduce((a, b) => a.concat(b)) : [];
+}
+exports.flatReadOnly = flatReadOnly;
+
+},{}],"wbWF":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function array(n, sample) {
+    const a = [];
+    for (let i = 0; i < n; i++) {
+        a.push(typeof sample === 'undefined' ? i : sample);
+    }
+    return a;
+}
+exports.array = array;
+function dedup(a, p) {
+    return a.reduce((x, y) => x.find(i => p(i, y)) ? x : [...x, y], []);
+}
+exports.dedup = dedup;
+function asArray(selectors) {
+    return Array.isArray(selectors) ? selectors : [selectors];
+}
+exports.asArray = asArray;
+function unionEquals(left, right, equals) {
+    return left.concat(right).reduce((acc, element) => {
+        //@ts-ignore
+        return acc.some(elt => equals(elt, element)) ? acc : acc.concat(element);
+    }, []);
+}
+exports.unionEquals = unionEquals;
+function seq(start = 0, step = 1, max = 0) {
+    const result = [];
+    for (let i = start; i < max; i += step) {
+        result.push(i);
+    }
+    return result;
+}
+exports.seq = seq;
+
+},{}],"eW/z":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function arrayPrototypeFind(a, predicate, thisArg) {
+    for (let i = 0; i < a.length; i++) {
+        const v = a[i];
+        if (predicate.apply(thisArg, [v, i, a])) {
+            return v;
+        }
+    }
+}
+exports.arrayPrototypeFind = arrayPrototypeFind;
+function installArrayPrototypeFind(force = false) {
+    Array.prototype.find = (typeof Array.prototype.find === 'undefined' || force) ? function (predicate, thisArg) {
+        //@ts- ignore
+        return arrayPrototypeFind(this, predicate, thisArg);
+    } : Array.prototype.find;
+}
+exports.installArrayPrototypeFind = installArrayPrototypeFind;
+
+},{}],"XwTw":[function(require,module,exports) {
+"use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(require("./flat"));
+__export(require("./array"));
+__export(require("./prototypeFind"));
+
+},{"./flat":"X94W","./array":"wbWF","./prototypeFind":"eW/z"}],"9x/c":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function changeText(text, toInsert) {
+    let s = text.split('');
+    let indexIncr = 0;
+    toInsert.forEach(data => {
+        data.toAdd = data.toAdd || '';
+        data.toRemove = data.toRemove || '';
+        s.splice(data.pos + indexIncr, data.toRemove.length, ...data.toAdd.split(''));
+        indexIncr += data.toAdd.length - data.toRemove.length;
+    });
+    return s.join('');
+}
+exports.changeText = changeText;
+
+},{}],"ZdIq":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function getPreviousMatchingPos(text, pos, condition) {
+    pos = text.length <= pos ? text.length : pos;
+    if (typeof condition === 'string') {
+        const s = condition;
+        condition = (c) => c === s;
+    }
+    while (pos >= 0) {
+        const char = text[pos];
+        if (!condition(char)) {
+            pos--;
+        }
+        else {
+            break;
+        }
+    }
+    return pos;
+}
+exports.getPreviousMatchingPos = getPreviousMatchingPos;
+
+},{}],"4jU9":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function quote(s, q = '"') {
+    return q + s.replace(new RegExp(q, 'g'), '\\' + q) + q;
+}
+exports.quote = quote;
+
+},{}],"Eajz":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+/** try to parse given json string. return undefined in case there is an error. */
+function parseJSON(s, defaultValue) {
+    try {
+        return JSON.parse(s);
+    }
+    catch (error) {
+        return defaultValue;
+    }
+}
+exports.parseJSON = parseJSON;
+function clone(a) {
+    return JSON.parse(JSON.stringify(a));
+}
+exports.clone = clone;
+// export function jsonParseOr<K>(s: string, defaultValue: K): K {
+//   return parseJSON(s) || defaultValue
+// }
+
+},{}],"8PXe":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function shorter(text, much = 10) {
+    return text.trim().substring(0, Math.min(text.length, much)) + '...';
+}
+exports.shorter = shorter;
+
+},{}],"5H12":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function escapeHtmlAttribute(code) {
+    return code.replace(/\"/gmi, '&quot;');
+}
+exports.escapeHtmlAttribute = escapeHtmlAttribute;
+function unEscapeHtmlAttribute(code) {
+    return code.replace(/\&quot\;/gmi, '"');
+}
+exports.unEscapeHtmlAttribute = unEscapeHtmlAttribute;
+
+},{}],"7sk5":[function(require,module,exports) {
+"use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+const array_1 = require("../array");
+__export(require("./changeText"));
+__export(require("./getPreviousMatchingPos"));
+__export(require("./quote"));
+__export(require("./json"));
+__export(require("./shorter"));
+__export(require("./html"));
+function repeat(n, s) {
+    return array_1.array(n, s).join('');
+}
+exports.repeat = repeat;
+function indent(i = 1, tabSize = 2) {
+    return repeat(i * tabSize, ' ');
+}
+exports.indent = indent;
+function getPosition(string, subString, index) {
+    return string.split(subString, index).join(subString).length;
+}
+exports.getPosition = getPosition;
+function removeWhites(s, replaceWith = ' ') {
+    return s.replace(/\s+/gm, replaceWith).trim();
+}
+exports.removeWhites = removeWhites;
+
+},{"../array":"XwTw","./changeText":"9x/c","./getPreviousMatchingPos":"ZdIq","./quote":"4jU9","./json":"Eajz","./shorter":"8PXe","./html":"5H12"}],"SsZz":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+let _unique = 0;
+function unique(prefix = '_') {
+    return prefix + _unique++;
+}
+exports.unique = unique;
+function objectKeys(o) {
+    return Object.keys(o);
+}
+exports.objectKeys = objectKeys;
+function randomIntBetween(a, b) {
+    return Math.floor(Math.random() * b) + a;
+}
+exports.randomIntBetween = randomIntBetween;
+function checkThrow(r, msg = 'Throwing on undefined value') {
+    if (!r) {
+        throw new Error(msg);
+    }
+    return r;
+}
+exports.checkThrow = checkThrow;
+function tryTo(f) {
+    try {
+        return f();
+    }
+    catch (error) {
+    }
+}
+exports.tryTo = tryTo;
+
+},{}],"Q0O7":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function formatDate(date, format) {
+    if (typeof date === 'string') { // happens when serializing dates to json for testing
+        date = new Date(date);
+    }
+    var dd = date.getDay();
+    var mm = date.getMonth() + 1; //January is 0!
+    var yyyy = date.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    if (format === 'YYYY-MM-DD') {
+        return yyyy + '-' + mm + '-' + dd;
+    }
+    else {
+        return `${mm}/${dd}/${yyyy}`;
+    }
+}
+exports.formatDate = formatDate;
+function formatDateTime(date, format) {
+    if (typeof date === 'string') { // happens when serializing dates to json for testing
+        date = new Date(date);
+    }
+    let hh = `${date.getHours()}`.length < 2 ? `0${date.getHours()}` : `${date.getHours()}`;
+    let mm = `${date.getMinutes()}`.length < 2 ? `0${date.getMinutes()}` : `${date.getMinutes()}`;
+    return `${formatDate(date, 'YYYY-MM-DD')}T${hh}:${mm}`;
+}
+exports.formatDateTime = formatDateTime;
+
+},{}],"X9nH":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function printMs(ms, config = { minutes: false, seconds: true, ms: true }) {
+    config = Object.assign({ minutes: false, seconds: true, ms: true }, config);
+    const seconds = config.seconds && Math.floor(ms / 1000);
+    const minutes = config.minutes && seconds && Math.floor(seconds / 60);
+    const milliseconds = config.ms && Math.floor(ms % 1000 || ms);
+    return `${minutes ? `${minutes} minutes ` : ''}${seconds ? `${seconds} seconds ` : ''}${milliseconds ? `${milliseconds} milliseconds ` : ''}`;
+}
+exports.printMs = printMs;
+
+},{}],"dEbF":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function sleep(ms) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve();
+        }, ms);
+    });
+}
+exports.sleep = sleep;
+exports.wait = sleep;
+function withTime(label, fn) {
+    console.time(label);
+    const r = fn();
+    console.timeEnd(label);
+    return r;
+}
+exports.withTime = withTime;
+
+},{}],"PJyN":[function(require,module,exports) {
+"use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(require("./formatDate"));
+__export(require("./printMs"));
+__export(require("./time"));
+
+},{"./formatDate":"Q0O7","./printMs":"X9nH","./time":"dEbF"}],"dgX+":[function(require,module,exports) {
+"use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(require("./string"));
+__export(require("./array"));
+__export(require("./misc"));
+__export(require("./time"));
+
+},{"./string":"7sk5","./array":"XwTw","./misc":"SsZz","./time":"PJyN"}],"vmAk":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var misc_utils_of_mine_generic_1 = require("misc-utils-of-mine-generic");
+
+function isJSXAloneComponent(c) {
+  return c.prototype && c.prototype.render;
+}
+
+exports.isJSXAloneComponent = isJSXAloneComponent;
+
+function isNode(n) {
+  return isTextNodeLike(n) || isElementLike(n);
+}
+
+exports.isNode = isNode;
+
+function isElementLike(n) {
+  return n && n.setAttribute;
+}
+
+exports.isElementLike = isElementLike;
+
+function isTextNodeLike(n) {
+  return n && n.content && !isElementLike(n);
+}
+
+exports.isTextNodeLike = isTextNodeLike;
+
+var AbstractTextNodeLike =
+/** @class */
+function () {
+  function AbstractTextNodeLike(content) {
+    this.content = content;
+  }
+
+  return AbstractTextNodeLike;
+}();
+
+exports.AbstractTextNodeLike = AbstractTextNodeLike;
+
+var AbstractElementLike =
+/** @class */
+function () {
+  function AbstractElementLike(tag) {
+    this.tag = tag;
+    this.attrs = {};
+    this.children = [];
+  }
+
+  AbstractElementLike.prototype.setAttribute = function (name, value) {
+    this.attrs[name] = value;
+  };
+
+  AbstractElementLike.prototype.appendChild = function (c) {
+    this.children.push(c);
+
+    if (isElementLike(c)) {
+      c.parentElement = this;
+    }
+  };
+
+  AbstractElementLike.prototype.findDescendant = function (p) {
+    var found;
+    this.children.some(function (c) {
+      if (isElementLike(c)) {
+        if (p(c)) {
+          found = c;
+        } else {
+          found = c.findDescendant(p);
+        }
+      }
+
+      return !!found;
+    });
+    return found;
+  };
+
+  AbstractElementLike.prototype.findAscendant = function (p) {
+    if (this.parentElement) {
+      if (p(this.parentElement)) {
+        return this.parentElement;
+      }
+
+      return this.parentElement.findAscendant(p);
+    }
+  };
+
+  AbstractElementLike.prototype.getAscendants = function () {
+    return this.parentElement ? this.parentElement.getAscendants().concat([this.parentElement]) : [];
+  };
+
+  AbstractElementLike.prototype.getRootAscendant = function () {
+    var r = this.parentElement ? this.findAscendant(function (n) {
+      return isElementLike(n) && !n.parentElement;
+    }) : this;
+    return misc_utils_of_mine_generic_1.checkThrow(r, 'No root ascendant found in element like tree!');
+  };
+
+  AbstractElementLike.prototype.getSiblings = function () {
+    var _this = this;
+
+    if (this.parentElement) {
+      return this.parentElement.children.filter(function (c) {
+        return c !== _this;
+      });
+    }
+
+    return [];
+  };
+
+  AbstractElementLike.prototype.findSibling = function (p) {
+    return this.getSiblings().find(p);
+  };
+
+  AbstractElementLike.prototype.find = function (p) {
+    // TODO: this should start searching in the near children, sibling and parents, and only after that look on far nodes
+    return this.getRootAscendant().findDescendant(p);
+  };
+
+  return AbstractElementLike;
+}();
+
+exports.AbstractElementLike = AbstractElementLike;
+},{"misc-utils-of-mine-generic":"dgX+"}],"0Bvz":[function(require,module,exports) {
+"use strict";
+
+var __extends = this && this.__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var elementImpl_1 = require("./elementImpl");
+/**
+ * A Class able to render() JSX. Similar to React.Component but only supporting properties, without state, context, ref, did/will methods, etc.
+ */
+
+
+var ElementClass =
+/** @class */
+function () {
+  function ElementClass(props) {
+    this.props = props;
+  }
+
+  ElementClass.prototype.childrenAsArray = function () {
+    return Array.isArray(this.props.children) ? this.props.children : [this.props.children];
+  };
+
+  ElementClass.prototype.childrenElementsAsArray = function () {
+    return this.childrenAsArray().filter(function (c) {
+      return elementImpl_1.isElementLike(c);
+    });
+  };
+
+  ElementClass.prototype.firstChildElement = function () {
+    return this.childrenAsArray().find(function (e) {
+      return true;
+    });
+  };
+
+  return ElementClass;
+}();
+
+exports.ElementClass = ElementClass;
+
+var AbstractElementClass =
+/** @class */
+function (_super) {
+  __extends(AbstractElementClass, _super);
+
+  function AbstractElementClass() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  return AbstractElementClass;
+}(ElementClass);
+
+exports.AbstractElementClass = AbstractElementClass;
+},{"./elementImpl":"vmAk"}],"fbNL":[function(require,module,exports) {
+"use strict";
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var elementImpl_1 = require("./elementImpl");
+
+var throwOnUnrecognized = false;
+
+function debug(err) {
+  if (throwOnUnrecognized) {
+    throw err;
+  } else {
+    console.error(err);
+  }
+}
+
+exports.debug = debug;
+
+function createCreateElement(config) {
+  var impl = config.impl,
+      textNodeImpl = config.textNodeImpl,
+      escapeAttributes = config.escapeAttributes,
+      functionAttributes = config.functionAttributes,
+      onElementReady = config.onElementReady,
+      onElementCreate = config.onElementCreate;
+  return function createElement(tag, attrs) {
+    if (attrs === void 0) {
+      attrs = {};
+    }
+
+    var children = [];
+
+    for (var _i = 2; _i < arguments.length; _i++) {
+      children[_i - 2] = arguments[_i];
+    }
+
+    var element;
+    var elementClassInstance;
+
+    if (typeof tag === 'string') {
+      element = new impl(tag);
+    } else {
+      if (elementImpl_1.isJSXAloneComponent(tag)) {
+        elementClassInstance = new tag(__assign({}, attrs, {
+          children: children
+        }));
+        element = elementClassInstance.render();
+      } else {
+        element = tag(__assign({}, attrs, {
+          children: children
+        })); //TODO: expose function element context
+      }
+
+      attrs = {};
+    }
+
+    if (onElementCreate) {
+      onElementCreate({
+        elementLike: element,
+        elementClassInstance: elementClassInstance
+      });
+    }
+
+    var _loop_1 = function _loop_1(name_1) {
+      if (name_1 && attrs.hasOwnProperty(name_1)) {
+        var value_1 = attrs[name_1];
+
+        if (typeof value_1 === 'boolean') {
+          if (value_1 === true) {
+            element.setAttribute(name_1, name_1);
+          }
+        } else if (typeof value_1 === 'function') {
+          if (!functionAttributes || functionAttributes === 'preserve') {
+            element.setAttribute(name_1, value_1);
+          } else {
+            var code = functionAttributes === 'toString-this' ? "_this = __this__ = this; (" + value_1.toString() + ").apply(_this, arguments)" : value_1.toString();
+            var escaped = escapeAttributes ? escapeAttributes(code) : code;
+            element.setAttribute(name_1, escaped);
+          }
+        } else if (value_1 !== false && value_1 != null) {
+          if (name_1 === 'className') {
+            if (typeof value_1 === 'string') {
+              element.setAttribute('class', value_1);
+            } else if (Array.isArray(value_1) && value_1.length && typeof value_1[0] === 'string') {
+              element.setAttribute('class', value_1.join(' '));
+            } else {
+              debug("unrecognized className value " + _typeof(value_1) + " " + value_1);
+            }
+          } else {
+            element.setAttribute(name_1, value_1.toString());
+          }
+        } else if (_typeof(value_1) === 'object') {
+          if (name_1 === 'style') {
+            element.setAttribute('style', "" + Object.keys(value_1).map(function (p) {
+              return p + ": " + value_1[p];
+            }).join('; '));
+          } else if (name_1 === 'dangerouslySetInnerHTML' && value_1 && typeof value_1.__html === 'string') {
+            element.dangerouslySetInnerHTML(value_1.__html);
+          } else {
+            debug("unrecognized object attribute \"" + name_1 + "\" - the only object attribute supported is \"style\"");
+          }
+        } else {
+          debug("unrecognized attribute \"" + name_1 + "\" with type " + _typeof(value_1));
+        }
+      }
+    };
+
+    for (var name_1 in attrs) {
+      _loop_1(name_1);
+    }
+
+    if (typeof tag === 'string') {
+      // don't render children for function or classes since they are responsible of render their own children
+      children.filter(function (c) {
+        return c;
+      }).forEach(function (child) {
+        if (elementImpl_1.isNode(child)) {
+          element.appendChild(child);
+        } else if (Array.isArray(child)) {
+          child.forEach(function (c) {
+            if (typeof c === 'string') {
+              element.appendChild(new textNodeImpl(c));
+            } else if (elementImpl_1.isNode(c)) {
+              element.appendChild(c);
+            } else {
+              debug("Child is not a node or string: " + c + " , tag: " + tag);
+            }
+          });
+        } else {
+          element.appendChild(new textNodeImpl(child));
+        }
+      });
+    }
+
+    if (onElementReady) {
+      element = onElementReady(element);
+    }
+
+    return element;
+  };
+}
+
+exports.createCreateElement = createCreateElement;
+exports.AbstractJSXAlone = null;
+},{"./elementImpl":"vmAk"}],"k98/":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+}); // import { AbstractJSXAlone as  } from './createElement';
+
+var _1 = require("."); // export type Props = { children: Children }
+// TODO: like React.Fragment
+
+
+exports.Fragment = function (props) {
+  return _1.AbstractJSXAlone.createElement("span", null, props.children);
+};
+
+function Js(props) {
+  var r = props.children();
+  console.log(r);
+  return r ? _1.AbstractJSXAlone.createElement(exports.Fragment, null, r) : null;
+}
+
+exports.Js = Js;
+/** if as statement. children need to be in a function and the function accepts a parameter which value is given condition `c` but casted to NotFalsy<C> so there's no need of type guards in the body. Example:
+```
+<If c={type}>{type =>
+  <select multiple={true}>{names[type].map(c =>
+      <option value={c.id}>{c.label}</option>)}
+  </select>
+</If>
+```
+
+No error thrown on second line because parameter type is not falsy but keep the original type (excluding falsy values)
+
+Other example:
+
+```
+export class ErrorComponent extends React.Component<ErrorOptions> {
+  public render() {
+    return <div>
+      <If c={this.props.error}>{error =>
+        <React.Fragment>
+          <h2>Error</h2>
+          <If c={typeof error === 'string'}>{e =>
+            <h3>{e}</h3>}
+          </If>
+          <If c={typeof error === 'object'}>{e =>
+            <React.Fragment>
+              <h5>{error!.name}</h5>
+              <p>{error!.message}</p>
+              <If c={error.stack}>{e =>
+                <ul>
+                  {e.split('\n').map(e =>
+                    <li>{e}</li>)}
+                </ul>}
+              </If>
+            </React.Fragment>}
+          </If>
+          <If c={this.props.responseText}>{responseText =>
+            <iframe css={{ border: 0, width: '100%', height: '400px' }} srcDoc={responseText}>
+            </iframe>}
+          </If>
+        </React.Fragment>}
+      </If>
+    </div>
+  }
+}
+
+```
+*/
+
+function If(props) {
+  //TODO: issue in dom implementation, children is an array 
+  var f = Array.isArray(props.children) ? props.children[0] : props.children;
+  var c = props.c,
+      p = props.p;
+  if (isNotFalsy(c)) return f.apply(null, (p ? [p] : []).concat([c]));else {
+    return null;
+  }
+}
+
+exports.If = If;
+
+function isNotFalsy(a) {
+  return !!a;
+}
+},{".":"BB47"}],"BB47":[function(require,module,exports) {
+"use strict";
+
+function __export(m) {
+  for (var p in m) {
+    if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+  }
+}
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+__export(require("./elementImpl"));
+
+__export(require("./elementClass"));
+
+__export(require("./createElement"));
+
+var elementImpl_1 = require("./elementImpl");
+
+exports.AbstractTextNodeLike = elementImpl_1.AbstractTextNodeLike;
+exports.AbstractElementLike = elementImpl_1.AbstractElementLike;
+
+__export(require("./misc"));
+},{"./elementImpl":"vmAk","./elementClass":"0Bvz","./createElement":"fbNL","./misc":"k98/"}],"gNvY":[function(require,module,exports) {
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var jsx_alone_core_1 = require("jsx-alone-core");
+var ElementLikeImpl = /** @class */ (function (_super) {
+    __extends(ElementLikeImpl, _super);
+    function ElementLikeImpl() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    ElementLikeImpl.prototype.render = function (config) {
+        var _this = this;
+        if (config === void 0) { config = {}; }
+        var el = document.createElement(this.tag);
+        // this is the context in which  function attributes of this and descendants will be evaluated. It's set up by createCreateElementConfig see below.
+        var elementClassInstance = (this.parentElement && this.parentElement._elementClassInstance) || this._elementClassInstance;
+        Object.keys(this.attrs).forEach(function (attribute) {
+            var value = _this.attrs[attribute];
+            var a = attribute.toLowerCase();
+            var functionAttributes = ['onclick'];
+            if (typeof value === 'function' && functionAttributes.includes(a)) {
+                var fn = elementClassInstance ? value.bind(elementClassInstance) : value;
+                el.addEventListener(a.substring(2, a.length), fn);
+            }
+            else {
+                el.setAttribute(attribute, value);
+            }
+        });
+        if (this._innerHtml) {
+            el.innerHTML = this._innerHtml;
+        }
+        this.children.forEach(function (c) {
+            if (elementClassInstance) {
+                ;
+                c._elementClassInstance = elementClassInstance || c._elementClassInstance;
+            }
+            c.render(__assign({}, config, { parent: el }));
+        });
+        if (config.parent) {
+            config.parent.appendChild(el);
+        }
+        delete this._elementClassInstance;
+        return el;
+    };
+    ElementLikeImpl.prototype.dangerouslySetInnerHTML = function (s) {
+        this._innerHtml = s;
+    };
+    return ElementLikeImpl;
+}(jsx_alone_core_1.AbstractElementLike));
+exports.ElementLikeImpl = ElementLikeImpl;
+var TextNodeLikeImpl = /** @class */ (function (_super) {
+    __extends(TextNodeLikeImpl, _super);
+    function TextNodeLikeImpl() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    TextNodeLikeImpl.prototype.render = function (config) {
+        if (config === void 0) { config = {}; }
+        var text = document.createTextNode(this.content);
+        if (config.parent) {
+            config.parent.appendChild(text);
+        }
+        return text;
+    };
+    return TextNodeLikeImpl;
+}(jsx_alone_core_1.AbstractTextNodeLike));
+exports.TextNodeLikeImpl = TextNodeLikeImpl;
+var ElementClass = /** @class */ (function (_super) {
+    __extends(ElementClass, _super);
+    function ElementClass() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return ElementClass;
+}(jsx_alone_core_1.ElementClass));
+exports.ElementClass = ElementClass;
+exports.createCreateElementConfig = {
+    impl: ElementLikeImpl,
+    textNodeImpl: TextNodeLikeImpl,
+    functionAttributes: 'preserve',
+    onElementCreate: function (_a) {
+        var elementLike = _a.elementLike, elementClassInstance = _a.elementClassInstance;
+        if (elementClassInstance) {
+            elementLike._elementClassInstance = elementClassInstance;
+        }
+    }
+    // onElementReady(e: ElementLike<any>){
+    // const eventNames= ['onclick']
+    // Object.keys(e.attrs).filter(n=>eventNames.includes(n.toLowerCase())).forEach(n=>{
+    //   const code = e.attrs[n] // should be function
+    //   if(typeof code==='function'){
+    //     // delete e.attrs[n]
+    //   }
+    // })
+    // return e
+    // }
+};
+
+},{"jsx-alone-core":"BB47"}],"S0OW":[function(require,module,exports) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var jsx_alone_core_1 = require("jsx-alone-core");
+var elementImpl_1 = require("./elementImpl");
+var Module = {
+    createElement: jsx_alone_core_1.createCreateElement(elementImpl_1.createCreateElementConfig),
+    render: function (el, config) {
+        return el.render(config);
+    }
+};
+exports.JSXAlone = Module;
+
+},{"jsx-alone-core":"BB47","./elementImpl":"gNvY"}],"MNUJ":[function(require,module,exports) {
+"use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(require("./createElement"));
+var elementImpl_1 = require("./elementImpl");
+exports.ElementClass = elementImpl_1.ElementClass;
+
+},{"./createElement":"S0OW","./elementImpl":"gNvY"}],"/5mC":[function(require,module,exports) {
 "use strict";
 
 var __assign = this && this.__assign || function () {
@@ -741,81 +1686,7 @@ function makePeople(config) {
     return p;
   });
 }
-},{"../util":"/5mC","misc-utils-of-mine-random-data":"6Y+3"}],"+2od":[function(require,module,exports) {
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-// export function flatDeep<T = any>(arr1: T[][] | T[]): T[] {
-//   return (arr1 as any[]).reduce((acc, val) => (Array.isArray(val) ? acc.concat(flatDeep(val)) : acc.concat(val)), [])
-// }
-function flatDeep(arr1) {
-    return arr1.reduce((acc, val) => Array.isArray(val) ? acc.concat(flatDeep(val)) : acc.concat(val), []);
-}
-exports.flatDeep = flatDeep;
-function flat(arr) {
-    return arr.reduce((a, b) => a.concat(b));
-}
-exports.flat = flat;
-function flatReadOnly(arr) {
-    return arr && arr.length ? arr.reduce((a, b) => a.concat(b)) : [];
-}
-exports.flatReadOnly = flatReadOnly;
-
-},{}],"PTjC":[function(require,module,exports) {
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-function array(n, sample) {
-    const a = [];
-    for (let i = 0; i < n; i++) {
-        a.push(typeof sample === 'undefined' ? i : sample);
-    }
-    return a;
-}
-exports.array = array;
-function dedup(a, p) {
-    return a.reduce((x, y) => x.find(i => p(i, y)) ? x : [...x, y], []);
-}
-exports.dedup = dedup;
-function asArray(selectors) {
-    return Array.isArray(selectors) ? selectors : [selectors];
-}
-exports.asArray = asArray;
-function unionEquals(left, right, equals) {
-    return left.concat(right).reduce((acc, element) => {
-        //@ts-ignore
-        return acc.some(elt => equals(elt, element)) ? acc : acc.concat(element);
-    }, []);
-}
-exports.unionEquals = unionEquals;
-function seq(start = 0, step = 1, max = 0) {
-    const result = [];
-    for (let i = start; i < max; i += step) {
-        result.push(i);
-    }
-    return result;
-}
-exports.seq = seq;
-
-},{}],"vHoL":[function(require,module,exports) {
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-function arrayPrototypeFind(a, predicate, thisArg) {
-    for (let i = 0; i < a.length; i++) {
-        const v = a[i];
-        if (predicate.apply(thisArg, [v, i, a])) {
-            return v;
-        }
-    }
-}
-exports.arrayPrototypeFind = arrayPrototypeFind;
-function installArrayPrototypeFind(force = false) {
-    Array.prototype.find = (typeof Array.prototype.find === 'undefined' || force) ? function (predicate, thisArg) {
-        //@ts- ignore
-        return arrayPrototypeFind(this, predicate, thisArg);
-    } : Array.prototype.find;
-}
-exports.installArrayPrototypeFind = installArrayPrototypeFind;
-
-},{}],"3GSJ":[function(require,module,exports) {
+},{"../util":"/5mC","misc-utils-of-mine-random-data":"6Y+3"}],"3GSJ":[function(require,module,exports) {
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -825,94 +1696,7 @@ __export(require("./flat"));
 __export(require("./array"));
 __export(require("./prototypeFind"));
 
-},{"./flat":"+2od","./array":"PTjC","./prototypeFind":"vHoL"}],"Jo5K":[function(require,module,exports) {
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-function changeText(text, toInsert) {
-    let s = text.split('');
-    let indexIncr = 0;
-    toInsert.forEach(data => {
-        data.toAdd = data.toAdd || '';
-        data.toRemove = data.toRemove || '';
-        s.splice(data.pos + indexIncr, data.toRemove.length, ...data.toAdd.split(''));
-        indexIncr += data.toAdd.length - data.toRemove.length;
-    });
-    return s.join('');
-}
-exports.changeText = changeText;
-
-},{}],"dKNz":[function(require,module,exports) {
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-function getPreviousMatchingPos(text, pos, condition) {
-    pos = text.length <= pos ? text.length : pos;
-    if (typeof condition === 'string') {
-        const s = condition;
-        condition = (c) => c === s;
-    }
-    while (pos >= 0) {
-        const char = text[pos];
-        if (!condition(char)) {
-            pos--;
-        }
-        else {
-            break;
-        }
-    }
-    return pos;
-}
-exports.getPreviousMatchingPos = getPreviousMatchingPos;
-
-},{}],"YTm+":[function(require,module,exports) {
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-function quote(s, q = '"') {
-    return q + s.replace(new RegExp(q, 'g'), '\\' + q) + q;
-}
-exports.quote = quote;
-
-},{}],"wN23":[function(require,module,exports) {
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-/** try to parse given json string. return undefined in case there is an error. */
-function parseJSON(s, defaultValue) {
-    try {
-        return JSON.parse(s);
-    }
-    catch (error) {
-        return defaultValue;
-    }
-}
-exports.parseJSON = parseJSON;
-function clone(a) {
-    return JSON.parse(JSON.stringify(a));
-}
-exports.clone = clone;
-// export function jsonParseOr<K>(s: string, defaultValue: K): K {
-//   return parseJSON(s) || defaultValue
-// }
-
-},{}],"mBGu":[function(require,module,exports) {
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-function shorter(text, much = 10) {
-    return text.trim().substring(0, Math.min(text.length, much)) + '...';
-}
-exports.shorter = shorter;
-
-},{}],"QVJl":[function(require,module,exports) {
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-function escapeHtmlAttribute(code) {
-    return code.replace(/\"/gmi, '&quot;');
-}
-exports.escapeHtmlAttribute = escapeHtmlAttribute;
-function unEscapeHtmlAttribute(code) {
-    return code.replace(/\&quot\;/gmi, '"');
-}
-exports.unEscapeHtmlAttribute = unEscapeHtmlAttribute;
-
-},{}],"uyIU":[function(require,module,exports) {
+},{"./flat":"X94W","./array":"wbWF","./prototypeFind":"eW/z"}],"uyIU":[function(require,module,exports) {
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -942,105 +1726,7 @@ function removeWhites(s, replaceWith = ' ') {
 }
 exports.removeWhites = removeWhites;
 
-},{"../array":"3GSJ","./changeText":"Jo5K","./getPreviousMatchingPos":"dKNz","./quote":"YTm+","./json":"wN23","./shorter":"mBGu","./html":"QVJl"}],"oHCM":[function(require,module,exports) {
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-let _unique = 0;
-function unique(prefix = '_') {
-    return prefix + _unique++;
-}
-exports.unique = unique;
-function objectKeys(o) {
-    return Object.keys(o);
-}
-exports.objectKeys = objectKeys;
-function randomIntBetween(a, b) {
-    return Math.floor(Math.random() * b) + a;
-}
-exports.randomIntBetween = randomIntBetween;
-function checkThrow(r, msg = 'Throwing on undefined value') {
-    if (!r) {
-        throw new Error(msg);
-    }
-    return r;
-}
-exports.checkThrow = checkThrow;
-function tryTo(f) {
-    try {
-        return f();
-    }
-    catch (error) {
-    }
-}
-exports.tryTo = tryTo;
-
-},{}],"MN8/":[function(require,module,exports) {
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-function formatDate(date, format) {
-    if (typeof date === 'string') { // happens when serializing dates to json for testing
-        date = new Date(date);
-    }
-    var dd = date.getDay();
-    var mm = date.getMonth() + 1; //January is 0!
-    var yyyy = date.getFullYear();
-    if (dd < 10) {
-        dd = '0' + dd;
-    }
-    if (mm < 10) {
-        mm = '0' + mm;
-    }
-    if (format === 'YYYY-MM-DD') {
-        return yyyy + '-' + mm + '-' + dd;
-    }
-    else {
-        return `${mm}/${dd}/${yyyy}`;
-    }
-}
-exports.formatDate = formatDate;
-function formatDateTime(date, format) {
-    if (typeof date === 'string') { // happens when serializing dates to json for testing
-        date = new Date(date);
-    }
-    let hh = `${date.getHours()}`.length < 2 ? `0${date.getHours()}` : `${date.getHours()}`;
-    let mm = `${date.getMinutes()}`.length < 2 ? `0${date.getMinutes()}` : `${date.getMinutes()}`;
-    return `${formatDate(date, 'YYYY-MM-DD')}T${hh}:${mm}`;
-}
-exports.formatDateTime = formatDateTime;
-
-},{}],"1aZv":[function(require,module,exports) {
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-function printMs(ms, config = { minutes: false, seconds: true, ms: true }) {
-    config = Object.assign({ minutes: false, seconds: true, ms: true }, config);
-    const seconds = config.seconds && Math.floor(ms / 1000);
-    const minutes = config.minutes && seconds && Math.floor(seconds / 60);
-    const milliseconds = config.ms && Math.floor(ms % 1000 || ms);
-    return `${minutes ? `${minutes} minutes ` : ''}${seconds ? `${seconds} seconds ` : ''}${milliseconds ? `${milliseconds} milliseconds ` : ''}`;
-}
-exports.printMs = printMs;
-
-},{}],"ix8C":[function(require,module,exports) {
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-function sleep(ms) {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            resolve();
-        }, ms);
-    });
-}
-exports.sleep = sleep;
-exports.wait = sleep;
-function withTime(label, fn) {
-    console.time(label);
-    const r = fn();
-    console.timeEnd(label);
-    return r;
-}
-exports.withTime = withTime;
-
-},{}],"t3aM":[function(require,module,exports) {
+},{"../array":"3GSJ","./changeText":"9x/c","./getPreviousMatchingPos":"ZdIq","./quote":"4jU9","./json":"Eajz","./shorter":"8PXe","./html":"5H12"}],"t3aM":[function(require,module,exports) {
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -1050,7 +1736,7 @@ __export(require("./formatDate"));
 __export(require("./printMs"));
 __export(require("./time"));
 
-},{"./formatDate":"MN8/","./printMs":"1aZv","./time":"ix8C"}],"+QMZ":[function(require,module,exports) {
+},{"./formatDate":"Q0O7","./printMs":"X9nH","./time":"dEbF"}],"+QMZ":[function(require,module,exports) {
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -1061,7 +1747,7 @@ __export(require("./array"));
 __export(require("./misc"));
 __export(require("./time"));
 
-},{"./string":"uyIU","./array":"3GSJ","./misc":"oHCM","./time":"t3aM"}],"3p56":[function(require,module,exports) {
+},{"./string":"uyIU","./array":"3GSJ","./misc":"SsZz","./time":"t3aM"}],"3p56":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1554,7 +2240,7 @@ __export(require("./flat"));
 __export(require("./array"));
 __export(require("./prototypeFind"));
 
-},{"./flat":"+2od","./array":"PTjC","./prototypeFind":"vHoL"}],"DXfs":[function(require,module,exports) {
+},{"./flat":"X94W","./array":"wbWF","./prototypeFind":"eW/z"}],"DXfs":[function(require,module,exports) {
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -1584,7 +2270,7 @@ function removeWhites(s, replaceWith = ' ') {
 }
 exports.removeWhites = removeWhites;
 
-},{"../array":"WEkw","./changeText":"Jo5K","./getPreviousMatchingPos":"dKNz","./quote":"YTm+","./json":"wN23","./shorter":"mBGu","./html":"QVJl"}],"SYKP":[function(require,module,exports) {
+},{"../array":"WEkw","./changeText":"9x/c","./getPreviousMatchingPos":"ZdIq","./quote":"4jU9","./json":"Eajz","./shorter":"8PXe","./html":"5H12"}],"SYKP":[function(require,module,exports) {
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -1594,7 +2280,7 @@ __export(require("./formatDate"));
 __export(require("./printMs"));
 __export(require("./time"));
 
-},{"./formatDate":"MN8/","./printMs":"1aZv","./time":"ix8C"}],"8M/7":[function(require,module,exports) {
+},{"./formatDate":"Q0O7","./printMs":"X9nH","./time":"dEbF"}],"8M/7":[function(require,module,exports) {
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -1605,7 +2291,7 @@ __export(require("./array"));
 __export(require("./misc"));
 __export(require("./time"));
 
-},{"./string":"DXfs","./array":"WEkw","./misc":"oHCM","./time":"SYKP"}],"k0NB":[function(require,module,exports) {
+},{"./string":"DXfs","./array":"WEkw","./misc":"SsZz","./time":"SYKP"}],"k0NB":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2464,196 +3150,7 @@ var renderApp_1 = require("./lotsOfPeople/renderApp");
 exports.lotsOfPeople = renderApp_1.renderApp;
 
 __export(require("./util"));
-},{"./lotsOfPeople/renderApp":"z8rF","./util":"/5mC"}],"XwTw":[function(require,module,exports) {
-"use strict";
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-Object.defineProperty(exports, "__esModule", { value: true });
-__export(require("./flat"));
-__export(require("./array"));
-__export(require("./prototypeFind"));
-
-},{"./flat":"+2od","./array":"PTjC","./prototypeFind":"vHoL"}],"7sk5":[function(require,module,exports) {
-"use strict";
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-Object.defineProperty(exports, "__esModule", { value: true });
-const array_1 = require("../array");
-__export(require("./changeText"));
-__export(require("./getPreviousMatchingPos"));
-__export(require("./quote"));
-__export(require("./json"));
-__export(require("./shorter"));
-__export(require("./html"));
-function repeat(n, s) {
-    return array_1.array(n, s).join('');
-}
-exports.repeat = repeat;
-function indent(i = 1, tabSize = 2) {
-    return repeat(i * tabSize, ' ');
-}
-exports.indent = indent;
-function getPosition(string, subString, index) {
-    return string.split(subString, index).join(subString).length;
-}
-exports.getPosition = getPosition;
-function removeWhites(s, replaceWith = ' ') {
-    return s.replace(/\s+/gm, replaceWith).trim();
-}
-exports.removeWhites = removeWhites;
-
-},{"../array":"XwTw","./changeText":"Jo5K","./getPreviousMatchingPos":"dKNz","./quote":"YTm+","./json":"wN23","./shorter":"mBGu","./html":"QVJl"}],"PJyN":[function(require,module,exports) {
-"use strict";
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-Object.defineProperty(exports, "__esModule", { value: true });
-__export(require("./formatDate"));
-__export(require("./printMs"));
-__export(require("./time"));
-
-},{"./formatDate":"MN8/","./printMs":"1aZv","./time":"ix8C"}],"dgX+":[function(require,module,exports) {
-"use strict";
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-Object.defineProperty(exports, "__esModule", { value: true });
-__export(require("./string"));
-__export(require("./array"));
-__export(require("./misc"));
-__export(require("./time"));
-
-},{"./string":"7sk5","./array":"XwTw","./misc":"oHCM","./time":"PJyN"}],"vmAk":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var misc_utils_of_mine_generic_1 = require("misc-utils-of-mine-generic");
-
-function isJSXAloneComponent(c) {
-  return c.prototype && c.prototype.render;
-}
-
-exports.isJSXAloneComponent = isJSXAloneComponent;
-
-function isNode(n) {
-  return isTextNodeLike(n) || isElementLike(n);
-}
-
-exports.isNode = isNode;
-
-function isElementLike(n) {
-  return n && n.setAttribute;
-}
-
-exports.isElementLike = isElementLike;
-
-function isTextNodeLike(n) {
-  return n && n.content && !isElementLike(n);
-}
-
-exports.isTextNodeLike = isTextNodeLike;
-
-var AbstractTextNodeLike =
-/** @class */
-function () {
-  function AbstractTextNodeLike(content) {
-    this.content = content;
-  }
-
-  return AbstractTextNodeLike;
-}();
-
-exports.AbstractTextNodeLike = AbstractTextNodeLike;
-
-var AbstractElementLike =
-/** @class */
-function () {
-  function AbstractElementLike(tag) {
-    this.tag = tag;
-    this.attrs = {};
-    this.children = [];
-  }
-
-  AbstractElementLike.prototype.setAttribute = function (name, value) {
-    this.attrs[name] = value;
-  };
-
-  AbstractElementLike.prototype.appendChild = function (c) {
-    this.children.push(c);
-
-    if (isElementLike(c)) {
-      c.parentElement = this;
-    }
-  };
-
-  AbstractElementLike.prototype.findDescendant = function (p) {
-    var found;
-    this.children.some(function (c) {
-      if (isElementLike(c)) {
-        if (p(c)) {
-          found = c;
-        } else {
-          found = c.findDescendant(p);
-        }
-      }
-
-      return !!found;
-    });
-    return found;
-  };
-
-  AbstractElementLike.prototype.findAscendant = function (p) {
-    if (this.parentElement) {
-      if (p(this.parentElement)) {
-        return this.parentElement;
-      }
-
-      return this.parentElement.findAscendant(p);
-    }
-  };
-
-  AbstractElementLike.prototype.getAscendants = function () {
-    return this.parentElement ? this.parentElement.getAscendants().concat([this.parentElement]) : [];
-  };
-
-  AbstractElementLike.prototype.getRootAscendant = function () {
-    var r = this.parentElement ? this.findAscendant(function (n) {
-      return isElementLike(n) && !n.parentElement;
-    }) : this;
-    return misc_utils_of_mine_generic_1.checkThrow(r, 'No root ascendant found in element like tree!');
-  };
-
-  AbstractElementLike.prototype.getSiblings = function () {
-    var _this = this;
-
-    if (this.parentElement) {
-      return this.parentElement.children.filter(function (c) {
-        return c !== _this;
-      });
-    }
-
-    return [];
-  };
-
-  AbstractElementLike.prototype.findSibling = function (p) {
-    return this.getSiblings().find(p);
-  };
-
-  AbstractElementLike.prototype.find = function (p) {
-    // TODO: this should start searching in the near children, sibling and parents, and only after that look on far nodes
-    return this.getRootAscendant().findDescendant(p);
-  };
-
-  return AbstractElementLike;
-}();
-
-exports.AbstractElementLike = AbstractElementLike;
-},{"misc-utils-of-mine-generic":"dgX+"}],"0Bvz":[function(require,module,exports) {
+},{"./lotsOfPeople/renderApp":"z8rF","./util":"/5mC"}],"wdqJ":[function(require,module,exports) {
 "use strict";
 
 var __extends = this && this.__extends || function () {
@@ -2685,507 +3182,10 @@ var __extends = this && this.__extends || function () {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var elementImpl_1 = require("./elementImpl");
-/**
- * A Class able to render() JSX. Similar to React.Component but only supporting properties, without state, context, ref, did/will methods, etc.
- */
-
-
-var ElementClass =
-/** @class */
-function () {
-  function ElementClass(props) {
-    this.props = props;
-  }
-
-  ElementClass.prototype.childrenAsArray = function () {
-    return Array.isArray(this.props.children) ? this.props.children : [this.props.children];
-  };
-
-  ElementClass.prototype.childrenElementsAsArray = function () {
-    return this.childrenAsArray().filter(function (c) {
-      return elementImpl_1.isElementLike(c);
-    });
-  };
-
-  ElementClass.prototype.firstChildElement = function () {
-    return this.childrenAsArray().find(function (e) {
-      return true;
-    });
-  };
-
-  return ElementClass;
-}();
-
-exports.ElementClass = ElementClass;
-
-var AbstractElementClass =
-/** @class */
-function (_super) {
-  __extends(AbstractElementClass, _super);
-
-  function AbstractElementClass() {
-    return _super !== null && _super.apply(this, arguments) || this;
-  }
-
-  return AbstractElementClass;
-}(ElementClass);
-
-exports.AbstractElementClass = AbstractElementClass;
-},{"./elementImpl":"vmAk"}],"fbNL":[function(require,module,exports) {
-"use strict";
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-var __assign = this && this.__assign || function () {
-  __assign = Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-
-      for (var p in s) {
-        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-      }
-    }
-
-    return t;
-  };
-
-  return __assign.apply(this, arguments);
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var elementImpl_1 = require("./elementImpl");
-
-var throwOnUnrecognized = false;
-
-function debug(err) {
-  if (throwOnUnrecognized) {
-    throw err;
-  } else {
-    console.error(err);
-  }
-}
-
-exports.debug = debug;
-
-function createCreateElement(config) {
-  var impl = config.impl,
-      textNodeImpl = config.textNodeImpl,
-      escapeAttributes = config.escapeAttributes,
-      functionAttributes = config.functionAttributes,
-      onElementReady = config.onElementReady,
-      onElementCreate = config.onElementCreate;
-  return function createElement(tag, attrs) {
-    if (attrs === void 0) {
-      attrs = {};
-    }
-
-    var children = [];
-
-    for (var _i = 2; _i < arguments.length; _i++) {
-      children[_i - 2] = arguments[_i];
-    }
-
-    var element;
-    var elementClassInstance;
-
-    if (typeof tag === 'string') {
-      element = new impl(tag);
-    } else {
-      if (elementImpl_1.isJSXAloneComponent(tag)) {
-        elementClassInstance = new tag(__assign({}, attrs, {
-          children: children
-        }));
-        element = elementClassInstance.render();
-      } else {
-        element = tag(__assign({}, attrs, {
-          children: children
-        })); //TODO: expose function element context
-      }
-
-      attrs = {};
-    }
-
-    if (onElementCreate) {
-      onElementCreate({
-        elementLike: element,
-        elementClassInstance: elementClassInstance
-      });
-    }
-
-    var _loop_1 = function _loop_1(name_1) {
-      if (name_1 && attrs.hasOwnProperty(name_1)) {
-        var value_1 = attrs[name_1];
-
-        if (typeof value_1 === 'boolean') {
-          if (value_1 === true) {
-            element.setAttribute(name_1, name_1);
-          }
-        } else if (typeof value_1 === 'function') {
-          if (!functionAttributes || functionAttributes === 'preserve') {
-            element.setAttribute(name_1, value_1);
-          } else {
-            var code = functionAttributes === 'toString-this' ? "_this = __this__ = this; (" + value_1.toString() + ").apply(_this, arguments)" : value_1.toString();
-            var escaped = escapeAttributes ? escapeAttributes(code) : code;
-            element.setAttribute(name_1, escaped);
-          }
-        } else if (value_1 !== false && value_1 != null) {
-          if (name_1 === 'className') {
-            if (typeof value_1 === 'string') {
-              element.setAttribute('class', value_1);
-            } else if (Array.isArray(value_1) && value_1.length && typeof value_1[0] === 'string') {
-              element.setAttribute('class', value_1.join(' '));
-            } else {
-              debug("unrecognized className value " + _typeof(value_1) + " " + value_1);
-            }
-          } else {
-            element.setAttribute(name_1, value_1.toString());
-          }
-        } else if (_typeof(value_1) === 'object') {
-          if (name_1 === 'style') {
-            element.setAttribute('style', "" + Object.keys(value_1).map(function (p) {
-              return p + ": " + value_1[p];
-            }).join('; '));
-          } else if (name_1 === 'dangerouslySetInnerHTML' && value_1 && typeof value_1.__html === 'string') {
-            element.dangerouslySetInnerHTML(value_1.__html);
-          } else {
-            debug("unrecognized object attribute \"" + name_1 + "\" - the only object attribute supported is \"style\"");
-          }
-        } else {
-          debug("unrecognized attribute \"" + name_1 + "\" with type " + _typeof(value_1));
-        }
-      }
-    };
-
-    for (var name_1 in attrs) {
-      _loop_1(name_1);
-    }
-
-    if (typeof tag === 'string') {
-      // don't render children for function or classes since they are responsible of render their own children
-      children.filter(function (c) {
-        return c;
-      }).forEach(function (child) {
-        if (elementImpl_1.isNode(child)) {
-          element.appendChild(child);
-        } else if (Array.isArray(child)) {
-          child.forEach(function (c) {
-            if (typeof c === 'string') {
-              element.appendChild(new textNodeImpl(c));
-            } else if (elementImpl_1.isNode(c)) {
-              element.appendChild(c);
-            } else {
-              debug("Child is not a node or string: " + c + " , tag: " + tag);
-            }
-          });
-        } else {
-          element.appendChild(new textNodeImpl(child));
-        }
-      });
-    }
-
-    if (onElementReady) {
-      element = onElementReady(element);
-    }
-
-    return element;
-  };
-}
-
-exports.createCreateElement = createCreateElement;
-exports.AbstractJSXAlone = null;
-},{"./elementImpl":"vmAk"}],"k98/":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-}); // import { AbstractJSXAlone as  } from './createElement';
-
-var _1 = require("."); // export type Props = { children: Children }
-// TODO: like React.Fragment
-
-
-exports.Fragment = function (props) {
-  return _1.AbstractJSXAlone.createElement("span", null, props.children);
-};
-
-function Js(props) {
-  var r = props.children();
-  console.log(r);
-  return r ? _1.AbstractJSXAlone.createElement(exports.Fragment, null, r) : null;
-}
-
-exports.Js = Js;
-/** if as statement. children need to be in a function and the function accepts a parameter which value is given condition `c` but casted to NotFalsy<C> so there's no need of type guards in the body. Example:
-```
-<If c={type}>{type =>
-  <select multiple={true}>{names[type].map(c =>
-      <option value={c.id}>{c.label}</option>)}
-  </select>
-</If>
-```
-
-No error thrown on second line because parameter type is not falsy but keep the original type (excluding falsy values)
-
-Other example:
-
-```
-export class ErrorComponent extends React.Component<ErrorOptions> {
-  public render() {
-    return <div>
-      <If c={this.props.error}>{error =>
-        <React.Fragment>
-          <h2>Error</h2>
-          <If c={typeof error === 'string'}>{e =>
-            <h3>{e}</h3>}
-          </If>
-          <If c={typeof error === 'object'}>{e =>
-            <React.Fragment>
-              <h5>{error!.name}</h5>
-              <p>{error!.message}</p>
-              <If c={error.stack}>{e =>
-                <ul>
-                  {e.split('\n').map(e =>
-                    <li>{e}</li>)}
-                </ul>}
-              </If>
-            </React.Fragment>}
-          </If>
-          <If c={this.props.responseText}>{responseText =>
-            <iframe css={{ border: 0, width: '100%', height: '400px' }} srcDoc={responseText}>
-            </iframe>}
-          </If>
-        </React.Fragment>}
-      </If>
-    </div>
-  }
-}
-
-```
-*/
-
-function If(props) {
-  //TODO: issue in dom implementation, children is an array 
-  var f = Array.isArray(props.children) ? props.children[0] : props.children;
-  var c = props.c,
-      p = props.p;
-  if (isNotFalsy(c)) return f.apply(null, (p ? [p] : []).concat([c]));else {
-    return null;
-  }
-}
-
-exports.If = If;
-
-function isNotFalsy(a) {
-  return !!a;
-}
-},{".":"BB47"}],"BB47":[function(require,module,exports) {
-"use strict";
-
-function __export(m) {
-  for (var p in m) {
-    if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-  }
-}
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-__export(require("./elementImpl"));
-
-__export(require("./elementClass"));
-
-__export(require("./createElement"));
-
-var elementImpl_1 = require("./elementImpl");
-
-exports.AbstractTextNodeLike = elementImpl_1.AbstractTextNodeLike;
-exports.AbstractElementLike = elementImpl_1.AbstractElementLike;
-
-__export(require("./misc"));
-},{"./elementImpl":"vmAk","./elementClass":"0Bvz","./createElement":"fbNL","./misc":"k98/"}],"gNvY":[function(require,module,exports) {
-"use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var jsx_alone_core_1 = require("jsx-alone-core");
-var ElementLikeImpl = /** @class */ (function (_super) {
-    __extends(ElementLikeImpl, _super);
-    function ElementLikeImpl() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    ElementLikeImpl.prototype.render = function (config) {
-        var _this = this;
-        if (config === void 0) { config = {}; }
-        var el = document.createElement(this.tag);
-        // this is the context in which  function attributes of this and descendants will be evaluated. It's set up by createCreateElementConfig see below.
-        var elementClassInstance = (this.parentElement && this.parentElement._elementClassInstance) || this._elementClassInstance;
-        Object.keys(this.attrs).forEach(function (attribute) {
-            var value = _this.attrs[attribute];
-            var a = attribute.toLowerCase();
-            var functionAttributes = ['onclick'];
-            if (typeof value === 'function' && functionAttributes.includes(a)) {
-                var fn = elementClassInstance ? value.bind(elementClassInstance) : value;
-                el.addEventListener(a.substring(2, a.length), fn);
-            }
-            else {
-                el.setAttribute(attribute, value);
-            }
-        });
-        if (this._innerHtml) {
-            el.innerHTML = this._innerHtml;
-        }
-        this.children.forEach(function (c) {
-            if (elementClassInstance) {
-                ;
-                c._elementClassInstance = elementClassInstance || c._elementClassInstance;
-            }
-            c.render(__assign({}, config, { parent: el }));
-        });
-        if (config.parent) {
-            config.parent.appendChild(el);
-        }
-        delete this._elementClassInstance;
-        return el;
-    };
-    ElementLikeImpl.prototype.dangerouslySetInnerHTML = function (s) {
-        this._innerHtml = s;
-    };
-    return ElementLikeImpl;
-}(jsx_alone_core_1.AbstractElementLike));
-exports.ElementLikeImpl = ElementLikeImpl;
-var TextNodeLikeImpl = /** @class */ (function (_super) {
-    __extends(TextNodeLikeImpl, _super);
-    function TextNodeLikeImpl() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    TextNodeLikeImpl.prototype.render = function (config) {
-        if (config === void 0) { config = {}; }
-        var text = document.createTextNode(this.content);
-        if (config.parent) {
-            config.parent.appendChild(text);
-        }
-        return text;
-    };
-    return TextNodeLikeImpl;
-}(jsx_alone_core_1.AbstractTextNodeLike));
-exports.TextNodeLikeImpl = TextNodeLikeImpl;
-var ElementClass = /** @class */ (function (_super) {
-    __extends(ElementClass, _super);
-    function ElementClass() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return ElementClass;
-}(jsx_alone_core_1.ElementClass));
-exports.ElementClass = ElementClass;
-exports.createCreateElementConfig = {
-    impl: ElementLikeImpl,
-    textNodeImpl: TextNodeLikeImpl,
-    functionAttributes: 'preserve',
-    onElementCreate: function (_a) {
-        var elementLike = _a.elementLike, elementClassInstance = _a.elementClassInstance;
-        if (elementClassInstance) {
-            elementLike._elementClassInstance = elementClassInstance;
-        }
-    }
-    // onElementReady(e: ElementLike<any>){
-    // const eventNames= ['onclick']
-    // Object.keys(e.attrs).filter(n=>eventNames.includes(n.toLowerCase())).forEach(n=>{
-    //   const code = e.attrs[n] // should be function
-    //   if(typeof code==='function'){
-    //     // delete e.attrs[n]
-    //   }
-    // })
-    // return e
-    // }
-};
-
-},{"jsx-alone-core":"BB47"}],"S0OW":[function(require,module,exports) {
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var jsx_alone_core_1 = require("jsx-alone-core");
-var elementImpl_1 = require("./elementImpl");
-var Module = {
-    createElement: jsx_alone_core_1.createCreateElement(elementImpl_1.createCreateElementConfig),
-    render: function (el, config) {
-        return el.render(config);
-    }
-};
-exports.JSXAlone = Module;
-
-},{"jsx-alone-core":"BB47","./elementImpl":"gNvY"}],"MNUJ":[function(require,module,exports) {
-"use strict";
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-Object.defineProperty(exports, "__esModule", { value: true });
-__export(require("./createElement"));
-var elementImpl_1 = require("./elementImpl");
-exports.ElementClass = elementImpl_1.ElementClass;
-
-},{"./createElement":"S0OW","./elementImpl":"gNvY"}],"wdqJ":[function(require,module,exports) {
-"use strict";
-
-var __extends = this && this.__extends || function () {
-  var _extendStatics = function extendStatics(d, b) {
-    _extendStatics = Object.setPrototypeOf || {
-      __proto__: []
-    } instanceof Array && function (d, b) {
-      d.__proto__ = b;
-    } || function (d, b) {
-      for (var p in b) {
-        if (b.hasOwnProperty(p)) d[p] = b[p];
-      }
-    };
-
-    return _extendStatics(d, b);
-  };
-
-  return function (d, b) {
-    _extendStatics(d, b);
-
-    function __() {
-      this.constructor = d;
-    }
-
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-}();
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var jsx_alone_sample_project_code_1 = require("jsx-alone-sample-project-code");
 
 var jsx_alone_dom_1 = require("jsx-alone-dom");
+
+var jsx_alone_sample_project_code_1 = require("jsx-alone-sample-project-code");
 
 var Button =
 /** @class */
@@ -3237,30 +3237,34 @@ function (_super) {
   App.prototype.render = function () {
     var _this = this;
 
-    return jsx_alone_dom_1.JSXAlone.createElement(Container, null, jsx_alone_dom_1.JSXAlone.createElement("p", null, " just some tests for function attributes context", jsx_alone_dom_1.JSXAlone.createElement("button", {
+    var foo = 'hello';
+    return jsx_alone_dom_1.JSXAlone.createElement("div", null, jsx_alone_dom_1.JSXAlone.createElement(Container, null, jsx_alone_dom_1.JSXAlone.createElement("p", null, "just some tests for function attributes context", jsx_alone_dom_1.JSXAlone.createElement("button", {
       onClick: function onClick(e) {
-        console.log(_this.props.name, _this.foo());
+        console.log(_this.props.name, _this.foo(), foo);
       }
-    }, "Render!"), jsx_alone_dom_1.JSXAlone.createElement(Container, null, " ", jsx_alone_dom_1.JSXAlone.createElement("button", {
+    }, "Render!"), jsx_alone_dom_1.JSXAlone.createElement(Container, null, jsx_alone_dom_1.JSXAlone.createElement("button", {
       onClick: function onClick(e) {
-        console.log(_this.props.name, _this.foo());
+        console.log(_this.props.name, _this.foo(), foo);
       }
     }, "sss!")), jsx_alone_dom_1.JSXAlone.createElement(Button, {
       onClick: function onClick(e) {
-        console.log(_this.props.name, _this.foo());
+        console.log(_this.props.name, _this.foo(), foo);
       }
-    }, "second")));
+    }, "second"))));
   };
 
   return App;
-}(jsx_alone_dom_1.ElementClass); // render the App and append the generated element to body
+}(jsx_alone_dom_1.ElementClass);
 
+var bar = 'bar'; // render the App and append the generated element to body
 
-var app = jsx_alone_dom_1.JSXAlone.createElement(App, {
-  name: "John Doe",
-  tasks: ['Wash dishes', 'Go outside', 'Play soccer']
-});
+var app = jsx_alone_dom_1.JSXAlone.createElement("div", null, " ", jsx_alone_dom_1.JSXAlone.createElement("button", {
+  onClick: function onClick(e) {
+    console.log(jsx_alone_sample_project_code_1.printMs(Date.now()), bar);
+    debugger;
+  }
+}, "no root element class2"));
 var el = jsx_alone_dom_1.JSXAlone.render(app);
 document.body.appendChild(el);
-},{"jsx-alone-sample-project-code":"wC2p","jsx-alone-dom":"MNUJ"}]},{},["wdqJ"], null)
+},{"jsx-alone-dom":"MNUJ","jsx-alone-sample-project-code":"wC2p"}]},{},["wdqJ"], null)
 //# sourceMappingURL=main.186cb047.map

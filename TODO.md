@@ -1,5 +1,6 @@
 # TODO
 
+ * test function attributes in DOM with jsdom
  * ISSUE: test that `this` works on function attributes and review if we want that option.
  * ISSUE - <If> in dom impl : props.children is array
  * ISSUE string indentation no new lines
