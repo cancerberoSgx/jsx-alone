@@ -10,9 +10,8 @@ const samples = [
 
 samples.forEach(sample=>{
   try {
-    
-    const s = sample.fn()
-    writeFileSync(`../docs/jsx-alone-string-sample-project/${sample.name}.html`, wrapInHtml(s))
+    writeFileSync(`../docs/jsx-alone-string-sample-project/${sample.name}.html`, wrapInHtml(sample.fn(false)))
+    writeFileSync(`../docs/jsx-alone-string-sample-project/${sample.name}-indented.html`, wrapInHtml(sample.fn(true)))
   } catch (error) {
     console.error(error, error.stack);
     

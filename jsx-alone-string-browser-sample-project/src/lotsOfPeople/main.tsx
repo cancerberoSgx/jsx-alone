@@ -17,7 +17,7 @@ const renderer: Renderer = (app: JSX.Element, config: LotsOfPeopleRendererConfig
   // measures render
   const JSXAloneRenderT0 = Date.now()
   console.time('JSXAlone.render()')
-  const s = JSXAlone.render(app)
+  const s = JSXAlone.render(app, {indent: false, indentTabSize:0, indentLevel: 0})
   console.timeEnd('JSXAlone.render()')
   const JSXAloneRenderT = Date.now() - JSXAloneRenderT0
 

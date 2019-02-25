@@ -18,5 +18,5 @@ const Module = {
 
 }
 
-export const JSXAlone: JSXAloneType<string> = Module
+export const JSXAlone: JSXAloneType<string>&{render(el: JSX.Element, config?: ElementLikeImplRenderConfig):string} = Module
 

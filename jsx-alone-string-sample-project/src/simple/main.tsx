@@ -1,6 +1,6 @@
 import { JSXAlone, ElementClass } from 'jsx-alone-string'
 
-export function renderSimple() {
+export function renderSimple(indent=false) {
   // example function element
   const TaskPageLink = (props: { children: string; task: string }) => <a href={`pages/tasks/${props.task}_small.html`}>{props.children}</a>
   // example class element that renders given information and uses previous TaskPageLink element
@@ -28,7 +28,7 @@ export function renderSimple() {
   // render the App and append the generated element to body
   const el = <App name="John Doe" tasks={['Wash dishes', 'Go outside', 'Play soccer']} />
   console.time('render')
-  const s = JSXAlone.render(el)
+  const s = JSXAlone.render(el,indent?{indent: true, indentTabSize:2}:{indent: false, indentTabSize: 0})
   console.timeEnd('render')
 
 
