@@ -22,7 +22,7 @@ class App extends ElementClass<{
     return printMs(Date.now())
   }
   render() {
-    const foo='hello'
+    const foo = 'hello'
     return (
       <div>
         <Container>
@@ -30,44 +30,60 @@ class App extends ElementClass<{
             just some tests for function attributes context
             <button
               onClick={e => {
-                console.log(this.props.name, this.foo(), foo)
+                console.log(this, this.props.name, this.foo(), foo)
+                // debugger
               }}>
               Render!
             </button>
             <Container>
               <button
                 onClick={e => {
-                  console.log(this.props.name, this.foo(), foo)
+                  console.log(this, this.props.name, this.foo(), foo)
+                  // debugger
                 }}>
                 sss!
               </button>
             </Container>
             <Button
               onClick={e => {
-                console.log(this.props.name, this.foo(), foo)
+                console.log(this, this.props.name, this.foo(), foo)
+                // debugger
               }}>
               second
             </Button>
           </p>
         </Container>
-
-       
       </div>
     )
   }
 }
 
-const bar='bar'
+const bar = 'bar'
 // render the App and append the generated element to body
-const app = <div> <button
-onClick={e => {
-  console.log(printMs(Date.now()), bar);
-  debugger
-}}>
-no root element class2
-</button>
-  {/* <App name="John Doe" tasks={['Wash dishes', 'Go outside', 'Play soccer']} /> */}
- 
-</div>
+const app = (
+  <div>
+    <button
+      onClick={e => {
+        //@ts-ignore
+        console.log(this, printMs(Date.now()), bar)
+        // debugger
+      }}>
+      no root element class2
+    </button>
+
+    <Container>
+      <button
+        onClick={e => {
+          //@ts-ignore
+          console.log(this, printMs(Date.now()), bar)
+          // debugger
+        }}>
+        should not override this with Container
+      </button>
+    </Container>
+
+    <App name="John Doe" tasks={['Wash dishes', 'Go outside', 'Play soccer']} />
+  </div>
+)
 const el = JSXAlone.render(app)
 document.body.appendChild(el)

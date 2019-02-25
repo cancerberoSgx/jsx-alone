@@ -3,7 +3,6 @@ import {
   AbstractTextNodeLike,
   ElementClass as AbstractElementClass,
   CreateCreateElementConfig,
-  ElementLike,
   JSXAloneComponent
 } from 'jsx-alone-core'
 import { ElementLikeImplRenderConfig } from './config'
@@ -20,7 +19,7 @@ export class ElementLikeImpl extends AbstractElementLike<HTMLElement | Text> {
     Object.keys(this.attrs).forEach(attribute => {
       const value = this.attrs[attribute]
       const a = attribute.toLowerCase()
-      const functionAttributes = ['onclick']
+      const functionAttributes = ['onclick', 'onchange']
       if (typeof value === 'function' && functionAttributes.includes(a)) {
         let fn = elementClassInstance ? value.bind(elementClassInstance) : value
         el.addEventListener(a.substring(2, a.length), fn) 
@@ -71,14 +70,4 @@ export const createCreateElementConfig: CreateCreateElementConfig = {
       elementLike._elementClassInstance = elementClassInstance
     }
   }
-  // onElementReady(e: ElementLike<any>){
-  // const eventNames= ['onclick']
-  // Object.keys(e.attrs).filter(n=>eventNames.includes(n.toLowerCase())).forEach(n=>{
-  //   const code = e.attrs[n] // should be function
-  //   if(typeof code==='function'){
-  //     // delete e.attrs[n]
-  //   }
-  // })
-  // return e
-  // }
 }
