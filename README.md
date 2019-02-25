@@ -134,7 +134,8 @@ the library includes HTML typings that were adapted from react. So they declare 
 
 # TODO
 
- * issue: currently simple is combining test utilities so bundle size is big 16 kb and should be no more than 5 kb!
+ * ISSUE click handler broken
+ * issue: currently simple example  is combining test utilities so bundle size is big 16 kb and should be no more than 5 kb!
  * performance comparison against other template implementations like js string, handlebars, react, inferno (those that support isomorphic)
  * run dom sample project in jsdom for automatic report
  * React.Fragment

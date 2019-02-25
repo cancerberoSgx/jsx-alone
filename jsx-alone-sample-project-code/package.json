@@ -8,7 +8,7 @@
   "source": true,
   "scripts": {
     "build": "npx tsc",
-    "build-pages": "sh build.sh",
+    "docs": "sh build.sh",
     "test": "npm run build"
   },
   "dependencies": {

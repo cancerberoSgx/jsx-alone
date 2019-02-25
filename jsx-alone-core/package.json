@@ -7,7 +7,7 @@
   "typings": "dist/src/index.d.ts",
   "source": true,
   "scripts": {
-    "build": "npx tsc && npx shx rm -rf dist/**/__tests__",
+    "build": "npx tsc",
     "build-watch": "npx tsc -w",
     "test": "npx jest --testPathIgnorePatterns /dist/",
     "test-js": "npx tsc && npx jest --testMatch \"**/dist/**/__tests__/**/*.js\"",
@@ -16,7 +16,8 @@
     "test-watch": "npm test -- --watch",
     "clean": "rm -rf build/ dist/ && npm run test-clean",
     "all": "npm run clean && npm run build",
-    "prepare": "npm run build && npx shx rm -rf dist/**/__tests__"
+    "prepare": "npm run build && npx shx rm -rf dist/**/__tests__",
+    "docs": "exit 0"
   },
   "dependencies": {},
   "devDependencies": {

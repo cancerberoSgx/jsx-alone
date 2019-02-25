@@ -1,5 +1,5 @@
 {
-  "name": "jsx-alone-dom-sample-project",
+  "name": "jsx-alone-string-sample-project",
   "version": "0.0.2",
   "description": "",
   "private": true,
@@ -10,12 +10,13 @@
     "test": "npm run build"
   },
   "dependencies": {
-    "jsx-alone-dom": "file:../jsx-alone-dom",
     "jsx-alone-sample-project-code": "file:../jsx-alone-sample-project-code",
+    "jsx-alone-string": "file:../jsx-alone-string",
+    "misc-utils-of-mine-dom": "file:../../misc-utils-of-mine/misc-utils-of-mine-dom",
     "misc-utils-of-mine-random-data": "0.0.4"
   },
   "devDependencies": {
-    "parcel": "^1.11.0",
+    "@types/node": "^10.12.27",
     "typescript": "^3.2.2"
   },
   "repository": {
