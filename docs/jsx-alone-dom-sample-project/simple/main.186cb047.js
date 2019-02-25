@@ -671,7 +671,10 @@ function debug(err) {
 
 exports.debug = debug;
 
-function createCreateElement(impl, textNodeImpl) {
+function createCreateElement(_a) {
+  var impl = _a.impl,
+      textNodeImpl = _a.textNodeImpl,
+      escapeAttributes = _a.escapeAttributes;
   return function createElement(tag, attrs) {
     if (attrs === void 0) {
       attrs = {};
@@ -710,8 +713,10 @@ function createCreateElement(impl, textNodeImpl) {
             element.setAttribute(name_1, name_1);
           }
         } else if (typeof value === 'function') {
-          var code = "_this = __this__ = this; (" + value.toString() + ").apply(_this, arguments)";
-          var escaped = code.replace(/\"/gim, '&quot;');
+          var code = "_this = __this__ = this; (" + value.toString() + ").apply(_this, arguments)"; // const escaped = code.replace(/\"/gim, '\\"')
+
+          var escaped = escapeAttributes ? escapeAttributes(code) : code; // code.replace(/\"/gim, '&quot;')
+
           element.setAttribute(name_1, escaped);
         } else if (value !== false && value != null) {
           if (name_1 === 'className') {
@@ -977,8 +982,12 @@ exports.ElementClass = ElementClass;
 Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var elementImpl_1 = require("./elementImpl");
+var config = {
+    impl: elementImpl_1.ElementLikeImpl,
+    textNodeImpl: elementImpl_1.TextNodeLikeImpl,
+};
 var Module = {
-    createElement: jsx_alone_core_1.createCreateElement(elementImpl_1.ElementLikeImpl, elementImpl_1.TextNodeLikeImpl),
+    createElement: jsx_alone_core_1.createCreateElement(config),
     render: function (el, config) {
         return el.render(config);
     }

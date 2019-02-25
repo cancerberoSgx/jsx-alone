@@ -10,8 +10,14 @@ export function debug(err: string) {
     console.error(err)
   }
 }
+interface CreateElementConfig {
+  impl: { 
+  new (tag: string): any }, 
+textNodeImpl: { new (content: string): any }
+escapeAttributes?: (s: string)=>string
 
-export function createCreateElement<T>(impl: { new (tag: string): any }, textNodeImpl: { new (content: string): any }) {
+}
+export function createCreateElement<T>({impl, textNodeImpl, escapeAttributes}: CreateElementConfig) {
   return function createElement(tag: JSXAloneTag, attrs: JSXAloneAttrs = {}, ...children: JSXAloneChild[]): AbstractElementLike<T> {
     var element: AbstractElementLike<T>
     if (typeof tag === 'string') {
@@ -33,7 +39,7 @@ export function createCreateElement<T>(impl: { new (tag: string): any }, textNod
           }
         } else if (typeof value === 'function') {
           const code = `_this = __this__ = this; (${value.toString()}).apply(_this, arguments)`
-          const escaped = code.replace(/\"/gim, '&quot;')
+          const escaped = escapeAttributes ? escapeAttributes(code) : code
           element.setAttribute(name, escaped)
         } else if (value !== false && value != null) {
           if (name === 'className') {
@@ -92,5 +98,3 @@ export function createCreateElement<T>(impl: { new (tag: string): any }, textNod
 }
 
 export const AbstractJSXAlone : JSXAlone<any> = null as any 
-
-// export {AbstractJSXAlone as JSXAlone}

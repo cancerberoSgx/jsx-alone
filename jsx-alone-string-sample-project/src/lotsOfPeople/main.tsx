@@ -10,7 +10,7 @@ const renderer: Renderer = (app: JSX.Element, config: LotsOfPeopleRendererConfig
 }
 
 export function renderLotsOfPeople(){
-  lotsOfPeople(renderer, {peopleCount: 500, friendsCount: 200})
+  lotsOfPeople(renderer,  {peopleCount: 10, friendsCount: 2})
   return s
 }
 
