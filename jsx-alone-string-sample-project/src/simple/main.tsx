@@ -31,5 +31,6 @@ export function renderSimple() {
   const s = JSXAlone.render(el)
   console.timeEnd('render')
 
+
   return s
 }

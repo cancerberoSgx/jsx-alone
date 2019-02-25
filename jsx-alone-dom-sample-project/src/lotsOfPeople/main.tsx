@@ -36,6 +36,9 @@ const renderer: Renderer = (app: JSX.Element, config: LotsOfPeopleRendererConfig
   document.getElementById('timings_JSXAloneCreateElement')!.innerHTML = printMs(config.JSXAloneCreateElementT)
   document.getElementById('timings_JSXAloneRender')!.innerHTML = printMs(JSXAloneRenderT)
 
+
+  // var app = <div></div>
+  // JSXAlone.render(app)
 }
 
 lotsOfPeople(renderer)
