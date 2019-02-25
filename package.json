@@ -9,7 +9,7 @@
     "clean": "npx yamat run npm run clean",
     "cleanPackageLock": "npx yamat run \"rm -rf package-lock.json\"",
     "test": "npx yamat run npm test",
-    "docs": "rm -rf docs && mkdir -p docs && npx yamat run npm run docs",
+    "docs": "npx yamat run npm run docs",
     "all": "npm run clean && npm run build && npm test",
     "yamat-link": "npx yamat link && npm run cleanPackageLock && npx yamat run npm i && npm run build",
     "yamat-unlink-pack": "npx yamat unlink --version pack && npm run cleanPackageLock && npx yamat run npm i && npm run build",

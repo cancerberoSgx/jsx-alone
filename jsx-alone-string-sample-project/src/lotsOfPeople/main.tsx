@@ -3,7 +3,7 @@ import {lotsOfPeople, Renderer, printMs, LotsOfPeopleRendererConfig} from 'jsx-a
 import { JSXAlone } from 'jsx-alone-string';
 
 //@ts-ignore
-global.JSXAloneImplName__ === 'string'
+// global.JSXAloneImplName__ === 'string'
 
 let s=''
 const renderer: Renderer = (app: JSX.Element, config: LotsOfPeopleRendererConfig) => {
@@ -13,17 +13,17 @@ const renderer: Renderer = (app: JSX.Element, config: LotsOfPeopleRendererConfig
 
   // measures render
   console.time('JSXAlone.render()');
-  const JSXAloneRenderT0 = Date.now();
+  // const JSXAloneRenderT0 = Date.now();
   s= JSXAlone.render(app);
   console.timeEnd('JSXAlone.render()');
-  const JSXAloneRenderT = Date.now() - JSXAloneRenderT0;
+  // const JSXAloneRenderT = Date.now() - JSXAloneRenderT0;
 
 
-  console.log(`
-buildModel: ${(config.buildModelT)}
-JSXAloneCreateElement: ${(config.JSXAloneCreateElementT)}
-JSXAloneRender: ${(JSXAloneRenderT)}
-  `);
+//   console.log(`
+// buildModel: ${(config.buildModelT)}
+// JSXAloneCreateElement: ${(config.JSXAloneCreateElementT)}
+// JSXAloneRender: ${(JSXAloneRenderT)}
+//   `);
 //   console.log(`
 // buildModel: ${printMs(config.buildModelT)}
 // JSXAloneCreateElement: ${printMs(config.JSXAloneCreateElementT)}
@@ -32,7 +32,7 @@ JSXAloneRender: ${(JSXAloneRenderT)}
 }
 
 export function renderLotsOfPeople(){
-  lotsOfPeople(renderer)
+  lotsOfPeople(renderer, {peopleCount: 1000, friendsCount: 300})
   return s
 }
 

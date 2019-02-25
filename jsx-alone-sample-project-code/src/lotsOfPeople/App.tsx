@@ -5,6 +5,7 @@ const JSXAlone = getJSXAlone()
 
 export class App extends ElementClass<{  people: Person[], peopleCount:number, friendsCount: number }> {
   render() {
+    
     return <div>
       <h1>Lots of people to print</h1>
       <If c={typeof window!=='undefined'}>{()=>      <div>
@@ -15,9 +16,9 @@ export class App extends ElementClass<{  people: Person[], peopleCount:number, f
           Friends count: <input id="friendsCount" value={this.props.friendsCount+''} type="number"></input>
         </p>
         <button onClick={e=>{
-          // const peopleCount = document.querySelector<HTMLInputElement>('#peopleCount')!.valueAsNumber
-          // const friendsCount = document.querySelector<HTMLInputElement>('#friendsCount')!.valueAsNumber;
-          // (window as any).renderAppLotsOfPeople({peopleCount, friendsCount})
+          const peopleCount = document.querySelector<HTMLInputElement>('#peopleCount')!.valueAsNumber
+          const friendsCount = document.querySelector<HTMLInputElement>('#friendsCount')!.valueAsNumber;
+          (window as any).renderAppLotsOfPeople({peopleCount, friendsCount})
         }}>Render!</button>
         <h4>Timings</h4>
         <ul>

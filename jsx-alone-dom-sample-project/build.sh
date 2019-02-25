@@ -1,7 +1,15 @@
 OUTDIR=../docs/jsx-alone-dom-sample-project
 rm -rf $OUTDIR
 mkdir -p $OUTDIR
-cp public/index.html $OUTDIR/index.htm
+cp public/index.html $OUTDIR/index.html
+
+CWD=`pwd`
+cd ../jsx-alone-sample-project-code
+cp src/implDom.ts src/impl.ts
+npm run build 
+cd $CWD
+npm run build
+# node dist/src/docs
 
 export NODE_ENV=development
 npx parcel build src/lotsOfPeople/index.html --no-minify --no-content-hash --public-url './' --out-dir $OUTDIR/lotsOfPeople --out-file $OUTDIR/lotsOfPeople/index.html
