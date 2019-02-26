@@ -25,6 +25,7 @@ export function renderApp(renderer: Renderer<LotsOfPeopleRendererConfig>,  confi
   console.timeEnd('JSXAlone.createElement');
 
   renderer(app, {buildModelT, JSXAloneCreateElementT});
+  return app
 }
 let renderer_:  Renderer<LotsOfPeopleRendererConfig>
 if(typeof window !=='undefined'){

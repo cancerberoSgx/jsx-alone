@@ -747,8 +747,8 @@ var util_1 = require("../util");
 var jsx_alone_core_1 = require("jsx-alone-core");
 
 exports.MODEL_CONFIG = {
-  peopleCount: 10000,
-  friendsCount: 2
+  peopleCount: 100,
+  friendsCount: 5
 };
 
 function buildModel(config) {
@@ -1302,7 +1302,6 @@ var ElementLikeImpl = /** @class */ (function (_super) {
             if (typeof value === 'function') {
                 var fn = elementClassInstance ? value.bind(elementClassInstance) : value;
                 el.addEventListener(attribute.substring(2, attribute.length).toLowerCase(), fn);
-                // delete this.attrs[attribute]
                 _this.attrs[attribute] = undefined;
             }
             else {
@@ -1314,6 +1313,7 @@ var ElementLikeImpl = /** @class */ (function (_super) {
         }
         this.children.forEach(function (c) {
             if (elementClassInstance) {
+                ;
                 c._elementClassInstance = elementClassInstance || c._elementClassInstance;
             }
             c.render(__assign({}, config, { parent: el }));
@@ -1321,7 +1321,7 @@ var ElementLikeImpl = /** @class */ (function (_super) {
         if (config.parent) {
             config.parent.appendChild(el);
         }
-        delete this._elementClassInstance;
+        this._elementClassInstance = undefined;
         return el;
     };
     ElementLikeImpl.prototype.dangerouslySetInnerHTML = function (s) {
@@ -1594,6 +1594,7 @@ function renderApp(renderer, config) {
     buildModelT: buildModelT,
     JSXAloneCreateElementT: JSXAloneCreateElementT
   });
+  return app;
 }
 
 exports.renderApp = renderApp;
@@ -2152,7 +2153,6 @@ var ElementLikeImpl = /** @class */ (function (_super) {
             if (typeof value === 'function') {
                 var fn = elementClassInstance ? value.bind(elementClassInstance) : value;
                 el.addEventListener(attribute.substring(2, attribute.length).toLowerCase(), fn);
-                // delete this.attrs[attribute]
                 _this.attrs[attribute] = undefined;
             }
             else {
@@ -2164,6 +2164,7 @@ var ElementLikeImpl = /** @class */ (function (_super) {
         }
         this.children.forEach(function (c) {
             if (elementClassInstance) {
+                ;
                 c._elementClassInstance = elementClassInstance || c._elementClassInstance;
             }
             c.render(__assign({}, config, { parent: el }));
@@ -2171,7 +2172,7 @@ var ElementLikeImpl = /** @class */ (function (_super) {
         if (config.parent) {
             config.parent.appendChild(el);
         }
-        delete this._elementClassInstance;
+        this._elementClassInstance = undefined;
         return el;
     };
     ElementLikeImpl.prototype.dangerouslySetInnerHTML = function (s) {
@@ -2724,20 +2725,18 @@ exports.AbstractElementLike = elementImpl_1.AbstractElementLike;
 __export(require("./misc"));
 
 __export(require("./util"));
-},{"./elementImpl":"Urqt","./elementClass":"qWxh","./createElement":"Nzec","./misc":"h+Y6","./util":"8yB0"}],"wdqJ":[function(require,module,exports) {
+},{"./elementImpl":"Urqt","./elementClass":"qWxh","./createElement":"Nzec","./misc":"h+Y6","./util":"8yB0"}],"7W7v":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var jsx_alone_sample_project_code_1 = require("jsx-alone-sample-project-code");
-
 var jsx_alone_dom_1 = require("jsx-alone-dom");
 
 var jsx_alone_core_1 = require("jsx-alone-core");
 
-var renderer = function renderer(app, config) {
+exports.lotsOfPeopleRenderer = function (app, config) {
   // measures onload
   var onloadT0 = Date.now();
   console.time('onload');
@@ -2772,8 +2771,22 @@ var renderer = function renderer(app, config) {
   document.getElementById('timings_buildModel').innerHTML = jsx_alone_core_1.printMs(config.buildModelT);
   document.getElementById('timings_JSXAloneCreateElement').innerHTML = jsx_alone_core_1.printMs(config.JSXAloneCreateElementT);
   document.getElementById('timings_JSXAloneRender').innerHTML = jsx_alone_core_1.printMs(JSXAloneRenderT);
+  return {
+    el: root,
+    JSXAloneRenderT: JSXAloneRenderT
+  };
 };
+},{"jsx-alone-dom":"MNUJ","jsx-alone-core":"6FnY"}],"wdqJ":[function(require,module,exports) {
+"use strict";
 
-jsx_alone_sample_project_code_1.lotsOfPeople(renderer);
-},{"jsx-alone-sample-project-code":"wC2p","jsx-alone-dom":"MNUJ","jsx-alone-core":"6FnY"}]},{},["wdqJ"], null)
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var jsx_alone_sample_project_code_1 = require("jsx-alone-sample-project-code");
+
+var lotsOfPeopleRenderer_1 = require("./lotsOfPeopleRenderer");
+
+jsx_alone_sample_project_code_1.lotsOfPeople(lotsOfPeopleRenderer_1.lotsOfPeopleRenderer);
+},{"jsx-alone-sample-project-code":"wC2p","./lotsOfPeopleRenderer":"7W7v"}]},{},["wdqJ"], null)
 //# sourceMappingURL=main.186cb047.map
