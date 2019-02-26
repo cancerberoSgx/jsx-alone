@@ -1,15 +1,19 @@
-import { NodeLike, JSXAlone as JSXAloneType, createCreateElement } from 'jsx-alone-core';
-import { ElementLikeImplRenderConfig } from './config';
-import { createCreateElementConfig } from './elementImpl';
+import {  createCreateElement, JSXAloneTag, JSXAloneAttrs, AbstractElementLike } from 'jsx-alone-core'
+import { ElementLikeImplRenderConfig } from './config'
+import { createCreateElementConfig } from './elementImpl'
+import { NodeLike } from './types';
 
-const Module = {
-  
-  createElement: createCreateElement<HTMLElement|Text>(createCreateElementConfig),
+const Module: JSXAloneType = {
+  createElement: createCreateElement<HTMLElement | Text>(createCreateElementConfig),
 
-  render(el: JSX.Element, config?: ElementLikeImplRenderConfig) {
-    return  (el as any as NodeLike<HTMLElement|Text>).render(config)
+  render  (el, config={}){
+    return ((el as any) as NodeLike).render({...config, initialContext: this})
   }
 }
+type CreateElementFunction =(tag: JSXAloneTag, attrs?: JSXAloneAttrs<string> | undefined, ...children: any[]) => AbstractElementLike<HTMLElement | Text>
+type RenderFunction = (el: JSX.Element, config?: ElementLikeImplRenderConfig)=> HTMLElement | Text
+type JSXAloneType={render: RenderFunction, createElement: CreateElementFunction} 
+export const JSXAlone: JSXAloneType = Module
 
-export const JSXAlone: JSXAloneType<HTMLElement|Text> = Module
-
+// //@ts-ignore
+// if(typeof React !=='undefined'){  React = Module}

@@ -1,6 +1,7 @@
 # TODO
 
  * ISSUE - DOM - test that event listeners are removed
+ * DOM: should we extract function attribute support from dom impl and move it to anextra package so it's lighter ?
  * ISSUE - <If> in dom impl : props.children is array
  * test in old browsers / rhino (should work on IE8)
  * issue: DOM :function elements dont' have access to its context (`this`) see test "function attribute in function element context"

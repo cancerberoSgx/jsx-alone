@@ -10,6 +10,8 @@ export function debug(err: string) {
     console.error(err)
   }
 }
+// let lastElementClassInstance:JSXAloneComponent|undefined
+
 export function createCreateElement<T>(config: CreateCreateElementConfig) {
   const {impl, textNodeImpl, escapeAttributes, functionAttributes, onElementReady, onElementCreate} = config
   return function createElement(tag: JSXAloneTag, attrs: JSXAloneAttrs = {}, ...children: JSXAloneChild[]): AbstractElementLike<T> {
@@ -19,7 +21,9 @@ export function createCreateElement<T>(config: CreateCreateElementConfig) {
       element = new impl(tag)
     } else {
       if (isClassElementClass(tag)) {
-        elementClassInstance=new tag({ ...attrs, children: children })
+        elementClassInstance=
+        // lastElementClassInstance=
+        new tag({ ...attrs, children: children })
         element = elementClassInstance.render()
       } else {
         element = tag({ ...attrs, children: children })
@@ -27,9 +31,9 @@ export function createCreateElement<T>(config: CreateCreateElementConfig) {
       }
       attrs = {}
     }
-    if(onElementCreate){
-      onElementCreate({elementLike: element, elementClassInstance})
-    }
+
+    // elementClassInstance=elementClassInstance || lastElementClassInstance
+    
     for (let name in attrs) {
       if (name && attrs.hasOwnProperty(name)) {
         let value: any = attrs[name]
@@ -101,6 +105,11 @@ export function createCreateElement<T>(config: CreateCreateElementConfig) {
     if(onElementReady){
       element=onElementReady(element)
     }
+
+    if(onElementCreate){
+      onElementCreate({elementLike: element, elementClassInstance})
+    }
+    
     return element
   }
 }
