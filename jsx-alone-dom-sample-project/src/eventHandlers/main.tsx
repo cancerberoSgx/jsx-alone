@@ -1,6 +1,5 @@
-import { AbstractCoreMouseEvent, Children, MouseEvent } from 'jsx-alone-core'
+import { AbstractCoreMouseEvent, Children, MouseEvent, printMs} from 'jsx-alone-core'
 import { ElementClass, JSXAlone } from 'jsx-alone-dom'
-import { printMs } from 'jsx-alone-sample-project-code'
 
 class Button extends ElementClass<{ onClick: (event: MouseEvent<HTMLButtonElement, AbstractCoreMouseEvent>) => void; children: string }> {
   render() {
@@ -66,7 +65,6 @@ const app = (
       onClick={e => {
         //@ts-ignore
         console.log(this, printMs(Date.now()), bar)
-        // debugger
       }}>
       no root element class2
     </button>
@@ -76,7 +74,6 @@ const app = (
         onClick={e => {
           //@ts-ignore
           console.log(this, printMs(Date.now()), bar)
-          // debugger
         }}>
         should not override this with Container
       </button>

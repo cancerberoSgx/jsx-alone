@@ -8,7 +8,7 @@ export class App extends ElementClass<{  people: Person[], peopleCount:number, f
     
     return <div>
       <h1>Lots of people to print</h1>
-      <If c={typeof window!=='undefined'}>{()=>      <div>
+      <If c={typeof window!=='undefined'}>{()=><div>
         <p>
           People count: <input id="peopleCount" value={this.props.peopleCount+''} type="number"></input>
         </p>

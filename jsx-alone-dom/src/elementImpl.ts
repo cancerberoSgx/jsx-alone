@@ -20,7 +20,8 @@ export class ElementLikeImpl extends AbstractElementLike<HTMLElement | Text> {
       const value = this.attrs[attribute]
       if (typeof value === 'function') {
         let fn = elementClassInstance ? value.bind(elementClassInstance) : value
-        el.addEventListener(attribute.substring(2, attribute.length).toLowerCase(), fn) 
+        el.addEventListener(attribute.substring(2, attribute.length).toLowerCase(), fn)
+        this.attrs[attribute] = undefined
       } else {
         el.setAttribute(attribute, value)
       }
@@ -37,7 +38,7 @@ export class ElementLikeImpl extends AbstractElementLike<HTMLElement | Text> {
     if (config.parent) {
       config.parent.appendChild(el)
     }
-    delete this._elementClassInstance
+    this._elementClassInstance = undefined
     return el
   }
 
