@@ -5,6 +5,7 @@
     "lib": ["es5", "dom"],
     "outDir": "./dist",
     "rootDir": ".",
+    "esModuleInterop": false,
     "jsx": "react",
     "jsxFactory": "JSXAlone.createElement",
     "strict": true,

@@ -1,7 +1,12 @@
 
 # Performance
 
-## interesting moments in rendering
+## DOM small implementation
+
+Currently a trivial app using DOM implementation can be bundled in 3KB (gzip).
+
+
+## Interesting moments in rendering
 
 There are two important moments when code with JSX is executed. Take for example: 
 

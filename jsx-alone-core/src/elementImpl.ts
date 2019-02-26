@@ -1,5 +1,5 @@
 import { JSXAloneComponent, NodeLike, ElementLike, TextNodeLike, RenderConfig, Predicate, JSXAlone } from '.'
-import {checkThrow} from 'misc-utils-of-mine-generic'
+import { checkThrow } from './util';
 export function isJSXAloneComponent(c: any): c is JSXAloneComponent {
   return c.prototype && c.prototype.render
 }

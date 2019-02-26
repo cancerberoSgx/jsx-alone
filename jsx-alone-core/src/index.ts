@@ -9,3 +9,4 @@ export * from './createElement'
 
 export {AbstractTextNodeLike, AbstractElementLike} from './elementImpl'
 export * from './misc'
+export * from './util'

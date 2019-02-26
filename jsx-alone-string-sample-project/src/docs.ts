@@ -1,6 +1,5 @@
 import { renderSimple } from './simple/main';
 import { writeFileSync } from 'fs';
-import {wrapInHtml} from 'misc-utils-of-mine-generic'
 import { renderLotsOfPeople } from './lotsOfPeople/main';
 
 const samples = [
@@ -17,3 +16,21 @@ samples.forEach(sample=>{
     
   }
 })
+
+
+export function wrapInHtml(s: string): string {
+  return `
+  <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+${s}
+</body>
+</html>
+`;
+}

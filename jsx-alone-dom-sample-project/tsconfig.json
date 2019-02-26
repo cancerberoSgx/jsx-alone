@@ -7,7 +7,8 @@
     "rootDir": ".",
     "jsx": "react",
     "jsxFactory": "JSXAlone.createElement",
-    "strict": true
+    "strict": true,
+    "esModuleInterop": false
 
   },
   "include": ["src"],

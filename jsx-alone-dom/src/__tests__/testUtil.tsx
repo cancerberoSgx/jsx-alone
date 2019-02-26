@@ -1,5 +1,5 @@
 import { JSXAlone } from '..';
-import {expectTextEquals} from 'misc-utils-of-mine-describe-it-expect'
+import {removeWhites} from 'jsx-alone-core'
 export function test({ e, expected, label,  asCodeEquals , caseInsensitive}: {
   e: JSX.Element;
   expected: string;
@@ -105,3 +105,20 @@ export function fireEvent(node:HTMLElement, eventName:'mousedown'|'mouseup'|'cli
       node.fireEvent("on" + eventName, event);
   }
 };
+
+
+export function expectTextEquals(a?: string, b?: string, debug = false) {
+  debug && console.log(a, b)
+  if (!a || !b) return false
+  expect(removeWhites(a)).toEqual(removeWhites(b))
+}
+export function expectTextToContain(a?: string, b?: string, debug = false) {
+  debug && console.log(a, b)
+  if (!a || !b) return false
+  expect(removeWhites(a)).toContain(removeWhites(b))
+}
+export function expectTextNotToContain(a?: string, b?: string, debug = false) {
+  debug && console.log(a, b)
+  if (!a || !b) return false
+  expect(removeWhites(a)).not.toContain(removeWhites(b))
+}

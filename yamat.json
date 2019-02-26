@@ -11,6 +11,11 @@
         "name": "jsx-alone-string",
         "path": "./jsx-alone-string"
     },
+    
+    {
+        "name": "jsx-alone-sample-project-code",
+        "path": "./jsx-alone-sample-project-code"
+    },
     {
         "name": "jsx-alone-dom-sample-project",
         "path": "./jsx-alone-dom-sample-project"
@@ -18,10 +23,6 @@
     {
         "name": "jsx-alone-string-sample-project",
         "path": "./jsx-alone-string-sample-project"
-    },
-    {
-        "name": "jsx-alone-sample-project-code",
-        "path": "./jsx-alone-sample-project-code"
     }
     
 ]

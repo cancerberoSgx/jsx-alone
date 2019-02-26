@@ -11,9 +11,7 @@
   },
   "dependencies": {
     "jsx-alone-core": "file:../jsx-alone-core",
-    "jsx-alone-dom": "file:../jsx-alone-dom",
-    "jsx-alone-sample-project-code": "file:../jsx-alone-sample-project-code",
-    "misc-utils-of-mine-random-data": "0.0.4"
+    "jsx-alone-dom": "file:../jsx-alone-dom"
   },
   "devDependencies": {
     "parcel": "^1.11.0",

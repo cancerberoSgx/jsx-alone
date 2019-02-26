@@ -1,5 +1,4 @@
 import { JSXAlone, ElementClass } from 'jsx-alone-dom';
-import { MouseEvent, AbstractCoreMouseEvent, Children } from 'jsx-alone-core';
 
 // example function element
 const TaskPageLink = (props: {

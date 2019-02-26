@@ -25,7 +25,6 @@
     "@types/jest": "^24.0.6",
     "@types/node": "^10.12.18",
     "jest": "^24.1.0",
-    "misc-utils-of-mine-describe-it-expect": "0.0.9",
     "shx": "^0.3.2",
     "ts-jest": "^24.0.0",
     "typescript": "^3.2.2"

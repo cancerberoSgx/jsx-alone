@@ -1,4 +1,4 @@
-import {indent as indentImpl} from 'misc-utils-of-mine-generic'
+import {indent as indentImpl} from 'jsx-alone-core'
 
 import { JSXAlone } from './createElement'
 import { ElementLikeImplRenderConfig } from './config';

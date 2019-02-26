@@ -1,19 +1,46 @@
-export function array<T = number>(n: number, sample?: T): T[] {
-  const a: (T | number)[] = [];
-  for (let i = 0; i < n; i++) {
-    a.push(typeof sample === 'undefined' ? i : sample);
-  }
-  return a as T[];
-}
+import { randomIntBetween, randomItem } from 'jsx-alone-core';
 
-export function printMs(ms: number, config: {
-  minutes?: boolean;
-  seconds?: boolean;
-  ms?: boolean;
-} = { minutes: false, seconds: true, ms: true }) {
-  config = { ...{ minutes: false, seconds: true, ms: true }, ...config };
-  const seconds = config.seconds && Math.floor(ms / 1000);
-  const minutes = config.minutes && seconds && Math.floor(seconds / 60);
-  const milliseconds = config.ms && Math.floor(ms % 1000 || ms);
-  return `${minutes ? `${minutes} minutes ` : ''}${seconds ? `${seconds} seconds ` : ''}${milliseconds ? `${milliseconds} milliseconds ` : ''}`;
+
+  export const names = {
+    firstName: ()=> randomItem(firstNames),lastName:  ()=> randomItem(firstNames)
+  }
+export const numbers= {
+  integer: (min:number,max:number)=> randomIntBetween(min, max)
 }
+const firstNames =  [
+  "William",
+  "Jack",
+  "Oliver",
+  "Joshua",
+  "Thomas",
+  "Lachlan",
+  "Cooper",
+  "Noah",
+  "Ethan",
+  "Lucas",
+  "James",
+  "Samuel",
+  "Jacob",
+  "Liam",
+  "Alexander",
+  "Benjamin",
+  "Max",
+  "Isaac",
+  "Daniel",
+  "Riley",
+  "Ryan", 
+  "Xavier",
+  "Harry",
+  "Jayden",
+  "Nicholas",
+  "Harrison",
+  "Levi",
+  "Luke",
+  "Adam",
+  "Henry",
+  "Aiden",
+  "Dylan",
+  "Oscar",
+  "Michael",
+  "Jackson",
+  "Logan", ]

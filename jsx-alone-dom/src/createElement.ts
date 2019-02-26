@@ -1,4 +1,4 @@
-import { NodeLike, JSXAlone as JSXAloneType, createCreateElement, ElementLike } from 'jsx-alone-core';
+import { NodeLike, JSXAlone as JSXAloneType, createCreateElement } from 'jsx-alone-core';
 import { ElementLikeImplRenderConfig } from './config';
 import { createCreateElementConfig } from './elementImpl';
 

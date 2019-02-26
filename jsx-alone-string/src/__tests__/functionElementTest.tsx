@@ -1,5 +1,3 @@
-import { ElementClass } from '../elementImpl'
-import { Props } from '../misc'
 import { JSXAloneElement } from 'jsx-alone-core'
 import { test } from './testUtil';
 import { JSXAlone } from '..';

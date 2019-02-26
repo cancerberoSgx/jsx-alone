@@ -1,6 +1,6 @@
-import { array } from '../util'
+import { names, numbers } from '../util'
 import { Person, LotsOfPeopleConfig } from './types'
-import { names, numbers } from 'misc-utils-of-mine-random-data'
+import { array } from 'jsx-alone-core';
 
 export const MODEL_CONFIG: LotsOfPeopleConfig = { peopleCount: 100, friendsCount: 20 }
 
