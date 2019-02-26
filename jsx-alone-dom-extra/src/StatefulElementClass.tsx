@@ -8,11 +8,16 @@ export abstract class StatefulElementClass<P = {}, S = Partial<P>> extends Eleme
     this.state = { ...(p as any) }
   }
   protected containerEl: HTMLElement = undefined as any
+  
+  /** called by ElementLike.render() */
+  setContainerEl(el: HTMLElement) {
+    this.containerEl = el
+  }
 
   /** changes the state, clean up containerEl and renders the element again and append it to containerEl. 
    * Notice that descendant elements will be destroyed and */
   setState(  s: Partial<S>) {
-    this.state = { ...this.state, ...s } //= { start: 0, end: 0, direction: undefined }
+    this.state = { ...this.state, ...s }  
     let activePath: XPathResult | string | undefined
     let selection: { start: number; end: number; direction?: string }= { start: 0, end: 0 }
     if (document.activeElement) {
@@ -26,7 +31,7 @@ export abstract class StatefulElementClass<P = {}, S = Partial<P>> extends Eleme
     const jsx = this.render()
     const el = JSXAlone.render(jsx, {initialContext: this })
 
-    this.containerEl.parentElement!.replaceChild(el, this.containerEl) // This should remove event listeners too. TODO: verify
+    this.containerEl.parentElement!.replaceChild(el, this.containerEl)
     
     this.containerEl = el as HTMLElement
     if (activePath) {
@@ -40,10 +45,7 @@ export abstract class StatefulElementClass<P = {}, S = Partial<P>> extends Eleme
     }
   }
 
-  /** called by ElementLike.render() */
-  setContainerEl(el: HTMLElement) {
-    this.containerEl = el
-  }
+
 }
 
 //  TODO: move to misc

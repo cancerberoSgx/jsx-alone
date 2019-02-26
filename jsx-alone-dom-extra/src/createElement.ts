@@ -15,7 +15,8 @@ type JSXAloneType = { render: RenderFunction; createElement: CreateElementFuncti
 interface FunctionAttributesElement extends ElementLikeImpl {
   _elementClassInstance?: ElementClass | undefined
   _originalElementClassInstance?: ElementClass | undefined
-  _eventListenerList?: EventEntry[]
+  // _eventListenerList?: EventEntry[]
+  // isRoot():boolean
 }
 class FunctionAttributesElementImpl extends ElementLikeImpl implements FunctionAttributesElement {
   _elementClassInstance: ElementClass | undefined
@@ -23,16 +24,19 @@ class FunctionAttributesElementImpl extends ElementLikeImpl implements FunctionA
   /** if it has a defined list then we consider this node a root node and it will be responsible of collecting data for un registering event listener of all its "tree" 
    * TODO: in the future we could also use the root for event delegation.
   */
-  _eventListenerList?: EventEntry[]
+  // _eventListenerList?: EventEntry[]
   // destroy() {
     
   // }
+  // isRoot(){
+  //   return this._eventListenerList
+  // }
 }
-type EventEntry<K extends keyof HTMLElementEventMap =  keyof HTMLElementEventMap> = {
-  type: K, 
-  listener: (this: HTMLElement, ev: HTMLElementEventMap[K] ) => any, 
-  options?: boolean | EventListenerOptions
-}
+// type EventEntry<K extends keyof HTMLElementEventMap =  keyof HTMLElementEventMap> = {
+//   type: K, 
+//   listener: (this: HTMLElement, ev: HTMLElementEventMap[K] ) => any, 
+//   options?: boolean | EventListenerOptions
+// }
 
 export interface CreateCreateElementDomConfig<R extends FunctionAttributesElement = FunctionAttributesElement> extends CreateCreateElementDomConfig< R> {
   extraRenderConfig?: ElementLikeImplRenderConfig
@@ -59,11 +63,11 @@ function buildExtraConfig(
         const eventType = attribute.substring(2, attribute.length).toLowerCase() as keyof HTMLElementEventMap
         const options = undefined
         el.addEventListener(eventType, listener, options)
-        if(!elementLike._eventListenerList){
-          elementLike._eventListenerList = []
-          // elementLike._destr
-        }
-        elementLike._eventListenerList.push({type: eventType, listener,options})
+        // if(!elementLike._eventListenerList){
+        //   elementLike._eventListenerList = []
+        //   // elementLike._destr
+        // }
+        // elementLike._eventListenerList.push({type: eventType, listener,options})
         // if(!elementLike.){
           // elementLike._eventListenerList = []
         // }
