@@ -1,7 +1,7 @@
-import { AbstractCoreMouseEvent, Children, MouseEvent } from 'jsx-alone-core';
 import { JSXAlone } from '..';
-import { ElementClass } from '../elementImpl';
 import { dummy, fireEvent } from './testUtil';
+import { ElementClass } from 'jsx-alone-dom';
+import { MouseEvent, AbstractCoreMouseEvent, Children } from 'jsx-alone-core';
 
 describe('context', () => {
   it('big app with handlers in many levels', () => {
@@ -45,8 +45,6 @@ describe('context', () => {
               id="no-container"
               onClick={e => {
                 handler(this.props.name + this.foo() + foo)
-                // console.log(this, this.props.name, this.foo(), foo)
-                // debugger
               }}>
               no-container
             </button>
@@ -56,9 +54,7 @@ describe('context', () => {
                 <button
                   id="container-button"
                   onClick={e => {
-                    // console.log(this, this.props.name, this.foo(), foo)
                     handler(this.props.name + this.foo() + foo)
-                    // debugger
                   }}>
                   container-button
                 </button>
@@ -67,8 +63,6 @@ describe('context', () => {
                     id="container-container-button"
                     onClick={e => {
                       handler(this.props.name + this.foo() + foo)
-                      // console.log(this, this.props.name, this.foo(), foo)
-                      // debugger
                     }}>
                     container-container-button
                   </button>
@@ -77,8 +71,6 @@ describe('context', () => {
                   id="container-button-class-el"
                   onClick={e => {
                     handler(this.props.name + this.foo() + foo)
-                    // console.log(this.props.name, this.foo(), foo)
-                    // debugger
                   }}>
                   container-button-class-el
                 </Button>
@@ -97,11 +89,8 @@ describe('context', () => {
         <button
           id="no-root-element-class2"
           onClick={e => {
-            // //@ts-ignore
-            // console.log(this, aux(Date.now()), bar)
             //@ts-ignore
             handler(bar + dummy(1) + aux(65), this && this.props)
-            // debugger
           }}>
           no-root-element-class2
         </button>
@@ -110,11 +99,8 @@ describe('context', () => {
           <button
             id="should-not-override-this-with-Container"
             onClick={e => {
-              // //@ts-ignore
-              // console.log(this, aux(65), bar, this&&this.props)
               // @ts-ignore
               handler(bar + dummy(1) + aux(65), this && this.props)
-              // debugger
             }}>
             should-not-override-this-with-Container
           </button>
@@ -124,11 +110,8 @@ describe('context', () => {
           <button
             id="should-not-have-ascendant-element-context"
             onClick={e => {
-              // //@ts-ignore
-              // console.log("should-not-have-app-context", this )
               //@ts-ignore
               handler(this && this.props && this.props.name)
-              // debugger
             }}>
             should-not-have-ascendant-element-context
           </button>
@@ -138,11 +121,8 @@ describe('context', () => {
           <button
             id="should-not-have-app-context"
             onClick={e => {
-              // //@ts-ignore
-              // console.log("should-not-have-app-context" , this )
               //@ts-ignore
               handler(this && this.props && this.props.name)
-              // debugger
             }}>
             should-not-have-app-context
           </button>

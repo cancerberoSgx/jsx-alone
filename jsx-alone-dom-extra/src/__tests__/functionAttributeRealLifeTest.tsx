@@ -1,6 +1,6 @@
 import { Children } from 'jsx-alone-core'
-import { ElementClass, JSXAlone } from 'jsx-alone-dom'
-import { render } from './testUtil'
+import { ElementClass, JSXAlone } from '..'
+import { render, query } from './testUtil'
 
 describe('function attributes', () => {
   describe('real life app', () => {
@@ -55,7 +55,7 @@ describe('function attributes', () => {
     container.appendChild(el)
 
     expect(document.querySelectorAll('[data-id]')).toHaveLength(2)
-    document.querySelector<HTMLButtonElement>('#add')!.click()
+    query('#add').click()
     expect(document.querySelectorAll('[data-id]')).toHaveLength(3)
     document.querySelector<HTMLButtonElement>('[data-id="seba"] .remove')!.click()
     expect(document.querySelectorAll('[data-id]')).toHaveLength(2)

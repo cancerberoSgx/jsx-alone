@@ -1,21 +1,15 @@
-import {
-  AbstractElementLike,
-  createCreateElement,
-  isElementLike,
-  JSXAloneAttrs,
-  JSXAloneComponent,
-  JSXAloneTag,
-  CreateElementFunction
-} from 'jsx-alone-core'
+import { createCreateElement, isElementLike, JSXAloneComponent, CreateElementFunction } from 'jsx-alone-core'
 import {
   createCreateElementConfig,
   CreateCreateElementDomConfig,
   ElementClass,
-  ElementLike,
   ElementLikeImpl,
   ElementLikeImplRenderConfig,
   TextNodeLikeImpl
 } from 'jsx-alone-dom'
+
+type RenderFunction = (el: JSX.Element, config?: FunctionAttributeRenderConfig) => HTMLElement | Text
+type JSXAloneType = { render: RenderFunction; createElement: CreateElementFunction<HTMLElement | Text> }
 
 interface FunctionAttributesElement extends ElementLikeImpl {
   _elementClassInstance?: ElementClass | undefined
@@ -47,15 +41,13 @@ function buildExtraConfig(
     },
     handleChildRender(config) {
       const { child, parent, elementLike } = config
-      if (isFunctionAttributeElement(child)) {
-        const { functionAttributeContext, elementClassInstance } = getFunctionAttributeContextObjects(
-          elementLike as FunctionAttributesElement,
-          extraConfig.initialContext
-        )
-        if (functionAttributeContext) {
-          child._originalElementClassInstance = child._elementClassInstance
-          child._elementClassInstance = elementClassInstance || child._elementClassInstance
-        }
+      const { functionAttributeContext, elementClassInstance } = getFunctionAttributeContextObjects(
+        elementLike as FunctionAttributesElement,
+        extraConfig.initialContext
+      )
+      if (functionAttributeContext && isFunctionAttributeElement(child)) {
+        child._originalElementClassInstance = child._elementClassInstance
+        child._elementClassInstance = elementClassInstance || child._elementClassInstance
       }
       child.render({ ...config, ...configHooks, parent })
       return true
@@ -74,15 +66,13 @@ function buildExtraConfig(
 
   return configHooks
 
-  
-function getFunctionAttributeContextObjects(elementLike: FunctionAttributesElement, initialContext: any) {
-  const elementClassInstance = (elementLike.parentElement && elementLike._elementClassInstance) || rootElementLike._elementClassInstance
-  return { functionAttributeContext: elementClassInstance || initialContext, elementClassInstance }
-}
+  function getFunctionAttributeContextObjects(elementLike: FunctionAttributesElement, initialContext: any) {
+    const elementClassInstance = (elementLike.parentElement && elementLike._elementClassInstance) || rootElementLike._elementClassInstance
+    return { functionAttributeContext: elementClassInstance || initialContext, elementClassInstance }
+  }
 }
 
 export const createCreateConfig: CreateCreateElementDomConfig = {
-  
   ...createCreateElementConfig,
 
   impl: ElementLikeImpl,
@@ -111,12 +101,9 @@ const Module: JSXAloneType = {
   }
 }
 
-type RenderFunction = (el: JSX.Element, config?: FunctionAttributeRenderConfig) => HTMLElement | Text
-type JSXAloneType = { render: RenderFunction; createElement: CreateElementFunction<HTMLElement | Text> }
-
 export const JSXAlone: JSXAloneType = Module
 
 function isFunctionAttributeElement(a: any): a is FunctionAttributesElement {
   return isElementLike(a)
 }
-export {ElementClass}
+export { ElementClass }

@@ -1,4 +1,5 @@
 import { JSXAlone, StatefulElementClass } from '..'
+import { dummySpec } from './testUtil';
 
 export function statefulElementClassTestRenderApp(this: any) {
   const parent = document.createElement('div')
@@ -23,7 +24,6 @@ class Repeater extends StatefulElementClass<RepeaterP, RepeaterP> {
         <input
           value={this.state.value}
           onKeyUp={e => {
-            console.log(e.currentTarget.value)
             this.setState({ value: e.currentTarget.value })
           }}
         />
@@ -47,10 +47,7 @@ class App extends StatefulElementClass<P, P> {
   }
   render() {
     return (
-      // <Repeater value={'p.name'} />
-
       <div className="App">
-        {/* <input onKeyDown={e=>console.log('asdas')      } value="safsdfsdf"></input> */}
         <button id="add" onClick={e => this.setState({ people: [...this.state.people, { name: 'random name ' + Math.random() }] })}>
           add
         </button>
@@ -58,7 +55,6 @@ class App extends StatefulElementClass<P, P> {
           {this.state.people.map(p => (
             <li data-id={p.name}>
               <Repeater value={p.name} />
-
               <button
                 className="remove"
                 onClick={e => {
@@ -78,3 +74,4 @@ class App extends StatefulElementClass<P, P> {
     this.containerEl.appendChild(JSXAlone.render(this.render()));
   }
 }
+dummySpec()

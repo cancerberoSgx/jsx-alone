@@ -1,4 +1,3 @@
-
 import { statefulElementClassTestRenderApp } from './statefulElementClassTestRenderApp';
 describe('stateful element class', () => {
   describe('sample 1', () => {
