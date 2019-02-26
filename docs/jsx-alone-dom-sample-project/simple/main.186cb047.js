@@ -472,7 +472,7 @@ function debug(err) {
   }
 }
 
-exports.debug = debug;
+exports.debug = debug; // let lastElementClassInstance:JSXAloneComponent|undefined
 
 function createCreateElement(config) {
   var impl = config.impl,
@@ -480,8 +480,9 @@ function createCreateElement(config) {
       escapeAttributes = config.escapeAttributes,
       functionAttributes = config.functionAttributes,
       onElementReady = config.onElementReady,
-      onElementCreate = config.onElementCreate;
-  return function createElement(tag, attrs) {
+      onElementCreate = config.onElementCreated;
+
+  var createElement = function createElement(tag, attrs) {
     if (attrs === void 0) {
       attrs = {};
     }
@@ -499,7 +500,8 @@ function createCreateElement(config) {
       element = new impl(tag);
     } else {
       if (elementImpl_1.isJSXAloneComponent(tag)) {
-        elementClassInstance = new tag(__assign({}, attrs, {
+        elementClassInstance = // lastElementClassInstance=
+        new tag(__assign({}, attrs, {
           children: children
         }));
         element = elementClassInstance.render();
@@ -561,7 +563,11 @@ function createCreateElement(config) {
           debug("unrecognized attribute \"" + name_1 + "\" with type " + _typeof(value_1));
         }
       }
-    };
+    }; // if(onElementCreate){
+    //   onElementCreate({elementLike: element, elementClassInstance})
+    // }
+    // elementClassInstance=elementClassInstance || lastElementClassInstance
+
 
     for (var name_1 in attrs) {
       _loop_1(name_1);
@@ -591,11 +597,15 @@ function createCreateElement(config) {
     }
 
     if (onElementReady) {
-      element = onElementReady(element);
+      onElementReady({
+        elementLike: element
+      });
     }
 
     return element;
   };
+
+  return createElement;
 }
 
 exports.createCreateElement = createCreateElement;
@@ -749,33 +759,31 @@ var ElementLikeImpl = /** @class */ (function (_super) {
         var _this = this;
         if (config === void 0) { config = {}; }
         var el = document.createElement(this.tag);
-        // this is the context in which  function attributes of this and descendants will be evaluated. It's set up by createCreateElementConfig see below.
-        var elementClassInstance = (this.parentElement && this.parentElement._elementClassInstance) || this._elementClassInstance;
         Object.keys(this.attrs).forEach(function (attribute) {
             var value = _this.attrs[attribute];
-            if (typeof value === 'function') {
-                var fn = elementClassInstance ? value.bind(elementClassInstance) : value;
-                el.addEventListener(attribute.substring(2, attribute.length).toLowerCase(), fn);
-                _this.attrs[attribute] = undefined;
-            }
-            else {
-                el.setAttribute(attribute, value);
+            if (!config.handleAttribute || !config.handleAttribute({ config: config, el: el, attribute: attribute, value: value, elementLike: _this })) {
+                if (typeof value === 'function') {
+                    el.setAttribute(attribute, value.toString());
+                }
+                else {
+                    el.setAttribute(attribute, value + '');
+                }
             }
         });
         if (this._innerHtml) {
             el.innerHTML = this._innerHtml;
         }
         this.children.forEach(function (c) {
-            if (elementClassInstance) {
-                ;
-                c._elementClassInstance = elementClassInstance || c._elementClassInstance;
+            if (!config.handleChildRender || !config.handleChildRender({ config: config, parent: el, child: c, elementLike: _this })) {
+                c.render(__assign({}, config, { parent: el }));
             }
-            c.render(__assign({}, config, { parent: el }));
         });
         if (config.parent) {
             config.parent.appendChild(el);
         }
-        this._elementClassInstance = undefined;
+        if (config.handleAfterRender) {
+            config.handleAfterRender({ config: config, el: el, elementLike: this });
+        }
         return el;
     };
     ElementLikeImpl.prototype.dangerouslySetInnerHTML = function (s) {
@@ -784,6 +792,50 @@ var ElementLikeImpl = /** @class */ (function (_super) {
     return ElementLikeImpl;
 }(jsx_alone_core_1.AbstractElementLike));
 exports.ElementLikeImpl = ElementLikeImpl;
+// export interface ElementLikeImplRenderConfig extends ElementLikeImplRenderConfig {
+//   parent?: HTMLElement,
+//   dontAddEventListeners?: boolean
+//   initialContext?: any
+// }
+// class AttributeHandlerElement extends ElementLikeImpl {
+//   _elementClassInstance: ElementClass | undefined
+//   _originalElementClassInstance: ElementClass | undefined
+//   render(config: ElementLikeImplRenderConfig = {}): HTMLElement | Text {
+//     // this is the context in which  function attributes of this and descendants will be evaluated. It's set up by createCreateElementConfig see below.
+//     const elementClassInstance =
+//       (this.parentElement && (this.parentElement as ElementLikeImpl)._elementClassInstance) || this._elementClassInstance
+//     const functionAttributeContext = elementClassInstance || config.initialContext
+//     if (typeof value === 'function') {
+//       if (config.dontAddEventListeners) {
+//         el.setAttribute(attribute, value.toString())
+//       } else {
+//         let fn = functionAttributeContext ? value.bind(functionAttributeContext) : value
+//         //TODO: el.removeEventListener??
+//         el.addEventListener(attribute.substring(2, attribute.length).toLowerCase(), fn)
+//         this.attrs[attribute] = undefined // forget the attribute
+//       }
+//     }
+//     // handleChildRender
+//       if (isElementLikeImpl(c) && functionAttributeContext) {
+//         c._originalElementClassInstance =c._elementClassInstance
+//         c._elementClassInstance = elementClassInstance || c._elementClassInstance
+//       }
+//       c.render({ ...config, parent: el })
+//       // .handleAfterRender
+//     const elementClassWithContainer = this._originalElementClassInstance || this._elementClassInstance
+//     if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
+//       elementClassWithContainer.setContainerEl(el)
+//     }
+//     this._elementClassInstance = undefined // forget the reference
+//     this._originalElementClassInstance = undefined // forget the reference
+//     // create create config
+//   onElementCreate({ elementLike, elementClassInstance }: { elementLike: ElementLikeImpl; elementClassInstance?: JSXAloneComponent }) {
+//     if (elementClassInstance) {
+//       elementLike._elementClassInstance = (elementClassInstance as any) as ElementClass
+//     }
+//   }
+//   }
+// }
 var TextNodeLikeImpl = /** @class */ (function (_super) {
     __extends(TextNodeLikeImpl, _super);
     function TextNodeLikeImpl() {
@@ -805,30 +857,28 @@ var ElementClass = /** @class */ (function (_super) {
     function ElementClass() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    /** element classes in DOM implementation will be given its container element. The default implementation just ignore this to keep it lightweight, but other implementations could overwrite this method */
+    ElementClass.prototype.setContainerEl = function (el) { };
     return ElementClass;
 }(jsx_alone_core_1.ElementClass));
 exports.ElementClass = ElementClass;
-exports.createCreateElementConfig = {
-    impl: ElementLikeImpl,
-    textNodeImpl: TextNodeLikeImpl,
-    functionAttributes: 'preserve',
-    onElementCreate: function (_a) {
-        var elementLike = _a.elementLike, elementClassInstance = _a.elementClassInstance;
-        if (elementClassInstance) {
-            elementLike._elementClassInstance = elementClassInstance;
-        }
-    }
-};
 
 },{"jsx-alone-core":"BB47"}],"S0OW":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var elementImpl_1 = require("./elementImpl");
+exports.createCreateElementConfig = {
+    impl: elementImpl_1.ElementLikeImpl,
+    textNodeImpl: elementImpl_1.TextNodeLikeImpl,
+    functionAttributes: 'preserve'
+};
 var Module = {
-    createElement: jsx_alone_core_1.createCreateElement(elementImpl_1.createCreateElementConfig),
+    createElement: jsx_alone_core_1.createCreateElement(exports.createCreateElementConfig),
     render: function (el, config) {
-        return el.render(config);
+        if (config === void 0) { config = {}; }
+        var elementLike = el;
+        return elementLike.render({ config: config });
     }
 };
 exports.JSXAlone = Module;
@@ -840,8 +890,7 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./createElement"));
-var elementImpl_1 = require("./elementImpl");
-exports.ElementClass = elementImpl_1.ElementClass;
+__export(require("./elementImpl"));
 
 },{"./createElement":"S0OW","./elementImpl":"gNvY"}],"wdqJ":[function(require,module,exports) {
 "use strict";

@@ -10,8 +10,17 @@
 # Usage
 
 ## Install
+
+If you want to render in the browser directly creating DOM Nodes directly:
+
 ```
 npm install jsx-alone-core jsx-alone-dom
+```
+
+Or the same but with a litle bit overhead supporting function attributes (event handlers) 
+
+```
+npm install jsx-alone-core jsx-alone-dom-extra
 ```
 
 or 
@@ -53,12 +62,69 @@ const el = JSXAlone.render(app)
 document.body.appendChild(el)
 ```
 
+(See the example: [DOM implementation](https://cancerberosgx.github.io/jsx-alone/jsx-alone-dom-sample-project/simple/index-min.html) and [string implementation](https://cancerberosgx.github.io/jsx-alone/jsx-alone-string-sample-project/simple-indented.html))
+
 Both implementations have very similar API. The only difference is the call to `JSXAlone.render()`:
 
   * string implementation returns a `string` (that can be returned in a http response)
   * DOM implementation returns a `HTMLElement` (that can appended to the document)
   * `render()` also accepts a an extra parameter for configuration, for example, string implementation can be configured to indent the output code, tab size, etc 
 
+## Extras
+
+So jsx-alone-dom and jsx-alone-string take care of rendering JSX and are as small and simple as possible with some APIs to hook in and extend the output. But the idea is that they are minimal in in size and render as fast as possible. For that reason, funtcion attributes, like `onClick` event handlers, have very limited support in both. This is why, extras packages, like jsx-dom-extras, based on them will provide these kind of features that, although they are cool, could put in danger the primary objective. 
+
+`jsx-alone-dom-extra` package has support for cool features like function attributes and stateful components (WIP):
+
+```jsx
+import { JSXAlone, StatefulElementClass } from 'jsx-alone-dom-extra'
+interface RepeaterP {
+  value: string
+}
+class Repeater extends StatefulElementClass<RepeaterP, RepeaterP> {
+  render() {
+    return <div className="Repeater">
+      Write something:
+      <input value={this.state.value} onKeyUp={e => {
+          this.setState({ value: e.currentTarget.value })
+        }}/>
+      <div>
+        Will be repeated: <span>{this.state.value}</span>
+      </div>
+    </div>    
+  }
+}
+interface P {
+  people: {
+    name: string
+  }[]
+}
+class App extends StatefulElementClass<P, P> {
+  render() {
+    return  <div className="App">
+      <button id="add" onClick={e => this.setState({ people: 
+        [...this.state.people, { name: 'random name ' + Math.random() }] })}>          
+        add</button>
+      <ul>
+        {this.state.people.map(p => (
+          <li data-id={p.name}>
+            <Repeater value={p.name} />
+            <button className="remove" onClick={e => {
+                this.setState({ people: this.state.people.filter(p2 => p2.name !== p.name) })
+              }}
+            > remove </button>
+          </li>
+        ))}
+      </ul>
+    </div>    
+  }
+}
+const app = <App people={[{ name: 'seba' }, { name: 'lau' }]} />
+const parent = document.createElement('div')
+JSXAlone.render(app, { parent: document.bod, initialContext: this })
+```
+
+[See it in action - DOM implementation only]()
 # Demos
 
 Generated html pages, using both implementations are available in [samples](https://cancerberosgx.github.io/jsx-alone/index.html). Some are static html pages generated server side with string implementation and other are JS programs rendering JSX in the browser with DOM implementation.

@@ -1,5 +1,5 @@
 import { LotsOfPeopleRendererConfig } from 'jsx-alone-sample-project-code';
-import { JSXAlone } from 'jsx-alone-dom';
+import { JSXAlone } from 'jsx-alone-dom-extra';
 import { printMs } from 'jsx-alone-core';
 export const lotsOfPeopleRenderer = (app: JSX.Element, config: LotsOfPeopleRendererConfig): {
   el: HTMLElement;

@@ -2,4 +2,4 @@ import { statefulElementClassTestRenderApp } from "./statefulElementClassTestRen
 import { dummySpec } from './testUtil';
 statefulElementClassTestRenderApp()
 
-dummySpec()
+// dummySpec()

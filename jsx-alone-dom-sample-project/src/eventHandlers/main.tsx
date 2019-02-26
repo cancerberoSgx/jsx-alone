@@ -1,5 +1,5 @@
 import { AbstractCoreMouseEvent, Children, MouseEvent, printMs} from 'jsx-alone-core'
-import { ElementClass, JSXAlone } from 'jsx-alone-dom'
+import { ElementClass, JSXAlone } from 'jsx-alone-dom-extra'
 
 class Button extends ElementClass<{ onClick: (event: MouseEvent<HTMLButtonElement, AbstractCoreMouseEvent>) => void; children: string }> {
   render() {

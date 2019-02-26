@@ -74,4 +74,4 @@ class App extends StatefulElementClass<P, P> {
     this.containerEl.appendChild(JSXAlone.render(this.render()));
   }
 }
-dummySpec()
+// dummySpec()

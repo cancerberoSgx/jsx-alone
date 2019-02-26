@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "jsx-alone-core": "file:../jsx-alone-core",
-    "jsx-alone-dom": "file:../jsx-alone-dom",
+    "jsx-alone-dom-extra": "file:../jsx-alone-dom-extra",
     "jsx-alone-string": "file:../jsx-alone-string",
     "misc-utils-of-mine-generic": "file:../../misc-utils-of-mine/misc-utils-of-mine-generic",
     "misc-utils-of-mine-random-data": "0.0.4"

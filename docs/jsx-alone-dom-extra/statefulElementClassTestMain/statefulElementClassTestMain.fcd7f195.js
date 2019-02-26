@@ -1440,15 +1440,13 @@ function buildExtraConfig(rootElementLike, extraConfig) {
           parent = config.parent,
           elementLike = config.elementLike;
 
-      if (isFunctionAttributeElement(child)) {
-        var _a = getFunctionAttributeContextObjects(elementLike, extraConfig.initialContext),
-            functionAttributeContext = _a.functionAttributeContext,
-            elementClassInstance = _a.elementClassInstance;
+      var _a = getFunctionAttributeContextObjects(elementLike, extraConfig.initialContext),
+          functionAttributeContext = _a.functionAttributeContext,
+          elementClassInstance = _a.elementClassInstance;
 
-        if (functionAttributeContext) {
-          child._originalElementClassInstance = child._elementClassInstance;
-          child._elementClassInstance = elementClassInstance || child._elementClassInstance;
-        }
+      if (functionAttributeContext && isFunctionAttributeElement(child)) {
+        child._originalElementClassInstance = child._elementClassInstance;
+        child._elementClassInstance = elementClassInstance || child._elementClassInstance;
       }
 
       child.render(__assign({}, config, configHooks, {
@@ -1689,8 +1687,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-__export(require("./createElement")); // export * from './ElementImpl'
-
+__export(require("./createElement"));
 
 __export(require("./StatefulElementClass"));
 },{"./createElement":"Q4+2","./StatefulElementClass":"NGqN"}],"YIO9":[function(require,module,exports) {
@@ -1721,22 +1718,6 @@ var __extends = this && this.__extends || function () {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
   };
 }();
-
-var __assign = this && this.__assign || function () {
-  __assign = Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-
-      for (var p in s) {
-        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-      }
-    }
-
-    return t;
-  };
-
-  return __assign.apply(this, arguments);
-};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -1770,12 +1751,13 @@ var Repeater =
 function (_super) {
   __extends(Repeater, _super);
 
-  function Repeater(p) {
-    var _this = _super.call(this, p) || this;
+  function Repeater() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  } // constructor(p: RepeaterP) {
+  //   super(p)
+  //   this.state = { ...p }
+  // }
 
-    _this.state = __assign({}, p);
-    return _this;
-  }
 
   Repeater.prototype.render = function () {
     var _this = this;
@@ -1785,8 +1767,6 @@ function (_super) {
     }, "Write something:", __1.JSXAlone.createElement("input", {
       value: this.state.value,
       onKeyUp: function onKeyUp(e) {
-        console.log(e.currentTarget.value);
-
         _this.setState({
           value: e.currentTarget.value
         });
@@ -1802,55 +1782,48 @@ var App =
 function (_super) {
   __extends(App, _super);
 
-  function App(p) {
-    var _this = _super.call(this, p) || this;
+  function App() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  } // constructor(p: P) {
+  //   super(p)
+  //   this.state = { ...p }
+  // }
 
-    _this.state = __assign({}, p);
-    return _this;
-  }
 
   App.prototype.render = function () {
     var _this = this;
 
-    return (// <Repeater value={'p.name'} />
-      __1.JSXAlone.createElement("div", {
-        className: "App"
-      }, __1.JSXAlone.createElement("button", {
-        id: "add",
+    return __1.JSXAlone.createElement("div", {
+      className: "App"
+    }, __1.JSXAlone.createElement("button", {
+      id: "add",
+      onClick: function onClick(e) {
+        return _this.setState({
+          people: _this.state.people.concat([{
+            name: 'random name ' + Math.random()
+          }])
+        });
+      }
+    }, "add"), __1.JSXAlone.createElement("ul", null, this.state.people.map(function (p) {
+      return __1.JSXAlone.createElement("li", {
+        "data-id": p.name
+      }, __1.JSXAlone.createElement(Repeater, {
+        value: p.name
+      }), __1.JSXAlone.createElement("button", {
+        className: "remove",
         onClick: function onClick(e) {
-          return _this.setState({
-            people: _this.state.people.concat([{
-              name: 'random name ' + Math.random()
-            }])
+          _this.setState({
+            people: _this.state.people.filter(function (p2) {
+              return p2.name !== p.name;
+            })
           });
         }
-      }, "add"), __1.JSXAlone.createElement("ul", null, this.state.people.map(function (p) {
-        return __1.JSXAlone.createElement("li", {
-          "data-id": p.name
-        }, __1.JSXAlone.createElement(Repeater, {
-          value: p.name
-        }), __1.JSXAlone.createElement("button", {
-          className: "remove",
-          onClick: function onClick(e) {
-            _this.setState({
-              people: _this.state.people.filter(function (p2) {
-                return p2.name !== p.name;
-              })
-            });
-          }
-        }, "remove"));
-      })))
-    );
-  };
-
-  App.prototype.setState = function (s) {
-    this.state = __assign({}, this.state, s);
-    this.containerEl.innerHTML = '';
-    this.containerEl.appendChild(__1.JSXAlone.render(this.render()));
+      }, "remove"));
+    })));
   };
 
   return App;
-}(__1.StatefulElementClass);
+}(__1.StatefulElementClass); // dummySpec()
 },{"..":"l36I"}],"Yf8H":[function(require,module,exports) {
 "use strict";
 
@@ -1860,6 +1833,6 @@ Object.defineProperty(exports, "__esModule", {
 
 var statefulElementClassTestRenderApp_1 = require("./statefulElementClassTestRenderApp");
 
-statefulElementClassTestRenderApp_1.statefulElementClassTestRenderApp();
+statefulElementClassTestRenderApp_1.statefulElementClassTestRenderApp(); // dummySpec()
 },{"./statefulElementClassTestRenderApp":"YIO9"}]},{},["Yf8H"], null)
 //# sourceMappingURL=statefulElementClassTestMain.fcd7f195.map

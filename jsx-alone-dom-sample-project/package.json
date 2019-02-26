@@ -16,15 +16,16 @@
     "test-watch": "npm test -- --watch"
   },
   "dependencies": {
-    "@types/jest": "^24.0.6",
-    "jest": "^24.1.0",
     "jsx-alone-core": "file:../jsx-alone-core",
+    "jsx-alone-dom-extra": "file:../jsx-alone-dom-extra",
     "jsx-alone-dom": "file:../jsx-alone-dom",
     "jsx-alone-sample-project-code": "file:../jsx-alone-sample-project-code"
   },
   "devDependencies": {
     "@types/shelljs": "^0.8.3",
     "parcel": "^1.11.0",
+    "@types/jest": "^24.0.6",
+    "jest": "^24.1.0",
     "shelljs": "^0.8.3",
     "ts-jest": "^24.0.0",
     "typescript": "^3.2.2"

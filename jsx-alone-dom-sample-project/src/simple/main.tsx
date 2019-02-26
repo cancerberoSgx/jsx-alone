@@ -23,7 +23,6 @@ class App extends ElementClass<{
   }
 }
 
-
 // render the App and append the generated element to body
 const app = <App name="John Doe" tasks={['Wash dishes', 'Go outside', 'Play soccer']} />;
 const el = JSXAlone.render(app);

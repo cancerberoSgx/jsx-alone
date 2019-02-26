@@ -472,7 +472,7 @@ function debug(err) {
   }
 }
 
-exports.debug = debug;
+exports.debug = debug; // let lastElementClassInstance:JSXAloneComponent|undefined
 
 function createCreateElement(config) {
   var impl = config.impl,
@@ -480,8 +480,9 @@ function createCreateElement(config) {
       escapeAttributes = config.escapeAttributes,
       functionAttributes = config.functionAttributes,
       onElementReady = config.onElementReady,
-      onElementCreate = config.onElementCreate;
-  return function createElement(tag, attrs) {
+      onElementCreate = config.onElementCreated;
+
+  var createElement = function createElement(tag, attrs) {
     if (attrs === void 0) {
       attrs = {};
     }
@@ -499,7 +500,8 @@ function createCreateElement(config) {
       element = new impl(tag);
     } else {
       if (elementImpl_1.isJSXAloneComponent(tag)) {
-        elementClassInstance = new tag(__assign({}, attrs, {
+        elementClassInstance = // lastElementClassInstance=
+        new tag(__assign({}, attrs, {
           children: children
         }));
         element = elementClassInstance.render();
@@ -561,7 +563,11 @@ function createCreateElement(config) {
           debug("unrecognized attribute \"" + name_1 + "\" with type " + _typeof(value_1));
         }
       }
-    };
+    }; // if(onElementCreate){
+    //   onElementCreate({elementLike: element, elementClassInstance})
+    // }
+    // elementClassInstance=elementClassInstance || lastElementClassInstance
+
 
     for (var name_1 in attrs) {
       _loop_1(name_1);
@@ -591,11 +597,15 @@ function createCreateElement(config) {
     }
 
     if (onElementReady) {
-      element = onElementReady(element);
+      onElementReady({
+        elementLike: element
+      });
     }
 
     return element;
   };
+
+  return createElement;
 }
 
 exports.createCreateElement = createCreateElement;
@@ -773,7 +783,7 @@ function makePeople(config) {
     return p;
   });
 }
-},{"../util":"/5mC","jsx-alone-core":"USgY"}],"k0NB":[function(require,module,exports) {
+},{"../util":"/5mC","jsx-alone-core":"USgY"}],"rXDA":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -901,7 +911,7 @@ function () {
 }();
 
 exports.AbstractElementLike = AbstractElementLike;
-},{"./util":"8yB0"}],"U/x1":[function(require,module,exports) {
+},{"./util":"8yB0"}],"YN8N":[function(require,module,exports) {
 "use strict";
 
 var __extends = this && this.__extends || function () {
@@ -981,7 +991,7 @@ function (_super) {
 }(ElementClass);
 
 exports.AbstractElementClass = AbstractElementClass;
-},{"./elementImpl":"k0NB"}],"/Hzm":[function(require,module,exports) {
+},{"./elementImpl":"rXDA"}],"p5lv":[function(require,module,exports) {
 "use strict";
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1018,7 +1028,7 @@ function debug(err) {
   }
 }
 
-exports.debug = debug;
+exports.debug = debug; // let lastElementClassInstance:JSXAloneComponent|undefined
 
 function createCreateElement(config) {
   var impl = config.impl,
@@ -1026,8 +1036,9 @@ function createCreateElement(config) {
       escapeAttributes = config.escapeAttributes,
       functionAttributes = config.functionAttributes,
       onElementReady = config.onElementReady,
-      onElementCreate = config.onElementCreate;
-  return function createElement(tag, attrs) {
+      onElementCreate = config.onElementCreated;
+
+  var createElement = function createElement(tag, attrs) {
     if (attrs === void 0) {
       attrs = {};
     }
@@ -1045,7 +1056,8 @@ function createCreateElement(config) {
       element = new impl(tag);
     } else {
       if (elementImpl_1.isJSXAloneComponent(tag)) {
-        elementClassInstance = new tag(__assign({}, attrs, {
+        elementClassInstance = // lastElementClassInstance=
+        new tag(__assign({}, attrs, {
           children: children
         }));
         element = elementClassInstance.render();
@@ -1107,7 +1119,11 @@ function createCreateElement(config) {
           debug("unrecognized attribute \"" + name_1 + "\" with type " + _typeof(value_1));
         }
       }
-    };
+    }; // if(onElementCreate){
+    //   onElementCreate({elementLike: element, elementClassInstance})
+    // }
+    // elementClassInstance=elementClassInstance || lastElementClassInstance
+
 
     for (var name_1 in attrs) {
       _loop_1(name_1);
@@ -1137,16 +1153,20 @@ function createCreateElement(config) {
     }
 
     if (onElementReady) {
-      element = onElementReady(element);
+      onElementReady({
+        elementLike: element
+      });
     }
 
     return element;
   };
+
+  return createElement;
 }
 
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
-},{"./elementImpl":"k0NB"}],"TuGG":[function(require,module,exports) {
+},{"./elementImpl":"rXDA"}],"DGyU":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1231,7 +1251,7 @@ exports.If = If;
 function isNotFalsy(a) {
   return !!a;
 }
-},{".":"dIAC"}],"dIAC":[function(require,module,exports) {
+},{".":"oR8i"}],"oR8i":[function(require,module,exports) {
 "use strict";
 
 function __export(m) {
@@ -1258,7 +1278,502 @@ exports.AbstractElementLike = elementImpl_1.AbstractElementLike;
 __export(require("./misc"));
 
 __export(require("./util"));
-},{"./elementImpl":"k0NB","./elementClass":"U/x1","./createElement":"/Hzm","./misc":"TuGG","./util":"8yB0"}],"KmFW":[function(require,module,exports) {
+},{"./elementImpl":"rXDA","./elementClass":"YN8N","./createElement":"p5lv","./misc":"DGyU","./util":"8yB0"}],"tNvU":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var util_1 = require("./util");
+
+function isJSXAloneComponent(c) {
+  return c.prototype && c.prototype.render;
+}
+
+exports.isJSXAloneComponent = isJSXAloneComponent;
+
+function isNode(n) {
+  return isTextNodeLike(n) || isElementLike(n);
+}
+
+exports.isNode = isNode;
+
+function isElementLike(n) {
+  return n && n.setAttribute;
+}
+
+exports.isElementLike = isElementLike;
+
+function isTextNodeLike(n) {
+  return n && n.content && !isElementLike(n);
+}
+
+exports.isTextNodeLike = isTextNodeLike;
+
+var AbstractTextNodeLike =
+/** @class */
+function () {
+  function AbstractTextNodeLike(content) {
+    this.content = content;
+  }
+
+  return AbstractTextNodeLike;
+}();
+
+exports.AbstractTextNodeLike = AbstractTextNodeLike;
+
+var AbstractElementLike =
+/** @class */
+function () {
+  function AbstractElementLike(tag) {
+    this.tag = tag;
+    this.attrs = {};
+    this.children = [];
+  }
+
+  AbstractElementLike.prototype.setAttribute = function (name, value) {
+    this.attrs[name] = value;
+  };
+
+  AbstractElementLike.prototype.appendChild = function (c) {
+    this.children.push(c);
+
+    if (isElementLike(c)) {
+      c.parentElement = this;
+    }
+  };
+
+  AbstractElementLike.prototype.findDescendant = function (p) {
+    var found;
+    this.children.some(function (c) {
+      if (isElementLike(c)) {
+        if (p(c)) {
+          found = c;
+        } else {
+          found = c.findDescendant(p);
+        }
+      }
+
+      return !!found;
+    });
+    return found;
+  };
+
+  AbstractElementLike.prototype.findAscendant = function (p) {
+    if (this.parentElement) {
+      if (p(this.parentElement)) {
+        return this.parentElement;
+      }
+
+      return this.parentElement.findAscendant(p);
+    }
+  };
+
+  AbstractElementLike.prototype.getAscendants = function () {
+    return this.parentElement ? this.parentElement.getAscendants().concat([this.parentElement]) : [];
+  };
+
+  AbstractElementLike.prototype.getRootAscendant = function () {
+    var r = this.parentElement ? this.findAscendant(function (n) {
+      return isElementLike(n) && !n.parentElement;
+    }) : this;
+    return util_1.checkThrow(r, 'No root ascendant found in element like tree!');
+  };
+
+  AbstractElementLike.prototype.getSiblings = function () {
+    var _this = this;
+
+    if (this.parentElement) {
+      return this.parentElement.children.filter(function (c) {
+        return c !== _this;
+      });
+    }
+
+    return [];
+  };
+
+  AbstractElementLike.prototype.findSibling = function (p) {
+    return this.getSiblings().find(p);
+  };
+
+  AbstractElementLike.prototype.find = function (p) {
+    // TODO: this should start searching in the near children, sibling and parents, and only after that look on far nodes
+    return this.getRootAscendant().findDescendant(p);
+  };
+
+  return AbstractElementLike;
+}();
+
+exports.AbstractElementLike = AbstractElementLike;
+},{"./util":"8yB0"}],"LhFj":[function(require,module,exports) {
+"use strict";
+
+var __extends = this && this.__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var elementImpl_1 = require("./elementImpl");
+/**
+ * A Class able to render() JSX. Similar to React.Component but only supporting properties, without state, context, ref, did/will methods, etc.
+ */
+
+
+var ElementClass =
+/** @class */
+function () {
+  function ElementClass(props) {
+    this.props = props;
+  }
+
+  ElementClass.prototype.childrenAsArray = function () {
+    return Array.isArray(this.props.children) ? this.props.children : [this.props.children];
+  };
+
+  ElementClass.prototype.childrenElementsAsArray = function () {
+    return this.childrenAsArray().filter(function (c) {
+      return elementImpl_1.isElementLike(c);
+    });
+  };
+
+  ElementClass.prototype.firstChildElement = function () {
+    return this.childrenAsArray().find(function (e) {
+      return true;
+    });
+  };
+
+  return ElementClass;
+}();
+
+exports.ElementClass = ElementClass;
+
+var AbstractElementClass =
+/** @class */
+function (_super) {
+  __extends(AbstractElementClass, _super);
+
+  function AbstractElementClass() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  return AbstractElementClass;
+}(ElementClass);
+
+exports.AbstractElementClass = AbstractElementClass;
+},{"./elementImpl":"tNvU"}],"1Ljm":[function(require,module,exports) {
+"use strict";
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var elementImpl_1 = require("./elementImpl");
+
+var throwOnUnrecognized = false;
+
+function debug(err) {
+  if (throwOnUnrecognized) {
+    throw err;
+  } else {
+    console.error(err);
+  }
+}
+
+exports.debug = debug; // let lastElementClassInstance:JSXAloneComponent|undefined
+
+function createCreateElement(config) {
+  var impl = config.impl,
+      textNodeImpl = config.textNodeImpl,
+      escapeAttributes = config.escapeAttributes,
+      functionAttributes = config.functionAttributes,
+      onElementReady = config.onElementReady,
+      onElementCreate = config.onElementCreated;
+
+  var createElement = function createElement(tag, attrs) {
+    if (attrs === void 0) {
+      attrs = {};
+    }
+
+    var children = [];
+
+    for (var _i = 2; _i < arguments.length; _i++) {
+      children[_i - 2] = arguments[_i];
+    }
+
+    var element;
+    var elementClassInstance;
+
+    if (typeof tag === 'string') {
+      element = new impl(tag);
+    } else {
+      if (elementImpl_1.isJSXAloneComponent(tag)) {
+        elementClassInstance = // lastElementClassInstance=
+        new tag(__assign({}, attrs, {
+          children: children
+        }));
+        element = elementClassInstance.render();
+      } else {
+        element = tag(__assign({}, attrs, {
+          children: children
+        })); //TODO: expose function element context
+      }
+
+      attrs = {};
+    }
+
+    if (onElementCreate) {
+      onElementCreate({
+        elementLike: element,
+        elementClassInstance: elementClassInstance
+      });
+    }
+
+    var _loop_1 = function _loop_1(name_1) {
+      if (name_1 && attrs.hasOwnProperty(name_1)) {
+        var value_1 = attrs[name_1];
+
+        if (typeof value_1 === 'boolean') {
+          if (value_1 === true) {
+            element.setAttribute(name_1, name_1);
+          }
+        } else if (typeof value_1 === 'function') {
+          if (!functionAttributes || functionAttributes === 'preserve') {
+            element.setAttribute(name_1, value_1);
+          } else {
+            var code = functionAttributes === 'toString-this' ? "_this = __this__ = this; (" + value_1.toString() + ").apply(_this, arguments)" : value_1.toString();
+            var escaped = escapeAttributes ? escapeAttributes(code) : code;
+            element.setAttribute(name_1, escaped);
+          }
+        } else if (value_1 !== false && value_1 != null) {
+          if (name_1 === 'className') {
+            if (typeof value_1 === 'string') {
+              element.setAttribute('class', value_1);
+            } else if (Array.isArray(value_1) && value_1.length && typeof value_1[0] === 'string') {
+              element.setAttribute('class', value_1.join(' '));
+            } else {
+              debug("unrecognized className value " + _typeof(value_1) + " " + value_1);
+            }
+          } else {
+            element.setAttribute(name_1, value_1.toString());
+          }
+        } else if (_typeof(value_1) === 'object') {
+          if (name_1 === 'style') {
+            element.setAttribute('style', "" + Object.keys(value_1).map(function (p) {
+              return p + ": " + value_1[p];
+            }).join('; '));
+          } else if (name_1 === 'dangerouslySetInnerHTML' && value_1 && typeof value_1.__html === 'string') {
+            element.dangerouslySetInnerHTML(value_1.__html);
+          } else {
+            debug("unrecognized object attribute \"" + name_1 + "\" - the only object attribute supported is \"style\"");
+          }
+        } else {
+          debug("unrecognized attribute \"" + name_1 + "\" with type " + _typeof(value_1));
+        }
+      }
+    }; // if(onElementCreate){
+    //   onElementCreate({elementLike: element, elementClassInstance})
+    // }
+    // elementClassInstance=elementClassInstance || lastElementClassInstance
+
+
+    for (var name_1 in attrs) {
+      _loop_1(name_1);
+    }
+
+    if (typeof tag === 'string') {
+      // don't render children for function or classes since they are responsible of render their own children
+      children.filter(function (c) {
+        return c;
+      }).forEach(function (child) {
+        if (elementImpl_1.isNode(child)) {
+          element.appendChild(child);
+        } else if (Array.isArray(child)) {
+          child.forEach(function (c) {
+            if (typeof c === 'string') {
+              element.appendChild(new textNodeImpl(c));
+            } else if (elementImpl_1.isNode(c)) {
+              element.appendChild(c);
+            } else {
+              debug("Child is not a node or string: " + c + " , tag: " + tag);
+            }
+          });
+        } else {
+          element.appendChild(new textNodeImpl(child));
+        }
+      });
+    }
+
+    if (onElementReady) {
+      onElementReady({
+        elementLike: element
+      });
+    }
+
+    return element;
+  };
+
+  return createElement;
+}
+
+exports.createCreateElement = createCreateElement;
+exports.AbstractJSXAlone = null;
+},{"./elementImpl":"tNvU"}],"YbOo":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+}); // import { AbstractJSXAlone as  } from './createElement';
+
+var _1 = require("."); // export type Props = { children: Children }
+// TODO: like React.Fragment
+
+
+exports.Fragment = function (props) {
+  return _1.AbstractJSXAlone.createElement("span", null, props.children);
+};
+
+function Js(props) {
+  var r = props.children();
+  console.log(r);
+  return r ? _1.AbstractJSXAlone.createElement(exports.Fragment, null, r) : null;
+}
+
+exports.Js = Js;
+/** if as statement. children need to be in a function and the function accepts a parameter which value is given condition `c` but casted to NotFalsy<C> so there's no need of type guards in the body. Example:
+```
+<If c={type}>{type =>
+  <select multiple={true}>{names[type].map(c =>
+      <option value={c.id}>{c.label}</option>)}
+  </select>
+</If>
+```
+
+No error thrown on second line because parameter type is not falsy but keep the original type (excluding falsy values)
+
+Other example:
+
+```
+export class ErrorComponent extends React.Component<ErrorOptions> {
+  public render() {
+    return <div>
+      <If c={this.props.error}>{error =>
+        <React.Fragment>
+          <h2>Error</h2>
+          <If c={typeof error === 'string'}>{e =>
+            <h3>{e}</h3>}
+          </If>
+          <If c={typeof error === 'object'}>{e =>
+            <React.Fragment>
+              <h5>{error!.name}</h5>
+              <p>{error!.message}</p>
+              <If c={error.stack}>{e =>
+                <ul>
+                  {e.split('\n').map(e =>
+                    <li>{e}</li>)}
+                </ul>}
+              </If>
+            </React.Fragment>}
+          </If>
+          <If c={this.props.responseText}>{responseText =>
+            <iframe css={{ border: 0, width: '100%', height: '400px' }} srcDoc={responseText}>
+            </iframe>}
+          </If>
+        </React.Fragment>}
+      </If>
+    </div>
+  }
+}
+
+```
+*/
+
+function If(props) {
+  //TODO: issue in dom implementation, children is an array 
+  var f = Array.isArray(props.children) ? props.children[0] : props.children;
+  var c = props.c,
+      p = props.p;
+  if (isNotFalsy(c)) return f.apply(null, (p ? [p] : []).concat([c]));else {
+    return null;
+  }
+}
+
+exports.If = If;
+
+function isNotFalsy(a) {
+  return !!a;
+}
+},{".":"5ghe"}],"5ghe":[function(require,module,exports) {
+"use strict";
+
+function __export(m) {
+  for (var p in m) {
+    if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+  }
+}
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+__export(require("./elementImpl"));
+
+__export(require("./elementClass"));
+
+__export(require("./createElement"));
+
+var elementImpl_1 = require("./elementImpl");
+
+exports.AbstractTextNodeLike = elementImpl_1.AbstractTextNodeLike;
+exports.AbstractElementLike = elementImpl_1.AbstractElementLike;
+
+__export(require("./misc"));
+
+__export(require("./util"));
+},{"./elementImpl":"tNvU","./elementClass":"LhFj","./createElement":"1Ljm","./misc":"YbOo","./util":"8yB0"}],"gY7c":[function(require,module,exports) {
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -1295,33 +1810,31 @@ var ElementLikeImpl = /** @class */ (function (_super) {
         var _this = this;
         if (config === void 0) { config = {}; }
         var el = document.createElement(this.tag);
-        // this is the context in which  function attributes of this and descendants will be evaluated. It's set up by createCreateElementConfig see below.
-        var elementClassInstance = (this.parentElement && this.parentElement._elementClassInstance) || this._elementClassInstance;
         Object.keys(this.attrs).forEach(function (attribute) {
             var value = _this.attrs[attribute];
-            if (typeof value === 'function') {
-                var fn = elementClassInstance ? value.bind(elementClassInstance) : value;
-                el.addEventListener(attribute.substring(2, attribute.length).toLowerCase(), fn);
-                _this.attrs[attribute] = undefined;
-            }
-            else {
-                el.setAttribute(attribute, value);
+            if (!config.handleAttribute || !config.handleAttribute({ config: config, el: el, attribute: attribute, value: value, elementLike: _this })) {
+                if (typeof value === 'function') {
+                    el.setAttribute(attribute, value.toString());
+                }
+                else {
+                    el.setAttribute(attribute, value + '');
+                }
             }
         });
         if (this._innerHtml) {
             el.innerHTML = this._innerHtml;
         }
         this.children.forEach(function (c) {
-            if (elementClassInstance) {
-                ;
-                c._elementClassInstance = elementClassInstance || c._elementClassInstance;
+            if (!config.handleChildRender || !config.handleChildRender({ config: config, parent: el, child: c, elementLike: _this })) {
+                c.render(__assign({}, config, { parent: el }));
             }
-            c.render(__assign({}, config, { parent: el }));
         });
         if (config.parent) {
             config.parent.appendChild(el);
         }
-        this._elementClassInstance = undefined;
+        if (config.handleAfterRender) {
+            config.handleAfterRender({ config: config, el: el, elementLike: this });
+        }
         return el;
     };
     ElementLikeImpl.prototype.dangerouslySetInnerHTML = function (s) {
@@ -1330,6 +1843,50 @@ var ElementLikeImpl = /** @class */ (function (_super) {
     return ElementLikeImpl;
 }(jsx_alone_core_1.AbstractElementLike));
 exports.ElementLikeImpl = ElementLikeImpl;
+// export interface ElementLikeImplRenderConfig extends ElementLikeImplRenderConfig {
+//   parent?: HTMLElement,
+//   dontAddEventListeners?: boolean
+//   initialContext?: any
+// }
+// class AttributeHandlerElement extends ElementLikeImpl {
+//   _elementClassInstance: ElementClass | undefined
+//   _originalElementClassInstance: ElementClass | undefined
+//   render(config: ElementLikeImplRenderConfig = {}): HTMLElement | Text {
+//     // this is the context in which  function attributes of this and descendants will be evaluated. It's set up by createCreateElementConfig see below.
+//     const elementClassInstance =
+//       (this.parentElement && (this.parentElement as ElementLikeImpl)._elementClassInstance) || this._elementClassInstance
+//     const functionAttributeContext = elementClassInstance || config.initialContext
+//     if (typeof value === 'function') {
+//       if (config.dontAddEventListeners) {
+//         el.setAttribute(attribute, value.toString())
+//       } else {
+//         let fn = functionAttributeContext ? value.bind(functionAttributeContext) : value
+//         //TODO: el.removeEventListener??
+//         el.addEventListener(attribute.substring(2, attribute.length).toLowerCase(), fn)
+//         this.attrs[attribute] = undefined // forget the attribute
+//       }
+//     }
+//     // handleChildRender
+//       if (isElementLikeImpl(c) && functionAttributeContext) {
+//         c._originalElementClassInstance =c._elementClassInstance
+//         c._elementClassInstance = elementClassInstance || c._elementClassInstance
+//       }
+//       c.render({ ...config, parent: el })
+//       // .handleAfterRender
+//     const elementClassWithContainer = this._originalElementClassInstance || this._elementClassInstance
+//     if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
+//       elementClassWithContainer.setContainerEl(el)
+//     }
+//     this._elementClassInstance = undefined // forget the reference
+//     this._originalElementClassInstance = undefined // forget the reference
+//     // create create config
+//   onElementCreate({ elementLike, elementClassInstance }: { elementLike: ElementLikeImpl; elementClassInstance?: JSXAloneComponent }) {
+//     if (elementClassInstance) {
+//       elementLike._elementClassInstance = (elementClassInstance as any) as ElementClass
+//     }
+//   }
+//   }
+// }
 var TextNodeLikeImpl = /** @class */ (function (_super) {
     __extends(TextNodeLikeImpl, _super);
     function TextNodeLikeImpl() {
@@ -1351,59 +1908,253 @@ var ElementClass = /** @class */ (function (_super) {
     function ElementClass() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    /** element classes in DOM implementation will be given its container element. The default implementation just ignore this to keep it lightweight, but other implementations could overwrite this method */
+    ElementClass.prototype.setContainerEl = function (el) { };
     return ElementClass;
 }(jsx_alone_core_1.ElementClass));
 exports.ElementClass = ElementClass;
-exports.createCreateElementConfig = {
-    impl: ElementLikeImpl,
-    textNodeImpl: TextNodeLikeImpl,
-    functionAttributes: 'preserve',
-    onElementCreate: function (_a) {
-        var elementLike = _a.elementLike, elementClassInstance = _a.elementClassInstance;
-        if (elementClassInstance) {
-            elementLike._elementClassInstance = elementClassInstance;
-        }
-    }
-};
 
-},{"jsx-alone-core":"dIAC"}],"Hbm/":[function(require,module,exports) {
+},{"jsx-alone-core":"5ghe"}],"up5O":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var elementImpl_1 = require("./elementImpl");
+exports.createCreateElementConfig = {
+    impl: elementImpl_1.ElementLikeImpl,
+    textNodeImpl: elementImpl_1.TextNodeLikeImpl,
+    functionAttributes: 'preserve'
+};
 var Module = {
-    createElement: jsx_alone_core_1.createCreateElement(elementImpl_1.createCreateElementConfig),
+    createElement: jsx_alone_core_1.createCreateElement(exports.createCreateElementConfig),
     render: function (el, config) {
-        return el.render(config);
+        if (config === void 0) { config = {}; }
+        var elementLike = el;
+        return elementLike.render({ config: config });
     }
 };
 exports.JSXAlone = Module;
 
-},{"jsx-alone-core":"dIAC","./elementImpl":"KmFW"}],"jxZo":[function(require,module,exports) {
+},{"jsx-alone-core":"5ghe","./elementImpl":"gY7c"}],"Docs":[function(require,module,exports) {
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./createElement"));
-var elementImpl_1 = require("./elementImpl");
-exports.ElementClass = elementImpl_1.ElementClass;
+__export(require("./elementImpl"));
 
-},{"./createElement":"Hbm/","./elementImpl":"KmFW"}],"JVGL":[function(require,module,exports) {
+},{"./createElement":"up5O","./elementImpl":"gY7c"}],"l3Wm":[function(require,module,exports) {
+"use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var jsx_alone_core_1 = require("jsx-alone-core");
+var jsx_alone_dom_1 = require("jsx-alone-dom");
+exports.ElementClass = jsx_alone_dom_1.ElementClass;
+function buildExtraConfig(rootElementLike, extraConfig) {
+    var configHooks = {
+        handleAttribute: function (_a) {
+            var value = _a.value, el = _a.el, attribute = _a.attribute, elementLike = _a.elementLike;
+            if (typeof value === 'function' && !extraConfig.dontAddEventListeners) {
+                var functionAttributeContext = getFunctionAttributeContextObjects(elementLike, extraConfig.initialContext).functionAttributeContext;
+                var fn = functionAttributeContext ? value.bind(functionAttributeContext) : value;
+                el.addEventListener(attribute.substring(2, attribute.length).toLowerCase(), fn);
+                elementLike.attrs[attribute] = undefined; // forget the reference
+                return true;
+            }
+            return false;
+        },
+        handleChildRender: function (config) {
+            var child = config.child, parent = config.parent, elementLike = config.elementLike;
+            var _a = getFunctionAttributeContextObjects(elementLike, extraConfig.initialContext), functionAttributeContext = _a.functionAttributeContext, elementClassInstance = _a.elementClassInstance;
+            if (functionAttributeContext && isFunctionAttributeElement(child)) {
+                child._originalElementClassInstance = child._elementClassInstance;
+                child._elementClassInstance = elementClassInstance || child._elementClassInstance;
+            }
+            child.render(__assign({}, config, configHooks, { parent: parent }));
+            return true;
+        },
+        handleAfterRender: function (_a) {
+            var el = _a.el, elementLike = _a.elementLike;
+            var elementClassWithContainer = elementLike._originalElementClassInstance || elementLike._elementClassInstance || rootElementLike._elementClassInstance;
+            if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
+                elementClassWithContainer.setContainerEl(el);
+            }
+            elementLike._elementClassInstance = undefined; // forget the reference
+            elementLike._originalElementClassInstance = undefined; // forget the reference
+            return true;
+        }
+    };
+    return configHooks;
+    function getFunctionAttributeContextObjects(elementLike, initialContext) {
+        var elementClassInstance = (elementLike.parentElement && elementLike._elementClassInstance) || rootElementLike._elementClassInstance;
+        return { functionAttributeContext: elementClassInstance || initialContext, elementClassInstance: elementClassInstance };
+    }
+}
+exports.createCreateConfig = __assign({}, jsx_alone_dom_1.createCreateElementConfig, { impl: jsx_alone_dom_1.ElementLikeImpl, textNodeImpl: jsx_alone_dom_1.TextNodeLikeImpl, functionAttributes: 'preserve', onElementCreated: function (_a) {
+        var elementLike = _a.elementLike, elementClassInstance = _a.elementClassInstance;
+        if (elementClassInstance) {
+            elementLike._elementClassInstance = elementClassInstance;
+        }
+    } });
+var Module = {
+    createElement: jsx_alone_core_1.createCreateElement(exports.createCreateConfig),
+    render: function (el, config) {
+        if (config === void 0) { config = {}; }
+        var elementLike = el;
+        return elementLike.render(__assign({}, config, buildExtraConfig(elementLike, { initialContext: config.initialContext || this })));
+    }
+};
+exports.JSXAlone = Module;
+function isFunctionAttributeElement(a) {
+    return jsx_alone_core_1.isElementLike(a);
+}
+
+},{"jsx-alone-core":"oR8i","jsx-alone-dom":"Docs"}],"IVbF":[function(require,module,exports) {
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var _1 = require(".");
+var StatefulElementClass = /** @class */ (function (_super) {
+    __extends(StatefulElementClass, _super);
+    function StatefulElementClass(p) {
+        var _this = _super.call(this, p) || this;
+        _this.state = {};
+        _this.containerEl = undefined;
+        _this.state = __assign({}, p);
+        return _this;
+    }
+    /** changes the state, clean up containerEl and renders the element again and append it to containerEl.
+     * Notice that descendant elements will be destroyed and */
+    StatefulElementClass.prototype.setState = function (s) {
+        this.state = __assign({}, this.state, s); //= { start: 0, end: 0, direction: undefined }
+        var activePath;
+        var selection = { start: 0, end: 0 };
+        if (document.activeElement) {
+            activePath = getXPathOfElement(document.activeElement);
+            selection = {
+                start: document.activeElement.selectionStart || 0,
+                end: document.activeElement.selectionEnd || 0,
+                direction: document.activeElement.selectionDirection || undefined
+            };
+        }
+        var jsx = this.render();
+        var el = _1.JSXAlone.render(jsx, { initialContext: this });
+        this.containerEl.parentElement.replaceChild(el, this.containerEl); // This should remove event listeners too. TODO: verify
+        this.containerEl = el;
+        if (activePath) {
+            var activeEl = getElementByXPath(activePath + '');
+            if (activeEl && selection) {
+                activeEl.focus();
+                if (activeEl.setSelectionRange) {
+                    activeEl.setSelectionRange(selection.start, selection.end, selection.direction);
+                }
+            }
+        }
+    };
+    /** called by ElementLike.render() */
+    StatefulElementClass.prototype.setContainerEl = function (el) {
+        this.containerEl = el;
+    };
+    return StatefulElementClass;
+}(_1.ElementClass));
+exports.StatefulElementClass = StatefulElementClass;
+//  TODO: move to misc
+function getXPathOfElement(el) {
+    if (typeof el == 'string') {
+        return document.evaluate(el, document, null, 0, null) + '';
+    }
+    if (!el || el.nodeType != 1) {
+        return '';
+    }
+    if (el.id)
+        return "//*[@id='" + el.id + "']";
+    if (el.parentNode) {
+        var sames = Array.from(el.parentNode.children).filter(function (x) { return x.tagName == el.tagName; });
+        return (getXPathOfElement(el.parentNode) +
+            '/' +
+            (el.tagName || '').toLowerCase() +
+            (sames.length > 1 ? '[' + (sames.indexOf(el) + 1) + ']' : ''));
+    }
+    else {
+        return undefined;
+    }
+}
+//  TODO: move to misc
+function getElementByXPath(path, predicate) {
+    var p = document.evaluate(path, document, null, 0, null);
+    if (!predicate) {
+        return p.iterateNext();
+    }
+    try {
+        var n = void 0;
+        var n2 = void 0;
+        while ((n = p.iterateNext()) && !predicate(n)) {
+            n2 = n;
+        }
+        return n2;
+    }
+    catch (e) {
+        alert('Error: Document tree modified during iteration ' + e);
+    }
+}
+
+},{".":"LAcR"}],"LAcR":[function(require,module,exports) {
+"use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(require("./createElement"));
+__export(require("./StatefulElementClass"));
+
+},{"./createElement":"l3Wm","./StatefulElementClass":"IVbF"}],"JVGL":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var jsx_alone_dom_1 = require("jsx-alone-dom");
+var jsx_alone_dom_extra_1 = require("jsx-alone-dom-extra");
 
 function getJSXAlone() {
-  return jsx_alone_dom_1.JSXAlone;
+  return jsx_alone_dom_extra_1.JSXAlone;
 }
 
 exports.getJSXAlone = getJSXAlone;
-},{"jsx-alone-dom":"jxZo"}],"IAey":[function(require,module,exports) {
+},{"jsx-alone-dom-extra":"LAcR"}],"IAey":[function(require,module,exports) {
 "use strict";
 
 var __extends = this && this.__extends || function () {
@@ -1624,7 +2375,7 @@ var renderApp_1 = require("./lotsOfPeople/renderApp");
 exports.lotsOfPeople = renderApp_1.renderApp;
 
 __export(require("./util"));
-},{"./lotsOfPeople/renderApp":"z8rF","./util":"/5mC"}],"vmAk":[function(require,module,exports) {
+},{"./lotsOfPeople/renderApp":"z8rF","./util":"/5mC"}],"QcDf":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1752,7 +2503,7 @@ function () {
 }();
 
 exports.AbstractElementLike = AbstractElementLike;
-},{"./util":"8yB0"}],"0Bvz":[function(require,module,exports) {
+},{"./util":"8yB0"}],"ZQJX":[function(require,module,exports) {
 "use strict";
 
 var __extends = this && this.__extends || function () {
@@ -1832,7 +2583,7 @@ function (_super) {
 }(ElementClass);
 
 exports.AbstractElementClass = AbstractElementClass;
-},{"./elementImpl":"vmAk"}],"fbNL":[function(require,module,exports) {
+},{"./elementImpl":"QcDf"}],"zX6u":[function(require,module,exports) {
 "use strict";
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -1869,7 +2620,7 @@ function debug(err) {
   }
 }
 
-exports.debug = debug;
+exports.debug = debug; // let lastElementClassInstance:JSXAloneComponent|undefined
 
 function createCreateElement(config) {
   var impl = config.impl,
@@ -1877,8 +2628,9 @@ function createCreateElement(config) {
       escapeAttributes = config.escapeAttributes,
       functionAttributes = config.functionAttributes,
       onElementReady = config.onElementReady,
-      onElementCreate = config.onElementCreate;
-  return function createElement(tag, attrs) {
+      onElementCreate = config.onElementCreated;
+
+  var createElement = function createElement(tag, attrs) {
     if (attrs === void 0) {
       attrs = {};
     }
@@ -1896,7 +2648,8 @@ function createCreateElement(config) {
       element = new impl(tag);
     } else {
       if (elementImpl_1.isJSXAloneComponent(tag)) {
-        elementClassInstance = new tag(__assign({}, attrs, {
+        elementClassInstance = // lastElementClassInstance=
+        new tag(__assign({}, attrs, {
           children: children
         }));
         element = elementClassInstance.render();
@@ -1958,7 +2711,11 @@ function createCreateElement(config) {
           debug("unrecognized attribute \"" + name_1 + "\" with type " + _typeof(value_1));
         }
       }
-    };
+    }; // if(onElementCreate){
+    //   onElementCreate({elementLike: element, elementClassInstance})
+    // }
+    // elementClassInstance=elementClassInstance || lastElementClassInstance
+
 
     for (var name_1 in attrs) {
       _loop_1(name_1);
@@ -1988,16 +2745,20 @@ function createCreateElement(config) {
     }
 
     if (onElementReady) {
-      element = onElementReady(element);
+      onElementReady({
+        elementLike: element
+      });
     }
 
     return element;
   };
+
+  return createElement;
 }
 
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
-},{"./elementImpl":"vmAk"}],"k98/":[function(require,module,exports) {
+},{"./elementImpl":"QcDf"}],"n+C3":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2082,7 +2843,7 @@ exports.If = If;
 function isNotFalsy(a) {
   return !!a;
 }
-},{".":"BB47"}],"BB47":[function(require,module,exports) {
+},{".":"1UJP"}],"1UJP":[function(require,module,exports) {
 "use strict";
 
 function __export(m) {
@@ -2109,7 +2870,502 @@ exports.AbstractElementLike = elementImpl_1.AbstractElementLike;
 __export(require("./misc"));
 
 __export(require("./util"));
-},{"./elementImpl":"vmAk","./elementClass":"0Bvz","./createElement":"fbNL","./misc":"k98/","./util":"8yB0"}],"gNvY":[function(require,module,exports) {
+},{"./elementImpl":"QcDf","./elementClass":"ZQJX","./createElement":"zX6u","./misc":"n+C3","./util":"8yB0"}],"8LoU":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var util_1 = require("./util");
+
+function isJSXAloneComponent(c) {
+  return c.prototype && c.prototype.render;
+}
+
+exports.isJSXAloneComponent = isJSXAloneComponent;
+
+function isNode(n) {
+  return isTextNodeLike(n) || isElementLike(n);
+}
+
+exports.isNode = isNode;
+
+function isElementLike(n) {
+  return n && n.setAttribute;
+}
+
+exports.isElementLike = isElementLike;
+
+function isTextNodeLike(n) {
+  return n && n.content && !isElementLike(n);
+}
+
+exports.isTextNodeLike = isTextNodeLike;
+
+var AbstractTextNodeLike =
+/** @class */
+function () {
+  function AbstractTextNodeLike(content) {
+    this.content = content;
+  }
+
+  return AbstractTextNodeLike;
+}();
+
+exports.AbstractTextNodeLike = AbstractTextNodeLike;
+
+var AbstractElementLike =
+/** @class */
+function () {
+  function AbstractElementLike(tag) {
+    this.tag = tag;
+    this.attrs = {};
+    this.children = [];
+  }
+
+  AbstractElementLike.prototype.setAttribute = function (name, value) {
+    this.attrs[name] = value;
+  };
+
+  AbstractElementLike.prototype.appendChild = function (c) {
+    this.children.push(c);
+
+    if (isElementLike(c)) {
+      c.parentElement = this;
+    }
+  };
+
+  AbstractElementLike.prototype.findDescendant = function (p) {
+    var found;
+    this.children.some(function (c) {
+      if (isElementLike(c)) {
+        if (p(c)) {
+          found = c;
+        } else {
+          found = c.findDescendant(p);
+        }
+      }
+
+      return !!found;
+    });
+    return found;
+  };
+
+  AbstractElementLike.prototype.findAscendant = function (p) {
+    if (this.parentElement) {
+      if (p(this.parentElement)) {
+        return this.parentElement;
+      }
+
+      return this.parentElement.findAscendant(p);
+    }
+  };
+
+  AbstractElementLike.prototype.getAscendants = function () {
+    return this.parentElement ? this.parentElement.getAscendants().concat([this.parentElement]) : [];
+  };
+
+  AbstractElementLike.prototype.getRootAscendant = function () {
+    var r = this.parentElement ? this.findAscendant(function (n) {
+      return isElementLike(n) && !n.parentElement;
+    }) : this;
+    return util_1.checkThrow(r, 'No root ascendant found in element like tree!');
+  };
+
+  AbstractElementLike.prototype.getSiblings = function () {
+    var _this = this;
+
+    if (this.parentElement) {
+      return this.parentElement.children.filter(function (c) {
+        return c !== _this;
+      });
+    }
+
+    return [];
+  };
+
+  AbstractElementLike.prototype.findSibling = function (p) {
+    return this.getSiblings().find(p);
+  };
+
+  AbstractElementLike.prototype.find = function (p) {
+    // TODO: this should start searching in the near children, sibling and parents, and only after that look on far nodes
+    return this.getRootAscendant().findDescendant(p);
+  };
+
+  return AbstractElementLike;
+}();
+
+exports.AbstractElementLike = AbstractElementLike;
+},{"./util":"8yB0"}],"dRA0":[function(require,module,exports) {
+"use strict";
+
+var __extends = this && this.__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var elementImpl_1 = require("./elementImpl");
+/**
+ * A Class able to render() JSX. Similar to React.Component but only supporting properties, without state, context, ref, did/will methods, etc.
+ */
+
+
+var ElementClass =
+/** @class */
+function () {
+  function ElementClass(props) {
+    this.props = props;
+  }
+
+  ElementClass.prototype.childrenAsArray = function () {
+    return Array.isArray(this.props.children) ? this.props.children : [this.props.children];
+  };
+
+  ElementClass.prototype.childrenElementsAsArray = function () {
+    return this.childrenAsArray().filter(function (c) {
+      return elementImpl_1.isElementLike(c);
+    });
+  };
+
+  ElementClass.prototype.firstChildElement = function () {
+    return this.childrenAsArray().find(function (e) {
+      return true;
+    });
+  };
+
+  return ElementClass;
+}();
+
+exports.ElementClass = ElementClass;
+
+var AbstractElementClass =
+/** @class */
+function (_super) {
+  __extends(AbstractElementClass, _super);
+
+  function AbstractElementClass() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  return AbstractElementClass;
+}(ElementClass);
+
+exports.AbstractElementClass = AbstractElementClass;
+},{"./elementImpl":"8LoU"}],"mUq5":[function(require,module,exports) {
+"use strict";
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var elementImpl_1 = require("./elementImpl");
+
+var throwOnUnrecognized = false;
+
+function debug(err) {
+  if (throwOnUnrecognized) {
+    throw err;
+  } else {
+    console.error(err);
+  }
+}
+
+exports.debug = debug; // let lastElementClassInstance:JSXAloneComponent|undefined
+
+function createCreateElement(config) {
+  var impl = config.impl,
+      textNodeImpl = config.textNodeImpl,
+      escapeAttributes = config.escapeAttributes,
+      functionAttributes = config.functionAttributes,
+      onElementReady = config.onElementReady,
+      onElementCreate = config.onElementCreated;
+
+  var createElement = function createElement(tag, attrs) {
+    if (attrs === void 0) {
+      attrs = {};
+    }
+
+    var children = [];
+
+    for (var _i = 2; _i < arguments.length; _i++) {
+      children[_i - 2] = arguments[_i];
+    }
+
+    var element;
+    var elementClassInstance;
+
+    if (typeof tag === 'string') {
+      element = new impl(tag);
+    } else {
+      if (elementImpl_1.isJSXAloneComponent(tag)) {
+        elementClassInstance = // lastElementClassInstance=
+        new tag(__assign({}, attrs, {
+          children: children
+        }));
+        element = elementClassInstance.render();
+      } else {
+        element = tag(__assign({}, attrs, {
+          children: children
+        })); //TODO: expose function element context
+      }
+
+      attrs = {};
+    }
+
+    if (onElementCreate) {
+      onElementCreate({
+        elementLike: element,
+        elementClassInstance: elementClassInstance
+      });
+    }
+
+    var _loop_1 = function _loop_1(name_1) {
+      if (name_1 && attrs.hasOwnProperty(name_1)) {
+        var value_1 = attrs[name_1];
+
+        if (typeof value_1 === 'boolean') {
+          if (value_1 === true) {
+            element.setAttribute(name_1, name_1);
+          }
+        } else if (typeof value_1 === 'function') {
+          if (!functionAttributes || functionAttributes === 'preserve') {
+            element.setAttribute(name_1, value_1);
+          } else {
+            var code = functionAttributes === 'toString-this' ? "_this = __this__ = this; (" + value_1.toString() + ").apply(_this, arguments)" : value_1.toString();
+            var escaped = escapeAttributes ? escapeAttributes(code) : code;
+            element.setAttribute(name_1, escaped);
+          }
+        } else if (value_1 !== false && value_1 != null) {
+          if (name_1 === 'className') {
+            if (typeof value_1 === 'string') {
+              element.setAttribute('class', value_1);
+            } else if (Array.isArray(value_1) && value_1.length && typeof value_1[0] === 'string') {
+              element.setAttribute('class', value_1.join(' '));
+            } else {
+              debug("unrecognized className value " + _typeof(value_1) + " " + value_1);
+            }
+          } else {
+            element.setAttribute(name_1, value_1.toString());
+          }
+        } else if (_typeof(value_1) === 'object') {
+          if (name_1 === 'style') {
+            element.setAttribute('style', "" + Object.keys(value_1).map(function (p) {
+              return p + ": " + value_1[p];
+            }).join('; '));
+          } else if (name_1 === 'dangerouslySetInnerHTML' && value_1 && typeof value_1.__html === 'string') {
+            element.dangerouslySetInnerHTML(value_1.__html);
+          } else {
+            debug("unrecognized object attribute \"" + name_1 + "\" - the only object attribute supported is \"style\"");
+          }
+        } else {
+          debug("unrecognized attribute \"" + name_1 + "\" with type " + _typeof(value_1));
+        }
+      }
+    }; // if(onElementCreate){
+    //   onElementCreate({elementLike: element, elementClassInstance})
+    // }
+    // elementClassInstance=elementClassInstance || lastElementClassInstance
+
+
+    for (var name_1 in attrs) {
+      _loop_1(name_1);
+    }
+
+    if (typeof tag === 'string') {
+      // don't render children for function or classes since they are responsible of render their own children
+      children.filter(function (c) {
+        return c;
+      }).forEach(function (child) {
+        if (elementImpl_1.isNode(child)) {
+          element.appendChild(child);
+        } else if (Array.isArray(child)) {
+          child.forEach(function (c) {
+            if (typeof c === 'string') {
+              element.appendChild(new textNodeImpl(c));
+            } else if (elementImpl_1.isNode(c)) {
+              element.appendChild(c);
+            } else {
+              debug("Child is not a node or string: " + c + " , tag: " + tag);
+            }
+          });
+        } else {
+          element.appendChild(new textNodeImpl(child));
+        }
+      });
+    }
+
+    if (onElementReady) {
+      onElementReady({
+        elementLike: element
+      });
+    }
+
+    return element;
+  };
+
+  return createElement;
+}
+
+exports.createCreateElement = createCreateElement;
+exports.AbstractJSXAlone = null;
+},{"./elementImpl":"8LoU"}],"xUM0":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+}); // import { AbstractJSXAlone as  } from './createElement';
+
+var _1 = require("."); // export type Props = { children: Children }
+// TODO: like React.Fragment
+
+
+exports.Fragment = function (props) {
+  return _1.AbstractJSXAlone.createElement("span", null, props.children);
+};
+
+function Js(props) {
+  var r = props.children();
+  console.log(r);
+  return r ? _1.AbstractJSXAlone.createElement(exports.Fragment, null, r) : null;
+}
+
+exports.Js = Js;
+/** if as statement. children need to be in a function and the function accepts a parameter which value is given condition `c` but casted to NotFalsy<C> so there's no need of type guards in the body. Example:
+```
+<If c={type}>{type =>
+  <select multiple={true}>{names[type].map(c =>
+      <option value={c.id}>{c.label}</option>)}
+  </select>
+</If>
+```
+
+No error thrown on second line because parameter type is not falsy but keep the original type (excluding falsy values)
+
+Other example:
+
+```
+export class ErrorComponent extends React.Component<ErrorOptions> {
+  public render() {
+    return <div>
+      <If c={this.props.error}>{error =>
+        <React.Fragment>
+          <h2>Error</h2>
+          <If c={typeof error === 'string'}>{e =>
+            <h3>{e}</h3>}
+          </If>
+          <If c={typeof error === 'object'}>{e =>
+            <React.Fragment>
+              <h5>{error!.name}</h5>
+              <p>{error!.message}</p>
+              <If c={error.stack}>{e =>
+                <ul>
+                  {e.split('\n').map(e =>
+                    <li>{e}</li>)}
+                </ul>}
+              </If>
+            </React.Fragment>}
+          </If>
+          <If c={this.props.responseText}>{responseText =>
+            <iframe css={{ border: 0, width: '100%', height: '400px' }} srcDoc={responseText}>
+            </iframe>}
+          </If>
+        </React.Fragment>}
+      </If>
+    </div>
+  }
+}
+
+```
+*/
+
+function If(props) {
+  //TODO: issue in dom implementation, children is an array 
+  var f = Array.isArray(props.children) ? props.children[0] : props.children;
+  var c = props.c,
+      p = props.p;
+  if (isNotFalsy(c)) return f.apply(null, (p ? [p] : []).concat([c]));else {
+    return null;
+  }
+}
+
+exports.If = If;
+
+function isNotFalsy(a) {
+  return !!a;
+}
+},{".":"TsJT"}],"TsJT":[function(require,module,exports) {
+"use strict";
+
+function __export(m) {
+  for (var p in m) {
+    if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+  }
+}
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+__export(require("./elementImpl"));
+
+__export(require("./elementClass"));
+
+__export(require("./createElement"));
+
+var elementImpl_1 = require("./elementImpl");
+
+exports.AbstractTextNodeLike = elementImpl_1.AbstractTextNodeLike;
+exports.AbstractElementLike = elementImpl_1.AbstractElementLike;
+
+__export(require("./misc"));
+
+__export(require("./util"));
+},{"./elementImpl":"8LoU","./elementClass":"dRA0","./createElement":"mUq5","./misc":"xUM0","./util":"8yB0"}],"95KZ":[function(require,module,exports) {
 "use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
@@ -2146,33 +3402,31 @@ var ElementLikeImpl = /** @class */ (function (_super) {
         var _this = this;
         if (config === void 0) { config = {}; }
         var el = document.createElement(this.tag);
-        // this is the context in which  function attributes of this and descendants will be evaluated. It's set up by createCreateElementConfig see below.
-        var elementClassInstance = (this.parentElement && this.parentElement._elementClassInstance) || this._elementClassInstance;
         Object.keys(this.attrs).forEach(function (attribute) {
             var value = _this.attrs[attribute];
-            if (typeof value === 'function') {
-                var fn = elementClassInstance ? value.bind(elementClassInstance) : value;
-                el.addEventListener(attribute.substring(2, attribute.length).toLowerCase(), fn);
-                _this.attrs[attribute] = undefined;
-            }
-            else {
-                el.setAttribute(attribute, value);
+            if (!config.handleAttribute || !config.handleAttribute({ config: config, el: el, attribute: attribute, value: value, elementLike: _this })) {
+                if (typeof value === 'function') {
+                    el.setAttribute(attribute, value.toString());
+                }
+                else {
+                    el.setAttribute(attribute, value + '');
+                }
             }
         });
         if (this._innerHtml) {
             el.innerHTML = this._innerHtml;
         }
         this.children.forEach(function (c) {
-            if (elementClassInstance) {
-                ;
-                c._elementClassInstance = elementClassInstance || c._elementClassInstance;
+            if (!config.handleChildRender || !config.handleChildRender({ config: config, parent: el, child: c, elementLike: _this })) {
+                c.render(__assign({}, config, { parent: el }));
             }
-            c.render(__assign({}, config, { parent: el }));
         });
         if (config.parent) {
             config.parent.appendChild(el);
         }
-        this._elementClassInstance = undefined;
+        if (config.handleAfterRender) {
+            config.handleAfterRender({ config: config, el: el, elementLike: this });
+        }
         return el;
     };
     ElementLikeImpl.prototype.dangerouslySetInnerHTML = function (s) {
@@ -2181,6 +3435,50 @@ var ElementLikeImpl = /** @class */ (function (_super) {
     return ElementLikeImpl;
 }(jsx_alone_core_1.AbstractElementLike));
 exports.ElementLikeImpl = ElementLikeImpl;
+// export interface ElementLikeImplRenderConfig extends ElementLikeImplRenderConfig {
+//   parent?: HTMLElement,
+//   dontAddEventListeners?: boolean
+//   initialContext?: any
+// }
+// class AttributeHandlerElement extends ElementLikeImpl {
+//   _elementClassInstance: ElementClass | undefined
+//   _originalElementClassInstance: ElementClass | undefined
+//   render(config: ElementLikeImplRenderConfig = {}): HTMLElement | Text {
+//     // this is the context in which  function attributes of this and descendants will be evaluated. It's set up by createCreateElementConfig see below.
+//     const elementClassInstance =
+//       (this.parentElement && (this.parentElement as ElementLikeImpl)._elementClassInstance) || this._elementClassInstance
+//     const functionAttributeContext = elementClassInstance || config.initialContext
+//     if (typeof value === 'function') {
+//       if (config.dontAddEventListeners) {
+//         el.setAttribute(attribute, value.toString())
+//       } else {
+//         let fn = functionAttributeContext ? value.bind(functionAttributeContext) : value
+//         //TODO: el.removeEventListener??
+//         el.addEventListener(attribute.substring(2, attribute.length).toLowerCase(), fn)
+//         this.attrs[attribute] = undefined // forget the attribute
+//       }
+//     }
+//     // handleChildRender
+//       if (isElementLikeImpl(c) && functionAttributeContext) {
+//         c._originalElementClassInstance =c._elementClassInstance
+//         c._elementClassInstance = elementClassInstance || c._elementClassInstance
+//       }
+//       c.render({ ...config, parent: el })
+//       // .handleAfterRender
+//     const elementClassWithContainer = this._originalElementClassInstance || this._elementClassInstance
+//     if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
+//       elementClassWithContainer.setContainerEl(el)
+//     }
+//     this._elementClassInstance = undefined // forget the reference
+//     this._originalElementClassInstance = undefined // forget the reference
+//     // create create config
+//   onElementCreate({ elementLike, elementClassInstance }: { elementLike: ElementLikeImpl; elementClassInstance?: JSXAloneComponent }) {
+//     if (elementClassInstance) {
+//       elementLike._elementClassInstance = (elementClassInstance as any) as ElementClass
+//     }
+//   }
+//   }
+// }
 var TextNodeLikeImpl = /** @class */ (function (_super) {
     __extends(TextNodeLikeImpl, _super);
     function TextNodeLikeImpl() {
@@ -2202,45 +3500,239 @@ var ElementClass = /** @class */ (function (_super) {
     function ElementClass() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    /** element classes in DOM implementation will be given its container element. The default implementation just ignore this to keep it lightweight, but other implementations could overwrite this method */
+    ElementClass.prototype.setContainerEl = function (el) { };
     return ElementClass;
 }(jsx_alone_core_1.ElementClass));
 exports.ElementClass = ElementClass;
-exports.createCreateElementConfig = {
-    impl: ElementLikeImpl,
-    textNodeImpl: TextNodeLikeImpl,
-    functionAttributes: 'preserve',
-    onElementCreate: function (_a) {
-        var elementLike = _a.elementLike, elementClassInstance = _a.elementClassInstance;
-        if (elementClassInstance) {
-            elementLike._elementClassInstance = elementClassInstance;
-        }
-    }
-};
 
-},{"jsx-alone-core":"BB47"}],"S0OW":[function(require,module,exports) {
+},{"jsx-alone-core":"TsJT"}],"RzHS":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var elementImpl_1 = require("./elementImpl");
+exports.createCreateElementConfig = {
+    impl: elementImpl_1.ElementLikeImpl,
+    textNodeImpl: elementImpl_1.TextNodeLikeImpl,
+    functionAttributes: 'preserve'
+};
 var Module = {
-    createElement: jsx_alone_core_1.createCreateElement(elementImpl_1.createCreateElementConfig),
+    createElement: jsx_alone_core_1.createCreateElement(exports.createCreateElementConfig),
     render: function (el, config) {
-        return el.render(config);
+        if (config === void 0) { config = {}; }
+        var elementLike = el;
+        return elementLike.render({ config: config });
     }
 };
 exports.JSXAlone = Module;
 
-},{"jsx-alone-core":"BB47","./elementImpl":"gNvY"}],"MNUJ":[function(require,module,exports) {
+},{"jsx-alone-core":"TsJT","./elementImpl":"95KZ"}],"Ejqu":[function(require,module,exports) {
 "use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./createElement"));
-var elementImpl_1 = require("./elementImpl");
-exports.ElementClass = elementImpl_1.ElementClass;
+__export(require("./elementImpl"));
 
-},{"./createElement":"S0OW","./elementImpl":"gNvY"}],"Urqt":[function(require,module,exports) {
+},{"./createElement":"RzHS","./elementImpl":"95KZ"}],"HiVe":[function(require,module,exports) {
+"use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var jsx_alone_core_1 = require("jsx-alone-core");
+var jsx_alone_dom_1 = require("jsx-alone-dom");
+exports.ElementClass = jsx_alone_dom_1.ElementClass;
+function buildExtraConfig(rootElementLike, extraConfig) {
+    var configHooks = {
+        handleAttribute: function (_a) {
+            var value = _a.value, el = _a.el, attribute = _a.attribute, elementLike = _a.elementLike;
+            if (typeof value === 'function' && !extraConfig.dontAddEventListeners) {
+                var functionAttributeContext = getFunctionAttributeContextObjects(elementLike, extraConfig.initialContext).functionAttributeContext;
+                var fn = functionAttributeContext ? value.bind(functionAttributeContext) : value;
+                el.addEventListener(attribute.substring(2, attribute.length).toLowerCase(), fn);
+                elementLike.attrs[attribute] = undefined; // forget the reference
+                return true;
+            }
+            return false;
+        },
+        handleChildRender: function (config) {
+            var child = config.child, parent = config.parent, elementLike = config.elementLike;
+            var _a = getFunctionAttributeContextObjects(elementLike, extraConfig.initialContext), functionAttributeContext = _a.functionAttributeContext, elementClassInstance = _a.elementClassInstance;
+            if (functionAttributeContext && isFunctionAttributeElement(child)) {
+                child._originalElementClassInstance = child._elementClassInstance;
+                child._elementClassInstance = elementClassInstance || child._elementClassInstance;
+            }
+            child.render(__assign({}, config, configHooks, { parent: parent }));
+            return true;
+        },
+        handleAfterRender: function (_a) {
+            var el = _a.el, elementLike = _a.elementLike;
+            var elementClassWithContainer = elementLike._originalElementClassInstance || elementLike._elementClassInstance || rootElementLike._elementClassInstance;
+            if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
+                elementClassWithContainer.setContainerEl(el);
+            }
+            elementLike._elementClassInstance = undefined; // forget the reference
+            elementLike._originalElementClassInstance = undefined; // forget the reference
+            return true;
+        }
+    };
+    return configHooks;
+    function getFunctionAttributeContextObjects(elementLike, initialContext) {
+        var elementClassInstance = (elementLike.parentElement && elementLike._elementClassInstance) || rootElementLike._elementClassInstance;
+        return { functionAttributeContext: elementClassInstance || initialContext, elementClassInstance: elementClassInstance };
+    }
+}
+exports.createCreateConfig = __assign({}, jsx_alone_dom_1.createCreateElementConfig, { impl: jsx_alone_dom_1.ElementLikeImpl, textNodeImpl: jsx_alone_dom_1.TextNodeLikeImpl, functionAttributes: 'preserve', onElementCreated: function (_a) {
+        var elementLike = _a.elementLike, elementClassInstance = _a.elementClassInstance;
+        if (elementClassInstance) {
+            elementLike._elementClassInstance = elementClassInstance;
+        }
+    } });
+var Module = {
+    createElement: jsx_alone_core_1.createCreateElement(exports.createCreateConfig),
+    render: function (el, config) {
+        if (config === void 0) { config = {}; }
+        var elementLike = el;
+        return elementLike.render(__assign({}, config, buildExtraConfig(elementLike, { initialContext: config.initialContext || this })));
+    }
+};
+exports.JSXAlone = Module;
+function isFunctionAttributeElement(a) {
+    return jsx_alone_core_1.isElementLike(a);
+}
+
+},{"jsx-alone-core":"1UJP","jsx-alone-dom":"Ejqu"}],"Q9OP":[function(require,module,exports) {
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var _1 = require(".");
+var StatefulElementClass = /** @class */ (function (_super) {
+    __extends(StatefulElementClass, _super);
+    function StatefulElementClass(p) {
+        var _this = _super.call(this, p) || this;
+        _this.state = {};
+        _this.containerEl = undefined;
+        _this.state = __assign({}, p);
+        return _this;
+    }
+    /** changes the state, clean up containerEl and renders the element again and append it to containerEl.
+     * Notice that descendant elements will be destroyed and */
+    StatefulElementClass.prototype.setState = function (s) {
+        this.state = __assign({}, this.state, s); //= { start: 0, end: 0, direction: undefined }
+        var activePath;
+        var selection = { start: 0, end: 0 };
+        if (document.activeElement) {
+            activePath = getXPathOfElement(document.activeElement);
+            selection = {
+                start: document.activeElement.selectionStart || 0,
+                end: document.activeElement.selectionEnd || 0,
+                direction: document.activeElement.selectionDirection || undefined
+            };
+        }
+        var jsx = this.render();
+        var el = _1.JSXAlone.render(jsx, { initialContext: this });
+        this.containerEl.parentElement.replaceChild(el, this.containerEl); // This should remove event listeners too. TODO: verify
+        this.containerEl = el;
+        if (activePath) {
+            var activeEl = getElementByXPath(activePath + '');
+            if (activeEl && selection) {
+                activeEl.focus();
+                if (activeEl.setSelectionRange) {
+                    activeEl.setSelectionRange(selection.start, selection.end, selection.direction);
+                }
+            }
+        }
+    };
+    /** called by ElementLike.render() */
+    StatefulElementClass.prototype.setContainerEl = function (el) {
+        this.containerEl = el;
+    };
+    return StatefulElementClass;
+}(_1.ElementClass));
+exports.StatefulElementClass = StatefulElementClass;
+//  TODO: move to misc
+function getXPathOfElement(el) {
+    if (typeof el == 'string') {
+        return document.evaluate(el, document, null, 0, null) + '';
+    }
+    if (!el || el.nodeType != 1) {
+        return '';
+    }
+    if (el.id)
+        return "//*[@id='" + el.id + "']";
+    if (el.parentNode) {
+        var sames = Array.from(el.parentNode.children).filter(function (x) { return x.tagName == el.tagName; });
+        return (getXPathOfElement(el.parentNode) +
+            '/' +
+            (el.tagName || '').toLowerCase() +
+            (sames.length > 1 ? '[' + (sames.indexOf(el) + 1) + ']' : ''));
+    }
+    else {
+        return undefined;
+    }
+}
+//  TODO: move to misc
+function getElementByXPath(path, predicate) {
+    var p = document.evaluate(path, document, null, 0, null);
+    if (!predicate) {
+        return p.iterateNext();
+    }
+    try {
+        var n = void 0;
+        var n2 = void 0;
+        while ((n = p.iterateNext()) && !predicate(n)) {
+            n2 = n;
+        }
+        return n2;
+    }
+    catch (e) {
+        alert('Error: Document tree modified during iteration ' + e);
+    }
+}
+
+},{".":"a1EO"}],"a1EO":[function(require,module,exports) {
+"use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(require("./createElement"));
+__export(require("./StatefulElementClass"));
+
+},{"./createElement":"HiVe","./StatefulElementClass":"Q9OP"}],"Urqt":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2485,7 +3977,7 @@ function debug(err) {
   }
 }
 
-exports.debug = debug;
+exports.debug = debug; // let lastElementClassInstance:JSXAloneComponent|undefined
 
 function createCreateElement(config) {
   var impl = config.impl,
@@ -2493,8 +3985,9 @@ function createCreateElement(config) {
       escapeAttributes = config.escapeAttributes,
       functionAttributes = config.functionAttributes,
       onElementReady = config.onElementReady,
-      onElementCreate = config.onElementCreate;
-  return function createElement(tag, attrs) {
+      onElementCreate = config.onElementCreated;
+
+  var createElement = function createElement(tag, attrs) {
     if (attrs === void 0) {
       attrs = {};
     }
@@ -2512,7 +4005,8 @@ function createCreateElement(config) {
       element = new impl(tag);
     } else {
       if (elementImpl_1.isJSXAloneComponent(tag)) {
-        elementClassInstance = new tag(__assign({}, attrs, {
+        elementClassInstance = // lastElementClassInstance=
+        new tag(__assign({}, attrs, {
           children: children
         }));
         element = elementClassInstance.render();
@@ -2574,7 +4068,11 @@ function createCreateElement(config) {
           debug("unrecognized attribute \"" + name_1 + "\" with type " + _typeof(value_1));
         }
       }
-    };
+    }; // if(onElementCreate){
+    //   onElementCreate({elementLike: element, elementClassInstance})
+    // }
+    // elementClassInstance=elementClassInstance || lastElementClassInstance
+
 
     for (var name_1 in attrs) {
       _loop_1(name_1);
@@ -2604,11 +4102,15 @@ function createCreateElement(config) {
     }
 
     if (onElementReady) {
-      element = onElementReady(element);
+      onElementReady({
+        elementLike: element
+      });
     }
 
     return element;
   };
+
+  return createElement;
 }
 
 exports.createCreateElement = createCreateElement;
@@ -2732,7 +4234,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var jsx_alone_dom_1 = require("jsx-alone-dom");
+var jsx_alone_dom_extra_1 = require("jsx-alone-dom-extra");
 
 var jsx_alone_core_1 = require("jsx-alone-core");
 
@@ -2753,7 +4255,7 @@ exports.lotsOfPeopleRenderer = function (app, config) {
 
   var JSXAloneRenderT0 = Date.now();
   console.time('JSXAlone.render()');
-  var el = jsx_alone_dom_1.JSXAlone.render(app);
+  var el = jsx_alone_dom_extra_1.JSXAlone.render(app);
   console.timeEnd('JSXAlone.render()');
   var JSXAloneRenderT = Date.now() - JSXAloneRenderT0; // measures appendChild TODO: timing
 
@@ -2776,7 +4278,7 @@ exports.lotsOfPeopleRenderer = function (app, config) {
     JSXAloneRenderT: JSXAloneRenderT
   };
 };
-},{"jsx-alone-dom":"MNUJ","jsx-alone-core":"6FnY"}],"wdqJ":[function(require,module,exports) {
+},{"jsx-alone-dom-extra":"a1EO","jsx-alone-core":"6FnY"}],"wdqJ":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
