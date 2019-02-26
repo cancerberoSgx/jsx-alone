@@ -1,5 +1,6 @@
-import { lotsOfPeople, Renderer, printMs, LotsOfPeopleRendererConfig } from 'jsx-alone-sample-project-code'
+import { lotsOfPeople, Renderer, LotsOfPeopleRendererConfig } from 'jsx-alone-sample-project-code'
 import { JSXAlone } from 'jsx-alone-string'
+import { printMs } from 'jsx-alone-core';
 
 const renderer: Renderer = (app: JSX.Element, config: LotsOfPeopleRendererConfig) => {
   // measures onload

@@ -1,4 +1,3 @@
-import { execSync } from 'child_process'
 import { exec, ls, rm, config } from 'shelljs'
 
 describe('simple sample', () => {

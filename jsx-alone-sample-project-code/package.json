@@ -9,7 +9,10 @@
   "scripts": {
     "build": "npx tsc",
     "docs": "exit 0",
-    "test": "npm run build"
+    "test": "npm run build",
+
+    "setDomImpl": "rm -rf dist/src/impl.js && cp dist/src/implDom.js dist/src/impl.js && rm -rf src/impl.ts && cp src/implDom.ts src/impl.ts",
+    "setStringImpl": "rm -rf dist/src/impl.js && cp dist/src/implString.js dist/src/impl.js && rm -rf src/impl.ts && cp src/implString.ts src/impl.ts"
   },
   "dependencies": {
     "jsx-alone-core": "file:../jsx-alone-core",

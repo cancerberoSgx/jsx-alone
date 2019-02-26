@@ -5,10 +5,14 @@ cp public/index.html $OUTDIR/index.html
 
 CWD=`pwd`
 cd ../jsx-alone-sample-project-code
-cp src/implDom.ts src/impl.ts
-npm run build 
+# cp src/implDom.ts src/impl.ts
+# npm run build 
+npm run setDomImpl
 cd $CWD
-npm run build
+# npm run build
+
+# npm run setCodeDomImpl
+# cp ../jsx-alone-sample-project-code/dist/src/implDom.js ../jsx-alone-sample-project-code/dist/src/impl.js
 
 export NODE_ENV=development
 npx parcel build src/lotsOfPeople/index.html --no-minify --no-content-hash --public-url './' --out-dir $OUTDIR/lotsOfPeople --out-file $OUTDIR/lotsOfPeople/index.html

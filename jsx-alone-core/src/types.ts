@@ -11,7 +11,7 @@ export type JSXAloneProps = JSXAloneAttrs & {
 
 export type JSXAloneValue = string | boolean | number
 
-export type JSXAloneElement = any // HTMLElement
+export type JSXAloneElement = any  
 
 export type JSXAloneComponent = {
   new(props: JSXAloneProps): JSXAloneComponent

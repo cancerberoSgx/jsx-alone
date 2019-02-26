@@ -10,8 +10,9 @@
     "test": "npm run build"
   },
   "dependencies": {
-    "jsx-alone-string": "file:../jsx-alone-string",
+    "jsx-alone-core": "file:../jsx-alone-core",
     "jsx-alone-sample-project-code": "file:../jsx-alone-sample-project-code",
+    "jsx-alone-string": "file:../jsx-alone-string",
     "misc-utils-of-mine-random-data": "0.0.4"
   },
   "devDependencies": {

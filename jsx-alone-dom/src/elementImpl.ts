@@ -12,15 +12,17 @@ export class ElementLikeImpl extends AbstractElementLike<HTMLElement | Text> {
   _elementClassInstance: JSXAloneComponent | undefined
   render(config: ElementLikeImplRenderConfig = {}): HTMLElement | Text {
     const el = document.createElement(this.tag)
+    
     // this is the context in which  function attributes of this and descendants will be evaluated. It's set up by createCreateElementConfig see below.
-    const elementClassInstance =
+    const functionAttributeContext =
       (this.parentElement && (this.parentElement as ElementLikeImpl)._elementClassInstance) || this._elementClassInstance
 
     Object.keys(this.attrs).forEach(attribute => {
       const value = this.attrs[attribute]
       if (typeof value === 'function') {
-        let fn = elementClassInstance ? value.bind(elementClassInstance) : value
-        el.addEventListener(attribute.substring(2, attribute.length).toLowerCase(), fn)
+        let fn = functionAttributeContext ? value.bind(functionAttributeContext) : value
+        //TODO: el.removeEventListener??
+        el.addEventListener(attribute.substring(2, attribute.length).toLowerCase(), fn) 
         this.attrs[attribute] = undefined
       } else {
         el.setAttribute(attribute, value)
@@ -30,13 +32,16 @@ export class ElementLikeImpl extends AbstractElementLike<HTMLElement | Text> {
       el.innerHTML = this._innerHtml
     }
     this.children.forEach(c => {
-      if (elementClassInstance) {
-        ;(c as ElementLikeImpl)._elementClassInstance = elementClassInstance || (c as ElementLikeImpl)._elementClassInstance
+      if (functionAttributeContext) {
+        ;(c as ElementLikeImpl)._elementClassInstance = functionAttributeContext || (c as ElementLikeImpl)._elementClassInstance
       }
       c.render({ ...config, parent: el })
     })
     if (config.parent) {
       config.parent.appendChild(el)
+    }
+    if(this._elementClassInstance && (this._elementClassInstance as any as ElementClass).setContainerEl){
+      (this._elementClassInstance as any as ElementClass).setContainerEl(el)
     }
     this._elementClassInstance = undefined
     return el
@@ -57,7 +62,14 @@ export class TextNodeLikeImpl extends AbstractTextNodeLike<HTMLElement | Text> {
   }
 }
 
-export abstract class ElementClass<P = {}> extends AbstractElementClass<HTMLElement | Text, P> {}
+export abstract class ElementClass<P = {}> extends AbstractElementClass<HTMLElement | Text, P> {
+  
+  /** element classes in DOM implementation will be given its container element. The default implementation just ignore this to keep it lightweight, but other implementations could overwrite this method */
+  setContainerEl(el: HTMLElement){
+
+  }
+
+}
 
 export const createCreateElementConfig: CreateCreateElementConfig = {
   impl: ElementLikeImpl,
