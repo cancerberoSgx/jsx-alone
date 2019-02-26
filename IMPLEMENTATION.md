@@ -2,13 +2,13 @@
 
 ## Name equivalences with React
 
- * the *`JSXAlone` namespace would be equivalent to "React" 
- * Many Ract.* types are available in JSXAlone.* (just types)
- * JSX.Element - the `JSX` type namespace is the same and provided by TypeScript
- * React === JSXAlone 
- * React.createElement === JSXAlone.createElement
- * React.Element === JSXAlone.ElementLike
- * React.Component === JSXAlone.ElementClass (very limited to JSX scope)
+ * the *`JSXAlone` namespace would be equivalent to `React`
+ * Many `Ract.*` types are available in `JSXAlone.*` (just types)
+ * `JSX.Element` - the `JSX` type namespace is the same and provided by TypeScript
+ * `React` === `JSXAlone` 
+ * `React.createElement` === `JSXAlone.createElement`
+ * `React.Element` === `JSXAlone.ElementLike`
+ * `React.Component` === `JSXAlone.ElementClass` (similar to, only `props` and `render()` available)
 
 ## JSXAlone.ElementClass
 
@@ -21,9 +21,9 @@
 
 ### DOM implementation
 
-Is 100% supported in  DOM implementation with the the exception of 
+Is 100% supported in DOM implementation
 
- * function elements dont' have access to its context (`this`) - issue! 
+ * Current issue: function elements dont' have access to its context (`this`) - 
  
 ### String implementation
 
@@ -47,5 +47,6 @@ Notes :
 
 ## attribute values
 
- * in html implementation  values for functions needs to be escaped (replace `"` with `&amp;`)
- * in dom implementation all attribute values are not processed/encoded at all
+ * boolean values : true sets the attribute name as value, false doesn't se any value
+ * in string implementation attribute values needs to replace `"` with `&amp;`
+ * in dom implementation function attributes are not rendered.  

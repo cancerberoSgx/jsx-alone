@@ -1,9 +1,9 @@
 
 # Performance
 
-## DOM small implementation
+## DOM light weight implementation
 
-Currently a trivial app using DOM implementation can be bundled in 3KB (gzip).
+Currently a trivial JSX application using DOM implementation can be bundled in 3KB (gzip).
 
 
 ## Interesting moments in rendering

@@ -64,19 +64,19 @@ Both implementations have very similar API. The only difference is the call to `
 Generated html pages, using both implementations are available in [samples](https://cancerberosgx.github.io/jsx-alone/index.html). Some are static html pages generated server side with string implementation and other are JS programs rendering JSX in the browser with DOM implementation.
 
 
-# Motivation
+# Motivation / Objectives
 
  * **JSX rendering only**: Be able to render JSX/TSX without having to use a library that a has lots other features or "way of" doing things 
  * support both DOM rendering and string rendering for server side rendering of static content (stream rendering to come)
  * maintain core implementations lightest and fastest as possible:
-   * DOM implementation should be small: Currently a trivial app can be bundled in 3KB (gzip).
-   * string implementation should be as least as well known template engines like handlebars or lodash's
+   * Light weight DOM implementation: Currently a trivial JSX application using DOM implementation can be bundled in 3KB (gzip).
+   * String implementation should be as least as fast as well known template engines like handlebars or lodash's
  * Provide 100% of HTML DOM Typings experience: it contains typings for HTML DOM just like React so you can type-check your HTML templates
- * DOM implementation should support function attributes (event handlers) evaluation access 100% current scope
+ * DOM implementation supports function attributes (event handlers) evaluation access 100% current scope
  * No support for **features beyond JSX**: (so we keep them KISS and lightweight) :
    * No virtual dom
    * No stateful components 
-   * string implementation has very limited support function attributes (event handlers) evaluation access current scope (see [limitations](LIMITATIONS.md))
+   * String implementation has very limited support function attributes (event handlers) evaluation access current scope (see [limitations](LIMITATIONS.md))
    * *...But expect auxiliary projects that add some of these in the future...*
 
 # String implementation
