@@ -5,21 +5,39 @@ import {
   ElementClass,
   ElementLikeImpl,
   ElementLikeImplRenderConfig,
-  TextNodeLikeImpl
+  TextNodeLikeImpl,
+  RenderOutput
 } from 'jsx-alone-dom'
 
-type RenderFunction = (el: JSX.Element, config?: FunctionAttributeRenderConfig) => HTMLElement | Text
-type JSXAloneType = { render: RenderFunction; createElement: CreateElementFunction<HTMLElement | Text> }
+type RenderFunction = (el: JSX.Element, config?: FunctionAttributeRenderConfig) => RenderOutput
+type JSXAloneType = { render: RenderFunction; createElement: CreateElementFunction<RenderOutput, FunctionAttributesElement> }
 
 interface FunctionAttributesElement extends ElementLikeImpl {
   _elementClassInstance?: ElementClass | undefined
   _originalElementClassInstance?: ElementClass | undefined
+  _eventListenerList?: EventEntry[]
+}
+class FunctionAttributesElementImpl extends ElementLikeImpl implements FunctionAttributesElement {
+  _elementClassInstance: ElementClass | undefined
+  _originalElementClassInstance: ElementClass | undefined
+  /** if it has a defined list then we consider this node a root node and it will be responsible of collecting data for un registering event listener of all its "tree" 
+   * TODO: in the future we could also use the root for event delegation.
+  */
+  _eventListenerList?: EventEntry[]
+  // destroy() {
+    
+  // }
+}
+type EventEntry<K extends keyof HTMLElementEventMap =  keyof HTMLElementEventMap> = {
+  type: K, 
+  listener: (this: HTMLElement, ev: HTMLElementEventMap[K] ) => any, 
+  options?: boolean | EventListenerOptions
 }
 
-export interface CreateCreateElementDomConfig extends CreateCreateElementDomConfig {
+export interface CreateCreateElementDomConfig<R extends FunctionAttributesElement = FunctionAttributesElement> extends CreateCreateElementDomConfig< R> {
   extraRenderConfig?: ElementLikeImplRenderConfig
 }
-
+let warn1Once=false
 export interface FunctionAttributeRenderConfig extends ElementLikeImplRenderConfig {
   dontAddEventListeners?: boolean
   initialContext?: any
@@ -27,13 +45,29 @@ export interface FunctionAttributeRenderConfig extends ElementLikeImplRenderConf
 function buildExtraConfig(
   rootElementLike: FunctionAttributesElement,
   extraConfig: FunctionAttributeRenderConfig
-): ElementLikeImplRenderConfig {
-  const configHooks: ElementLikeImplRenderConfig = {
+): ElementLikeImplRenderConfig<FunctionAttributesElement> {
+
+  const configHooks: ElementLikeImplRenderConfig<FunctionAttributesElement> = {
     handleAttribute({ value, el, attribute, elementLike }) {
       if (typeof value === 'function' && !extraConfig.dontAddEventListeners) {
+        if(!warn1Once && typeof value.prototype!=='undefined'){
+          console.warn('Warning, function attributes in a function are partially supported, `this` won\'t be available.\n Better use an arrow function!')
+          warn1Once=true // do this better with a helper
+        }
         const { functionAttributeContext } = getFunctionAttributeContextObjects(elementLike, extraConfig.initialContext)
-        let fn = functionAttributeContext ? value.bind(functionAttributeContext) : value
-        el.addEventListener(attribute.substring(2, attribute.length).toLowerCase(), fn)
+        let listener = functionAttributeContext ? value.bind(functionAttributeContext) : value
+        const eventType = attribute.substring(2, attribute.length).toLowerCase() as keyof HTMLElementEventMap
+        const options = undefined
+        el.addEventListener(eventType, listener, options)
+        if(!elementLike._eventListenerList){
+          elementLike._eventListenerList = []
+          // elementLike._destr
+        }
+        elementLike._eventListenerList.push({type: eventType, listener,options})
+        // if(!elementLike.){
+          // elementLike._eventListenerList = []
+        // }
+
         elementLike.attrs[attribute] = undefined // forget the reference
         return true
       }
@@ -72,12 +106,13 @@ function buildExtraConfig(
   }
 }
 
-export const createCreateConfig: CreateCreateElementDomConfig = {
+export const createCreateConfig: CreateCreateElementDomConfig<FunctionAttributesElement> = {
   ...createCreateElementConfig,
 
-  impl: ElementLikeImpl,
+  impl: FunctionAttributesElementImpl,
   textNodeImpl: TextNodeLikeImpl,
   functionAttributes: 'preserve',
+  evaluateFunctionsWithNew: true,
 
   onElementCreated({
     elementLike,
@@ -93,7 +128,7 @@ export const createCreateConfig: CreateCreateElementDomConfig = {
 }
 
 const Module: JSXAloneType = {
-  createElement: createCreateElement<HTMLElement | Text>(createCreateConfig),
+  createElement: createCreateElement<RenderOutput, FunctionAttributesElement>(createCreateConfig),
 
   render(el, config: FunctionAttributeRenderConfig = {}) {
     const elementLike: FunctionAttributesElement = el as any
@@ -101,9 +136,12 @@ const Module: JSXAloneType = {
   }
 }
 
+
+
 export const JSXAlone: JSXAloneType = Module
 
 function isFunctionAttributeElement(a: any): a is FunctionAttributesElement {
   return isElementLike(a)
 }
+
 export { ElementClass }

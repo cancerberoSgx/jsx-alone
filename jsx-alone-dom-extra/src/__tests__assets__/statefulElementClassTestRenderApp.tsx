@@ -1,5 +1,4 @@
 import { JSXAlone, StatefulElementClass } from '..'
-import { dummySpec } from './testUtil';
 
 export function statefulElementClassTestRenderApp(this: any) {
   const parent = document.createElement('div')
@@ -74,4 +73,3 @@ class App extends StatefulElementClass<P, P> {
     this.containerEl.appendChild(JSXAlone.render(this.render()));
   }
 }
-// dummySpec()

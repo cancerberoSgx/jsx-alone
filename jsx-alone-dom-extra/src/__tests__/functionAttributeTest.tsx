@@ -1,7 +1,6 @@
-import { JSXAlone } from '..';
-import { fireEvent, render, test } from './testUtil';
-import { ElementClass } from 'jsx-alone-dom';
-import { Children } from 'jsx-alone-core';
+import { JSXAlone, ElementClass } from '..'
+import { fireEvent, render, test } from './testUtil'
+import { Children } from 'jsx-alone-core'
 
 describe('function attributes', () => {
   describe('output', () => {
@@ -11,7 +10,8 @@ describe('function attributes', () => {
         <button
           onClick={e => {
             alert('click')
-          }}>
+          }}
+        >
           click
         </button>
       ),
@@ -56,7 +56,7 @@ describe('function attributes', () => {
       expect(fn1).lastReturnedWith(var1 + var2)
     })
 
-    it('function el', () => {
+    it('arrow el', () => {
       const fn1 = jest.fn(e => {
         return var1 + e
       })
@@ -85,20 +85,20 @@ describe('function attributes', () => {
       expect(fn1).lastReturnedWith(var1 + var2)
     })
 
-    xit('ISSUE function attribute in function element context', () => {
-      
+    it('function attribute accessing this.prop and prototype prop should work in extras by default', () => {
       const fn1 = jest.fn(e => {
         return var1 + e
       })
       const var1 = 321
       expect(fn1).toBeCalledTimes(0)
-      function F(this: { foo: number }, props: {}) {
+      function F(this: { foo: number; bar: number }, props: {}) {
+        this.bar = 4
         return (
           <div>
             <button
               id="b2"
               onClick={e => {
-                fn1(this.foo)
+                fn1(this.foo, this.bar)
               }}
             />
           </div>
@@ -113,7 +113,7 @@ describe('function attributes', () => {
       const button = el.querySelector<HTMLButtonElement>('#b2')!
       button.click()
       expect(fn1).toBeCalledTimes(1)
-      expect(fn1).lastCalledWith(var1 + 123)
+      expect(fn1).lastCalledWith(123, 4)
     })
 
     it('class el with intrinsic', () => {
@@ -157,7 +157,7 @@ describe('function attributes', () => {
       const el = render(
         <div>
           <button id="b1" onClick={handler}>
-            asd{' '}
+            asd
           </button>
           <input id="i1" value="foo" onChange={handler} />
         </div>
@@ -174,28 +174,30 @@ describe('function attributes', () => {
     })
 
     xit('every standard on* event works', () => {})
-    
-    
-    xit('event listeners are disposed on re-rendering ', () => { // ISSUE
+
+    it('event listeners are disposed on re-rendering - intrinsic elements', () => {
+      // ISSUE
       const handler = jest.fn(e => {
-      return e.type + e.currentTarget.id
-    })
-    const el = render(
-      <div>
-        <button id="b1" onClick={handler}>
-          asd{' '}
-        </button>
-        <input id="i1" value="foo" onChange={handler} />
-      </div>
-    ) 
-    expect(handler).toHaveBeenCalledTimes(0)
-    const button = el.querySelector<HTMLButtonElement>('#b1')!
-    fireEvent(button, 'click')
-    expect(handler).toHaveBeenCalledTimes(1)
-    el.innerHTML=''
-    fireEvent(button, 'click')
-    expect(handler).toHaveBeenCalledTimes(1)
+        return e.type + e.currentTarget.id
+      })
+      const d = (
+        <div>
+          <button id="b1" onClick={handler}>
+            asd
+          </button>
+          <input id="i1" value="foo" onChange={handler} />
+        </div>
+      )
+      const el = render(d)
+      expect(handler).toHaveBeenCalledTimes(0)
+      const button = el.querySelector<HTMLButtonElement>('#b1')!
+      fireEvent(button, 'click')
+      expect(handler).toHaveBeenCalledTimes(1)
+      el.remove()
+      el.parentElement!.removeChild(el)
+      el.innerHTML = '' // this don't work
+      fireEvent(button, 'click')
+      expect(handler).toHaveBeenCalledTimes(1)
     })
   })
-
 })

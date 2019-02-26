@@ -19,7 +19,7 @@ export function isTextNodeLike<T>(n: any): n is TextNodeLike<T> {
 
 export abstract class AbstractTextNodeLike<T> implements TextNodeLike<T> {
   constructor(public content: string) {}
-  abstract render(config?: RenderConfig): T
+  abstract render(config?: RenderConfig<T>): T
 }
 export abstract class AbstractElementLike<T> implements ElementLike<T> {
   attrs: {
@@ -33,7 +33,7 @@ export abstract class AbstractElementLike<T> implements ElementLike<T> {
     this.children = []
   }
 
-  abstract render(config?: RenderConfig): T
+  abstract render(config?: RenderConfig<T>): T
 
   setAttribute(name: string, value: string): void {
     this.attrs[name] = value
@@ -48,54 +48,55 @@ export abstract class AbstractElementLike<T> implements ElementLike<T> {
   
   abstract dangerouslySetInnerHTML(s: string): void
 
-  findDescendant(p: Predicate<T>): ElementLike<T> | undefined {
-    let found: ElementLike<T> | undefined
-    this.children.some(c => {
-      if (isElementLike<T>(c)) {
-        if (p(c)) {
-          found = c
-        }
-        else {
-          found = c.findDescendant(p)
-        }
-      }
-      return !!found
-    })
-    return found
-  }
+    // abstract destroy():void
+  // findDescendant(p: Predicate<T>): ElementLike<T> | undefined {
+  //   let found: ElementLike<T> | undefined
+  //   this.children.some(c => {
+  //     if (isElementLike<T>(c)) {
+  //       if (p(c)) {
+  //         found = c
+  //       }
+  //       else {
+  //         found = c.findDescendant(p)
+  //       }
+  //     }
+  //     return !!found
+  //   })
+  //   return found
+  // }
 
-  findAscendant(p: Predicate<T>): ElementLike<T> | undefined {
-    if (this.parentElement) {
-      if (p(this.parentElement)) {
-        return this.parentElement
-      }
-      return this.parentElement.findAscendant(p)
-    }
-  }
+  // findAscendant(p: Predicate<T>): ElementLike<T> | undefined {
+  //   if (this.parentElement) {
+  //     if (p(this.parentElement)) {
+  //       return this.parentElement
+  //     }
+  //     return this.parentElement.findAscendant(p)
+  //   }
+  // }
 
-  getAscendants(): ElementLike<T>[]  {
-    return this.parentElement ? [...this.parentElement.getAscendants(), this.parentElement] : []
-  }
+  // getAscendants(): ElementLike<T>[]  {
+  //   return this.parentElement ? [...this.parentElement.getAscendants(), this.parentElement] : []
+  // }
 
-  getRootAscendant(): ElementLike<T> {
-    const r =  this.parentElement ? this.findAscendant(n=>isElementLike(n) && !n.parentElement) : this
-    return checkThrow(r, 'No root ascendant found in element like tree!')
-  }
+  // getRootAscendant(): ElementLike<T> {
+  //   const r =  this.parentElement ? this.findAscendant(n=>isElementLike(n) && !n.parentElement) : this
+  //   return checkThrow(r, 'No root ascendant found in element like tree!')
+  // }
 
-  getSiblings(): NodeLike<T>[]{
-    if(this.parentElement){
-      return this.parentElement.children.filter(c=>c!==this)
-    }
-    return []
-  }
+  // getSiblings(): NodeLike<T>[]{
+  //   if(this.parentElement){
+  //     return this.parentElement.children.filter(c=>c!==this)
+  //   }
+  //   return []
+  // }
 
-  findSibling(p: Predicate<T>): NodeLike<T> | undefined {
-    return this.getSiblings().find(p)
-  }
+  // findSibling(p: Predicate<T>): NodeLike<T> | undefined {
+  //   return this.getSiblings().find(p)
+  // }
 
-  find(p: Predicate<T>): NodeLike<T>|undefined {
-    // TODO: this should start searching in the near children, sibling and parents, and only after that look on far nodes
-    return this.getRootAscendant().findDescendant(p)
-  }
+  // find(p: Predicate<T>): NodeLike<T>|undefined {
+  //   // TODO: this should start searching in the near children, sibling and parents, and only after that look on far nodes
+  //   return this.getRootAscendant().findDescendant(p)
+  // }
   
 }

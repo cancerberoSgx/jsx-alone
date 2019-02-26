@@ -2,7 +2,7 @@ import { JSXAlone } from '..';
 import { dummy, fireEvent } from './testUtil';
 import { ElementClass } from 'jsx-alone-dom';
 import { MouseEvent, AbstractCoreMouseEvent, Children } from 'jsx-alone-core';
-
+// const a = JSXAlone.createElement(1 as any)
 describe('context', () => {
   it('big app with handlers in many levels', () => {
     const handler = jest.fn(function(this: any, e) {
@@ -18,7 +18,7 @@ describe('context', () => {
           <button id={this.props.id} onClick={this.props.onClick}>
             {this.props.children}
           </button>
-        )
+        ) 
       }
     }
     class Container extends ElementClass<{ children: Children }> {

@@ -1,5 +1,5 @@
-import { AbstractElementLike, isNode, isJSXAloneComponent as isClassElementClass } from './elementImpl';
-import { JSXAloneAttrs, JSXAloneChild, JSXAloneTag, JSXAlone, ElementLike, CreateCreateElementConfig, JSXAloneComponent, RenderConfig } from './types';
+import { AbstractElementLike, isJSXAloneComponent as isClassElementClass, isNode } from './elementImpl'
+import { CreateCreateElementConfig, JSXAlone, JSXAloneAttrs, JSXAloneComponent, JSXAloneTag, ElementLike } from './types'
 
 const throwOnUnrecognized = false
 
@@ -10,39 +10,31 @@ export function debug(err: string) {
     console.error(err)
   }
 }
-// let lastElementClassInstance:JSXAloneComponent|undefined
 
-export function createCreateElement<T, C extends RenderConfig=RenderConfig>(config: CreateCreateElementConfig) {
-  
-  const {impl, textNodeImpl, escapeAttributes, functionAttributes, onElementReady, onElementCreated: onElementCreate} = config
+export function createCreateElement<T, R extends ElementLike<T>=ElementLike<T>>(config: CreateCreateElementConfig<T, R>) {
+  const { impl, textNodeImpl, escapeAttributes, functionAttributes, onElementReady, onElementCreated: onElementCreate } = config
 
-  const createElement : CreateElementFunction<T> = function(tag, attrs = {}, ...children: any[])  {
-    let element: AbstractElementLike<T>
-    let elementClassInstance: JSXAloneComponent|undefined
+  const createElement: CreateElementFunction<T,R> = function(tag, attrs = {}, ...children: any[]) {
+    let element:  R
+    let elementClassInstance: JSXAloneComponent | undefined
     if (typeof tag === 'string') {
       element = new impl(tag)
     } else {
       if (isClassElementClass(tag)) {
-        elementClassInstance=
-        // lastElementClassInstance=
-        new tag({ ...attrs, children: children })
+        elementClassInstance = new tag({ ...attrs, children: children })
         element = elementClassInstance.render()
       } else {
-        element = tag({ ...attrs, children: children })
-        //TODO: expose function element context
+        if (typeof tag.prototype !== undefined && config.evaluateFunctionsWithNew) {
+          element = new (tag as any)({ ...attrs, children: children })
+        } else {
+          element = tag({ ...attrs, children: children })
+        }
       }
       attrs = {}
     }
-    if(onElementCreate){
-      onElementCreate({elementLike: element, elementClassInstance})
+    if (onElementCreate) {
+      onElementCreate({ elementLike: element, elementClassInstance })
     }
-    
-
-    // if(onElementCreate){
-    //   onElementCreate({elementLike: element, elementClassInstance})
-    // }
-    // elementClassInstance=elementClassInstance || lastElementClassInstance
-    
     for (let name in attrs) {
       if (name && attrs.hasOwnProperty(name)) {
         let value: any = attrs[name]
@@ -51,11 +43,13 @@ export function createCreateElement<T, C extends RenderConfig=RenderConfig>(conf
             element.setAttribute(name, name)
           }
         } else if (typeof value === 'function') {
-          if(!functionAttributes || functionAttributes==='preserve'){
+          if (!functionAttributes || functionAttributes === 'preserve') {
             element.setAttribute(name, value)
-          }
-          else{
-            const code = functionAttributes==='toString-this' ? `_this = __this__ = this; (${value.toString()}).apply(_this, arguments)`:value.toString()
+          } else {
+            const code =
+              functionAttributes === 'toString-this'
+                ? `_this = __this__ = this; (${value.toString()}).apply(_this, arguments)`
+                : value.toString()
             const escaped = escapeAttributes ? escapeAttributes(code) : code
             element.setAttribute(name, escaped)
           }
@@ -111,16 +105,18 @@ export function createCreateElement<T, C extends RenderConfig=RenderConfig>(conf
           }
         })
     }
-    if(onElementReady){
-      onElementReady({elementLike: element})
+    if (onElementReady) {
+      onElementReady({ elementLike: element })
     }
-
     return element
   }
   return createElement
 }
 
-export const AbstractJSXAlone : JSXAlone<any> = null as any 
+export const AbstractJSXAlone: JSXAlone<any> = null as any
 
-
-export type CreateElementFunction<T> =(tag: JSXAloneTag, attrs?: JSXAloneAttrs<string> | undefined, ...children: any[]) => AbstractElementLike<T>
+export type CreateElementFunction<T, R=AbstractElementLike<T>> = (
+  tag: JSXAloneTag,
+  attrs?: JSXAloneAttrs<string> | undefined,
+  ...children: any[]
+) => R

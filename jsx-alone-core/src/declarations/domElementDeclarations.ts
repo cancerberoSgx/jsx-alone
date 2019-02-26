@@ -494,7 +494,7 @@ export interface Context<T> {
 //     // Component API
 //     // ----------------------------------------------------------------------
 
-type ReactInstance = Component<any> | Element;
+// type ReactInstance = Component<any> | Element;
 
 // Base component for plain JS classes
 // tslint:disable-next-line:no-empty-interface

@@ -4,7 +4,7 @@ import {  ElementLikeImpl, TextNodeLikeImpl } from './elementImpl'
 import { NodeLike } from './types';
 
 
-export interface CreateCreateElementDomConfig extends CreateCreateElementConfig{
+export interface CreateCreateElementDomConfig<R extends ElementLikeImpl = ElementLikeImpl> extends CreateCreateElementConfig<RenderOutput, R>{
   extraRenderConfig?: ElementLikeImplRenderConfig
 }
 export const createCreateElementConfig: CreateCreateElementDomConfig = {
@@ -13,9 +13,9 @@ export const createCreateElementConfig: CreateCreateElementDomConfig = {
   functionAttributes: 'preserve'
 }
 
-const Module: JSXAloneType = {
+const Module: JSXAloneType<RenderOutput, ElementLikeImpl> = {
 
-  createElement: createCreateElement<HTMLElement | Text>(createCreateElementConfig),
+  createElement: createCreateElement<RenderOutput, ElementLikeImpl>(createCreateElementConfig),
 
   render  (el, config={}){
     const elementLike: NodeLike = el as any
@@ -23,11 +23,14 @@ const Module: JSXAloneType = {
   }
 
 }
+export type RenderOutput = HTMLElement | Text
+type RenderFunction<RenderOutput, R extends ElementLikeImpl=ElementLikeImpl> = (el: JSX.Element, config?: ElementLikeImplRenderConfig<R>)=> RenderOutput
+type JSXAloneType<T extends RenderOutput = RenderOutput, R extends ElementLikeImpl = ElementLikeImpl>={
+  render: RenderFunction<T, R>, 
+  createElement: CreateElementFunction<T, R>
+} 
 
-type RenderFunction = (el: JSX.Element, config?: ElementLikeImplRenderConfig)=> HTMLElement | Text
-type JSXAloneType={render: RenderFunction, createElement: CreateElementFunction<HTMLElement | Text>} 
 
 
-
-export const JSXAlone: JSXAloneType = Module
+export const JSXAlone: JSXAloneType<RenderOutput,ElementLikeImpl> = Module
 

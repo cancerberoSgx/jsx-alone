@@ -1,7 +1,7 @@
 import { JSXAlone } from '..'
 import { removeWhites } from 'jsx-alone-core'
 
-export function render(e: JSX.Element) {
+export function render(e: JSX.Element, config?: {initialContext: any}) {
   let parent = document.getElementById('test-root')
   if (parent) {
     parent.remove()
@@ -9,23 +9,25 @@ export function render(e: JSX.Element) {
   parent = document.createElement('div')
   parent.setAttribute('id', 'test-root')
   document.body.appendChild(parent)
-  return JSXAlone.render(e, { parent }) as HTMLElement
+  return JSXAlone.render(e, { parent, ...config }) as HTMLElement
 }
 export function test({
   e,
   expected,
   label,
   asCodeEquals,
-  caseInsensitive
+  caseInsensitive, 
+  initialContext
 }: {
   e: JSX.Element
   expected: string
   label: string
   asCodeEquals?: boolean
   caseInsensitive?: boolean
+  initialContext?: any
 }) {
   it(label + ' without indent', () => {
-    const output: HTMLElement = render(e)
+    const output: HTMLElement = render(e, {initialContext})
     expected = caseInsensitive ? expected.toLowerCase() : expected
     const result = caseInsensitive ? output.outerHTML.toLowerCase() : output.outerHTML
     if (asCodeEquals) {

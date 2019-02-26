@@ -13,6 +13,7 @@ describe('functions', () => {
     </ul>
   )
 
+  // const a =  f1({ people: [{ name: 'seba', age: 18 }, { name: 'laura', age: 33 }] });
   test({
     label: 'should render element children on any depth',
     e: f1({ people: [{ name: 'seba', age: 18 }, { name: 'laura', age: 33 }] }),
