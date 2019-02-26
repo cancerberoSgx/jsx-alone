@@ -13,7 +13,7 @@
     "test-clean": "npx jest --no-cache --clearMocks",
     "test-debug": "npm run clean && node --inspect-brk node_modules/.bin/jest --runInBand --no-cache --clearMocks",
     "test-watch": "npm test -- --watch",
-    "clean": "rm -rf build/ dist/ && npm run test-clean",
+    "clean": "rm -rf build/ dist/ ",
     "all": "npm run clean && npm run build && npm test",
     "prepare": "npm run build && npx shx rm -rf dist/**/__tests__",
     "docs": "exit 0"

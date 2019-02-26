@@ -1,20 +1,20 @@
 export type JSXAloneAttrs<ClassName extends string = string> = {
   [k: string]: any
-  className?: ClassName|ClassName[]
+  className?: ClassName | ClassName[]
 }
 
-export type JSXAloneChild = JSXAloneElement | string;
+export type JSXAloneChild = JSXAloneElement | string
 
 export type JSXAloneProps = JSXAloneAttrs & {
-  children: JSXAloneChild[];
+  children: JSXAloneChild[]
 }
 
 export type JSXAloneValue = string | boolean | number
 
-export type JSXAloneElement = any  
+export type JSXAloneElement = any
 
 export type JSXAloneComponent = {
-  new(props: JSXAloneProps): JSXAloneComponent
+  new (props: JSXAloneProps): JSXAloneComponent
   render(): JSXAloneElement
 }
 
@@ -36,36 +36,35 @@ export interface ElementLike<T> extends NodeLike<T> {
   attrs: { [name: string]: any }
   children: NodeLike<T>[]
   setAttribute(name: string, value: string): void
-  dangerouslySetInnerHTML(s: string):void
+  dangerouslySetInnerHTML(s: string): void
   appendChild(c: NodeLike<T>): void
   parentElement?: ElementLike<T>
-  findDescendant(p: Predicate<T>): ElementLike<T>|undefined
+  findDescendant(p: Predicate<T>): ElementLike<T> | undefined
   findAscendant(p: Predicate<T>): ElementLike<T> | undefined
   getSiblings(): NodeLike<T>[]
   findSibling(p: Predicate<T>): NodeLike<T> | undefined
   getRootAscendant(): ElementLike<T>
   getAscendants(): ElementLike<T>[]
-  find(p: Predicate<T>): NodeLike<T>|undefined
+  find(p: Predicate<T>): NodeLike<T> | undefined
 }
 
-export type Predicate<T, N extends NodeLike<T> = NodeLike<T>> = (e:N)=>boolean
+export type Predicate<T, N extends NodeLike<T> = NodeLike<T>> = (e: N) => boolean
 
-export interface RenderConfig {
-}
+export interface RenderConfig {}
 
 export interface JSXAlone<T> {
   createElement(tag: JSXAloneTag, attrs: JSXAloneAttrs, ...children: JSXAloneChild[]): ElementLike<T>
   render(el: JSX.Element, config?: RenderConfig): T
 }
 
-
-type FunctionAttributesMode = 'preserve'|'toString-this'|'toString'
+type FunctionAttributesMode = 'preserve' | 'toString-this' | 'toString'
 export interface CreateCreateElementConfig {
-  impl: { 
-  new (tag: string): any }, 
-textNodeImpl: { new (content: string): any }
-escapeAttributes?: (s: string)=>string
-functionAttributes?: FunctionAttributesMode
-onElementReady?(e: ElementLike<any>):ElementLike<any>
-onElementCreate?(event: { elementLike: ElementLike<any>,  elementClassInstance?: JSXAloneComponent}):void // TODO: expose function element context
+  impl: {
+    new (tag: string): any
+  }
+  textNodeImpl: { new (content: string): any }
+  escapeAttributes?: (s: string) => string
+  functionAttributes?: FunctionAttributesMode
+  onElementReady?(event: { elementLike: ElementLike<any> }):void
+  onElementCreated?(event: { elementLike: ElementLike<any>; elementClassInstance?: JSXAloneComponent }): void // TODO: expose function element context
 }

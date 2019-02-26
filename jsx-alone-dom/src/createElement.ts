@@ -1,19 +1,33 @@
-import {  createCreateElement, JSXAloneTag, JSXAloneAttrs, AbstractElementLike } from 'jsx-alone-core'
+import {  createCreateElement, JSXAloneTag, JSXAloneAttrs, AbstractElementLike, JSXAloneComponent, CreateCreateElementConfig, ElementLike, CreateElementFunction } from 'jsx-alone-core'
 import { ElementLikeImplRenderConfig } from './config'
-import { createCreateElementConfig } from './elementImpl'
+import {  ElementLikeImpl, TextNodeLikeImpl } from './elementImpl'
 import { NodeLike } from './types';
 
+
+export interface CreateCreateElementDomConfig extends CreateCreateElementConfig{
+  extraRenderConfig?: ElementLikeImplRenderConfig
+}
+export const createCreateElementConfig: CreateCreateElementDomConfig = {
+  impl: ElementLikeImpl,
+  textNodeImpl: TextNodeLikeImpl,
+  functionAttributes: 'preserve'
+}
+
 const Module: JSXAloneType = {
+
   createElement: createCreateElement<HTMLElement | Text>(createCreateElementConfig),
 
   render  (el, config={}){
-    return ((el as any) as NodeLike).render({...config, initialContext: this})
+    const elementLike: NodeLike = el as any
+    return elementLike.render({config})
   }
+
 }
-type CreateElementFunction =(tag: JSXAloneTag, attrs?: JSXAloneAttrs<string> | undefined, ...children: any[]) => AbstractElementLike<HTMLElement | Text>
+
 type RenderFunction = (el: JSX.Element, config?: ElementLikeImplRenderConfig)=> HTMLElement | Text
-type JSXAloneType={render: RenderFunction, createElement: CreateElementFunction} 
+type JSXAloneType={render: RenderFunction, createElement: CreateElementFunction<HTMLElement | Text>} 
+
+
+
 export const JSXAlone: JSXAloneType = Module
 
-// //@ts-ignore
-// if(typeof React !=='undefined'){  React = Module}

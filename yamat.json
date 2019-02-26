@@ -13,6 +13,10 @@
     },
     
     {
+        "name": "jsx-alone-dom-extra",
+        "path": "./jsx-alone-dom-extra"
+    },
+    {
         "name": "jsx-alone-sample-project-code",
         "path": "./jsx-alone-sample-project-code"
     },

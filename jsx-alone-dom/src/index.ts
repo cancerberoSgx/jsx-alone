@@ -1,3 +1,4 @@
 export * from './createElement'
 export * from './types'
-export { ElementClass } from './elementImpl'
+export * from './elementImpl'
+export * from './config'

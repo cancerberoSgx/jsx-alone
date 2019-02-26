@@ -5,4 +5,6 @@
     "rootDir": "."
   },
   "include": ["src"],
+  "exclude": ["dist"]
+  
 }

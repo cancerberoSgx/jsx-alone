@@ -10,6 +10,7 @@
     "docs-simple": "sh build-simple.sh",
     "test": "rm -rf dist && npx jest --testPathIgnorePatterns dist",
     "test-js": "npx tsc && npx jest --testMatch \"**/dist/**/__tests__/**/*.js\"",
+    "clean": "rm -rf build/ dist/",
     "test-clean": "npx jest --clearMocks",
     "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand --no-cache --clearMocks",
     "test-watch": "npm test -- --watch"

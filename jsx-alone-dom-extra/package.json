@@ -13,7 +13,7 @@
     "test-clean": "npx jest --clearMocks",
     "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand --no-cache --clearMocks",
     "test-watch": "npm test -- --watch",
-    "clean": "rm -rf build/ dist/ && npm run test-clean",
+    "clean": "rm -rf build/ dist/",
     "all": "npm run clean && npm run build && npm test",
     "prepare": "npm run build && npx shx rm -rf dist/**/__tests__",
     "docs": "sh build.sh"
@@ -29,7 +29,7 @@
     "parcel": "^1.11.0",
     "shx": "^0.3.2",
     "ts-jest": "^24.0.0",
-    "typescript": "^3.2.2"
+    "typescript": "^3.3.3"
   },
   "author": "Sebastian Gurin",
   "license": "MIT",

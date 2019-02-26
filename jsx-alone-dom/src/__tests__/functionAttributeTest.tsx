@@ -175,6 +175,26 @@ describe('function attributes', () => {
     })
 
     xit('every standard on* event works', () => {})
+    it('event listeners are disposed on re-rendering ', () => {
+      const handler = jest.fn(e => {
+      return e.type + e.currentTarget.id
+    })
+    const el = render(
+      <div>
+        <button id="b1" onClick={handler}>
+          asd{' '}
+        </button>
+        <input id="i1" value="foo" onChange={handler} />
+      </div>
+    ) 
+    expect(handler).toHaveBeenCalledTimes(0)
+    const button = el.querySelector<HTMLButtonElement>('#b1')!
+    fireEvent(button, 'click')
+    expect(handler).toHaveBeenCalledTimes(1)
+    el.innerHTML=''
+    fireEvent(button, 'click')
+    expect(handler).toHaveBeenCalledTimes(1)
+    })
   })
 
 })

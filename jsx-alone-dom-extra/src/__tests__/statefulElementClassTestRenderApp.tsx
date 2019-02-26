@@ -1,10 +1,9 @@
-import { JSXAlone } from 'jsx-alone-dom'
-import { StatefulElementClass } from '../StatefulElementClass'
+import { JSXAlone, StatefulElementClass } from '..'
 
 export function statefulElementClassTestRenderApp(this: any) {
   const parent = document.createElement('div')
   document.body.appendChild(parent)
-  const el = JSXAlone.render(<App people={[{ name: 'seba' }, { name: 'lau' }]} />, { parent, initialContext: this }) as HTMLElement
+  const el = JSXAlone.render(<App people={[{ name: 'seba' }, { name: 'lau' }]} />, { parent , initialContext: this  }) as HTMLElement
   parent.appendChild(el)
   return parent
 }
@@ -48,6 +47,8 @@ class App extends StatefulElementClass<P, P> {
   }
   render() {
     return (
+      // <Repeater value={'p.name'} />
+
       <div className="App">
         {/* <input onKeyDown={e=>console.log('asdas')      } value="safsdfsdf"></input> */}
         <button id="add" onClick={e => this.setState({ people: [...this.state.people, { name: 'random name ' + Math.random() }] })}>
@@ -71,9 +72,9 @@ class App extends StatefulElementClass<P, P> {
       </div>
     )
   }
-  // setState(s: Partial<P>) {
-  //   this.state = { ...this.state, ...s };
-  //   this.containerEl.innerHTML = '';
-  //   this.containerEl.appendChild(JSXAlone.render(this.render()));
-  // }
+  setState(s: Partial<P>) {
+    this.state = { ...this.state, ...s };
+    this.containerEl.innerHTML = '';
+    this.containerEl.appendChild(JSXAlone.render(this.render()));
+  }
 }

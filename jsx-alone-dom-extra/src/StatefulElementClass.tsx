@@ -1,4 +1,4 @@
-import { ElementClass, JSXAlone } from 'jsx-alone-dom'
+import { ElementClass, JSXAlone } from '.'
 
 export abstract class StatefulElementClass<P = {}, S = Partial<P>> extends ElementClass<P> {
   state: S = {} as any
@@ -11,20 +11,20 @@ export abstract class StatefulElementClass<P = {}, S = Partial<P>> extends Eleme
 
   /** changes the state, clean up containerEl and renders the element again and append it to containerEl. 
    * Notice that descendant elements will be destroyed and */
-  setState(s: Partial<S>) {
-    this.state = { ...this.state, ...s } = { start: 0, end: 0, direction: undefined }
+  setState(  s: Partial<S>) {
+    this.state = { ...this.state, ...s } //= { start: 0, end: 0, direction: undefined }
     let activePath: XPathResult | string | undefined
-    let selection: { start: number; end: number; direction?: string }// = { start: 0, end: 0 }
+    let selection: { start: number; end: number; direction?: string }= { start: 0, end: 0 }
     if (document.activeElement) {
       activePath = getXPathOfElement(document.activeElement)
       selection = {
         start: (document.activeElement as HTMLInputElement).selectionStart || 0,
         end: (document.activeElement as HTMLInputElement).selectionEnd || 0,
-        direction: (document.activeElement as HTMLInputElement).selectionDirection
+        direction: (document.activeElement as HTMLInputElement).selectionDirection||undefined
       }
     }
     const jsx = this.render()
-    const el = JSXAlone.render(jsx)
+    const el = JSXAlone.render(jsx, {initialContext: this })
 
     this.containerEl.parentElement!.replaceChild(el, this.containerEl) // This should remove event listeners too. TODO: verify
     
@@ -34,7 +34,7 @@ export abstract class StatefulElementClass<P = {}, S = Partial<P>> extends Eleme
       if (activeEl&&selection) {
         activeEl.focus()
         if (activeEl.setSelectionRange) {
-          activeEl.setSelectionRange(selection.start, selection.end, selection.direction)
+          activeEl.setSelectionRange(selection.start, selection.end, selection.direction as any)
         }
       }
     }

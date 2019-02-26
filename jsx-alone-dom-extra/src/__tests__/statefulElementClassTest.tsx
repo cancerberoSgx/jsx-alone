@@ -3,7 +3,6 @@ import { statefulElementClassTestRenderApp } from './statefulElementClassTestRen
 describe('stateful element class', () => {
   describe('sample 1', () => {
   
-
     it('simple', ()=>{
 
       expect(1).toBe(1)
