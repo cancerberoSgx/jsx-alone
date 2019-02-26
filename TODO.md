@@ -2,7 +2,7 @@
 
  * ISSUE - <If> in dom impl : props.children is array
  * test in old browsers / rhino (should work on IE8)
- * issue: DOM :function elements dont' have access to its context (`this`)
+ * issue: DOM :function elements dont' have access to its context (`this`) see test "function attribute in function element context"
  * performance comparison against other template implementations like js string, handlebars, react, inferno (those that support isomorphic)
  * run dom sample project in jsdom for automatic report
  * React.Fragment
