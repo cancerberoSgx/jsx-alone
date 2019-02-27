@@ -7,8 +7,8 @@
     "outDir": "./dist",
     "rootDir": ".",
     // "esModuleInterop": false,
-    // "jsx": "react",
-    // "jsxFactory": "JSXAlone.createElement",
+    "jsx": "react",
+    "jsxFactory": "JSXAlone.createElement",
     // "strict": true,
     // "declaration": true,
     // "composite": true

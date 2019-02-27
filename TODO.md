@@ -17,6 +17,7 @@
 
  * createElement is in core and is not extensible. Let implementations hook in attributes, children and text rendering
 
+ * string impl: implement event delegation (another functionattributes mode so the output is smaller)
  * rename ElementLikeImplRenderConfig to ImplRenderConfig
 
  * remove react non standard attributes from typings or support them. see declaration: 

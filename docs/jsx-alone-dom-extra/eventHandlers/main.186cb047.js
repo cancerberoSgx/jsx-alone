@@ -105,8 +105,6 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   // Override the current require with this new one
   return newRequire;
 })({"Urqt":[function(require,module,exports) {
-"use strict";
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -173,8 +171,6 @@ function () {
 
 exports.AbstractElementLike = AbstractElementLike;
 },{}],"qWxh":[function(require,module,exports) {
-"use strict";
-
 var __extends = this && this.__extends || function () {
   var _extendStatics = function extendStatics(d, b) {
     _extendStatics = Object.setPrototypeOf || {
@@ -253,8 +249,6 @@ function (_super) {
 
 exports.AbstractElementClass = AbstractElementClass;
 },{"./elementImpl":"Urqt"}],"Nzec":[function(require,module,exports) {
-"use strict";
-
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var __assign = this && this.__assign || function () {
@@ -429,8 +423,6 @@ function createCreateElement(config) {
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
 },{"./elementImpl":"Urqt"}],"h+Y6":[function(require,module,exports) {
-"use strict";
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 }); // import { AbstractJSXAlone as  } from './createElement';
@@ -514,8 +506,6 @@ function isNotFalsy(a) {
   return !!a;
 }
 },{".":"6FnY"}],"dHmX":[function(require,module,exports) {
-"use strict";
-
 var __assign = this && this.__assign || function () {
   __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -637,8 +627,6 @@ function printMs(ms, config) {
 
 exports.printMs = printMs;
 },{}],"6FnY":[function(require,module,exports) {
-"use strict";
-
 function __export(m) {
   for (var p in m) {
     if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -664,8 +652,6 @@ __export(require("./misc"));
 
 __export(require("./util"));
 },{"./elementImpl":"Urqt","./elementClass":"qWxh","./createElement":"Nzec","./misc":"h+Y6","./util":"dHmX"}],"0Bvz":[function(require,module,exports) {
-"use strict";
-
 var __extends = this && this.__extends || function () {
   var _extendStatics = function extendStatics(d, b) {
     _extendStatics = Object.setPrototypeOf || {
@@ -744,8 +730,6 @@ function (_super) {
 
 exports.AbstractElementClass = AbstractElementClass;
 },{"./elementImpl":"Urqt"}],"fbNL":[function(require,module,exports) {
-"use strict";
-
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var __assign = this && this.__assign || function () {
@@ -920,8 +904,6 @@ function createCreateElement(config) {
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
 },{"./elementImpl":"Urqt"}],"k98/":[function(require,module,exports) {
-"use strict";
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 }); // import { AbstractJSXAlone as  } from './createElement';
@@ -1005,8 +987,6 @@ function isNotFalsy(a) {
   return !!a;
 }
 },{".":"BB47"}],"BB47":[function(require,module,exports) {
-"use strict";
-
 function __export(m) {
   for (var p in m) {
     if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -1032,7 +1012,6 @@ __export(require("./misc"));
 
 __export(require("./util"));
 },{"./elementImpl":"Urqt","./elementClass":"0Bvz","./createElement":"fbNL","./misc":"k98/","./util":"dHmX"}],"gNvY":[function(require,module,exports) {
-"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -1129,14 +1108,14 @@ var ElementClass = /** @class */ (function (_super) {
 exports.ElementClass = ElementClass;
 
 },{"jsx-alone-core":"BB47"}],"S0OW":[function(require,module,exports) {
-"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var elementImpl_1 = require("./elementImpl");
 exports.createCreateElementConfig = {
     impl: elementImpl_1.ElementLikeImpl,
     textNodeImpl: elementImpl_1.TextNodeLikeImpl,
-    functionAttributes: 'preserve'
+    functionAttributes: 'toString-this',
+    escapeAttributes: function (s) { return s.replace(/\"/gim, '&quot;'); }
 };
 var Module = {
     createElement: jsx_alone_core_1.createCreateElement(exports.createCreateElementConfig),
@@ -1149,7 +1128,6 @@ var Module = {
 exports.JSXAlone = Module;
 
 },{"jsx-alone-core":"BB47","./elementImpl":"gNvY"}],"MNUJ":[function(require,module,exports) {
-"use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
@@ -1157,7 +1135,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./createElement"));
 __export(require("./elementImpl"));
 
-},{"./createElement":"S0OW","./elementImpl":"gNvY"}],"Q4+2":[function(require,module,exports) {
+},{"./createElement":"S0OW","./elementImpl":"gNvY"}],"kwGG":[function(require,module,exports) {
 "use strict";
 
 var __assign = this && this.__assign || function () {
@@ -1176,9 +1154,7 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 
 var jsx_alone_core_1 = require("jsx-alone-core");
 
@@ -1300,7 +1276,7 @@ exports.JSXAlone = Module;
 function isFunctionAttributeElement(a) {
   return jsx_alone_core_1.isElementLike(a);
 }
-},{"jsx-alone-core":"6FnY","jsx-alone-dom":"MNUJ"}],"QsLb":[function(require,module,exports) {
+},{"jsx-alone-core":"6FnY","jsx-alone-dom":"MNUJ"}],"4eCq":[function(require,module,exports) {
 "use strict";
 
 var __extends = this && this.__extends || function () {
@@ -1345,9 +1321,7 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 
 var _1 = require("./");
 
@@ -1383,7 +1357,7 @@ function (_super) {
 }(_1.ElementClass);
 
 exports.StatefulComponent = StatefulComponent;
-},{"./":"l36I"}],"8fcd":[function(require,module,exports) {
+},{"./":"o2+O"}],"cbxI":[function(require,module,exports) {
 "use strict";
 
 var __extends = this && this.__extends || function () {
@@ -1412,11 +1386,9 @@ var __extends = this && this.__extends || function () {
   };
 }();
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 
-var _1 = require(".");
+var _1 = require("./");
 
 var StatefulComponent_1 = require("./StatefulComponent");
 /** implement stateful -ness by re-rendering it self agin and agin when the stat changes. Preserves focus.
@@ -1424,19 +1396,19 @@ var StatefulComponent_1 = require("./StatefulComponent");
  */
 
 
-var ReRenderComponent =
+var DestructiveDomRenderComponent =
 /** @class */
 function (_super) {
-  __extends(ReRenderComponent, _super);
+  __extends(DestructiveDomRenderComponent, _super);
 
-  function ReRenderComponent() {
+  function DestructiveDomRenderComponent() {
     return _super !== null && _super.apply(this, arguments) || this;
   }
   /** changes the state, clean up containerEl and renders the element again and append it to containerEl.
    * Notice that descendant elements will be destroyed and */
 
 
-  ReRenderComponent.prototype.setState = function (s) {
+  DestructiveDomRenderComponent.prototype.setState = function (s) {
     _super.prototype.setState.call(this, s);
 
     var activePath;
@@ -1476,10 +1448,10 @@ function (_super) {
     }
   };
 
-  return ReRenderComponent;
+  return DestructiveDomRenderComponent;
 }(StatefulComponent_1.StatefulComponent);
 
-exports.ReRenderComponent = ReRenderComponent; //  TODO: move to misc
+exports.DestructiveDomRenderComponent = DestructiveDomRenderComponent; //  TODO: move to misc
 
 function getXPathOfElement(el) {
   if (typeof el == 'string') {
@@ -1523,7 +1495,7 @@ function getElementByXPath(path, predicate) {
     alert('Error: Document tree modified during iteration ' + e);
   }
 }
-},{".":"l36I","./StatefulComponent":"QsLb"}],"l36I":[function(require,module,exports) {
+},{"./":"o2+O","./StatefulComponent":"4eCq"}],"o2+O":[function(require,module,exports) {
 "use strict";
 
 function __export(m) {
@@ -1532,16 +1504,14 @@ function __export(m) {
   }
 }
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+exports.__esModule = true;
 
 __export(require("./createElement"));
 
 __export(require("./StatefulComponent"));
 
-__export(require("./ReRenderComponent"));
-},{"./createElement":"Q4+2","./StatefulComponent":"QsLb","./ReRenderComponent":"8fcd"}],"YIO9":[function(require,module,exports) {
+__export(require("./DestructiveDomRenderComponent"));
+},{"./createElement":"kwGG","./StatefulComponent":"4eCq","./DestructiveDomRenderComponent":"cbxI"}],"wdqJ":[function(require,module,exports) {
 "use strict";
 
 var __extends = this && this.__extends || function () {
@@ -1570,63 +1540,47 @@ var __extends = this && this.__extends || function () {
   };
 }();
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var _this = this;
 
-var __1 = require("..");
+exports.__esModule = true;
 
-function statefulElementClassTestRenderApp() {
-  var parent = document.createElement('div');
-  document.body.appendChild(parent);
+var jsx_alone_core_1 = require("jsx-alone-core");
 
-  var el = __1.JSXAlone.render(__1.JSXAlone.createElement(App, {
-    people: [{
-      name: 'seba'
-    }, {
-      name: 'lau'
-    }]
-  }), {
-    parent: parent,
-    initialContext: this
-  });
+var __1 = require("../..");
 
-  parent.appendChild(el);
-  return parent;
-}
-
-exports.statefulElementClassTestRenderApp = statefulElementClassTestRenderApp;
-
-var Repeater =
+var Button =
 /** @class */
 function (_super) {
-  __extends(Repeater, _super);
+  __extends(Button, _super);
 
-  function Repeater() {
+  function Button() {
     return _super !== null && _super.apply(this, arguments) || this;
-  } // constructor(p: RepeaterP) {
-  //   super(p)
-  //   this.state = { ...p }
-  // }
+  }
 
-
-  Repeater.prototype.render = function () {
-    var _this = this;
-
-    return __1.JSXAlone.createElement("div", {
-      className: "Repeater"
-    }, "Write something:", __1.JSXAlone.createElement("input", {
-      value: this.state.value,
-      onKeyUp: function onKeyUp(e) {
-        _this.setState({
-          value: e.currentTarget.value
-        });
-      }
-    }), __1.JSXAlone.createElement("br", null), "Will be repeated: ", __1.JSXAlone.createElement("span", null, this.state.value), ' ');
+  Button.prototype.render = function () {
+    return __1.JSXAlone.createElement("button", {
+      onClick: this.props.onClick
+    }, this.props.children);
   };
 
-  return Repeater;
-}(__1.StatefulElementClass);
+  return Button;
+}(__1.ElementClass);
+
+var Container =
+/** @class */
+function (_super) {
+  __extends(Container, _super);
+
+  function Container() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  Container.prototype.render = function () {
+    return __1.JSXAlone.createElement("div", null, this.props.children);
+  };
+
+  return Container;
+}(__1.ElementClass);
 
 var App =
 /** @class */
@@ -1635,55 +1589,53 @@ function (_super) {
 
   function App() {
     return _super !== null && _super.apply(this, arguments) || this;
-  } // constructor(p: P) {
-  //   super(p)
-  //   this.state = { ...p }
-  // }
+  }
 
+  App.prototype.foo = function () {
+    return jsx_alone_core_1.printMs(Date.now());
+  };
 
   App.prototype.render = function () {
     var _this = this;
 
-    return __1.JSXAlone.createElement("div", {
-      className: "App"
-    }, __1.JSXAlone.createElement("button", {
-      id: "add",
+    var foo = 'hello';
+    return __1.JSXAlone.createElement("div", null, __1.JSXAlone.createElement(Container, null, __1.JSXAlone.createElement("p", null, "just some tests for function attributes context - most doesn't work because don't use extras, just core dom implementation", __1.JSXAlone.createElement("button", {
       onClick: function onClick(e) {
-        return _this.setState({
-          people: _this.state.people.concat([{
-            name: 'random name ' + Math.random()
-          }])
-        });
+        console.log(_this, _this.props.name, _this.foo(), foo); // debugger
       }
-    }, "add"), __1.JSXAlone.createElement("ul", null, this.state.people.map(function (p) {
-      return __1.JSXAlone.createElement("li", {
-        "data-id": p.name
-      }, __1.JSXAlone.createElement(Repeater, {
-        value: p.name
-      }), __1.JSXAlone.createElement("button", {
-        className: "remove",
-        onClick: function onClick(e) {
-          _this.setState({
-            people: _this.state.people.filter(function (p2) {
-              return p2.name !== p.name;
-            })
-          });
-        }
-      }, "remove"));
-    })));
+    }, "Render!"), __1.JSXAlone.createElement(Container, null, __1.JSXAlone.createElement("button", {
+      onClick: function onClick(e) {
+        console.log(_this, _this.props.name, _this.foo(), foo); // debugger
+      }
+    }, "sss!")), __1.JSXAlone.createElement(Button, {
+      onClick: function onClick(e) {
+        console.log(_this, _this.props.name, _this.foo(), foo); // debugger
+      }
+    }, "second"))));
   };
 
   return App;
-}(__1.StatefulElementClass); // dummySpec()
-},{"..":"l36I"}],"Yf8H":[function(require,module,exports) {
-"use strict";
+}(__1.ElementClass);
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var bar = 'bar'; // render the App and append the generated element to body
 
-var statefulElementClassTestRenderApp_1 = require("./statefulElementClassTestRenderApp");
+var app = __1.JSXAlone.createElement("div", null, __1.JSXAlone.createElement("button", {
+  onClick: function onClick(e) {
+    //@ts-ignore
+    console.log(_this, jsx_alone_core_1.printMs(Date.now()), bar);
+  }
+}, "no root element class2"), __1.JSXAlone.createElement(Container, null, __1.JSXAlone.createElement("button", {
+  onClick: function onClick(e) {
+    //@ts-ignore
+    console.log(_this, jsx_alone_core_1.printMs(Date.now()), bar);
+  }
+}, "should not override this with Container")), __1.JSXAlone.createElement(App, {
+  name: "John Doe",
+  tasks: ['Wash dishes', 'Go outside', 'Play soccer']
+}));
 
-statefulElementClassTestRenderApp_1.statefulElementClassTestRenderApp(); // dummySpec()
-},{"./statefulElementClassTestRenderApp":"YIO9"}]},{},["Yf8H"], null)
-//# sourceMappingURL=statefulElementClassTestMain.fcd7f195.map
+var el = __1.JSXAlone.render(app);
+
+document.body.appendChild(el);
+},{"jsx-alone-core":"6FnY","../..":"o2+O"}]},{},["wdqJ"], null)
+//# sourceMappingURL=main.186cb047.map

@@ -10,7 +10,8 @@ export interface CreateCreateElementDomConfig<R extends ElementLikeImpl = Elemen
 export const createCreateElementConfig: CreateCreateElementDomConfig = {
   impl: ElementLikeImpl,
   textNodeImpl: TextNodeLikeImpl,
-  functionAttributes: 'preserve'
+  functionAttributes: 'toString-this',
+  escapeAttributes: (s: string)=>s.replace(/\"/gim, '&quot;')
 }
 
 const Module: JSXAloneType<RenderOutput, ElementLikeImpl> = {

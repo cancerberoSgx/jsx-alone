@@ -3,6 +3,8 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": ".",
+    "jsx": "react",
+    "jsxFactory": "JSXAlone.createElement",
   },
   "include": [
     "src"

@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "declaration": true,
+    "strict": true,
+    "outDir": "./dist",
+    "rootDir": ".", 
+  },
+  "include":["src"],
+}   

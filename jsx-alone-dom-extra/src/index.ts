@@ -1,3 +1,3 @@
 export * from './createElement'
 export * from './StatefulComponent'
-export * from './ReRenderComponent'
+export * from './DestructiveDomRenderComponent'

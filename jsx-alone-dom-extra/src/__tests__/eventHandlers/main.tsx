@@ -1,5 +1,5 @@
 import { AbstractCoreMouseEvent, Children, MouseEvent, printMs} from 'jsx-alone-core'
-import { ElementClass, JSXAlone } from 'jsx-alone-dom-extra'
+import { ElementClass, JSXAlone } from '../..'
 
 class Button extends ElementClass<{ onClick: (event: MouseEvent<HTMLButtonElement, AbstractCoreMouseEvent>) => void; children: string }> {
   render() {
@@ -26,7 +26,7 @@ class App extends ElementClass<{
       <div>
         <Container>
           <p>
-            just some tests for function attributes context
+            just some tests for function attributes context - most doesn't work because don't use extras, just core dom implementation
             <button
               onClick={e => {
                 console.log(this, this.props.name, this.foo(), foo)

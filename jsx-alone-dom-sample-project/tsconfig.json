@@ -8,8 +8,8 @@
     // ],
     "outDir": "./dist",
     "rootDir": ".",
-    // "jsx": "react",
-    // "jsxFactory": "JSXAlone.createElement",
+    "jsx": "react",
+    "jsxFactory": "JSXAlone.createElement",
     // "strict": true,
     // "esModuleInterop": false
   },

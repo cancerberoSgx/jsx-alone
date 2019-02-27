@@ -5,8 +5,10 @@
     "jsx": "react",
     "jsxFactory": "JSXAlone.createElement",
     "declaration": true,
-    // "strict": true,
+    "strict": true,
+    "alwaysStrict": false,
     "esModuleInterop": false,
+    "noImplicitUseStrict": true,    
     "composite": true,
     "noStrictGenericChecks": true
   }

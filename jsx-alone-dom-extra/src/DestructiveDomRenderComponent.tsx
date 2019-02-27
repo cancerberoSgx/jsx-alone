@@ -1,9 +1,9 @@
-import { JSXAlone } from '.';
+import { JSXAlone } from './';
 import { StatefulComponent } from './StatefulComponent';
 /** implement stateful -ness by re-rendering it self agin and agin when the stat changes. Preserves focus.
  * TODO: parent re-render actually resets the children (ISSUE)
  */
-export abstract class ReRenderComponent<P = {}, S = Partial<P>> extends StatefulComponent<P, S> {
+export abstract class DestructiveDomRenderComponent<P = {}, S = Partial<P>> extends StatefulComponent<P, S> {
   /** changes the state, clean up containerEl and renders the element again and append it to containerEl.
    * Notice that descendant elements will be destroyed and */
   setState(s: Partial<S>) {
