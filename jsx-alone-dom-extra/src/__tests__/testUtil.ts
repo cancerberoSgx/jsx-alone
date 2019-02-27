@@ -116,15 +116,6 @@ export function fireEvent(node: HTMLElement, eventName: 'mousedown' | 'mouseup' 
   }
 }
 
-export function dummySpec() {
-  describe('dummy', () => {
-    it('dummy', () => {
-      expect('dummy').toBe('dummy')
-    })
-  })
-}
-dummySpec()
-
 export function query(s: string): HTMLElement {
   return document.querySelector<HTMLButtonElement>(s)!
 }

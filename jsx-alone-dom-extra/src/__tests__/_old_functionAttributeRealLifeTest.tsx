@@ -2,7 +2,7 @@ import { Children } from 'jsx-alone-core'
 import { ElementClass, JSXAlone } from '..'
 import { render, query } from './testUtil'
 
-describe('function attributes', () => {
+describe('function attributes first experiments', () => {
   describe('real life app', () => {
     class Container extends ElementClass<{ children: Children }> {
       render() {
@@ -54,12 +54,15 @@ describe('function attributes', () => {
     const el = JSXAlone.render(<App container={container} people={[{ name: 'seba' }, { name: 'lau' }]} />, { parent:container  }) as HTMLElement
     container.appendChild(el)
 
-    expect(document.querySelectorAll('[data-id]')).toHaveLength(2)
-    query('#add').click()
-    expect(document.querySelectorAll('[data-id]')).toHaveLength(3)
-    document.querySelector<HTMLButtonElement>('[data-id="seba"] .remove')!.click()
-    expect(document.querySelectorAll('[data-id]')).toHaveLength(2)
-    document.querySelector<HTMLButtonElement>('[data-id="lau"] .remove')!.click()
-    expect(document.querySelectorAll('[data-id]')).toHaveLength(1)
+    it('events handler should work', ()=>{
+
+      expect(document.querySelectorAll('[data-id]')).toHaveLength(2)
+      query('#add').click()
+      expect(document.querySelectorAll('[data-id]')).toHaveLength(3)
+      document.querySelector<HTMLButtonElement>('[data-id="seba"] .remove')!.click()
+      expect(document.querySelectorAll('[data-id]')).toHaveLength(2)
+      document.querySelector<HTMLButtonElement>('[data-id="lau"] .remove')!.click()
+      expect(document.querySelectorAll('[data-id]')).toHaveLength(1)
+    })
   })
 })

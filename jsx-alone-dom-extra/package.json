@@ -8,8 +8,8 @@
   "scripts": {
     "build": "npx tsc",
     "build-watch": "npx tsc -w",
-    "test": "npx jest --testPathIgnorePatterns /dist/",
-    "test-js": "npx tsc && npx jest --testMatch \"**/dist/**/__tests__/**/*.js\"",
+    "test": "npx jest --testRegex \"/__tests__/.*\\.*Test\\.[t]sx?$\" ",
+    "test-js": "npx tsc && npx jest  --passWithNoTests --testMatch \"**/dist/**/__tests__/**/*.js\"",
     "test-clean": "npx jest --clearMocks",
     "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand --no-cache --clearMocks",
     "test-watch": "npm test -- --watch",

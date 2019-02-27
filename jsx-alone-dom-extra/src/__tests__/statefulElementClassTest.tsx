@@ -1,4 +1,4 @@
-import { statefulElementClassTestRenderApp } from '../__tests__assets__/statefulElementClassTestRenderApp';
+import { statefulElementClassTestRenderApp } from './statefulElementClassTestRenderApp';
 describe('stateful element class', () => {
   describe('sample 1', () => {
     it('simple', ()=>{

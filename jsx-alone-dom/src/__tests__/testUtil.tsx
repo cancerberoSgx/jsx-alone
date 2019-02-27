@@ -1,5 +1,6 @@
 import { JSXAlone } from '..'
 import { removeWhites } from 'jsx-alone-core'
+
 export function test({
   e,
   expected,
@@ -24,10 +25,6 @@ export function test({
     }
   })
 }
-
-describe('fake', () => {
-  it('is needed', () => {})
-})
 
 export function render(e: JSX.Element) {
   let parent = document.getElementById('test-root')

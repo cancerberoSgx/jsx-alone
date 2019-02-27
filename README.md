@@ -13,19 +13,19 @@
 
 If you want to render in the browser directly creating DOM Nodes directly:
 
-```
+```sh
 npm install jsx-alone-core jsx-alone-dom
 ```
 
 Or the same but with a litle bit overhead supporting function attributes (event handlers) 
 
-```
+```sh
 npm install jsx-alone-core jsx-alone-dom-extra
 ```
 
-or 
+or for rendering JSx to a string (supports node.js, browser, rhino, and others):
 
-```
+```sh
 npm install jsx-alone-string
 ```
 
@@ -72,7 +72,9 @@ Both implementations have very similar API. The only difference is the call to `
 
 ## Extras
 
-So jsx-alone-dom and jsx-alone-string take care of rendering JSX and are as small and simple as possible with some APIs to hook in and extend the output. But the idea is that they are minimal in in size and render as fast as possible. For that reason, funtcion attributes, like `onClick` event handlers, have very limited support in both. This is why, extras packages, like jsx-dom-extras, based on them will provide these kind of features that, although they are cool, could put in danger the primary objective. 
+So jsx-alone-dom and jsx-alone-string take care of rendering JSX and are as small, fast and simple as possible with some APIs to hook in and extend they behavior. 
+
+For that reason, advanced features such as function attributes, (like `onClick` event handlers), have very limited support in both. This is why, `extra` packages, like `jsx-dom-extra`, provide these features that, although they are cool, add some overhead both in code size and render speed.
 
 `jsx-alone-dom-extra` package has support for cool features like function attributes and stateful components (WIP):
 
@@ -124,7 +126,8 @@ const parent = document.createElement('div')
 JSXAlone.render(app, { parent: document.bod, initialContext: this })
 ```
 
-[See it in action - DOM implementation only]()
+[See it in action (DOM implementation)](https://cancerberosgx.github.io/jsx-alone/jsx-alone-dom-extra/statefulElementClassTestMain/index-min.html)
+
 # Demos
 
 Generated html pages, using both implementations are available in [samples](https://cancerberosgx.github.io/jsx-alone/index.html). Some are static html pages generated server side with string implementation and other are JS programs rendering JSX in the browser with DOM implementation.

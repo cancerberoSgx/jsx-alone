@@ -1039,7 +1039,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    };
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -1160,32 +1160,6 @@ __export(require("./elementImpl"));
 },{"./createElement":"S0OW","./elementImpl":"gNvY"}],"Q4+2":[function(require,module,exports) {
 "use strict";
 
-var __extends = this && this.__extends || function () {
-  var _extendStatics = function extendStatics(d, b) {
-    _extendStatics = Object.setPrototypeOf || {
-      __proto__: []
-    } instanceof Array && function (d, b) {
-      d.__proto__ = b;
-    } || function (d, b) {
-      for (var p in b) {
-        if (b.hasOwnProperty(p)) d[p] = b[p];
-      }
-    };
-
-    return _extendStatics(d, b);
-  };
-
-  return function (d, b) {
-    _extendStatics(d, b);
-
-    function __() {
-      this.constructor = d;
-    }
-
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-}();
-
 var __assign = this && this.__assign || function () {
   __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -1211,19 +1185,6 @@ var jsx_alone_core_1 = require("jsx-alone-core");
 var jsx_alone_dom_1 = require("jsx-alone-dom");
 
 exports.ElementClass = jsx_alone_dom_1.ElementClass;
-
-var FunctionAttributesElementImpl =
-/** @class */
-function (_super) {
-  __extends(FunctionAttributesElementImpl, _super);
-
-  function FunctionAttributesElementImpl() {
-    return _super !== null && _super.apply(this, arguments) || this;
-  }
-
-  return FunctionAttributesElementImpl;
-}(jsx_alone_dom_1.ElementLikeImpl);
-
 var warn1Once = false;
 
 function buildExtraConfig(rootElementLike, extraConfig) {
@@ -1307,7 +1268,8 @@ function buildExtraConfig(rootElementLike, extraConfig) {
 }
 
 exports.createCreateConfig = __assign({}, jsx_alone_dom_1.createCreateElementConfig, {
-  impl: FunctionAttributesElementImpl,
+  // impl: FunctionAttributesElementImpl,
+  impl: jsx_alone_dom_1.ElementLikeImpl,
   textNodeImpl: jsx_alone_dom_1.TextNodeLikeImpl,
   functionAttributes: 'preserve',
   evaluateFunctionsWithNew: true,
@@ -1338,7 +1300,7 @@ exports.JSXAlone = Module;
 function isFunctionAttributeElement(a) {
   return jsx_alone_core_1.isElementLike(a);
 }
-},{"jsx-alone-core":"6FnY","jsx-alone-dom":"MNUJ"}],"NGqN":[function(require,module,exports) {
+},{"jsx-alone-core":"6FnY","jsx-alone-dom":"MNUJ"}],"QsLb":[function(require,module,exports) {
 "use strict";
 
 var __extends = this && this.__extends || function () {
@@ -1387,30 +1349,96 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _1 = require(".");
+var _1 = require("./");
 
-var StatefulElementClass =
+var StatefulComponent =
 /** @class */
 function (_super) {
-  __extends(StatefulElementClass, _super);
+  __extends(StatefulComponent, _super);
 
-  function StatefulElementClass() {
-    var _this = _super !== null && _super.apply(this, arguments) || this;
+  function StatefulComponent(p) {
+    var _this = _super.call(this, p) || this;
 
-    _this.state = {}; // constructor(p: P) {
-    //   super(p)
-    //   this.state = { ...(p as any) }
-    // }
-
+    _this.state = {};
     _this.containerEl = undefined;
+    _this.state = {};
     return _this;
+  }
+  /** called by ElementLike.render() */
+
+
+  StatefulComponent.prototype.setContainerEl = function (el) {
+    this.containerEl = el;
+  };
+  /** changes the state, clean up containerEl and renders the element again and append it to containerEl.
+   * Notice that descendant elements will be destroyed and */
+
+
+  StatefulComponent.prototype.setState = function (s) {
+    //@ts-ignore
+    this.state = __assign({}, this.state, s);
+  };
+
+  return StatefulComponent;
+}(_1.ElementClass);
+
+exports.StatefulComponent = StatefulComponent;
+},{"./":"l36I"}],"8fcd":[function(require,module,exports) {
+"use strict";
+
+var __extends = this && this.__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _1 = require(".");
+
+var StatefulComponent_1 = require("./StatefulComponent");
+/** implement stateful -ness by re-rendering it self agin and agin when the stat changes. Preserves focus.
+ * TODO: parent re-render actually resets the children (ISSUE)
+ */
+
+
+var ReRenderComponent =
+/** @class */
+function (_super) {
+  __extends(ReRenderComponent, _super);
+
+  function ReRenderComponent() {
+    return _super !== null && _super.apply(this, arguments) || this;
   }
   /** changes the state, clean up containerEl and renders the element again and append it to containerEl.
    * Notice that descendant elements will be destroyed and */
 
 
-  StatefulElementClass.prototype.setState = function (s) {
-    this.state = __assign({}, this.state, s);
+  ReRenderComponent.prototype.setState = function (s) {
+    _super.prototype.setState.call(this, s);
+
     var activePath;
     var selection = {
       start: 0,
@@ -1447,17 +1475,11 @@ function (_super) {
       }
     }
   };
-  /** called by ElementLike.render() */
 
+  return ReRenderComponent;
+}(StatefulComponent_1.StatefulComponent);
 
-  StatefulElementClass.prototype.setContainerEl = function (el) {
-    this.containerEl = el;
-  };
-
-  return StatefulElementClass;
-}(_1.ElementClass);
-
-exports.StatefulElementClass = StatefulElementClass; //  TODO: move to misc
+exports.ReRenderComponent = ReRenderComponent; //  TODO: move to misc
 
 function getXPathOfElement(el) {
   if (typeof el == 'string') {
@@ -1501,7 +1523,7 @@ function getElementByXPath(path, predicate) {
     alert('Error: Document tree modified during iteration ' + e);
   }
 }
-},{".":"l36I"}],"l36I":[function(require,module,exports) {
+},{".":"l36I","./StatefulComponent":"QsLb"}],"l36I":[function(require,module,exports) {
 "use strict";
 
 function __export(m) {
@@ -1516,8 +1538,10 @@ Object.defineProperty(exports, "__esModule", {
 
 __export(require("./createElement"));
 
-__export(require("./StatefulElementClass"));
-},{"./createElement":"Q4+2","./StatefulElementClass":"NGqN"}],"YIO9":[function(require,module,exports) {
+__export(require("./StatefulComponent"));
+
+__export(require("./ReRenderComponent"));
+},{"./createElement":"Q4+2","./StatefulComponent":"QsLb","./ReRenderComponent":"8fcd"}],"YIO9":[function(require,module,exports) {
 "use strict";
 
 var __extends = this && this.__extends || function () {

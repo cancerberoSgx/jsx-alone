@@ -24,10 +24,6 @@ export function test({ e, expected, label, expectedTabSize2, asCodeEquals }: {
   }
 }
 
-
-describe('fake', ()=>{ it('is needed', ()=>{})})
-
-
 export function expectTextEquals(a?: string, b?: string, debug = false) {
   debug && console.log(a, b)
   if (!a || !b) return false
