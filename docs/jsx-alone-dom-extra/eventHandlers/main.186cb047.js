@@ -516,6 +516,14 @@ function printMs(ms, config) {
 }
 
 exports.printMs = printMs;
+
+function printStyleHtmlAttribute(value) {
+  return "" + Object.keys(value).map(function (p) {
+    return p + ": " + value[p];
+  }).join('; ');
+}
+
+exports.printStyleHtmlAttribute = printStyleHtmlAttribute;
 },{}],"6FnY":[function(require,module,exports) {
 function __export(m) {
   for (var p in m) {
@@ -843,6 +851,9 @@ var ElementLikeImpl = (function (_super) {
             if (!config.handleAttribute || !config.handleAttribute({ config: config, el: el, attribute: attribute, value: value, elementLike: _this })) {
                 if (attribute === 'className') {
                     el.setAttribute('class', value);
+                }
+                else if (attribute === 'style') {
+                    el.setAttribute('class', jsx_alone_core_1.printStyleHtmlAttribute(value));
                 }
                 else if (typeof value === 'function') {
                     el.addEventListener(attribute.replace(/^on/, '').toLowerCase(), value.bind(_this));

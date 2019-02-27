@@ -516,6 +516,14 @@ function printMs(ms, config) {
 }
 
 exports.printMs = printMs;
+
+function printStyleHtmlAttribute(value) {
+  return "" + Object.keys(value).map(function (p) {
+    return p + ": " + value[p];
+  }).join('; ');
+}
+
+exports.printStyleHtmlAttribute = printStyleHtmlAttribute;
 },{}],"USgY":[function(require,module,exports) {
 function __export(m) {
   for (var p in m) {
@@ -923,15 +931,13 @@ var ElementLikeImpl = (function (_super) {
 exports.ElementLikeImpl = ElementLikeImpl;
 function printHtmlAttribute(a, value) {
     if (a === 'style') {
-        value = "" + Object.keys(value)
-            .map(function (p) { return p + ": " + value[p]; })
-            .join('; ');
+        value = jsx_alone_core_1.printStyleHtmlAttribute(value);
     }
     else if (a === 'className') {
         a = 'class';
     }
     else if (typeof value === 'function') {
-        value = "_this=__this__=this;(" + value.toString() + ").apply(_this,arguments)";
+        value = "(" + value.toString() + ").apply(_this=this,arguments)";
     }
     value = value.replace(/\"/gim, '&quot;');
     return a + "=\"" + value + "\"";
@@ -1543,15 +1549,13 @@ var ElementLikeImpl = (function (_super) {
 exports.ElementLikeImpl = ElementLikeImpl;
 function printHtmlAttribute(a, value) {
     if (a === 'style') {
-        value = "" + Object.keys(value)
-            .map(function (p) { return p + ": " + value[p]; })
-            .join('; ');
+        value = jsx_alone_core_1.printStyleHtmlAttribute(value);
     }
     else if (a === 'className') {
         a = 'class';
     }
     else if (typeof value === 'function') {
-        value = "_this=__this__=this;(" + value.toString() + ").apply(_this,arguments)";
+        value = "(" + value.toString() + ").apply(_this=this,arguments)";
     }
     value = value.replace(/\"/gim, '&quot;');
     return a + "=\"" + value + "\"";
