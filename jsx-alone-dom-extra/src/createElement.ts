@@ -111,7 +111,7 @@ export const createCreateConfig: CreateCreateElementDomConfig<FunctionAttributes
 
   textNodeImpl: TextNodeLikeImpl,
 
-  evaluateFunctionsWithNew: true,
+  // evaluateFunctionsWithNew: true,
 
   onElementCreated(config) {
     if (config.elementClassInstance) {

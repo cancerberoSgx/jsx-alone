@@ -1,9 +1,40 @@
-import { Children } from 'jsx-alone-core';
-import { JSXAlone } from '..';
-import { ElementClass } from '../elementImpl';
-import { fireEvent, query, render } from './testUtil';
+import { JSXAlone, ElementClass } from '..'
+import { fireEvent, render, test, query } from './testUtil'
+import { Children } from 'jsx-alone-core'
 
 describe('function attributes', () => {
+  describe('output', () => {
+    test({
+      label: 'intrinsic element attribute should not be printed',
+      e: (
+        <button
+          onClick={e => {
+            alert('click')
+          }}
+        >
+          click
+        </button>
+      ),
+      expected: `<button>click</button>`,
+      asCodeEquals: true,
+      caseInsensitive: true
+    })
+
+    const f1 = (props: { name: string }) => (
+      <button
+        onClick={e => {
+          alert(props.name)
+        }}
+      />
+    )
+    test({
+      label: 'function element attribute should not be printed ',
+      e: f1({ name: 'hello' }),
+      expected: `<button></button>`,
+      asCodeEquals: true,
+      caseInsensitive: true
+    })
+  })
 
   describe('context', () => {
     it('intrinsic element', () => {
@@ -25,7 +56,6 @@ describe('function attributes', () => {
       expect(fn1).lastReturnedWith(var1 + var2)
     })
 
-
     it('arrow el', () => {
       const fn1 = jest.fn(e => {
         return var1 + e
@@ -42,8 +72,12 @@ describe('function attributes', () => {
           <button id="b2" onClick={handler} />
         </div>
       )
-      const el = render( <F /> )
-      const button = query<HTMLButtonElement>('#b2')
+      const el = render(
+        <div>
+          <F />
+        </div>
+      )
+      const button = el.querySelector<HTMLButtonElement>('#b2')!
       button.click()
       expect(handler).toBeCalledTimes(1)
       expect(fn1).toBeCalledTimes(1)
@@ -64,12 +98,13 @@ describe('function attributes', () => {
           <button id="b2" onClick={e => fn1(foo + '_' + this.bar + '_' + var1)} />
         </div>
       }
-      const el = render(<F />)
+      render(<F />)
       const button = query<HTMLButtonElement>('#b2')
       button.click()
       expect(fn1).toBeCalledTimes(1)
       expect(fn1).lastCalledWith(expected)
     })
+
 
     it('class el with intrinsic', () => {
       const fn1 = jest.fn(e => {
@@ -98,12 +133,12 @@ describe('function attributes', () => {
         }
       }
       const el = render(<App />)
-      const button = query<HTMLButtonElement>('#b1')
+      const button = el.querySelector<HTMLButtonElement>('#b1')!
       fireEvent(button, 'click')
       expect(fn1).toBeCalledTimes(1)
       expect(fn1).lastCalledWith(1 + 2)
       expect(fn1).lastReturnedWith(var1 + 1 + 2)
-    }) 
+    })
 
     it('event object is accessible', () => {
       const handler = jest.fn(e => {
@@ -117,19 +152,19 @@ describe('function attributes', () => {
           <input id="i1" value="foo" onChange={handler} />
         </div>
       )
-      const button = query<HTMLButtonElement>('#b1')
+      const button = el.querySelector<HTMLButtonElement>('#b1')!
       expect(handler).toHaveBeenCalledTimes(0)
       fireEvent(button, 'click')
       expect(handler).toHaveBeenCalledTimes(1)
       expect(handler).lastReturnedWith('clickb1')
-      const input = query<HTMLInputElement>('#i1')
+      const input = el.querySelector<HTMLInputElement>('#i1')!
       fireEvent(input, 'change')
       expect(handler).toHaveBeenCalledTimes(2)
       expect(handler).lastReturnedWith('changei1')
     })
 
     xit('every standard on* event works', () => {
-
+      
     })
 
     xit('event listeners are disposed on re-rendering - intrinsic elements', () => {
@@ -147,7 +182,7 @@ describe('function attributes', () => {
       )
       const el = render(d)
       expect(handler).toHaveBeenCalledTimes(0)
-      const button = query<HTMLButtonElement>('#b1')
+      const button = el.querySelector<HTMLButtonElement>('#b1')!
       fireEvent(button, 'click')
       expect(handler).toHaveBeenCalledTimes(1)
       el.remove()
@@ -156,7 +191,5 @@ describe('function attributes', () => {
       fireEvent(button, 'click')
       expect(handler).toHaveBeenCalledTimes(1)
     })
-
-
   })
 })

@@ -1,4 +1,4 @@
-# JSX Alone DOM implementation
+# JSX Alone DOM Extra implementation
 
 WARNING: **Not ready for production yet**
 
@@ -6,7 +6,7 @@ WARNING: **Not ready for production yet**
 
 To be sincere, `jsx-alone-dom-extra` is now more a research project of mine to research how JSX based Components could be implemented. So the following is just updated of this research and some ideas also.
 
-This research is mostly about how to implement Component state and function attributes, in different ways and compare different aspects of each other  such as:
+This research is mostly about how to implement Component state , in different ways and compare different aspects of each other  such as:
 
  * API simplicity
  * code maintainability
@@ -58,21 +58,6 @@ const app = <App name="John Doe" tasks={tasks} />
 const el = JSXAlone.render(app)
 document.body.appendChild(el)
 ```
-
-
-## Function Attributes (event handlers) implementation
-
-Contrarily to core implementations, `jsx-alone-dom-extra` supports function attributes evaluation in the current context so you don't have to worry of function binding ord declare global variables. 
-
-This is possible basically because functions are not rendered, but added as event listeners to DOM Elements when they are created, with the correct context bind.
-
-Even more, by default, `render()` does event delegation so only one event listener is registered. (this can be configured though)
-
-But be careful, right now, this is no ready for production, there is no component life cycle implemented unlike React, so currently **you will be responsible of manually remove event listeners in case the elements are unattached from the DOM**. 
-
-
-
-
 
 
 ## State implementations

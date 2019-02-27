@@ -37,3 +37,18 @@ const app = <App name="John Doe" tasks={tasks} />
 const el = JSXAlone.render(app)
 document.body.appendChild(el)
 ```
+
+
+
+
+## Function Attributes (event handlers) implementation
+
+Supports function attributes evaluation in the current context so you don't have to worry of function binding ord declare global variables. 
+
+This is possible basically because functions are not rendered, but added as event listeners to DOM Elements when they are created, with the correct context bind.
+
+Even more, by default, `render()` does event delegation so only one event listener is registered. (this can be configured though)
+
+But be careful, since  there is no component life cycle implemented unlike React, so currently **you will be responsible of manually remove event listeners in case the elements are unattached from the DOM**. 
+
+

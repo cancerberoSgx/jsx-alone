@@ -67,8 +67,8 @@ export interface RenderConfig<T,  R extends ElementLike<T> = ElementLike<T>> {
   //  * * "toString-this": will add the value as
   //  */
   // functionAttributes?: 'preserve' | 'toString-this' | 'toString'
-  /** we could evaluate a function using `new F()` instead of just calling F() at some performance cost, but this would be the only way of event handlers to have access to the function `this` context */
-  evaluateFunctionsWithNew?: boolean
+  // /** we could evaluate a function using `new F()` instead of just calling F() at some performance cost, but this would be the only way of event handlers to have access to the function `this` context */
+  // evaluateFunctionsWithNew?: boolean
 }
 
 

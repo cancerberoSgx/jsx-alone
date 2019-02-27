@@ -67,6 +67,9 @@ export function query<T extends HTMLElement=HTMLElement>(s: string): T {
   return document.querySelector<T>(s)!
 }
 
+export function dummy(a: number) {
+  return a * 2
+}
 
 /**
  * Fire an event handler to the specified node. Event handlers can detect that the event was fired programatically

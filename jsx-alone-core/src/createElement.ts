@@ -24,7 +24,7 @@ export function createCreateElement<T, R extends ElementLike<T>=ElementLike<T>>(
         elementClassInstance = new tag({ ...attrs, children: children })
         element = elementClassInstance.render()
       } else {
-        if (typeof tag.prototype !== undefined && config.evaluateFunctionsWithNew) {
+        if (typeof tag.prototype !== undefined) {
           element = new (tag as any)({ ...attrs, children: children })
         } else {
           element = tag({ ...attrs, children: children })

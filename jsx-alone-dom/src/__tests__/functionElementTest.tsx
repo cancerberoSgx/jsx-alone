@@ -13,7 +13,6 @@ describe('functions', () => {
     </ul>
   )
 
-  // const a =  f1({ people: [{ name: 'seba', age: 18 }, { name: 'laura', age: 33 }] });
   test({
     label: 'should render element children on any depth',
     e: f1({ people: [{ name: 'seba', age: 18 }, { name: 'laura', age: 33 }] }),
@@ -26,8 +25,9 @@ describe('functions', () => {
       {props.children}
     </div>
   )
+
   test({
-    label: 'render children programatically',
+    label: 'render children programmatically',
     e: (
       <F2 age={88}>
         <div>years old</div> text <span>hello</span>
