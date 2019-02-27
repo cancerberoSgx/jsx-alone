@@ -34,7 +34,8 @@ function printHtmlAttribute(a: string, value: any) {
     a = 'class'
   }
   else if (typeof value === 'function') {
-    value = `_this=__this__=this;(${value.toString()}).apply(_this,arguments)`
+    // we reassign _this because typescript emitted code will change the function body "this" for "_this"
+    value = `(${value.toString()}).apply(_this=this,arguments)`
   }
   value = value.replace(/\"/gim, '&quot;') //replace(/\"/g, '\\"')
   return `${a}="${value}"`

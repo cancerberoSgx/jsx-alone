@@ -8,6 +8,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<article><h3>Welcome John Doe!</h3><p>These are your tasks:</p><ul><li><a href="pages/tasks/Wash dishes_small.html">Wash dishes</a></li><li><a href="pages/tasks/Go outside_small.html">Go outside</a></li><li><a href="pages/tasks/Play soccer_small.html">Play soccer</a></li></ul></article>
+<article><h3>Welcome John Doe!</h3><p>These are your tasks:</p><ul><li><a href="pages/tasks/Wash dishes_small.html">Wash dishes</a></li><li><a href="pages/tasks/Go outside_small.html">Go outside</a></li><li><a href="pages/tasks/Play soccer_small.html">Play soccer</a></li></ul>A couple of test with event handlers:<p>accessing HTMLElement using `this` works::<button onClick="(function (e) { return alert(_this.tagName + &quot; text is &quot; + _this.textContent); }).apply(_this=this,arguments)">should work</button></p><p>accessing event argument works::<button onClick="(function (e) { return alert(e.currentTarget.tagName + &quot; text is &quot; + e.currentTarget.textContent); }).apply(_this=this,arguments)">should work</button></p><p>accessing variables in scope won't work:<button onClick="(function (e) { return alert(dummy('So ')); }).apply(_this=this,arguments)">don't work</button></p><p>accessing members (this.) won't work: <button onClick="(function (e) { return alert(_this.dummy('So ')); }).apply(_this=this,arguments)">method</button></p></article>
 </body>
 </html>
