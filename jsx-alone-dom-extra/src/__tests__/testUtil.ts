@@ -116,6 +116,6 @@ export function fireEvent(node: HTMLElement, eventName: 'mousedown' | 'mouseup' 
   }
 }
 
-export function query(s: string): HTMLElement {
-  return document.querySelector<HTMLButtonElement>(s)!
+export function query<T extends HTMLElement=HTMLElement>(s: string): T {
+  return document.querySelector<T>(s)!
 }
