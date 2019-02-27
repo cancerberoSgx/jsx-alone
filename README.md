@@ -72,6 +72,8 @@ Both implementations have very similar API. The only difference is the call to `
 
 ## Extras
 
+WARNING - **Not ready for production yet**
+
 So jsx-alone-dom and jsx-alone-string take care of rendering JSX and are as small, fast and simple as possible with some APIs to hook in and extend they behavior. 
 
 For that reason, advanced features such as function attributes, (like `onClick` event handlers), have very limited support in both. This is why, `extra` packages, like `jsx-dom-extra`, provide these features that, although they are cool, add some overhead both in code size and render speed.
@@ -121,9 +123,11 @@ class App extends StatefulElementClass<P, P> {
     </div>    
   }
 }
-const app = <App people={[{ name: 'seba' }, { name: 'lau' }]} />
-const parent = document.createElement('div')
-JSXAlone.render(app, { parent: document.bod, initialContext: this })
+// render the App and append the generated element to body
+const tasks = ['Wash dishes', 'Go outside', 'Play soccer']
+const app = <App name="John Doe" tasks={tasks} />
+const el = JSXAlone.render(app)
+document.body.appendChild(el)
 ```
 
 [See it in action (DOM implementation)](https://cancerberosgx.github.io/jsx-alone/jsx-alone-dom-extra/statefulElementClassTestMain/index-min.html)
@@ -148,6 +152,10 @@ Generated html pages, using both implementations are available in [samples](http
    * String implementation has very limited support function attributes (event handlers) evaluation access current scope (see [limitations](LIMITATIONS.md))
    * *...But expect auxiliary projects that add some of these in the future...*
 
+# Limitations
+
+See [LIMITATIONS.md](LIMITATIONS.md)
+
 # String implementation
 
 See  [jsx-alone-string/README.md](jsx-alone-string/README.md)
@@ -156,6 +164,10 @@ See  [jsx-alone-string/README.md](jsx-alone-string/README.md)
 
 See [jsx-alone-dom/README.md](jsx-alone-dom/README.md)
 
+# DOM Extras
+
+See [jsx-alone-dom-extras/README.md](jsx-alone-dom/README.md)
+
 # Performance
 
 See [PERFORMANCE.md](PERFORMANCE.md)
@@ -163,10 +175,6 @@ See [PERFORMANCE.md](PERFORMANCE.md)
 # Implementation details
 
 See [IMPLEMENTATION.md](IMPLEMENTATION.md)
-
-# Limitations
-
-See [LIMITATIONS.md](LIMITATIONS.md)
 
 # TODO
 

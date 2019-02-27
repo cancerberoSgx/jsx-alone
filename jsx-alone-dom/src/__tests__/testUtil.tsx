@@ -53,3 +53,16 @@ export function expectTextNotToContain(a?: string, b?: string, debug = false) {
   if (!a || !b) return false
   expect(removeWhites(a)).not.toContain(removeWhites(b))
 }
+
+
+
+let _unique: number = 0
+export function unique(prefix: string='_'): string {
+  return prefix+_unique++
+}
+export function window(): typeof window &any{
+  return window
+}
+export function query<T extends HTMLElement=HTMLElement>(s: string): T {
+  return document.querySelector<T>(s)!
+}
