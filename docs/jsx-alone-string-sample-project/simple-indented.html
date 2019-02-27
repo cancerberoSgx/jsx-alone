@@ -27,7 +27,9 @@
         Play soccer
       </a>
     </li>
-  </ul>A couple of test with event handlers:<p>
+  </ul><h2>
+    Tests with event handlers
+  </h2><p>
     accessing HTMLElement using `this` works::<button onClick="(function (e) { return alert(_this.tagName + &quot; text is &quot; + _this.textContent); }).apply(_this=this,arguments)">
       should work
     </button>
@@ -43,7 +45,15 @@
     accessing members (this.) won't work: <button onClick="(function (e) { return alert(_this.dummy('So ')); }).apply(_this=this,arguments)">
       method
     </button>
-  </p>
+  </p><h2>
+    Tests with SVG
+  </h2><svg viewBox="0 0 141 41" width="500px" height="300px">
+    <text fill="green">
+      hello world
+    </text><path d="M241.74,421.43v-41h28.61v41H241.74Zm24.47-4.13V384.56H245.86V417.3h20.35Z" transform="translate(-241.74 -380.43)" style="fill: #ffcd05">
+      
+    </path>
+  </svg>
 </article>
 </body>
 </html>

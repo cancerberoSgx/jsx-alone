@@ -6,7 +6,7 @@ describe('function attributes', () => {
   test({
     label: 'intrinsic element',
     e: <button onClick={e => { alert('click') }}>click</button>,
-    expected: `<button onClick="function (e) { alert('click'); }">click</button>`,
+    expected: `<button onClick="(function (e) { alert('click'); }).apply(_this=this,arguments)">click</button>`,
     asCodeEquals: true,
   })
 
@@ -18,11 +18,9 @@ describe('function attributes', () => {
   test({
     label: 'function element accessing this',
     e: f1({ name: 'hello' }),
-    expected: `<button onClick="function (e) { alert(props.name); }">gg</button>`,
+    expected: `<button onClick="(function (e) { alert(props.name); }).apply(_this=this,arguments)">gg</button>`,
     asCodeEquals: true
   })
-
-
 
 
   async function loginService(): Promise<boolean> { return true }
@@ -32,6 +30,7 @@ describe('function attributes', () => {
       props.clicked(success)
     }}>
       {props.label}</button>
+
   test({
     label: 'async function element',
     e: <LoginButton clicked={success => alert(success)} label="login"></LoginButton>,

@@ -1,8 +1,4 @@
-import {
-  AbstractElementLike,
-  AbstractTextNodeLike,
-  ElementClass as AbstractElementClass,
-} from 'jsx-alone-core'
+import {  AbstractElementLike,  AbstractTextNodeLike,  ElementClass as AbstractElementClass, printStyleHtmlAttribute} from 'jsx-alone-core'
 import { ElementLikeImplRenderConfig } from './config'
 import { RenderOutput } from './createElement';
 
@@ -11,7 +7,7 @@ export class ElementLikeImpl extends AbstractElementLike<RenderOutput> {
   private _innerHtml: string | undefined
 
   render(config: ElementLikeImplRenderConfig<ElementLikeImpl> = {}): RenderOutput {
-    // TODO: support hook for createElement (is SVG ocument.createElementNS('http://www.w3.org/2000/svg', tagName))
+    // TODO: support hook for createElement (is SVG document.createElementNS('http://www.w3.org/2000/svg', tagName))
 
     //TODO: create documentFragment and put el and all the children inside:     const fragment = createFragmentFrom(children)    element.appendChild(fragment)
 
@@ -24,6 +20,9 @@ export class ElementLikeImpl extends AbstractElementLike<RenderOutput> {
       if (!config.handleAttribute || !config.handleAttribute({ config, el, attribute, value, elementLike: this })) {
         if (attribute === 'className') {
           el.setAttribute('class', value)
+        }
+        else if (attribute === 'style') {
+          el.setAttribute('class', printStyleHtmlAttribute(value))
         }
         else if (typeof value === 'function') {
           el.addEventListener(attribute.replace(/^on/, '').toLowerCase(), value.bind(this))

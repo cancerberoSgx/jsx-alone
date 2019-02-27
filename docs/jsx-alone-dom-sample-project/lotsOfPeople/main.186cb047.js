@@ -105,7 +105,9 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   // Override the current require with this new one
   return newRequire;
 })({"3p56":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 function isJSXAloneComponent(c) {
   return c.prototype && c.prototype.render;
@@ -191,7 +193,9 @@ var __extends = this && this.__extends || function () {
   };
 }();
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var elementImpl_1 = require("./elementImpl");
 
@@ -251,7 +255,9 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var elementImpl_1 = require("./elementImpl");
 
@@ -372,7 +378,9 @@ function createCreateElement(config) {
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
 },{"./elementImpl":"3p56"}],"URgR":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _1 = require(".");
 
@@ -419,7 +427,9 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 function checkThrow(r, msg) {
   if (msg === void 0) {
@@ -523,7 +533,9 @@ function __export(m) {
   }
 }
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 __export(require("./elementImpl"));
 
@@ -540,7 +552,9 @@ __export(require("./misc"));
 
 __export(require("./util"));
 },{"./elementImpl":"3p56","./elementClass":"+nOU","./createElement":"rCe5","./misc":"URgR","./util":"8yB0"}],"/5mC":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var jsx_alone_core_1 = require("jsx-alone-core");
 
@@ -559,7 +573,9 @@ exports.numbers = {
 };
 var firstNames = ["William", "Jack", "Oliver", "Joshua", "Thomas", "Lachlan", "Cooper", "Noah", "Ethan", "Lucas", "James", "Samuel", "Jacob", "Liam", "Alexander", "Benjamin", "Max", "Isaac", "Daniel", "Riley", "Ryan", "Xavier", "Harry", "Jayden", "Nicholas", "Harrison", "Levi", "Luke", "Adam", "Henry", "Aiden", "Dylan", "Oscar", "Michael", "Jackson", "Logan"];
 },{"jsx-alone-core":"USgY"}],"45O1":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var util_1 = require("../util");
 
@@ -619,7 +635,9 @@ var __extends = this && this.__extends || function () {
   };
 }();
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var elementImpl_1 = require("./elementImpl");
 
@@ -679,7 +697,9 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var elementImpl_1 = require("./elementImpl");
 
@@ -800,7 +820,9 @@ function createCreateElement(config) {
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
 },{"./elementImpl":"3p56"}],"TuGG":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _1 = require(".");
 
@@ -837,7 +859,9 @@ function __export(m) {
   }
 }
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 __export(require("./elementImpl"));
 
@@ -878,7 +902,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var ElementLikeImpl = (function (_super) {
     __extends(ElementLikeImpl, _super);
@@ -961,7 +985,7 @@ function isSvgTag(t) {
 var SvgTags = ['path', 'svg', 'use', 'g'];
 
 },{"jsx-alone-core":"dIAC"}],"Hbm/":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var elementImpl_1 = require("./elementImpl");
 exports.createCreateElementConfig = {
@@ -981,12 +1005,14 @@ exports.JSXAlone = Module;
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./createElement"));
 __export(require("./elementImpl"));
 
 },{"./createElement":"Hbm/","./elementImpl":"KmFW"}],"JVGL":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var jsx_alone_dom_1 = require("jsx-alone-dom");
 
@@ -1038,7 +1064,9 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var jsx_alone_core_1 = require("jsx-alone-core");
 
@@ -1140,7 +1168,9 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var model_1 = require("./model");
 
@@ -1192,7 +1222,9 @@ function __export(m) {
   }
 }
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var renderApp_1 = require("./lotsOfPeople/renderApp");
 
@@ -1226,7 +1258,9 @@ var __extends = this && this.__extends || function () {
   };
 }();
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var elementImpl_1 = require("./elementImpl");
 
@@ -1286,7 +1320,9 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var elementImpl_1 = require("./elementImpl");
 
@@ -1407,7 +1443,9 @@ function createCreateElement(config) {
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
 },{"./elementImpl":"3p56"}],"k98/":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _1 = require(".");
 
@@ -1444,7 +1482,9 @@ function __export(m) {
   }
 }
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 __export(require("./elementImpl"));
 
@@ -1485,7 +1525,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var ElementLikeImpl = (function (_super) {
     __extends(ElementLikeImpl, _super);
@@ -1568,7 +1608,7 @@ function isSvgTag(t) {
 var SvgTags = ['path', 'svg', 'use', 'g'];
 
 },{"jsx-alone-core":"BB47"}],"S0OW":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var elementImpl_1 = require("./elementImpl");
 exports.createCreateElementConfig = {
@@ -1588,7 +1628,7 @@ exports.JSXAlone = Module;
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./createElement"));
 __export(require("./elementImpl"));
 
@@ -1619,7 +1659,9 @@ var __extends = this && this.__extends || function () {
   };
 }();
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var elementImpl_1 = require("./elementImpl");
 
@@ -1679,7 +1721,9 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var elementImpl_1 = require("./elementImpl");
 
@@ -1800,7 +1844,9 @@ function createCreateElement(config) {
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
 },{"./elementImpl":"3p56"}],"h+Y6":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _1 = require(".");
 
@@ -1837,7 +1883,9 @@ function __export(m) {
   }
 }
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 __export(require("./elementImpl"));
 

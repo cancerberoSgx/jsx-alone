@@ -50,3 +50,10 @@ export function printMs(ms: number, config: {
   const milliseconds = config.ms && Math.floor(ms % 1000 || ms);
   return `${minutes ? `${minutes} minutes ` : ''}${seconds ? `${seconds} seconds ` : ''}${milliseconds ? `${milliseconds} ms ` : ''}`;
 }
+
+
+export function printStyleHtmlAttribute(value: any): any {
+  return `${Object.keys(value)
+    .map(p => `${p}: ${value[p]}`)
+    .join('; ')}`;
+}

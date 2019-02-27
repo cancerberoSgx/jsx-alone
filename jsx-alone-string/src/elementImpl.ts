@@ -1,4 +1,4 @@
-import { ElementClass as AbstractElementClass, AbstractElementLike, AbstractTextNodeLike } from 'jsx-alone-core';
+import { ElementClass as AbstractElementClass, AbstractElementLike, AbstractTextNodeLike, printStyleHtmlAttribute } from 'jsx-alone-core';
 import { defaultRenderConfig, ElementLikeImplRenderConfig } from './config';
 import { indent } from './util';
 import { TextNodeLike, ElementLike } from './types';
@@ -26,9 +26,7 @@ export class ElementLikeImpl extends AbstractElementLike<string> implements Elem
 
 function printHtmlAttribute(a: string, value: any) {
   if (a === 'style') {
-    value = `${Object.keys(value)
-      .map(p => `${p}: ${value[p]}`)
-      .join('; ')}`
+    value = printStyleHtmlAttribute(value)
   }
   else if (a === 'className') {
     a = 'class'
