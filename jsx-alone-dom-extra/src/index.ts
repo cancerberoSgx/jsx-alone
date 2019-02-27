@@ -1,2 +1,3 @@
 export * from './createElement'
-export * from './StatefulElementClass'
+export * from './StatefulComponent'
+export * from './ReRenderComponent'

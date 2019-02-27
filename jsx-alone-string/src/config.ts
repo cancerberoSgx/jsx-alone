@@ -1,6 +1,7 @@
 import { RenderConfig } from 'jsx-alone-core';
+import { ElementLikeImpl } from './elementImpl';
 
-export interface ElementLikeImplRenderConfig extends RenderConfig {
+export interface ElementLikeImplRenderConfig extends RenderConfig<string,ElementLikeImpl > {
   indent?: boolean;
   indentLevel?: number;
   indentTabSize?: number;

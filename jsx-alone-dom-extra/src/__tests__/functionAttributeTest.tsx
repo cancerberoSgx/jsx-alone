@@ -173,9 +173,11 @@ describe('function attributes', () => {
       expect(handler).lastReturnedWith('changei1')
     })
 
-    xit('every standard on* event works', () => {})
+    xit('every standard on* event works', () => {
+      
+    })
 
-    it('event listeners are disposed on re-rendering - intrinsic elements', () => {
+    xit('event listeners are disposed on re-rendering - intrinsic elements', () => {
       // ISSUE
       const handler = jest.fn(e => {
         return e.type + e.currentTarget.id

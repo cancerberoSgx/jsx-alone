@@ -3,10 +3,16 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": ".",
-    // "noImplicitAny": false,
-    // "suppressImplicitAnyIndexErrors": true
   },
-  "include": ["src"],
-  // "exclude": ["dist"]
-  
+  "include": [
+    "src"
+  ],
+  "references": [
+    {
+      "path": "../jsx-alone-core"
+    },
+    {
+      "path": "../jsx-alone-dom"
+    },
+  ],
 }

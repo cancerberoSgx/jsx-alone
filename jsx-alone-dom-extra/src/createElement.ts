@@ -12,26 +12,28 @@ import {
 type RenderFunction = (el: JSX.Element, config?: FunctionAttributeRenderConfig) => RenderOutput
 type JSXAloneType = { render: RenderFunction; createElement: CreateElementFunction<RenderOutput, FunctionAttributesElement> }
 
-interface FunctionAttributesElement extends ElementLikeImpl {
+export interface FunctionAttributesElement extends ElementLikeImpl {
   _elementClassInstance?: ElementClass | undefined
   _originalElementClassInstance?: ElementClass | undefined
   // _eventListenerList?: EventEntry[]
   // isRoot():boolean
 }
-class FunctionAttributesElementImpl extends ElementLikeImpl implements FunctionAttributesElement {
-  _elementClassInstance: ElementClass | undefined
-  _originalElementClassInstance: ElementClass | undefined
-  /** if it has a defined list then we consider this node a root node and it will be responsible of collecting data for un registering event listener of all its "tree" 
-   * TODO: in the future we could also use the root for event delegation.
-  */
-  // _eventListenerList?: EventEntry[]
-  // destroy() {
+
+// class FunctionAttributesElementImpl extends ElementLikeImpl implements FunctionAttributesElement {
+//   _elementClassInstance: ElementClass | undefined
+//   _originalElementClassInstance: ElementClass | undefined
+//   /** if it has a defined list then we consider this node a root node and it will be responsible of collecting data for un registering event listener of all its "tree" 
+//    * TODO: in the future we could also use the root for event delegation.
+//   */
+//   // _eventListenerList?: EventEntry[]
+//   // destroy() {
     
-  // }
-  // isRoot(){
-  //   return this._eventListenerList
-  // }
-}
+//   // }
+//   // isRoot(){
+//   //   return this._eventListenerList
+//   // }
+// }
+
 // type EventEntry<K extends keyof HTMLElementEventMap =  keyof HTMLElementEventMap> = {
 //   type: K, 
 //   listener: (this: HTMLElement, ev: HTMLElementEventMap[K] ) => any, 
@@ -113,7 +115,8 @@ function buildExtraConfig(
 export const createCreateConfig: CreateCreateElementDomConfig<FunctionAttributesElement> = {
   ...createCreateElementConfig,
 
-  impl: FunctionAttributesElementImpl,
+  // impl: FunctionAttributesElementImpl,
+impl: ElementLikeImpl as any as FunctionAttributesElement&{new (tag: string): FunctionAttributesElement },
   textNodeImpl: TextNodeLikeImpl,
   functionAttributes: 'preserve',
   evaluateFunctionsWithNew: true,

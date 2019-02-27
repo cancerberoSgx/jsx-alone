@@ -5,4 +5,9 @@
     "rootDir": "."
   },
   "include": ["src"],
+  "references": [
+    {
+      "path": "../jsx-alone-core"
+    }
+  ],
 }

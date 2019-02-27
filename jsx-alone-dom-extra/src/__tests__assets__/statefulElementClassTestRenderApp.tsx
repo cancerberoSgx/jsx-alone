@@ -1,4 +1,4 @@
-import { JSXAlone, StatefulElementClass } from '..'
+import { JSXAlone, StatefulComponent } from '..'
 
 export function statefulElementClassTestRenderApp(this: any) {
   const parent = document.createElement('div')
@@ -11,7 +11,7 @@ export function statefulElementClassTestRenderApp(this: any) {
 interface RepeaterP{
   value: string
 }
-class Repeater extends StatefulElementClass<RepeaterP, RepeaterP> {
+class Repeater extends StatefulComponent<RepeaterP, RepeaterP> {
   constructor(p: RepeaterP) {
     super(p)
     this.state = { ...p }
@@ -39,7 +39,7 @@ interface P {
   }[]
 }
 
-class App extends StatefulElementClass<P, P> {
+class App extends StatefulComponent<P, P> {
   constructor(p: P) {
     super(p)
     this.state = { ...p }

@@ -1,13 +1,3 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "lib": ["es5", "dom"],
-    "jsx": "react",
-    "jsxFactory": "JSXAlone.createElement",
-    "declaration": true,
-    "strict": true,
-    "esModuleInterop": false
-  }
+  "extends": "./tsconfig-prod.json",
 }

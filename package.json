@@ -5,7 +5,8 @@
   "description": "monorepo containing suitecommerce types for different areas.",
   "main": "index.js",
   "scripts": {
-    "build": "npx yamat run npm run build",
+    "build": "tsc --build --force common/tsconfig-composite.json",
+    "build-watch": "tsc --build common/tsconfig-composite.json",
     "clean": "npx yamat run npm run clean",
     "cleanPackageLock": "npx yamat run \"rm -rf package-lock.json\"",
     "test": "npx yamat run npm test",

@@ -1,15 +1,43 @@
 {
+  "extends": "../common/tsconfig.json",
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "lib": ["es5", "dom"],
+    // "target": "es5",
+    // "module": "commonjs",
+    // "lib": ["es5", "dom"],
     "outDir": "./dist",
     "rootDir": ".",
-    "esModuleInterop": false,
-    "jsx": "react",
-    "jsxFactory": "JSXAlone.createElement",
-    "strict": true,
-    "declaration": true
+    // "esModuleInterop": false,
+    // "jsx": "react",
+    // "jsxFactory": "JSXAlone.createElement",
+    // "strict": true,
+    // "declaration": true,
+    // "composite": true
   },
   "include": ["src"],
+  "references": [
+    {
+      "path": "../jsx-alone-core"
+    },
+    {
+      "path": "../jsx-alone-dom"
+    },
+    {
+      "path": "../jsx-alone-string"
+    },
+    {
+      "path": "../jsx-alone-dom-extra"
+    },
+    // {
+    //   "path": "../jsx-alone-sample-project-code"
+    // },
+    // {
+    //   "path": "../jsx-alone-dom-sample-project"
+    // },
+    // {
+    //   "path": "../jsx-alone-string-browser-sample-project"
+    // },
+    // {
+    //   "path": "../jsx-alone-string-sample-project"
+    // },
+  ],
 }
