@@ -270,8 +270,6 @@ exports.debug = debug;
 function createCreateElement(config) {
   var impl = config.impl,
       textNodeImpl = config.textNodeImpl,
-      escapeAttributes = config.escapeAttributes,
-      functionAttributes = config.functionAttributes,
       onElementReady = config.onElementReady,
       onElementCreate = config.onElementCreated;
 
@@ -319,52 +317,23 @@ function createCreateElement(config) {
       });
     }
 
-    var _loop_1 = function _loop_1(name_1) {
-      if (name_1 && attrs.hasOwnProperty(name_1)) {
-        var value_1 = attrs[name_1];
+    Object.keys(attrs || {}).forEach(function (name) {
+      var value = attrs[name];
 
-        if (typeof value_1 === 'boolean') {
-          if (value_1 === true) {
-            element.setAttribute(name_1, name_1);
-          }
-        } else if (typeof value_1 === 'function') {
-          if (!functionAttributes || functionAttributes === 'preserve') {
-            element.setAttribute(name_1, value_1);
-          } else {
-            var code = functionAttributes === 'toString-this' ? "_this = __this__ = this; (" + value_1.toString() + ").apply(_this, arguments)" : value_1.toString();
-            element.setAttribute(name_1, escapeAttributes ? escapeAttributes(code) : code);
-          }
-        } else if (value_1 !== false && value_1 != null) {
-          if (name_1 === 'className') {
-            if (typeof value_1 === 'string') {
-              element.setAttribute('class', value_1);
-            } else if (Array.isArray(value_1) && value_1.length && typeof value_1[0] === 'string') {
-              element.setAttribute('class', value_1.join(' '));
-            } else {
-              debug("unrecognized className value " + _typeof(value_1) + " " + value_1);
-            }
-          } else {
-            element.setAttribute(name_1, value_1.toString());
-          }
-        } else if (_typeof(value_1) === 'object') {
-          if (name_1 === 'style') {
-            element.setAttribute('style', "" + Object.keys(value_1).map(function (p) {
-              return p + ": " + value_1[p];
-            }).join('; '));
-          } else if (name_1 === 'dangerouslySetInnerHTML' && value_1 && typeof value_1.__html === 'string') {
-            element.dangerouslySetInnerHTML(value_1.__html);
-          } else {
-            debug("unrecognized object attribute \"" + name_1 + "\" - the only object attribute supported is \"style\"");
-          }
-        } else {
-          debug("unrecognized attribute \"" + name_1 + "\" with type " + _typeof(value_1));
-        }
+      var type = _typeof(value);
+
+      if (type === 'string' || type === 'number') {
+        element.setAttribute(name, value);
+      } else if (type === 'function') {
+        element.setAttribute(name, value);
+      } else if (value === false) {} else if (value === true) {
+        element.setAttribute(name, name);
+      } else if (name === 'dangerouslySetInnerHTML' && value) {
+        element.dangerouslySetInnerHTML(value.__html);
+      } else {
+        element.setAttribute(name, value);
       }
-    };
-
-    for (var name_1 in attrs) {
-      _loop_1(name_1);
-    }
+    });
 
     if (typeof tag === 'string') {
       children.filter(function (c) {
@@ -729,8 +698,6 @@ exports.debug = debug;
 function createCreateElement(config) {
   var impl = config.impl,
       textNodeImpl = config.textNodeImpl,
-      escapeAttributes = config.escapeAttributes,
-      functionAttributes = config.functionAttributes,
       onElementReady = config.onElementReady,
       onElementCreate = config.onElementCreated;
 
@@ -778,52 +745,23 @@ function createCreateElement(config) {
       });
     }
 
-    var _loop_1 = function _loop_1(name_1) {
-      if (name_1 && attrs.hasOwnProperty(name_1)) {
-        var value_1 = attrs[name_1];
+    Object.keys(attrs || {}).forEach(function (name) {
+      var value = attrs[name];
 
-        if (typeof value_1 === 'boolean') {
-          if (value_1 === true) {
-            element.setAttribute(name_1, name_1);
-          }
-        } else if (typeof value_1 === 'function') {
-          if (!functionAttributes || functionAttributes === 'preserve') {
-            element.setAttribute(name_1, value_1);
-          } else {
-            var code = functionAttributes === 'toString-this' ? "_this = __this__ = this; (" + value_1.toString() + ").apply(_this, arguments)" : value_1.toString();
-            element.setAttribute(name_1, escapeAttributes ? escapeAttributes(code) : code);
-          }
-        } else if (value_1 !== false && value_1 != null) {
-          if (name_1 === 'className') {
-            if (typeof value_1 === 'string') {
-              element.setAttribute('class', value_1);
-            } else if (Array.isArray(value_1) && value_1.length && typeof value_1[0] === 'string') {
-              element.setAttribute('class', value_1.join(' '));
-            } else {
-              debug("unrecognized className value " + _typeof(value_1) + " " + value_1);
-            }
-          } else {
-            element.setAttribute(name_1, value_1.toString());
-          }
-        } else if (_typeof(value_1) === 'object') {
-          if (name_1 === 'style') {
-            element.setAttribute('style', "" + Object.keys(value_1).map(function (p) {
-              return p + ": " + value_1[p];
-            }).join('; '));
-          } else if (name_1 === 'dangerouslySetInnerHTML' && value_1 && typeof value_1.__html === 'string') {
-            element.dangerouslySetInnerHTML(value_1.__html);
-          } else {
-            debug("unrecognized object attribute \"" + name_1 + "\" - the only object attribute supported is \"style\"");
-          }
-        } else {
-          debug("unrecognized attribute \"" + name_1 + "\" with type " + _typeof(value_1));
-        }
+      var type = _typeof(value);
+
+      if (type === 'string' || type === 'number') {
+        element.setAttribute(name, value);
+      } else if (type === 'function') {
+        element.setAttribute(name, value);
+      } else if (value === false) {} else if (value === true) {
+        element.setAttribute(name, name);
+      } else if (name === 'dangerouslySetInnerHTML' && value) {
+        element.dangerouslySetInnerHTML(value.__html);
+      } else {
+        element.setAttribute(name, value);
       }
-    };
-
-    for (var name_1 in attrs) {
-      _loop_1(name_1);
-    }
+    });
 
     if (typeof tag === 'string') {
       children.filter(function (c) {
@@ -974,7 +912,7 @@ var ElementLikeImpl = (function (_super) {
                 .map(function (c) { return "" + c.render(__assign({}, config, { indentLevel: (config.indentLevel || 0) + 1 })); })
                 .join('') + newLine + util_1.indent(config);
         return "<" + this.tag + Object.keys(this.attrs)
-            .map(function (a) { return " " + a + "=\"" + _this.attrs[a] + "\""; })
+            .map(function (a) { return " " + printHtmlAttribute(a, _this.attrs[a]); })
             .join('') + ">" + content + "</" + this.tag + ">";
     };
     ElementLikeImpl.prototype.dangerouslySetInnerHTML = function (s) {
@@ -983,6 +921,21 @@ var ElementLikeImpl = (function (_super) {
     return ElementLikeImpl;
 }(jsx_alone_core_1.AbstractElementLike));
 exports.ElementLikeImpl = ElementLikeImpl;
+function printHtmlAttribute(a, value) {
+    if (a === 'style') {
+        value = "" + Object.keys(value)
+            .map(function (p) { return p + ": " + value[p]; })
+            .join('; ');
+    }
+    else if (a === 'className') {
+        a = 'class';
+    }
+    else if (typeof value === 'function') {
+        value = "_this=__this__=this;(" + value.toString() + ").apply(_this,arguments)";
+    }
+    value = value.replace(/\"/gim, '&quot;');
+    return a + "=\"" + value + "\"";
+}
 var TextNodeLikeImpl = (function (_super) {
     __extends(TextNodeLikeImpl, _super);
     function TextNodeLikeImpl() {
@@ -1011,8 +964,6 @@ var elementImpl_1 = require("./elementImpl");
 var createCreateElementConfig = {
     impl: elementImpl_1.ElementLikeImpl,
     textNodeImpl: elementImpl_1.TextNodeLikeImpl,
-    functionAttributes: 'toString-this',
-    escapeAttributes: function (s) { return s.replace(/\"/gim, '&quot;'); }
 };
 var Module = {
     createElement: jsx_alone_core_1.createCreateElement(createCreateElementConfig),
@@ -1383,8 +1334,6 @@ exports.debug = debug;
 function createCreateElement(config) {
   var impl = config.impl,
       textNodeImpl = config.textNodeImpl,
-      escapeAttributes = config.escapeAttributes,
-      functionAttributes = config.functionAttributes,
       onElementReady = config.onElementReady,
       onElementCreate = config.onElementCreated;
 
@@ -1432,52 +1381,23 @@ function createCreateElement(config) {
       });
     }
 
-    var _loop_1 = function _loop_1(name_1) {
-      if (name_1 && attrs.hasOwnProperty(name_1)) {
-        var value_1 = attrs[name_1];
+    Object.keys(attrs || {}).forEach(function (name) {
+      var value = attrs[name];
 
-        if (typeof value_1 === 'boolean') {
-          if (value_1 === true) {
-            element.setAttribute(name_1, name_1);
-          }
-        } else if (typeof value_1 === 'function') {
-          if (!functionAttributes || functionAttributes === 'preserve') {
-            element.setAttribute(name_1, value_1);
-          } else {
-            var code = functionAttributes === 'toString-this' ? "_this = __this__ = this; (" + value_1.toString() + ").apply(_this, arguments)" : value_1.toString();
-            element.setAttribute(name_1, escapeAttributes ? escapeAttributes(code) : code);
-          }
-        } else if (value_1 !== false && value_1 != null) {
-          if (name_1 === 'className') {
-            if (typeof value_1 === 'string') {
-              element.setAttribute('class', value_1);
-            } else if (Array.isArray(value_1) && value_1.length && typeof value_1[0] === 'string') {
-              element.setAttribute('class', value_1.join(' '));
-            } else {
-              debug("unrecognized className value " + _typeof(value_1) + " " + value_1);
-            }
-          } else {
-            element.setAttribute(name_1, value_1.toString());
-          }
-        } else if (_typeof(value_1) === 'object') {
-          if (name_1 === 'style') {
-            element.setAttribute('style', "" + Object.keys(value_1).map(function (p) {
-              return p + ": " + value_1[p];
-            }).join('; '));
-          } else if (name_1 === 'dangerouslySetInnerHTML' && value_1 && typeof value_1.__html === 'string') {
-            element.dangerouslySetInnerHTML(value_1.__html);
-          } else {
-            debug("unrecognized object attribute \"" + name_1 + "\" - the only object attribute supported is \"style\"");
-          }
-        } else {
-          debug("unrecognized attribute \"" + name_1 + "\" with type " + _typeof(value_1));
-        }
+      var type = _typeof(value);
+
+      if (type === 'string' || type === 'number') {
+        element.setAttribute(name, value);
+      } else if (type === 'function') {
+        element.setAttribute(name, value);
+      } else if (value === false) {} else if (value === true) {
+        element.setAttribute(name, name);
+      } else if (name === 'dangerouslySetInnerHTML' && value) {
+        element.dangerouslySetInnerHTML(value.__html);
+      } else {
+        element.setAttribute(name, value);
       }
-    };
-
-    for (var name_1 in attrs) {
-      _loop_1(name_1);
-    }
+    });
 
     if (typeof tag === 'string') {
       children.filter(function (c) {
@@ -1612,7 +1532,7 @@ var ElementLikeImpl = (function (_super) {
                 .map(function (c) { return "" + c.render(__assign({}, config, { indentLevel: (config.indentLevel || 0) + 1 })); })
                 .join('') + newLine + util_1.indent(config);
         return "<" + this.tag + Object.keys(this.attrs)
-            .map(function (a) { return " " + a + "=\"" + _this.attrs[a] + "\""; })
+            .map(function (a) { return " " + printHtmlAttribute(a, _this.attrs[a]); })
             .join('') + ">" + content + "</" + this.tag + ">";
     };
     ElementLikeImpl.prototype.dangerouslySetInnerHTML = function (s) {
@@ -1621,6 +1541,21 @@ var ElementLikeImpl = (function (_super) {
     return ElementLikeImpl;
 }(jsx_alone_core_1.AbstractElementLike));
 exports.ElementLikeImpl = ElementLikeImpl;
+function printHtmlAttribute(a, value) {
+    if (a === 'style') {
+        value = "" + Object.keys(value)
+            .map(function (p) { return p + ": " + value[p]; })
+            .join('; ');
+    }
+    else if (a === 'className') {
+        a = 'class';
+    }
+    else if (typeof value === 'function') {
+        value = "_this=__this__=this;(" + value.toString() + ").apply(_this,arguments)";
+    }
+    value = value.replace(/\"/gim, '&quot;');
+    return a + "=\"" + value + "\"";
+}
 var TextNodeLikeImpl = (function (_super) {
     __extends(TextNodeLikeImpl, _super);
     function TextNodeLikeImpl() {
@@ -1649,8 +1584,6 @@ var elementImpl_1 = require("./elementImpl");
 var createCreateElementConfig = {
     impl: elementImpl_1.ElementLikeImpl,
     textNodeImpl: elementImpl_1.TextNodeLikeImpl,
-    functionAttributes: 'toString-this',
-    escapeAttributes: function (s) { return s.replace(/\"/gim, '&quot;'); }
 };
 var Module = {
     createElement: jsx_alone_core_1.createCreateElement(createCreateElementConfig),
@@ -1807,8 +1740,6 @@ exports.debug = debug;
 function createCreateElement(config) {
   var impl = config.impl,
       textNodeImpl = config.textNodeImpl,
-      escapeAttributes = config.escapeAttributes,
-      functionAttributes = config.functionAttributes,
       onElementReady = config.onElementReady,
       onElementCreate = config.onElementCreated;
 
@@ -1856,52 +1787,23 @@ function createCreateElement(config) {
       });
     }
 
-    var _loop_1 = function _loop_1(name_1) {
-      if (name_1 && attrs.hasOwnProperty(name_1)) {
-        var value_1 = attrs[name_1];
+    Object.keys(attrs || {}).forEach(function (name) {
+      var value = attrs[name];
 
-        if (typeof value_1 === 'boolean') {
-          if (value_1 === true) {
-            element.setAttribute(name_1, name_1);
-          }
-        } else if (typeof value_1 === 'function') {
-          if (!functionAttributes || functionAttributes === 'preserve') {
-            element.setAttribute(name_1, value_1);
-          } else {
-            var code = functionAttributes === 'toString-this' ? "_this = __this__ = this; (" + value_1.toString() + ").apply(_this, arguments)" : value_1.toString();
-            element.setAttribute(name_1, escapeAttributes ? escapeAttributes(code) : code);
-          }
-        } else if (value_1 !== false && value_1 != null) {
-          if (name_1 === 'className') {
-            if (typeof value_1 === 'string') {
-              element.setAttribute('class', value_1);
-            } else if (Array.isArray(value_1) && value_1.length && typeof value_1[0] === 'string') {
-              element.setAttribute('class', value_1.join(' '));
-            } else {
-              debug("unrecognized className value " + _typeof(value_1) + " " + value_1);
-            }
-          } else {
-            element.setAttribute(name_1, value_1.toString());
-          }
-        } else if (_typeof(value_1) === 'object') {
-          if (name_1 === 'style') {
-            element.setAttribute('style', "" + Object.keys(value_1).map(function (p) {
-              return p + ": " + value_1[p];
-            }).join('; '));
-          } else if (name_1 === 'dangerouslySetInnerHTML' && value_1 && typeof value_1.__html === 'string') {
-            element.dangerouslySetInnerHTML(value_1.__html);
-          } else {
-            debug("unrecognized object attribute \"" + name_1 + "\" - the only object attribute supported is \"style\"");
-          }
-        } else {
-          debug("unrecognized attribute \"" + name_1 + "\" with type " + _typeof(value_1));
-        }
+      var type = _typeof(value);
+
+      if (type === 'string' || type === 'number') {
+        element.setAttribute(name, value);
+      } else if (type === 'function') {
+        element.setAttribute(name, value);
+      } else if (value === false) {} else if (value === true) {
+        element.setAttribute(name, name);
+      } else if (name === 'dangerouslySetInnerHTML' && value) {
+        element.dangerouslySetInnerHTML(value.__html);
+      } else {
+        element.setAttribute(name, value);
       }
-    };
-
-    for (var name_1 in attrs) {
-      _loop_1(name_1);
-    }
+    });
 
     if (typeof tag === 'string') {
       children.filter(function (c) {

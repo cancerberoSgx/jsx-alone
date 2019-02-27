@@ -8,7 +8,8 @@
  * improve: stateful element. when parent is updated,children state is reset
 
  * test in old browsers / rhino (should work on IE8)
-
+ * DOM :  support hook for createelement (is SVG ocument.createElementNS('http://www.w3.org/2000/svg', tagName))
+ * DOM create documentFargment and put el and all the children inside:     const fragment = createFragmentFrom
  * performance comparison against other template implementations like js string, handlebars, react, inferno (those that support isomorphic)
 
  * performance: DOM, could we event delegate instead of installing a listener on each el?

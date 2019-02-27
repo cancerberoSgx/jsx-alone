@@ -270,8 +270,6 @@ exports.debug = debug;
 function createCreateElement(config) {
   var impl = config.impl,
       textNodeImpl = config.textNodeImpl,
-      escapeAttributes = config.escapeAttributes,
-      functionAttributes = config.functionAttributes,
       onElementReady = config.onElementReady,
       onElementCreate = config.onElementCreated;
 
@@ -319,52 +317,23 @@ function createCreateElement(config) {
       });
     }
 
-    var _loop_1 = function _loop_1(name_1) {
-      if (name_1 && attrs.hasOwnProperty(name_1)) {
-        var value_1 = attrs[name_1];
+    Object.keys(attrs || {}).forEach(function (name) {
+      var value = attrs[name];
 
-        if (typeof value_1 === 'boolean') {
-          if (value_1 === true) {
-            element.setAttribute(name_1, name_1);
-          }
-        } else if (typeof value_1 === 'function') {
-          if (!functionAttributes || functionAttributes === 'preserve') {
-            element.setAttribute(name_1, value_1);
-          } else {
-            var code = functionAttributes === 'toString-this' ? "_this = __this__ = this; (" + value_1.toString() + ").apply(_this, arguments)" : value_1.toString();
-            element.setAttribute(name_1, escapeAttributes ? escapeAttributes(code) : code);
-          }
-        } else if (value_1 !== false && value_1 != null) {
-          if (name_1 === 'className') {
-            if (typeof value_1 === 'string') {
-              element.setAttribute('class', value_1);
-            } else if (Array.isArray(value_1) && value_1.length && typeof value_1[0] === 'string') {
-              element.setAttribute('class', value_1.join(' '));
-            } else {
-              debug("unrecognized className value " + _typeof(value_1) + " " + value_1);
-            }
-          } else {
-            element.setAttribute(name_1, value_1.toString());
-          }
-        } else if (_typeof(value_1) === 'object') {
-          if (name_1 === 'style') {
-            element.setAttribute('style', "" + Object.keys(value_1).map(function (p) {
-              return p + ": " + value_1[p];
-            }).join('; '));
-          } else if (name_1 === 'dangerouslySetInnerHTML' && value_1 && typeof value_1.__html === 'string') {
-            element.dangerouslySetInnerHTML(value_1.__html);
-          } else {
-            debug("unrecognized object attribute \"" + name_1 + "\" - the only object attribute supported is \"style\"");
-          }
-        } else {
-          debug("unrecognized attribute \"" + name_1 + "\" with type " + _typeof(value_1));
-        }
+      var type = _typeof(value);
+
+      if (type === 'string' || type === 'number') {
+        element.setAttribute(name, value);
+      } else if (type === 'function') {
+        element.setAttribute(name, value);
+      } else if (value === false) {} else if (value === true) {
+        element.setAttribute(name, name);
+      } else if (name === 'dangerouslySetInnerHTML' && value) {
+        element.dangerouslySetInnerHTML(value.__html);
+      } else {
+        element.setAttribute(name, value);
       }
-    };
-
-    for (var name_1 in attrs) {
-      _loop_1(name_1);
-    }
+    });
 
     if (typeof tag === 'string') {
       children.filter(function (c) {
@@ -676,8 +645,6 @@ exports.debug = debug;
 function createCreateElement(config) {
   var impl = config.impl,
       textNodeImpl = config.textNodeImpl,
-      escapeAttributes = config.escapeAttributes,
-      functionAttributes = config.functionAttributes,
       onElementReady = config.onElementReady,
       onElementCreate = config.onElementCreated;
 
@@ -725,52 +692,23 @@ function createCreateElement(config) {
       });
     }
 
-    var _loop_1 = function _loop_1(name_1) {
-      if (name_1 && attrs.hasOwnProperty(name_1)) {
-        var value_1 = attrs[name_1];
+    Object.keys(attrs || {}).forEach(function (name) {
+      var value = attrs[name];
 
-        if (typeof value_1 === 'boolean') {
-          if (value_1 === true) {
-            element.setAttribute(name_1, name_1);
-          }
-        } else if (typeof value_1 === 'function') {
-          if (!functionAttributes || functionAttributes === 'preserve') {
-            element.setAttribute(name_1, value_1);
-          } else {
-            var code = functionAttributes === 'toString-this' ? "_this = __this__ = this; (" + value_1.toString() + ").apply(_this, arguments)" : value_1.toString();
-            element.setAttribute(name_1, escapeAttributes ? escapeAttributes(code) : code);
-          }
-        } else if (value_1 !== false && value_1 != null) {
-          if (name_1 === 'className') {
-            if (typeof value_1 === 'string') {
-              element.setAttribute('class', value_1);
-            } else if (Array.isArray(value_1) && value_1.length && typeof value_1[0] === 'string') {
-              element.setAttribute('class', value_1.join(' '));
-            } else {
-              debug("unrecognized className value " + _typeof(value_1) + " " + value_1);
-            }
-          } else {
-            element.setAttribute(name_1, value_1.toString());
-          }
-        } else if (_typeof(value_1) === 'object') {
-          if (name_1 === 'style') {
-            element.setAttribute('style', "" + Object.keys(value_1).map(function (p) {
-              return p + ": " + value_1[p];
-            }).join('; '));
-          } else if (name_1 === 'dangerouslySetInnerHTML' && value_1 && typeof value_1.__html === 'string') {
-            element.dangerouslySetInnerHTML(value_1.__html);
-          } else {
-            debug("unrecognized object attribute \"" + name_1 + "\" - the only object attribute supported is \"style\"");
-          }
-        } else {
-          debug("unrecognized attribute \"" + name_1 + "\" with type " + _typeof(value_1));
-        }
+      var type = _typeof(value);
+
+      if (type === 'string' || type === 'number') {
+        element.setAttribute(name, value);
+      } else if (type === 'function') {
+        element.setAttribute(name, value);
+      } else if (value === false) {} else if (value === true) {
+        element.setAttribute(name, name);
+      } else if (name === 'dangerouslySetInnerHTML' && value) {
+        element.dangerouslySetInnerHTML(value.__html);
+      } else {
+        element.setAttribute(name, value);
       }
-    };
-
-    for (var name_1 in attrs) {
-      _loop_1(name_1);
-    }
+    });
 
     if (typeof tag === 'string') {
       children.filter(function (c) {
@@ -897,26 +835,33 @@ var ElementLikeImpl = (function (_super) {
     ElementLikeImpl.prototype.render = function (config) {
         var _this = this;
         if (config === void 0) { config = {}; }
-        var el = document.createElement(this.tag);
+        var el = isSvgTag(this.tag)
+            ? document.createElementNS('http://www.w3.org/2000/svg', this.tag)
+            : document.createElement(this.tag);
         Object.keys(this.attrs).forEach(function (attribute) {
             var value = _this.attrs[attribute];
             if (!config.handleAttribute || !config.handleAttribute({ config: config, el: el, attribute: attribute, value: value, elementLike: _this })) {
-                if (typeof value === 'function') {
-                    el.setAttribute(attribute, value.toString());
+                if (attribute === 'className') {
+                    el.setAttribute('class', value);
+                }
+                else if (typeof value === 'function') {
+                    el.addEventListener(attribute.replace(/^on/, '').toLowerCase(), value.bind(_this));
                 }
                 else {
-                    el.setAttribute(attribute, value + '');
+                    el.setAttribute(attribute, value);
                 }
             }
         });
         if (this._innerHtml) {
             el.innerHTML = this._innerHtml;
         }
-        this.children.forEach(function (c) {
-            if (!config.handleChildRender || !config.handleChildRender({ config: config, parent: el, child: c, elementLike: _this })) {
-                c.render(__assign({}, config, { parent: el }));
-            }
-        });
+        else {
+            this.children.forEach(function (c) {
+                if (!config.handleChildRender || !config.handleChildRender({ config: config, parent: el, child: c, elementLike: _this })) {
+                    c.render(__assign({}, config, { parent: el }));
+                }
+            });
+        }
         if (config.parent) {
             config.parent.appendChild(el);
         }
@@ -956,6 +901,11 @@ var ElementClass = (function (_super) {
     return ElementClass;
 }(jsx_alone_core_1.ElementClass));
 exports.ElementClass = ElementClass;
+function isSvgTag(t) {
+    var r = new RegExp("^" + t + "$", 'i');
+    return SvgTags.some(function (name) { return r.test(name); });
+}
+var SvgTags = ['path', 'svg', 'use', 'g'];
 
 },{"jsx-alone-core":"BB47"}],"S0OW":[function(require,module,exports) {
 ;
@@ -964,7 +914,6 @@ var elementImpl_1 = require("./elementImpl");
 exports.createCreateElementConfig = {
     impl: elementImpl_1.ElementLikeImpl,
     textNodeImpl: elementImpl_1.TextNodeLikeImpl,
-    functionAttributes: 'toString-this',
 };
 var Module = {
     createElement: jsx_alone_core_1.createCreateElement(exports.createCreateElementConfig),
@@ -1029,15 +978,7 @@ function buildExtraConfig(rootElementLike, extraConfig) {
         var listener = functionAttributeContext ? value.bind(functionAttributeContext) : value;
         var eventType = attribute.substring(2, attribute.length).toLowerCase();
         var options = undefined;
-        el.addEventListener(eventType, listener, options); // if(!elementLike._eventListenerList){
-        //   elementLike._eventListenerList = []
-        //   // elementLike._destr
-        // }
-        // elementLike._eventListenerList.push({type: eventType, listener,options})
-        // if(!elementLike.){
-        // elementLike._eventListenerList = []
-        // }
-
+        el.addEventListener(eventType, listener, options);
         elementLike.attrs[attribute] = undefined; // forget the reference
 
         return true;
@@ -1092,7 +1033,6 @@ function buildExtraConfig(rootElementLike, extraConfig) {
 }
 
 exports.createCreateConfig = __assign({}, jsx_alone_dom_1.createCreateElementConfig, {
-  functionAttributes: 'preserve',
   impl: jsx_alone_dom_1.ElementLikeImpl,
   textNodeImpl: jsx_alone_dom_1.TextNodeLikeImpl,
   evaluateFunctionsWithNew: true,

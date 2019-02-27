@@ -12,7 +12,7 @@ export function debug(err: string) {
 }
 
 export function createCreateElement<T, R extends ElementLike<T>=ElementLike<T>>(config: CreateCreateElementConfig<T, R>) {
-  const { impl, textNodeImpl, escapeAttributes, functionAttributes, onElementReady, onElementCreated: onElementCreate } = config
+  const { impl, textNodeImpl, onElementReady, onElementCreated: onElementCreate } = config
 
   const createElement: CreateElementFunction<T,R> = function(tag, attrs = {}, ...children: any[]) {
     let element:  R
@@ -43,19 +43,19 @@ export function createCreateElement<T, R extends ElementLike<T>=ElementLike<T>>(
         // let value: any = attrs[name]
         const type = typeof value
         if(type==='string' || type==='number'){
-          element.setAttribute(name, value+'')
+          element.setAttribute(name, value)
         }
         else if (type === 'function') {
-          if (!functionAttributes || functionAttributes === 'preserve') {
+          // if (!functionAttributes || functionAttributes === 'preserve') {
             element.setAttribute(name, value)
-          } 
-          else {
-            const code =
-              functionAttributes === 'toString-this'
-                ? `_this = __this__ = this; (${value.toString()}).apply(_this, arguments)`
-                : value.toString()
-            element.setAttribute(name,  escapeAttributes ? escapeAttributes(code) : code)
-          }
+          // } 
+          // else {
+          //   const code =
+          //     functionAttributes === 'toString-this'
+          //       ? `_this = __this__ = this; (${value.toString()}).apply(_this, arguments)`
+          //       : value.toString()
+          //   element.setAttribute(name,  code)
+          // }
         }
         else if(value===false){
           // do nothing

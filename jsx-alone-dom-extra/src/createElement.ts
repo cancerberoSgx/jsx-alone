@@ -65,14 +65,6 @@ function buildExtraConfig(
         const eventType = attribute.substring(2, attribute.length).toLowerCase() as keyof HTMLElementEventMap
         const options = undefined
         el.addEventListener(eventType, listener, options)
-        // if(!elementLike._eventListenerList){
-        //   elementLike._eventListenerList = []
-        //   // elementLike._destr
-        // }
-        // elementLike._eventListenerList.push({type: eventType, listener,options})
-        // if(!elementLike.){
-        // elementLike._eventListenerList = []
-        // }
 
         elementLike.attrs[attribute] = undefined // forget the reference
         return true
@@ -114,8 +106,6 @@ function buildExtraConfig(
 
 export const createCreateConfig: CreateCreateElementDomConfig<FunctionAttributesElement> = {
   ...createCreateElementConfig,
-
-  functionAttributes: 'preserve',
 
   impl: ElementLikeImpl as any as FunctionAttributesElement & { new(tag: string): FunctionAttributesElement },
 

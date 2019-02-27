@@ -4,7 +4,7 @@ import { indent } from './util';
 import { TextNodeLike, ElementLike } from './types';
 
 export class ElementLikeImpl extends AbstractElementLike<string> implements ElementLike {
-  
+
   private innerHtml: string | undefined
 
   render(config: ElementLikeImplRenderConfig = defaultRenderConfig): string {
@@ -24,31 +24,26 @@ export class ElementLikeImpl extends AbstractElementLike<string> implements Elem
   }
 }
 
-function printHtmlAttribute(a:string, value:any){
-  // let r:string|undefined
-  if(a==='style'){
-    value =  `${Object.keys(value)
+function printHtmlAttribute(a: string, value: any) {
+  if (a === 'style') {
+    value = `${Object.keys(value)
       .map(p => `${p}: ${value[p]}`)
       .join('; ')}`
-    }
-    else if(a==='className'){
-      a='class'
-    }
-    // else {
-    //   value=value+''
-    // }
-    //TODO: should we escape the value ?
-    value=value.replace(/\"/gim, '&quot;') //replace(/\"/g, '\\"')
+  }
+  else if (a === 'className') {
+    a = 'class'
+  }
+  else if (typeof value === 'function') {
+    value = `_this=__this__=this;(${value.toString()}).apply(_this,arguments)`
+  }
+  value = value.replace(/\"/gim, '&quot;') //replace(/\"/g, '\\"')
   return `${a}="${value}"`
 }
 
 export class TextNodeLikeImpl extends AbstractTextNodeLike<string> implements TextNodeLike {
-  // constructor(content:string){
-  //   super(content)
-  // }
   render(config?: ElementLikeImplRenderConfig): string {
     return `${this.content}`
   }
 }
 
-export abstract class ElementClass<P = {}> extends AbstractElementClass<string, P> {}
+export abstract class ElementClass<P = {}> extends AbstractElementClass<string, P> { }
