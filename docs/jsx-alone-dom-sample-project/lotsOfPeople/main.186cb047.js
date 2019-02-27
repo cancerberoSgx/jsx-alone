@@ -296,7 +296,7 @@ function createCreateElement(config) {
         }));
         element = elementClassInstance.render();
       } else {
-        if (_typeof(tag.prototype) !== undefined && config.evaluateFunctionsWithNew) {
+        if (_typeof(tag.prototype) !== undefined) {
           element = new tag(__assign({}, attrs, {
             children: children
           }));
@@ -732,7 +732,7 @@ function createCreateElement(config) {
         }));
         element = elementClassInstance.render();
       } else {
-        if (_typeof(tag.prototype) !== undefined && config.evaluateFunctionsWithNew) {
+        if (_typeof(tag.prototype) !== undefined) {
           element = new tag(__assign({}, attrs, {
             children: children
           }));
@@ -1342,7 +1342,7 @@ function createCreateElement(config) {
         }));
         element = elementClassInstance.render();
       } else {
-        if (_typeof(tag.prototype) !== undefined && config.evaluateFunctionsWithNew) {
+        if (_typeof(tag.prototype) !== undefined) {
           element = new tag(__assign({}, attrs, {
             children: children
           }));
@@ -1738,7 +1738,7 @@ function createCreateElement(config) {
         }));
         element = elementClassInstance.render();
       } else {
-        if (_typeof(tag.prototype) !== undefined && config.evaluateFunctionsWithNew) {
+        if (_typeof(tag.prototype) !== undefined) {
           element = new tag(__assign({}, attrs, {
             children: children
           }));

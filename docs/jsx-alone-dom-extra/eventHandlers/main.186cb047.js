@@ -296,7 +296,7 @@ function createCreateElement(config) {
         }));
         element = elementClassInstance.render();
       } else {
-        if (_typeof(tag.prototype) !== undefined && config.evaluateFunctionsWithNew) {
+        if (_typeof(tag.prototype) !== undefined) {
           element = new tag(__assign({}, attrs, {
             children: children
           }));
@@ -679,7 +679,7 @@ function createCreateElement(config) {
         }));
         element = elementClassInstance.render();
       } else {
-        if (_typeof(tag.prototype) !== undefined && config.evaluateFunctionsWithNew) {
+        if (_typeof(tag.prototype) !== undefined) {
           element = new tag(__assign({}, attrs, {
             children: children
           }));
@@ -969,90 +969,66 @@ var jsx_alone_core_1 = require("jsx-alone-core");
 var jsx_alone_dom_1 = require("jsx-alone-dom");
 
 exports.ElementClass = jsx_alone_dom_1.ElementClass;
-var warn1Once = false;
 
 function buildExtraConfig(rootElementLike, extraConfig) {
   var configHooks = {
-    handleAttribute: function handleAttribute(_a) {
-      var value = _a.value,
-          el = _a.el,
-          attribute = _a.attribute,
-          elementLike = _a.elementLike;
-
-      if (typeof value === 'function' && !extraConfig.dontAddEventListeners) {
-        if (!warn1Once && typeof value.prototype !== 'undefined') {
-          console.warn('Warning, function attributes in a function are partially supported, `this` won\'t be available.\n Better use an arrow function!');
-          warn1Once = true; // do this better with a helper
-        }
-
-        var functionAttributeContext = getFunctionAttributeContextObjects(elementLike, extraConfig.initialContext).functionAttributeContext;
-        var listener = functionAttributeContext ? value.bind(functionAttributeContext) : value;
-        var eventType = attribute.substring(2, attribute.length).toLowerCase();
-        var options = undefined;
-        el.addEventListener(eventType, listener, options);
-        elementLike.attrs[attribute] = undefined; // forget the reference
-
-        return true;
-      }
-
-      return false;
-    },
-    handleChildRender: function handleChildRender(config) {
-      var child = config.child,
-          parent = config.parent,
-          elementLike = config.elementLike;
-
-      var _a = getFunctionAttributeContextObjects(elementLike, extraConfig.initialContext),
-          functionAttributeContext = _a.functionAttributeContext,
-          elementClassInstance = _a.elementClassInstance;
-
-      if (functionAttributeContext && isFunctionAttributeElement(child)) {
-        child._originalElementClassInstance = child._elementClassInstance;
-        child._elementClassInstance = elementClassInstance || child._elementClassInstance;
-      }
-
-      child.render(__assign({}, config, configHooks, {
-        parent: parent
-      }));
-      return true;
-    },
+    // handleAttribute({ value, el, attribute, elementLike }) {
+    //   if (typeof value === 'function' && !extraConfig.dontAddEventListeners) {
+    //     if (!warn1Once && typeof value.prototype !== 'undefined') {
+    //       console.warn('Warning, function attributes in a function are partially supported, `this` won\'t be available.\n Better use an arrow function!')
+    //       warn1Once = true // do this better with a helper
+    //     }
+    //     const { functionAttributeContext } = getFunctionAttributeContextObjects(elementLike, extraConfig.initialContext)
+    //     let listener = functionAttributeContext ? value.bind(functionAttributeContext) : value
+    //     const eventType = attribute.substring(2, attribute.length).toLowerCase() as keyof HTMLElementEventMap
+    //     const options = undefined
+    //     el.addEventListener(eventType, listener, options)
+    //     elementLike.attrs[attribute] = undefined // forget the reference
+    //     return true
+    //   }
+    //   return false
+    // },
+    // handleChildRender(config) {
+    //   const { child, parent, elementLike } = config
+    //   const { functionAttributeContext, elementClassInstance } = getFunctionAttributeContextObjects(
+    //     elementLike as FunctionAttributesElement,
+    //     extraConfig.initialContext
+    //   )
+    //   if (functionAttributeContext && isFunctionAttributeElement(child)) {
+    //     child._originalElementClassInstance = child._elementClassInstance
+    //     child._elementClassInstance = elementClassInstance || child._elementClassInstance
+    //   }
+    //   (child as ElementLikeImpl).render({ ...config, ...configHooks, parent })
+    //   return true
+    // },
     handleAfterRender: function handleAfterRender(_a) {
       var el = _a.el,
           elementLike = _a.elementLike;
-      var elementClassWithContainer = elementLike._originalElementClassInstance || elementLike._elementClassInstance || rootElementLike._elementClassInstance;
+      var elementClassWithContainer = elementLike._elementClassInstance || rootElementLike._elementClassInstance;
 
       if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
         elementClassWithContainer.setContainerEl(el);
       }
 
       elementLike._elementClassInstance = undefined; // forget the reference
-
-      elementLike._originalElementClassInstance = undefined; // forget the reference
+      // elementLike._originalElementClassInstance = undefined // forget the reference
 
       return true;
     }
   };
-  return configHooks;
-
-  function getFunctionAttributeContextObjects(elementLike, initialContext) {
-    var elementClassInstance = elementLike.parentElement && elementLike._elementClassInstance || rootElementLike._elementClassInstance;
-    return {
-      functionAttributeContext: elementClassInstance || initialContext,
-      elementClassInstance: elementClassInstance
-    };
-  }
+  return configHooks; // function getFunctionAttributeContextObjects(elementLike: FunctionAttributesElement, initialContext: any) {
+  //   const elementClassInstance = (elementLike.parentElement && elementLike._elementClassInstance) || rootElementLike._elementClassInstance
+  //   return { functionAttributeContext: elementClassInstance || initialContext, elementClassInstance }
+  // }
 }
 
 exports.createCreateConfig = __assign({}, jsx_alone_dom_1.createCreateElementConfig, {
   impl: jsx_alone_dom_1.ElementLikeImpl,
   textNodeImpl: jsx_alone_dom_1.TextNodeLikeImpl,
-  evaluateFunctionsWithNew: true,
-  onElementCreated: function onElementCreated(_a) {
-    var elementLike = _a.elementLike,
-        elementClassInstance = _a.elementClassInstance;
-
-    if (elementClassInstance) {
-      elementLike._elementClassInstance = elementClassInstance;
+  // evaluateFunctionsWithNew: true,
+  onElementCreated: function onElementCreated(config) {
+    if (config.elementClassInstance) {
+      config.elementLike._elementClassInstance = config.elementClassInstance;
     }
   }
 });
@@ -1070,10 +1046,6 @@ var Module = {
   }
 };
 exports.JSXAlone = Module;
-
-function isFunctionAttributeElement(a) {
-  return jsx_alone_core_1.isElementLike(a);
-}
 },{"jsx-alone-core":"6FnY","jsx-alone-dom":"MNUJ"}],"4eCq":[function(require,module,exports) {
 "use strict";
 

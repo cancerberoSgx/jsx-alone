@@ -1,4 +1,4 @@
-import {JSXAlone} from 'jsx-alone-dom'
+import {JSXAlone} from 'jsx-alone-string'
 
 export function getJSXAlone() {
     return JSXAlone
