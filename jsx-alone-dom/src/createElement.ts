@@ -11,7 +11,7 @@ export const createCreateElementConfig: CreateCreateElementDomConfig = {
   impl: ElementLikeImpl,
   textNodeImpl: TextNodeLikeImpl,
   functionAttributes: 'toString-this',
-  escapeAttributes: (s: string)=>s.replace(/\"/gim, '&quot;')
+  // escapeAttributes: (s: string)=>s.replace(/\"/gim, '&quot;')
 }
 
 const Module: JSXAloneType<RenderOutput, ElementLikeImpl> = {
@@ -19,8 +19,8 @@ const Module: JSXAloneType<RenderOutput, ElementLikeImpl> = {
   createElement: createCreateElement<RenderOutput, ElementLikeImpl>(createCreateElementConfig),
 
   render  (el, config={}){
-    const elementLike: NodeLike = el as any
-    return elementLike.render({config})
+    // const elementLike: NodeLike = el as any
+    return (el as any as NodeLike).render(config)
   }
 
 }

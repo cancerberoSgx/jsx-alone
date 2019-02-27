@@ -1,16 +1,17 @@
-import { NodeLike, JSXAlone as JSXAloneType, createCreateElement } from 'jsx-alone-core';
+import { NodeLike, JSXAlone as JSXAloneType, createCreateElement, CreateCreateElementConfig } from 'jsx-alone-core';
 import { ElementLikeImplRenderConfig, defaultRenderConfig } from './config';
 import { ElementLikeImpl, TextNodeLikeImpl } from './elementImpl';
 
-const config = {
+const createCreateElementConfig: CreateCreateElementConfig<string, ElementLikeImpl> = {
   impl: ElementLikeImpl,
   textNodeImpl: TextNodeLikeImpl, 
+  functionAttributes: 'toString-this',
   escapeAttributes: (s: string)=>s.replace(/\"/gim, '&quot;')
 }
 
 const Module = {
   
-  createElement: createCreateElement<string>(config),
+  createElement: createCreateElement<string>(createCreateElementConfig),
 
   render(el: JSX.Element, config: ElementLikeImplRenderConfig = defaultRenderConfig): string {
     return `${((el as any) as NodeLike<string>).render(config)}`

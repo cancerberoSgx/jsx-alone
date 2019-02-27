@@ -22,9 +22,9 @@ export type JSXAloneFunction = (props: JSXAloneProps) => JSXAloneElement
 
 export type JSXAloneTag = string | JSXAloneComponent | JSXAloneFunction
 
-export interface NodeLike<T> {
+export interface NodeLike<T,  R extends ElementLike<T> = ElementLike<T>> {
   // new(content:string):this
-  render(config?: RenderConfig<T>): T
+  render(config?: RenderConfig<T, R>): T
 }
 
 export interface TextNodeLike<T> extends NodeLike<T> {
@@ -49,25 +49,36 @@ export interface ElementLike<T> extends NodeLike<T> {
   // find(p: Predicate<T>): NodeLike<T> | undefined
 }
 
-export type Predicate<T, N extends NodeLike<T> = NodeLike<T>> = (e: N) => boolean
-
-export interface RenderConfig<T,  R extends ElementLike<T> = ElementLike<T>> {}
+// export type Predicate<T, N extends NodeLike<T> = NodeLike<T>> = (e: N) => boolean
 
 export interface JSXAlone<T, R extends ElementLike<T> = ElementLike<T>> {
   createElement(tag: JSXAloneTag, attrs: JSXAloneAttrs, ...children: JSXAloneChild[]): R
   render(el: JSX.Element, config?: RenderConfig<T, R>): T
 }
 
-type FunctionAttributesMode = 'preserve' | 'toString-this' | 'toString'
-export interface CreateCreateElementConfig<T, R extends ElementLike<T> = ElementLike<T>> {
+
+
+export interface RenderConfig<T,  R extends ElementLike<T> = ElementLike<T>> {
+
+  escapeAttributes?: (s: string) => string
+  /** 
+   * * "preserve": will add the attribute value as is, (a function object). Works in DOM
+   * * "toString": will add the attribute value as value.toString()
+   * * "toString-this": will add the value as
+   */
+  functionAttributes?: 'preserve' | 'toString-this' | 'toString'
+  /** we could evaluate a function using `new F()` instead of just calling F() at some performance cost, but this would be the only way of event handlers to have access to the function `this` context */
+  evaluateFunctionsWithNew?: boolean
+}
+
+
+
+// type FunctionAttributesMode = 'preserve' | 'toString-this' | 'toString'
+export interface CreateCreateElementConfig<T, R extends ElementLike<T> = ElementLike<T>> extends RenderConfig<T, R> {
   impl: {
     new (tag: string): R
   }
   textNodeImpl: { new (content: string): any }
-  escapeAttributes?: (s: string) => string
-  functionAttributes?: FunctionAttributesMode
-  /** we could evaluate a function using `new F()` instead of just calling F() at some performance cost, but this would be the only way of event handlers to have access to the function `this` context */
-  evaluateFunctionsWithNew?: boolean
   onElementReady?(event: { elementLike: R }): void
   onElementCreated?(event: { elementLike: R, elementClassInstance?: JSXAloneComponent }): void // TODO: expose function element context
 }

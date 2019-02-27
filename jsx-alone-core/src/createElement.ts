@@ -50,8 +50,7 @@ export function createCreateElement<T, R extends ElementLike<T>=ElementLike<T>>(
               functionAttributes === 'toString-this'
                 ? `_this = __this__ = this; (${value.toString()}).apply(_this, arguments)`
                 : value.toString()
-            const escaped = escapeAttributes ? escapeAttributes(code) : code
-            element.setAttribute(name, escaped)
+            element.setAttribute(name,  escapeAttributes ? escapeAttributes(code) : code)
           }
         } else if (value !== false && value != null) {
           if (name === 'className') {

@@ -1,5 +1,4 @@
-import { JSXAloneComponent, NodeLike, ElementLike, TextNodeLike, RenderConfig, Predicate, JSXAlone } from '.'
-import { checkThrow } from './util';
+import { JSXAloneComponent, NodeLike, ElementLike, TextNodeLike, RenderConfig } from '.'
 export function isJSXAloneComponent(c: any): c is JSXAloneComponent {
   return c.prototype && c.prototype.render
 }

@@ -11,6 +11,7 @@
     "cleanPackageLock": "npx yamat run \"rm -rf package-lock.json\"",
     "test": "npx yamat run npm test",
     "docs": "npx yamat run npm run docs && npx strip-typescript-output --input docs/**/*.js ",
+    "docs-no-strip": "npx yamat run npm run docs ",
     "all": "npm run clean && npm run build && npm test",
     "yamat-link": "npx yamat link && npm run cleanPackageLock && npx yamat run npm i && npm run build",
     "yamat-unlink-pack": "npx yamat unlink --version pack && npm run cleanPackageLock && npx yamat run npm i && npm run build",

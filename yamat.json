@@ -11,7 +11,6 @@
         "name": "jsx-alone-string",
         "path": "./jsx-alone-string"
     },
-    
     {
         "name": "jsx-alone-dom-extra",
         "path": "./jsx-alone-dom-extra"
@@ -28,10 +27,12 @@
         "name": "jsx-alone-string-sample-project",
         "path": "./jsx-alone-string-sample-project"
     },
-
+    {
+        "name": "jsx-alone-string-browser-sample-project",
+        "path": "./jsx-alone-string-browser-sample-project"
+    },
     {
         "name": "strip-typescript-output",
         "path": "./strip-typescript-output"
     }
-    
 ]

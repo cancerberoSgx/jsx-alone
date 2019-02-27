@@ -1,8 +1,9 @@
 import { ElementClass as AbstractElementClass, AbstractElementLike, AbstractTextNodeLike } from 'jsx-alone-core';
 import { defaultRenderConfig, ElementLikeImplRenderConfig } from './config';
 import { indent } from './util';
+import { TextNodeLike, ElementLike } from './types';
 
-export class ElementLikeImpl extends AbstractElementLike<string> {
+export class ElementLikeImpl extends AbstractElementLike<string> implements ElementLike {
   
   private innerHtml: string | undefined
 
@@ -11,7 +12,7 @@ export class ElementLikeImpl extends AbstractElementLike<string> {
     const content =
       this.innerHtml ||
       `${newLine}${indent({ ...config, indentLevel: (config.indentLevel || 0) + 1 })}${this.children
-        .map(c => `${c.render({ ...config, indentLevel: (config.indentLevel || 0) + 1 })}`)
+        .map(c => `${(c as ElementLikeImpl).render({ ...config, indentLevel: (config.indentLevel || 0) + 1 })}`)
         .join('')}${newLine}${indent(config)}`
     return `<${this.tag}${Object.keys(this.attrs)
       .map(a => ` ${a}="${this.attrs[a]}"`)
@@ -23,11 +24,11 @@ export class ElementLikeImpl extends AbstractElementLike<string> {
   }
 }
 
-export class TextNodeLikeImpl extends AbstractTextNodeLike<string> {
+export class TextNodeLikeImpl extends AbstractTextNodeLike<string> implements TextNodeLike {
   // constructor(content:string){
   //   super(content)
   // }
-  render(config: ElementLikeImplRenderConfig = defaultRenderConfig): string {
+  render(config?: ElementLikeImplRenderConfig): string {
     return `${this.content}`
   }
 }

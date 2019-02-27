@@ -27,7 +27,7 @@ export interface FunctionAttributesElement extends ElementLikeImpl {
 //   */
 //   // _eventListenerList?: EventEntry[]
 //   // destroy() {
-    
+
 //   // }
 //   // isRoot(){
 //   //   return this._eventListenerList
@@ -40,10 +40,10 @@ export interface FunctionAttributesElement extends ElementLikeImpl {
 //   options?: boolean | EventListenerOptions
 // }
 
-export interface CreateCreateElementDomConfig<R extends FunctionAttributesElement = FunctionAttributesElement> extends CreateCreateElementDomConfig< R> {
+export interface CreateCreateElementDomConfig<R extends FunctionAttributesElement = FunctionAttributesElement> extends CreateCreateElementDomConfig<R> {
   extraRenderConfig?: ElementLikeImplRenderConfig
 }
-let warn1Once=false
+let warn1Once = false
 export interface FunctionAttributeRenderConfig extends ElementLikeImplRenderConfig {
   dontAddEventListeners?: boolean
   initialContext?: any
@@ -56,9 +56,9 @@ function buildExtraConfig(
   const configHooks: ElementLikeImplRenderConfig<FunctionAttributesElement> = {
     handleAttribute({ value, el, attribute, elementLike }) {
       if (typeof value === 'function' && !extraConfig.dontAddEventListeners) {
-        if(!warn1Once && typeof value.prototype!=='undefined'){
+        if (!warn1Once && typeof value.prototype !== 'undefined') {
           console.warn('Warning, function attributes in a function are partially supported, `this` won\'t be available.\n Better use an arrow function!')
-          warn1Once=true // do this better with a helper
+          warn1Once = true // do this better with a helper
         }
         const { functionAttributeContext } = getFunctionAttributeContextObjects(elementLike, extraConfig.initialContext)
         let listener = functionAttributeContext ? value.bind(functionAttributeContext) : value
@@ -71,7 +71,7 @@ function buildExtraConfig(
         // }
         // elementLike._eventListenerList.push({type: eventType, listener,options})
         // if(!elementLike.){
-          // elementLike._eventListenerList = []
+        // elementLike._eventListenerList = []
         // }
 
         elementLike.attrs[attribute] = undefined // forget the reference
@@ -89,7 +89,7 @@ function buildExtraConfig(
         child._originalElementClassInstance = child._elementClassInstance
         child._elementClassInstance = elementClassInstance || child._elementClassInstance
       }
-      child.render({ ...config, ...configHooks, parent })
+      (child as ElementLikeImpl).render({ ...config, ...configHooks, parent })
       return true
     },
     handleAfterRender({ el, elementLike }: { el: HTMLElement; elementLike: FunctionAttributesElement }) {
@@ -115,21 +115,20 @@ function buildExtraConfig(
 export const createCreateConfig: CreateCreateElementDomConfig<FunctionAttributesElement> = {
   ...createCreateElementConfig,
 
-  // impl: FunctionAttributesElementImpl,
-impl: ElementLikeImpl as any as FunctionAttributesElement&{new (tag: string): FunctionAttributesElement },
-  textNodeImpl: TextNodeLikeImpl,
   functionAttributes: 'preserve',
+
+  impl: ElementLikeImpl as any as FunctionAttributesElement & { new(tag: string): FunctionAttributesElement },
+
+  textNodeImpl: TextNodeLikeImpl,
+
   evaluateFunctionsWithNew: true,
 
-  onElementCreated({
-    elementLike,
-    elementClassInstance
-  }: {
+  onElementCreated({ elementLike, elementClassInstance }: {
     elementLike: FunctionAttributesElement
     elementClassInstance?: JSXAloneComponent
   }) {
     if (elementClassInstance) {
-      elementLike._elementClassInstance = (elementClassInstance as any) as ElementClass
+      elementLike._elementClassInstance = elementClassInstance as any
     }
   }
 }

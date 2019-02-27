@@ -97,7 +97,7 @@ export function fireEvent(node: HTMLElement, eventName: 'mousedown' | 'mouseup' 
 
       default:
         throw "fireEvent: Couldn't find an event class for event '" + eventName + "'."
-        break
+        // break
     }
     var event = doc.createEvent(eventClass)
     event.initEvent(eventName, true, true) // All events created as bubbling and cancelable.

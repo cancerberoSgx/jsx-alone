@@ -131,9 +131,7 @@ function isTextNodeLike(n) {
 
 exports.isTextNodeLike = isTextNodeLike;
 
-var AbstractTextNodeLike =
-/** @class */
-function () {
+var AbstractTextNodeLike = function () {
   function AbstractTextNodeLike(content) {
     this.content = content;
   }
@@ -143,9 +141,7 @@ function () {
 
 exports.AbstractTextNodeLike = AbstractTextNodeLike;
 
-var AbstractElementLike =
-/** @class */
-function () {
+var AbstractElementLike = function () {
   function AbstractElementLike(tag) {
     this.tag = tag;
     this.attrs = {};
@@ -198,14 +194,8 @@ var __extends = this && this.__extends || function () {
 ;
 
 var elementImpl_1 = require("./elementImpl");
-/**
- * A Class able to render() JSX. Similar to React.Component but only supporting properties, without state, context, ref, did/will methods, etc.
- */
 
-
-var ElementClass =
-/** @class */
-function () {
+var ElementClass = function () {
   function ElementClass(props) {
     this.props = props;
   }
@@ -231,9 +221,7 @@ function () {
 
 exports.ElementClass = ElementClass;
 
-var AbstractElementClass =
-/** @class */
-function (_super) {
+var AbstractElementClass = function (_super) {
   __extends(AbstractElementClass, _super);
 
   function AbstractElementClass() {
@@ -344,8 +332,7 @@ function createCreateElement(config) {
             element.setAttribute(name_1, value_1);
           } else {
             var code = functionAttributes === 'toString-this' ? "_this = __this__ = this; (" + value_1.toString() + ").apply(_this, arguments)" : value_1.toString();
-            var escaped = escapeAttributes ? escapeAttributes(code) : code;
-            element.setAttribute(name_1, escaped);
+            element.setAttribute(name_1, escapeAttributes ? escapeAttributes(code) : code);
           }
         } else if (value_1 !== false && value_1 != null) {
           if (name_1 === 'className') {
@@ -380,7 +367,6 @@ function createCreateElement(config) {
     }
 
     if (typeof tag === 'string') {
-      // don't render children for function or classes since they are responsible of render their own children
       children.filter(function (c) {
         return c;
       }).forEach(function (child) {
@@ -417,11 +403,9 @@ function createCreateElement(config) {
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
 },{"./elementImpl":"3p56"}],"URgR":[function(require,module,exports) {
-; // import { AbstractJSXAlone as  } from './createElement';
+;
 
-var _1 = require("."); // export type Props = { children: Children }
-// TODO: like React.Fragment
-
+var _1 = require(".");
 
 exports.Fragment = function (props) {
   return _1.AbstractJSXAlone.createElement("span", null, props.children);
@@ -434,56 +418,8 @@ function Js(props) {
 }
 
 exports.Js = Js;
-/** if as statement. children need to be in a function and the function accepts a parameter which value is given condition `c` but casted to NotFalsy<C> so there's no need of type guards in the body. Example:
-```
-<If c={type}>{type =>
-  <select multiple={true}>{names[type].map(c =>
-      <option value={c.id}>{c.label}</option>)}
-  </select>
-</If>
-```
-
-No error thrown on second line because parameter type is not falsy but keep the original type (excluding falsy values)
-
-Other example:
-
-```
-export class ErrorComponent extends React.Component<ErrorOptions> {
-  public render() {
-    return <div>
-      <If c={this.props.error}>{error =>
-        <React.Fragment>
-          <h2>Error</h2>
-          <If c={typeof error === 'string'}>{e =>
-            <h3>{e}</h3>}
-          </If>
-          <If c={typeof error === 'object'}>{e =>
-            <React.Fragment>
-              <h5>{error!.name}</h5>
-              <p>{error!.message}</p>
-              <If c={error.stack}>{e =>
-                <ul>
-                  {e.split('\n').map(e =>
-                    <li>{e}</li>)}
-                </ul>}
-              </If>
-            </React.Fragment>}
-          </If>
-          <If c={this.props.responseText}>{responseText =>
-            <iframe css={{ border: 0, width: '100%', height: '400px' }} srcDoc={responseText}>
-            </iframe>}
-          </If>
-        </React.Fragment>}
-      </If>
-    </div>
-  }
-}
-
-```
-*/
 
 function If(props) {
-  //TODO: issue in dom implementation, children is an array 
   var f = Array.isArray(props.children) ? props.children[0] : props.children;
   var c = props.c,
       p = props.p;
@@ -528,12 +464,7 @@ function checkThrow(r, msg) {
   return r;
 }
 
-exports.checkThrow = checkThrow; // export function tryTo<F extends (...args: any[]) => any>(f: F): ReturnType<F> | undefined {
-//   try {
-//     return f()
-//   } catch (error) {
-//   }
-// }
+exports.checkThrow = checkThrow;
 
 function array(n, sample) {
   var a = [];
@@ -722,14 +653,8 @@ var __extends = this && this.__extends || function () {
 ;
 
 var elementImpl_1 = require("./elementImpl");
-/**
- * A Class able to render() JSX. Similar to React.Component but only supporting properties, without state, context, ref, did/will methods, etc.
- */
 
-
-var ElementClass =
-/** @class */
-function () {
+var ElementClass = function () {
   function ElementClass(props) {
     this.props = props;
   }
@@ -755,9 +680,7 @@ function () {
 
 exports.ElementClass = ElementClass;
 
-var AbstractElementClass =
-/** @class */
-function (_super) {
+var AbstractElementClass = function (_super) {
   __extends(AbstractElementClass, _super);
 
   function AbstractElementClass() {
@@ -868,8 +791,7 @@ function createCreateElement(config) {
             element.setAttribute(name_1, value_1);
           } else {
             var code = functionAttributes === 'toString-this' ? "_this = __this__ = this; (" + value_1.toString() + ").apply(_this, arguments)" : value_1.toString();
-            var escaped = escapeAttributes ? escapeAttributes(code) : code;
-            element.setAttribute(name_1, escaped);
+            element.setAttribute(name_1, escapeAttributes ? escapeAttributes(code) : code);
           }
         } else if (value_1 !== false && value_1 != null) {
           if (name_1 === 'className') {
@@ -904,7 +826,6 @@ function createCreateElement(config) {
     }
 
     if (typeof tag === 'string') {
-      // don't render children for function or classes since they are responsible of render their own children
       children.filter(function (c) {
         return c;
       }).forEach(function (child) {
@@ -941,11 +862,9 @@ function createCreateElement(config) {
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
 },{"./elementImpl":"3p56"}],"TuGG":[function(require,module,exports) {
-; // import { AbstractJSXAlone as  } from './createElement';
+;
 
-var _1 = require("."); // export type Props = { children: Children }
-// TODO: like React.Fragment
-
+var _1 = require(".");
 
 exports.Fragment = function (props) {
   return _1.AbstractJSXAlone.createElement("span", null, props.children);
@@ -958,56 +877,8 @@ function Js(props) {
 }
 
 exports.Js = Js;
-/** if as statement. children need to be in a function and the function accepts a parameter which value is given condition `c` but casted to NotFalsy<C> so there's no need of type guards in the body. Example:
-```
-<If c={type}>{type =>
-  <select multiple={true}>{names[type].map(c =>
-      <option value={c.id}>{c.label}</option>)}
-  </select>
-</If>
-```
-
-No error thrown on second line because parameter type is not falsy but keep the original type (excluding falsy values)
-
-Other example:
-
-```
-export class ErrorComponent extends React.Component<ErrorOptions> {
-  public render() {
-    return <div>
-      <If c={this.props.error}>{error =>
-        <React.Fragment>
-          <h2>Error</h2>
-          <If c={typeof error === 'string'}>{e =>
-            <h3>{e}</h3>}
-          </If>
-          <If c={typeof error === 'object'}>{e =>
-            <React.Fragment>
-              <h5>{error!.name}</h5>
-              <p>{error!.message}</p>
-              <If c={error.stack}>{e =>
-                <ul>
-                  {e.split('\n').map(e =>
-                    <li>{e}</li>)}
-                </ul>}
-              </If>
-            </React.Fragment>}
-          </If>
-          <If c={this.props.responseText}>{responseText =>
-            <iframe css={{ border: 0, width: '100%', height: '400px' }} srcDoc={responseText}>
-            </iframe>}
-          </If>
-        </React.Fragment>}
-      </If>
-    </div>
-  }
-}
-
-```
-*/
 
 function If(props) {
-  //TODO: issue in dom implementation, children is an array 
   var f = Array.isArray(props.children) ? props.children[0] : props.children;
   var c = props.c,
       p = props.p;
@@ -1071,7 +942,7 @@ var __assign = (this && this.__assign) || function () {
 };
 ;
 var jsx_alone_core_1 = require("jsx-alone-core");
-var ElementLikeImpl = /** @class */ (function (_super) {
+var ElementLikeImpl = (function (_super) {
     __extends(ElementLikeImpl, _super);
     function ElementLikeImpl() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -1113,7 +984,7 @@ var ElementLikeImpl = /** @class */ (function (_super) {
     return ElementLikeImpl;
 }(jsx_alone_core_1.AbstractElementLike));
 exports.ElementLikeImpl = ElementLikeImpl;
-var TextNodeLikeImpl = /** @class */ (function (_super) {
+var TextNodeLikeImpl = (function (_super) {
     __extends(TextNodeLikeImpl, _super);
     function TextNodeLikeImpl() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -1129,12 +1000,11 @@ var TextNodeLikeImpl = /** @class */ (function (_super) {
     return TextNodeLikeImpl;
 }(jsx_alone_core_1.AbstractTextNodeLike));
 exports.TextNodeLikeImpl = TextNodeLikeImpl;
-var ElementClass = /** @class */ (function (_super) {
+var ElementClass = (function (_super) {
     __extends(ElementClass, _super);
     function ElementClass() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    /** element classes in DOM implementation will be given its container element. The default implementation just ignore this to keep it lightweight, but other implementations could overwrite this method */
     ElementClass.prototype.setContainerEl = function (el) { };
     return ElementClass;
 }(jsx_alone_core_1.ElementClass));
@@ -1148,14 +1018,12 @@ exports.createCreateElementConfig = {
     impl: elementImpl_1.ElementLikeImpl,
     textNodeImpl: elementImpl_1.TextNodeLikeImpl,
     functionAttributes: 'toString-this',
-    escapeAttributes: function (s) { return s.replace(/\"/gim, '&quot;'); }
 };
 var Module = {
     createElement: jsx_alone_core_1.createCreateElement(exports.createCreateElementConfig),
     render: function (el, config) {
         if (config === void 0) { config = {}; }
-        var elementLike = el;
-        return elementLike.render({ config: config });
+        return el.render(config);
     }
 };
 exports.JSXAlone = Module;
@@ -1229,9 +1097,7 @@ var impl_1 = require("../impl");
 
 var JSXAlone = impl_1.getJSXAlone();
 
-var App =
-/** @class */
-function (_super) {
+var App = function (_super) {
   __extends(App, _super);
 
   function App() {
@@ -1284,7 +1150,7 @@ var EditButton = function EditButton(props) {
   return JSXAlone.createElement("button", {
     "data-name": props.name,
     onClick: function onClick(e) {
-      alert(("\nNo context here that's why we need to do the following: \nName: \"" + e.currentTarget.getAttribute('data-name') + "\"\n").trim()); // debugger
+      alert(("\nNo context here that's why we need to do the following: \nName: \"" + e.currentTarget.getAttribute('data-name') + "\"\n").trim());
     }
   }, props.children);
 };
@@ -1342,14 +1208,12 @@ function renderApp(renderer, config) {
     config = model_2.MODEL_CONFIG;
   }
 
-  renderer_ = renderer; // buildModel
-
+  renderer_ = renderer;
   var buildModelT0 = Date.now();
   console.time('buildModel');
   var model = model_1.buildModel(config);
   var buildModelT = Date.now() - buildModelT0;
-  console.timeEnd('buildModel'); // createElement - declaring the JSX element here will end up in code calling JSXAlone.createElement
-
+  console.timeEnd('buildModel');
   var JSXAloneCreateElementT0 = Date.now();
   console.time('JSXAlone.createElement');
   var app = JSXAlone.createElement("div", {
@@ -1368,7 +1232,6 @@ exports.renderApp = renderApp;
 var renderer_;
 
 if (typeof window !== 'undefined') {
-  // (window as any).renderAppLotsOfPeople = renderApp
   window.renderAppLotsOfPeople = function (config) {
     return renderApp(renderer_, config);
   };
@@ -1417,14 +1280,8 @@ var __extends = this && this.__extends || function () {
 ;
 
 var elementImpl_1 = require("./elementImpl");
-/**
- * A Class able to render() JSX. Similar to React.Component but only supporting properties, without state, context, ref, did/will methods, etc.
- */
 
-
-var ElementClass =
-/** @class */
-function () {
+var ElementClass = function () {
   function ElementClass(props) {
     this.props = props;
   }
@@ -1450,9 +1307,7 @@ function () {
 
 exports.ElementClass = ElementClass;
 
-var AbstractElementClass =
-/** @class */
-function (_super) {
+var AbstractElementClass = function (_super) {
   __extends(AbstractElementClass, _super);
 
   function AbstractElementClass() {
@@ -1563,8 +1418,7 @@ function createCreateElement(config) {
             element.setAttribute(name_1, value_1);
           } else {
             var code = functionAttributes === 'toString-this' ? "_this = __this__ = this; (" + value_1.toString() + ").apply(_this, arguments)" : value_1.toString();
-            var escaped = escapeAttributes ? escapeAttributes(code) : code;
-            element.setAttribute(name_1, escaped);
+            element.setAttribute(name_1, escapeAttributes ? escapeAttributes(code) : code);
           }
         } else if (value_1 !== false && value_1 != null) {
           if (name_1 === 'className') {
@@ -1599,7 +1453,6 @@ function createCreateElement(config) {
     }
 
     if (typeof tag === 'string') {
-      // don't render children for function or classes since they are responsible of render their own children
       children.filter(function (c) {
         return c;
       }).forEach(function (child) {
@@ -1636,11 +1489,9 @@ function createCreateElement(config) {
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
 },{"./elementImpl":"3p56"}],"k98/":[function(require,module,exports) {
-; // import { AbstractJSXAlone as  } from './createElement';
+;
 
-var _1 = require("."); // export type Props = { children: Children }
-// TODO: like React.Fragment
-
+var _1 = require(".");
 
 exports.Fragment = function (props) {
   return _1.AbstractJSXAlone.createElement("span", null, props.children);
@@ -1653,56 +1504,8 @@ function Js(props) {
 }
 
 exports.Js = Js;
-/** if as statement. children need to be in a function and the function accepts a parameter which value is given condition `c` but casted to NotFalsy<C> so there's no need of type guards in the body. Example:
-```
-<If c={type}>{type =>
-  <select multiple={true}>{names[type].map(c =>
-      <option value={c.id}>{c.label}</option>)}
-  </select>
-</If>
-```
-
-No error thrown on second line because parameter type is not falsy but keep the original type (excluding falsy values)
-
-Other example:
-
-```
-export class ErrorComponent extends React.Component<ErrorOptions> {
-  public render() {
-    return <div>
-      <If c={this.props.error}>{error =>
-        <React.Fragment>
-          <h2>Error</h2>
-          <If c={typeof error === 'string'}>{e =>
-            <h3>{e}</h3>}
-          </If>
-          <If c={typeof error === 'object'}>{e =>
-            <React.Fragment>
-              <h5>{error!.name}</h5>
-              <p>{error!.message}</p>
-              <If c={error.stack}>{e =>
-                <ul>
-                  {e.split('\n').map(e =>
-                    <li>{e}</li>)}
-                </ul>}
-              </If>
-            </React.Fragment>}
-          </If>
-          <If c={this.props.responseText}>{responseText =>
-            <iframe css={{ border: 0, width: '100%', height: '400px' }} srcDoc={responseText}>
-            </iframe>}
-          </If>
-        </React.Fragment>}
-      </If>
-    </div>
-  }
-}
-
-```
-*/
 
 function If(props) {
-  //TODO: issue in dom implementation, children is an array 
   var f = Array.isArray(props.children) ? props.children[0] : props.children;
   var c = props.c,
       p = props.p;
@@ -1766,7 +1569,7 @@ var __assign = (this && this.__assign) || function () {
 };
 ;
 var jsx_alone_core_1 = require("jsx-alone-core");
-var ElementLikeImpl = /** @class */ (function (_super) {
+var ElementLikeImpl = (function (_super) {
     __extends(ElementLikeImpl, _super);
     function ElementLikeImpl() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -1808,7 +1611,7 @@ var ElementLikeImpl = /** @class */ (function (_super) {
     return ElementLikeImpl;
 }(jsx_alone_core_1.AbstractElementLike));
 exports.ElementLikeImpl = ElementLikeImpl;
-var TextNodeLikeImpl = /** @class */ (function (_super) {
+var TextNodeLikeImpl = (function (_super) {
     __extends(TextNodeLikeImpl, _super);
     function TextNodeLikeImpl() {
         return _super !== null && _super.apply(this, arguments) || this;
@@ -1824,12 +1627,11 @@ var TextNodeLikeImpl = /** @class */ (function (_super) {
     return TextNodeLikeImpl;
 }(jsx_alone_core_1.AbstractTextNodeLike));
 exports.TextNodeLikeImpl = TextNodeLikeImpl;
-var ElementClass = /** @class */ (function (_super) {
+var ElementClass = (function (_super) {
     __extends(ElementClass, _super);
     function ElementClass() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    /** element classes in DOM implementation will be given its container element. The default implementation just ignore this to keep it lightweight, but other implementations could overwrite this method */
     ElementClass.prototype.setContainerEl = function (el) { };
     return ElementClass;
 }(jsx_alone_core_1.ElementClass));
@@ -1843,14 +1645,12 @@ exports.createCreateElementConfig = {
     impl: elementImpl_1.ElementLikeImpl,
     textNodeImpl: elementImpl_1.TextNodeLikeImpl,
     functionAttributes: 'toString-this',
-    escapeAttributes: function (s) { return s.replace(/\"/gim, '&quot;'); }
 };
 var Module = {
     createElement: jsx_alone_core_1.createCreateElement(exports.createCreateElementConfig),
     render: function (el, config) {
         if (config === void 0) { config = {}; }
-        var elementLike = el;
-        return elementLike.render({ config: config });
+        return el.render(config);
     }
 };
 exports.JSXAlone = Module;
@@ -1893,14 +1693,8 @@ var __extends = this && this.__extends || function () {
 ;
 
 var elementImpl_1 = require("./elementImpl");
-/**
- * A Class able to render() JSX. Similar to React.Component but only supporting properties, without state, context, ref, did/will methods, etc.
- */
 
-
-var ElementClass =
-/** @class */
-function () {
+var ElementClass = function () {
   function ElementClass(props) {
     this.props = props;
   }
@@ -1926,9 +1720,7 @@ function () {
 
 exports.ElementClass = ElementClass;
 
-var AbstractElementClass =
-/** @class */
-function (_super) {
+var AbstractElementClass = function (_super) {
   __extends(AbstractElementClass, _super);
 
   function AbstractElementClass() {
@@ -2039,8 +1831,7 @@ function createCreateElement(config) {
             element.setAttribute(name_1, value_1);
           } else {
             var code = functionAttributes === 'toString-this' ? "_this = __this__ = this; (" + value_1.toString() + ").apply(_this, arguments)" : value_1.toString();
-            var escaped = escapeAttributes ? escapeAttributes(code) : code;
-            element.setAttribute(name_1, escaped);
+            element.setAttribute(name_1, escapeAttributes ? escapeAttributes(code) : code);
           }
         } else if (value_1 !== false && value_1 != null) {
           if (name_1 === 'className') {
@@ -2075,7 +1866,6 @@ function createCreateElement(config) {
     }
 
     if (typeof tag === 'string') {
-      // don't render children for function or classes since they are responsible of render their own children
       children.filter(function (c) {
         return c;
       }).forEach(function (child) {
@@ -2112,11 +1902,9 @@ function createCreateElement(config) {
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
 },{"./elementImpl":"3p56"}],"h+Y6":[function(require,module,exports) {
-; // import { AbstractJSXAlone as  } from './createElement';
+;
 
-var _1 = require("."); // export type Props = { children: Children }
-// TODO: like React.Fragment
-
+var _1 = require(".");
 
 exports.Fragment = function (props) {
   return _1.AbstractJSXAlone.createElement("span", null, props.children);
@@ -2129,56 +1917,8 @@ function Js(props) {
 }
 
 exports.Js = Js;
-/** if as statement. children need to be in a function and the function accepts a parameter which value is given condition `c` but casted to NotFalsy<C> so there's no need of type guards in the body. Example:
-```
-<If c={type}>{type =>
-  <select multiple={true}>{names[type].map(c =>
-      <option value={c.id}>{c.label}</option>)}
-  </select>
-</If>
-```
-
-No error thrown on second line because parameter type is not falsy but keep the original type (excluding falsy values)
-
-Other example:
-
-```
-export class ErrorComponent extends React.Component<ErrorOptions> {
-  public render() {
-    return <div>
-      <If c={this.props.error}>{error =>
-        <React.Fragment>
-          <h2>Error</h2>
-          <If c={typeof error === 'string'}>{e =>
-            <h3>{e}</h3>}
-          </If>
-          <If c={typeof error === 'object'}>{e =>
-            <React.Fragment>
-              <h5>{error!.name}</h5>
-              <p>{error!.message}</p>
-              <If c={error.stack}>{e =>
-                <ul>
-                  {e.split('\n').map(e =>
-                    <li>{e}</li>)}
-                </ul>}
-              </If>
-            </React.Fragment>}
-          </If>
-          <If c={this.props.responseText}>{responseText =>
-            <iframe css={{ border: 0, width: '100%', height: '400px' }} srcDoc={responseText}>
-            </iframe>}
-          </If>
-        </React.Fragment>}
-      </If>
-    </div>
-  }
-}
-
-```
-*/
 
 function If(props) {
-  //TODO: issue in dom implementation, children is an array 
   var f = Array.isArray(props.children) ? props.children[0] : props.children;
   var c = props.c,
       p = props.p;

@@ -10,7 +10,7 @@ import { RenderOutput } from './createElement';
 export class ElementLikeImpl extends AbstractElementLike<RenderOutput> {
   private _innerHtml: string | undefined
  
-  render(config: ElementLikeImplRenderConfig = {}): RenderOutput {
+  render(config: ElementLikeImplRenderConfig<ElementLikeImpl> = {}): RenderOutput {
     const el = document.createElement(this.tag)
     Object.keys(this.attrs).forEach(attribute => {
       const value = this.attrs[attribute]
@@ -27,7 +27,7 @@ export class ElementLikeImpl extends AbstractElementLike<RenderOutput> {
     }
     this.children.forEach(c => {
       if(!config.handleChildRender || !config.handleChildRender({config, parent: el, child: c, elementLike: this})){
-        c.render({ ...config, parent: el })
+        (c as ElementLikeImpl).render({ ...config, parent: el })
       }
     })
     if (config.parent) {
