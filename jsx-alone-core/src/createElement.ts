@@ -35,53 +35,77 @@ export function createCreateElement<T, R extends ElementLike<T>=ElementLike<T>>(
     if (onElementCreate) {
       onElementCreate({ elementLike: element, elementClassInstance })
     }
-    for (let name in attrs) {
-      if (name && attrs.hasOwnProperty(name)) {
-        let value: any = attrs[name]
-        if (typeof value === 'boolean') {
-          if (value === true) {
-            element.setAttribute(name, name)
-          }
-        } else if (typeof value === 'function') {
+
+    // for (let name in attrs) {
+      Object.keys(attrs||{}).forEach(name=> {
+        const value = attrs[name]
+      // if (name && attrs.hasOwnProperty(name)) {
+        // let value: any = attrs[name]
+        const type = typeof value
+        if(type==='string' || type==='number'){
+          element.setAttribute(name, value+'')
+        }
+        else if (type === 'function') {
           if (!functionAttributes || functionAttributes === 'preserve') {
             element.setAttribute(name, value)
-          } else {
+          } 
+          else {
             const code =
               functionAttributes === 'toString-this'
                 ? `_this = __this__ = this; (${value.toString()}).apply(_this, arguments)`
                 : value.toString()
             element.setAttribute(name,  escapeAttributes ? escapeAttributes(code) : code)
           }
-        } else if (value !== false && value != null) {
-          if (name === 'className') {
-            if (typeof value === 'string') {
-              element.setAttribute('class', value)
-            } else if (Array.isArray(value) && value.length && typeof value[0] === 'string') {
-              element.setAttribute('class', value.join(' '))
-            } else {
-              debug(`unrecognized className value ${typeof value} ${value}`)
-            }
-          } else {
-            element.setAttribute(name, value.toString())
-          }
-        } else if (typeof value === 'object') {
-          if (name === 'style') {
-            element.setAttribute(
-              'style',
-              `${Object.keys(value)
-                .map(p => `${p}: ${value[p]}`)
-                .join('; ')}`
-            )
-          } else if (name === 'dangerouslySetInnerHTML' && value && typeof value.__html === 'string') {
-            element.dangerouslySetInnerHTML(value.__html)
-          } else {
-            debug(`unrecognized object attribute "${name}" - the only object attribute supported is "style"`)
-          }
-        } else {
-          debug(`unrecognized attribute "${name}" with type ${typeof value}`)
         }
-      }
-    }
+        else if(value===false){
+          // do nothing
+        }
+        else if(value===true) {
+          element.setAttribute(name, name)
+        }
+        // if (typeof value === 'boolean') {
+        //   if (value === true) {
+        //     element.setAttribute(name, name)
+        //   }
+        // }
+        // else
+        // else if (name === 'className') {
+          // if (name === 'className') {
+            // if (typeof value === 'string') {
+              // element.setAttribute('class', Array.isArray(value) ? value.join(' ') : value+'')
+            // } else if (Array.isArray(value) && value.length && typeof value[0] === 'string') {
+              // element.setAttribute('class', value.join(' '))
+            // } else {
+              // debug(`unrecognized className value ${typeof value} ${value}`)
+            // }
+          // } else {
+          //   element.setAttribute(name, value.toString())
+          // }
+        // }
+        // else if (typeof value === 'object') {
+          // if (name === 'style') { // TODO: performance - in DOM we dont need this - we directly assign the object  this is only neededd for string
+            // element.setAttribute(
+            //   'style',
+             
+            // )
+          // } 
+          else if (name === 'dangerouslySetInnerHTML' && value) {
+            element.dangerouslySetInnerHTML(value.__html)
+          }
+          else {
+            element.setAttribute(name, value)
+          }
+          // else {
+          //   debug(`unrecognized object attribute "${name}" - the only object attribute supported is "style"`)
+          // }
+        // } else {
+        //   debug(`unrecognized attribute "${name}" with type ${typeof value}`)
+        // }
+      // }
+    // }
+  })
+
+
     if (typeof tag === 'string') {
       // don't render children for function or classes since they are responsible of render their own children
       children

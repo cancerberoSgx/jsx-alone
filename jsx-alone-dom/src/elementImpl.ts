@@ -15,21 +15,29 @@ export class ElementLikeImpl extends AbstractElementLike<RenderOutput> {
     Object.keys(this.attrs).forEach(attribute => {
       const value = this.attrs[attribute]
       if(!config.handleAttribute||!config.handleAttribute({config, el, attribute, value, elementLike: this})){
-        if (typeof value === 'function') {
-            el.setAttribute(attribute, value.toString())
-          }   else {
-          el.setAttribute(attribute, value + '')
+
+        if(attribute==='className'){
+          attribute='class'
         }
+
+        // if (typeof value === 'function') {
+        //     el.setAttribute(attribute, value.toString())
+        //   }   
+        //   else {
+          el.setAttribute(attribute, value)
+        // }
       }      
     })
     if (this._innerHtml) {
       el.innerHTML = this._innerHtml
     }
-    this.children.forEach(c => {
-      if(!config.handleChildRender || !config.handleChildRender({config, parent: el, child: c, elementLike: this})){
-        (c as ElementLikeImpl).render({ ...config, parent: el })
-      }
-    })
+    else {
+      this.children.forEach(c => {
+        if(!config.handleChildRender || !config.handleChildRender({config, parent: el, child: c, elementLike: this})){
+          (c as ElementLikeImpl).render({ ...config, parent: el })
+        }
+      })
+    }
     if (config.parent) {
       config.parent.appendChild(el)
     }

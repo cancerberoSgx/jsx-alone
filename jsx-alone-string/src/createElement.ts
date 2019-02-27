@@ -5,8 +5,8 @@ import { ElementLikeImpl, TextNodeLikeImpl } from './elementImpl';
 const createCreateElementConfig: CreateCreateElementConfig<string, ElementLikeImpl> = {
   impl: ElementLikeImpl,
   textNodeImpl: TextNodeLikeImpl, 
-  functionAttributes: 'toString-this',
-  escapeAttributes: (s: string)=>s.replace(/\"/gim, '&quot;')
+  functionAttributes: 'toString',
+  // escapeAttributes: (s: string)=>s.replace(/\"/gim, '&quot;')
 }
 
 const Module = {

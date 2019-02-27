@@ -2,6 +2,7 @@ import { JSXAlone } from '..'
 import { test } from './testUtil'
 
 describe('intrinsic elements', () => {
+  
   test({
     label: 'should render element without children',
     e: <div />,
@@ -10,6 +11,7 @@ describe('intrinsic elements', () => {
   
 </div>`
   })
+
   test({
     label: 'should render text child',
     e: <p>hello1</p>,
@@ -18,6 +20,7 @@ describe('intrinsic elements', () => {
   hello1
 </p>`
   })
+
   test({
     label: 'should render text children',
     e: <p>hello world how are you</p>,
@@ -26,6 +29,13 @@ describe('intrinsic elements', () => {
   hello world how are you
 </p>`
   })
+
+  test({
+    label: 'className attribute is class and should escape attributes "',
+    e: <p className={'wr"on"g'}>"sd"</p>,
+    expected: `<p class=\"wr&quot;on&quot;g\">\"sd\"</p>`,
+  })
+
   test({
     label: 'should render element children on any depth',
     e: (

@@ -15,13 +15,31 @@ export class ElementLikeImpl extends AbstractElementLike<string> implements Elem
         .map(c => `${(c as ElementLikeImpl).render({ ...config, indentLevel: (config.indentLevel || 0) + 1 })}`)
         .join('')}${newLine}${indent(config)}`
     return `<${this.tag}${Object.keys(this.attrs)
-      .map(a => ` ${a}="${this.attrs[a]}"`)
+      .map(a => ` ${printHtmlAttribute(a, this.attrs[a])}`)
       .join('')}>${content}</${this.tag}>`
   }
 
   dangerouslySetInnerHTML(s: string): void {
     this.innerHtml = s
   }
+}
+
+function printHtmlAttribute(a:string, value:any){
+  // let r:string|undefined
+  if(a==='style'){
+    value =  `${Object.keys(value)
+      .map(p => `${p}: ${value[p]}`)
+      .join('; ')}`
+    }
+    else if(a==='className'){
+      a='class'
+    }
+    // else {
+    //   value=value+''
+    // }
+    //TODO: should we escape the value ?
+    value=value.replace(/\"/gim, '&quot;') //replace(/\"/g, '\\"')
+  return `${a}="${value}"`
 }
 
 export class TextNodeLikeImpl extends AbstractTextNodeLike<string> implements TextNodeLike {
