@@ -105,9 +105,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   // Override the current require with this new one
   return newRequire;
 })({"Urqt":[function(require,module,exports) {
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+;
 
 function isJSXAloneComponent(c) {
   return c.prototype && c.prototype.render;
@@ -197,9 +195,7 @@ var __extends = this && this.__extends || function () {
   };
 }();
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+;
 
 var elementImpl_1 = require("./elementImpl");
 /**
@@ -267,9 +263,7 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+;
 
 var elementImpl_1 = require("./elementImpl");
 
@@ -423,9 +417,7 @@ function createCreateElement(config) {
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
 },{"./elementImpl":"Urqt"}],"h+Y6":[function(require,module,exports) {
-Object.defineProperty(exports, "__esModule", {
-  value: true
-}); // import { AbstractJSXAlone as  } from './createElement';
+; // import { AbstractJSXAlone as  } from './createElement';
 
 var _1 = require("."); // export type Props = { children: Children }
 // TODO: like React.Fragment
@@ -522,9 +514,7 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+;
 
 function checkThrow(r, msg) {
   if (msg === void 0) {
@@ -633,9 +623,7 @@ function __export(m) {
   }
 }
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+;
 
 __export(require("./elementImpl"));
 
@@ -678,9 +666,7 @@ var __extends = this && this.__extends || function () {
   };
 }();
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+;
 
 var elementImpl_1 = require("./elementImpl");
 /**
@@ -748,9 +734,7 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+;
 
 var elementImpl_1 = require("./elementImpl");
 
@@ -904,9 +888,7 @@ function createCreateElement(config) {
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
 },{"./elementImpl":"Urqt"}],"k98/":[function(require,module,exports) {
-Object.defineProperty(exports, "__esModule", {
-  value: true
-}); // import { AbstractJSXAlone as  } from './createElement';
+; // import { AbstractJSXAlone as  } from './createElement';
 
 var _1 = require("."); // export type Props = { children: Children }
 // TODO: like React.Fragment
@@ -993,9 +975,7 @@ function __export(m) {
   }
 }
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+;
 
 __export(require("./elementImpl"));
 
@@ -1036,7 +1016,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+;
 var jsx_alone_core_1 = require("jsx-alone-core");
 var ElementLikeImpl = /** @class */ (function (_super) {
     __extends(ElementLikeImpl, _super);
@@ -1108,7 +1088,7 @@ var ElementClass = /** @class */ (function (_super) {
 exports.ElementClass = ElementClass;
 
 },{"jsx-alone-core":"BB47"}],"S0OW":[function(require,module,exports) {
-Object.defineProperty(exports, "__esModule", { value: true });
+;
 var jsx_alone_core_1 = require("jsx-alone-core");
 var elementImpl_1 = require("./elementImpl");
 exports.createCreateElementConfig = {
@@ -1131,7 +1111,7 @@ exports.JSXAlone = Module;
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+;
 __export(require("./createElement"));
 __export(require("./elementImpl"));
 

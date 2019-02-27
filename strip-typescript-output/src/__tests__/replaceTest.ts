@@ -12,3 +12,5 @@ describe('replace', () => {
     // exports.__esModule = true;`
   })
 })
+//TODO
+// rototype&&t.prototype.render}function e(t){return r(t)||n(t)}function n(t){return t&&t.setAttribute}function r(t){return t&&t.cont

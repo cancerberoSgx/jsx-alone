@@ -3,5 +3,10 @@
   "compilerOptions": {
     "target": "es5",
     "lib": ["es5", "dom"],
+    "inlineSourceMap": false,
+    "removeComments": true,
+    "alwaysStrict": false,
+    "esModuleInterop": false,
+    "noImplicitUseStrict": true,  
   }
 }

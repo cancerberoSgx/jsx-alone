@@ -123,9 +123,7 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+,
 
 function array(n, sample) {
   var a = [];
@@ -162,7 +160,7 @@ function printMs(ms, config) {
 exports.printMs = printMs;
 },{}],"+IjQ":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 function randomIntBetween(a, b) {
     return Math.floor(Math.random() * b) + a;
 }
@@ -174,7 +172,7 @@ exports.randomItem = randomItem;
 
 },{}],"GIpK":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 exports.firstNames = [
     "William",
     "Jack",
@@ -380,7 +378,7 @@ exports.firstNames = [
 
 },{}],"63kX":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 exports.lastNames = [
     "Smith",
     "Jones",
@@ -672,7 +670,7 @@ exports.lastNames = [
 
 },{}],"Cs+a":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 const util_1 = require("../util");
 const firstNames_1 = require("./firstNames");
 const lastNames_1 = require("./lastNames");
@@ -687,7 +685,7 @@ exports.names = {
 
 },{"../util":"+IjQ","./firstNames":"GIpK","./lastNames":"63kX"}],"6NJ8":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 const util_1 = require("./util");
 exports.numbers = {
     integer(min, max) {
@@ -697,7 +695,7 @@ exports.numbers = {
 
 },{"./util":"+IjQ"}],"6Y+3":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 var names_1 = require("./names");
 exports.names = names_1.names;
 var numbers_1 = require("./numbers");
@@ -706,9 +704,7 @@ exports.numbers = numbers_1.numbers;
 },{"./names":"Cs+a","./numbers":"6NJ8"}],"45O1":[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+,
 
 var util_1 = require("../util");
 
@@ -743,7 +739,7 @@ function makePeople(config) {
 }
 },{"../util":"/5mC","misc-utils-of-mine-random-data":"6Y+3"}],"+2od":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 // export function flatDeep<T = any>(arr1: T[][] | T[]): T[] {
 //   return (arr1 as any[]).reduce((acc, val) => (Array.isArray(val) ? acc.concat(flatDeep(val)) : acc.concat(val)), [])
 // }
@@ -762,7 +758,7 @@ exports.flatReadOnly = flatReadOnly;
 
 },{}],"PTjC":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 function array(n, sample) {
     const a = [];
     for (let i = 0; i < n; i++) {
@@ -797,7 +793,7 @@ exports.seq = seq;
 
 },{}],"vHoL":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 function arrayPrototypeFind(a, predicate, thisArg) {
     for (let i = 0; i < a.length; i++) {
         const v = a[i];
@@ -820,14 +816,14 @@ exports.installArrayPrototypeFind = installArrayPrototypeFind;
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 __export(require("./flat"));
 __export(require("./array"));
 __export(require("./prototypeFind"));
 
 },{"./flat":"+2od","./array":"PTjC","./prototypeFind":"vHoL"}],"Jo5K":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 function changeText(text, toInsert) {
     let s = text.split('');
     let indexIncr = 0;
@@ -843,7 +839,7 @@ exports.changeText = changeText;
 
 },{}],"dKNz":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 function getPreviousMatchingPos(text, pos, condition) {
     pos = text.length <= pos ? text.length : pos;
     if (typeof condition === 'string') {
@@ -865,7 +861,7 @@ exports.getPreviousMatchingPos = getPreviousMatchingPos;
 
 },{}],"YTm+":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 function quote(s, q = '"') {
     return q + s.replace(new RegExp(q, 'g'), '\\' + q) + q;
 }
@@ -873,7 +869,7 @@ exports.quote = quote;
 
 },{}],"wN23":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 /** try to parse given json string. return undefined in case there is an error. */
 function parseJSON(s, defaultValue) {
     try {
@@ -894,7 +890,7 @@ exports.clone = clone;
 
 },{}],"mBGu":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 function shorter(text, much = 10) {
     return text.trim().substring(0, Math.min(text.length, much)) + '...';
 }
@@ -902,7 +898,7 @@ exports.shorter = shorter;
 
 },{}],"QVJl":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 function escapeHtmlAttribute(code) {
     return code.replace(/\"/gmi, '&quot;');
 }
@@ -917,7 +913,7 @@ exports.unEscapeHtmlAttribute = unEscapeHtmlAttribute;
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 const array_1 = require("../array");
 __export(require("./changeText"));
 __export(require("./getPreviousMatchingPos"));
@@ -944,7 +940,7 @@ exports.removeWhites = removeWhites;
 
 },{"../array":"3GSJ","./changeText":"Jo5K","./getPreviousMatchingPos":"dKNz","./quote":"YTm+","./json":"wN23","./shorter":"mBGu","./html":"QVJl"}],"oHCM":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 let _unique = 0;
 function unique(prefix = '_') {
     return prefix + _unique++;
@@ -976,7 +972,7 @@ exports.tryTo = tryTo;
 
 },{}],"MN8/":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 function formatDate(date, format) {
     if (typeof date === 'string') { // happens when serializing dates to json for testing
         date = new Date(date);
@@ -1010,7 +1006,7 @@ exports.formatDateTime = formatDateTime;
 
 },{}],"1aZv":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 function printMs(ms, config = { minutes: false, seconds: true, ms: true }) {
     config = Object.assign({ minutes: false, seconds: true, ms: true }, config);
     const seconds = config.seconds && Math.floor(ms / 1000);
@@ -1022,7 +1018,7 @@ exports.printMs = printMs;
 
 },{}],"ix8C":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 function sleep(ms) {
     return new Promise(resolve => {
         setTimeout(() => {
@@ -1045,7 +1041,7 @@ exports.withTime = withTime;
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 __export(require("./formatDate"));
 __export(require("./printMs"));
 __export(require("./time"));
@@ -1055,7 +1051,7 @@ __export(require("./time"));
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 __export(require("./string"));
 __export(require("./array"));
 __export(require("./misc"));
@@ -1064,9 +1060,7 @@ __export(require("./time"));
 },{"./string":"uyIU","./array":"3GSJ","./misc":"oHCM","./time":"t3aM"}],"3p56":[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+,
 
 var misc_utils_of_mine_generic_1 = require("misc-utils-of-mine-generic");
 
@@ -1218,9 +1212,7 @@ var __extends = this && this.__extends || function () {
   };
 }();
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+,
 
 var elementImpl_1 = require("./elementImpl");
 /**
@@ -1290,9 +1282,7 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+,
 
 var elementImpl_1 = require("./elementImpl");
 
@@ -1413,9 +1403,7 @@ exports.AbstractJSXAlone = null;
 },{"./elementImpl":"3p56"}],"URgR":[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-}); // import { AbstractJSXAlone as  } from './createElement';
+, // import { AbstractJSXAlone as  } from './createElement';
 
 var _1 = require("."); // export type Props = { children: Children }
 // TODO: like React.Fragment
@@ -1504,9 +1492,7 @@ function __export(m) {
   }
 }
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+,
 
 __export(require("./elementImpl"));
 
@@ -1525,7 +1511,7 @@ __export(require("./misc"));
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 __export(require("./flat"));
 __export(require("./array"));
 __export(require("./prototypeFind"));
@@ -1535,7 +1521,7 @@ __export(require("./prototypeFind"));
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 const array_1 = require("../array");
 __export(require("./changeText"));
 __export(require("./getPreviousMatchingPos"));
@@ -1565,7 +1551,7 @@ exports.removeWhites = removeWhites;
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 __export(require("./formatDate"));
 __export(require("./printMs"));
 __export(require("./time"));
@@ -1575,7 +1561,7 @@ __export(require("./time"));
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 __export(require("./string"));
 __export(require("./array"));
 __export(require("./misc"));
@@ -1584,9 +1570,7 @@ __export(require("./time"));
 },{"./string":"mWoT","./array":"C/Rc","./misc":"oHCM","./time":"NfZW"}],"D56h":[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+,
 
 var misc_utils_of_mine_generic_1 = require("misc-utils-of-mine-generic");
 
@@ -1738,9 +1722,7 @@ var __extends = this && this.__extends || function () {
   };
 }();
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+,
 
 var elementImpl_1 = require("./elementImpl");
 /**
@@ -1810,9 +1792,7 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+,
 
 var elementImpl_1 = require("./elementImpl");
 
@@ -1933,9 +1913,7 @@ exports.AbstractJSXAlone = null;
 },{"./elementImpl":"D56h"}],"TiN9":[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-}); // import { AbstractJSXAlone as  } from './createElement';
+, // import { AbstractJSXAlone as  } from './createElement';
 
 var _1 = require("."); // export type Props = { children: Children }
 // TODO: like React.Fragment
@@ -2024,9 +2002,7 @@ function __export(m) {
   }
 }
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+,
 
 __export(require("./elementImpl"));
 
@@ -2042,12 +2018,12 @@ exports.AbstractElementLike = elementImpl_1.AbstractElementLike;
 __export(require("./misc"));
 },{"./elementImpl":"D56h","./elementClass":"LbiZ","./createElement":"TYq4","./misc":"TiN9"}],"xhWP":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 exports.defaultRenderConfig = { indentLevel: 0, indentTabSize: 2 };
 
 },{}],"CLcs":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 function indent(config) {
     var L = (config.indentLevel || 0) * (config.indentTabSize || 0);
     var a = [];
@@ -2084,7 +2060,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 var jsx_alone_core_1 = require("jsx-alone-core");
 var config_1 = require("./config");
 var util_1 = require("./util");
@@ -2137,7 +2113,7 @@ exports.ElementClass = ElementClass;
 
 },{"jsx-alone-core":"kF9h","./config":"xhWP","./util":"CLcs"}],"zyVy":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 var jsx_alone_core_1 = require("jsx-alone-core");
 var config_1 = require("./config");
 var elementImpl_1 = require("./elementImpl");
@@ -2160,7 +2136,7 @@ exports.JSXAlone = Module;
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 __export(require("./flat"));
 __export(require("./array"));
 __export(require("./prototypeFind"));
@@ -2170,7 +2146,7 @@ __export(require("./prototypeFind"));
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 const array_1 = require("../array");
 __export(require("./changeText"));
 __export(require("./getPreviousMatchingPos"));
@@ -2200,7 +2176,7 @@ exports.removeWhites = removeWhites;
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 __export(require("./formatDate"));
 __export(require("./printMs"));
 __export(require("./time"));
@@ -2210,7 +2186,7 @@ __export(require("./time"));
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 __export(require("./string"));
 __export(require("./array"));
 __export(require("./misc"));
@@ -2218,7 +2194,7 @@ __export(require("./time"));
 
 },{"./string":"Yw14","./array":"9ujb","./misc":"oHCM","./time":"iToV"}],"AP0d":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 var misc_utils_of_mine_generic_1 = require("misc-utils-of-mine-generic");
 var createElement_1 = require("./createElement");
 /** Render the <style> tag with all classes and styles inside. Usage example:
@@ -2274,7 +2250,7 @@ exports.Styles = Styles;
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 __export(require("./createElement"));
 __export(require("./Style"));
 var elementImpl_1 = require("./elementImpl");
@@ -2283,9 +2259,7 @@ exports.ElementClass = elementImpl_1.ElementClass;
 },{"./createElement":"zyVy","./Style":"AP0d","./elementImpl":"/cDs"}],"JVGL":[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+,
 
 var jsx_alone_string_1 = require("jsx-alone-string");
 
@@ -2339,9 +2313,7 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+,
 
 var jsx_alone_core_1 = require("jsx-alone-core");
 
@@ -2447,9 +2419,7 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+,
 
 var model_1 = require("./model");
 
@@ -2505,9 +2475,7 @@ function __export(m) {
   }
 }
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+,
 
 var renderApp_1 = require("./lotsOfPeople/renderApp");
 
@@ -2519,7 +2487,7 @@ __export(require("./util"));
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 __export(require("./flat"));
 __export(require("./array"));
 __export(require("./prototypeFind"));
@@ -2529,7 +2497,7 @@ __export(require("./prototypeFind"));
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 const array_1 = require("../array");
 __export(require("./changeText"));
 __export(require("./getPreviousMatchingPos"));
@@ -2559,7 +2527,7 @@ exports.removeWhites = removeWhites;
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 __export(require("./formatDate"));
 __export(require("./printMs"));
 __export(require("./time"));
@@ -2569,7 +2537,7 @@ __export(require("./time"));
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 __export(require("./string"));
 __export(require("./array"));
 __export(require("./misc"));
@@ -2578,9 +2546,7 @@ __export(require("./time"));
 },{"./string":"KX5j","./array":"RQYH","./misc":"oHCM","./time":"fliG"}],"TgJL":[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+,
 
 var misc_utils_of_mine_generic_1 = require("misc-utils-of-mine-generic");
 
@@ -2732,9 +2698,7 @@ var __extends = this && this.__extends || function () {
   };
 }();
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+,
 
 var elementImpl_1 = require("./elementImpl");
 /**
@@ -2804,9 +2768,7 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+,
 
 var elementImpl_1 = require("./elementImpl");
 
@@ -2927,9 +2889,7 @@ exports.AbstractJSXAlone = null;
 },{"./elementImpl":"TgJL"}],"TXrL":[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-}); // import { AbstractJSXAlone as  } from './createElement';
+, // import { AbstractJSXAlone as  } from './createElement';
 
 var _1 = require("."); // export type Props = { children: Children }
 // TODO: like React.Fragment
@@ -3018,9 +2978,7 @@ function __export(m) {
   }
 }
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+,
 
 __export(require("./elementImpl"));
 
@@ -3060,7 +3018,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 var jsx_alone_core_1 = require("jsx-alone-core");
 var config_1 = require("./config");
 var util_1 = require("./util");
@@ -3113,7 +3071,7 @@ exports.ElementClass = ElementClass;
 
 },{"jsx-alone-core":"HpCL","./config":"xhWP","./util":"CLcs"}],"PHuq":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 var jsx_alone_core_1 = require("jsx-alone-core");
 var config_1 = require("./config");
 var elementImpl_1 = require("./elementImpl");
@@ -3136,7 +3094,7 @@ exports.JSXAlone = Module;
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 __export(require("./flat"));
 __export(require("./array"));
 __export(require("./prototypeFind"));
@@ -3146,7 +3104,7 @@ __export(require("./prototypeFind"));
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 const array_1 = require("../array");
 __export(require("./changeText"));
 __export(require("./getPreviousMatchingPos"));
@@ -3176,7 +3134,7 @@ exports.removeWhites = removeWhites;
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 __export(require("./formatDate"));
 __export(require("./printMs"));
 __export(require("./time"));
@@ -3186,7 +3144,7 @@ __export(require("./time"));
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 __export(require("./string"));
 __export(require("./array"));
 __export(require("./misc"));
@@ -3194,7 +3152,7 @@ __export(require("./time"));
 
 },{"./string":"m49I","./array":"RGsG","./misc":"oHCM","./time":"XQI1"}],"V5o3":[function(require,module,exports) {
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 var misc_utils_of_mine_generic_1 = require("misc-utils-of-mine-generic");
 var createElement_1 = require("./createElement");
 /** Render the <style> tag with all classes and styles inside. Usage example:
@@ -3250,7 +3208,7 @@ exports.Styles = Styles;
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+,
 __export(require("./createElement"));
 __export(require("./Style"));
 var elementImpl_1 = require("./elementImpl");
@@ -3259,9 +3217,7 @@ exports.ElementClass = elementImpl_1.ElementClass;
 },{"./createElement":"PHuq","./Style":"V5o3","./elementImpl":"Y5I1"}],"wdqJ":[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+,
 
 var jsx_alone_sample_project_code_1 = require("jsx-alone-sample-project-code");
 

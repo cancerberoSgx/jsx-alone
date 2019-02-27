@@ -2,7 +2,7 @@
   "name": "jsx-alone",
   "version": "1.0.0",
   "private": true,
-  "description": "monorepo containing suitecommerce types for different areas.",
+  "description": "render JSX without React or similar libraries, as strings server side or as DOM elements in the browser.",
   "main": "index.js",
   "scripts": {
     "build": "tsc --build --force common/tsconfig-composite.json",
@@ -10,7 +10,7 @@
     "clean": "npx yamat run npm run clean",
     "cleanPackageLock": "npx yamat run \"rm -rf package-lock.json\"",
     "test": "npx yamat run npm test",
-    "docs": "npx yamat run npm run docs",
+    "docs": "npx yamat run npm run docs && npx strip-typescript-output --input docs/**/*.js ",
     "all": "npm run clean && npm run build && npm test",
     "yamat-link": "npx yamat link && npm run cleanPackageLock && npx yamat run npm i && npm run build",
     "yamat-unlink-pack": "npx yamat unlink --version pack && npm run cleanPackageLock && npx yamat run npm i && npm run build",
@@ -38,8 +38,5 @@
     "yamat": "^0.1.1"
   },
   "dependencies": {
-    "misc-utils-of-mine-generic": "file:../misc-utils-of-mine/misc-utils-of-mine-generic",
-    "misc-utils-of-mine-typescript": "file:../misc-utils-of-mine/misc-utils-of-mine-typescript",
-    "stripTsEsModuleInterop": "file:stripTsEsModuleInterop"
   }
 }

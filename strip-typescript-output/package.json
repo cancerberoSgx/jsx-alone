@@ -40,12 +40,7 @@
     "url": "git+https://github.com/cancerberoSgx/jsx-alone.git"
   },
   "keywords": [
-    "without react",
-    "TypeScript",
-    "JavaScript",
-    "JSX",
-    "TSX",
-    "React"
+    "TypeScript"
   ],
   "jest": {
     "preset": "ts-jest"
