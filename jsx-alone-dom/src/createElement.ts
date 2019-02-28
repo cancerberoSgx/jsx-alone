@@ -5,12 +5,13 @@ import { RefObjectImpl, setRef } from './Refs';
 
 function buildJSXALone(): JSXAloneType<RenderOutput, ElementLike> {
 
+  let callId = 1
   const Module: JSXAloneType<RenderOutput, ElementLike> = {
 
     createElement: createCreateElement<RenderOutput, ElementLike>(getCreateCreateElementConfig()),
 
     render(el, config) {
-      return (el as any as ElementLike).render({ ...config, rootElementLike: el as any as ElementLike })
+      return (el as any as ElementLike).render({ ...config, rootElementLike: el as any as ElementLike, renderCallId: callId++ })
     },
     
     createRef<T extends Element & IElementClass>(): RefObject<T> {
@@ -21,7 +22,8 @@ function buildJSXALone(): JSXAloneType<RenderOutput, ElementLike> {
   return Module
 }
 
-type RenderFunction<RenderOutput, R extends ElementLike=ElementLike> = (el: JSX.Element, config?: ElementLikeImplRenderConfigNoRoot<R>) => RenderOutput
+type RenderFunction<OO extends RenderOutput=RenderOutput, R extends ElementLike=ElementLike> = (el: JSX.Element, config?: ElementLikeImplRenderConfigNoRoot<R>) => OO
+
 type JSXAloneType<T extends RenderOutput = RenderOutput, R extends ElementLike = ElementLike> = {
   render: RenderFunction<T, R>
   createElement: CreateElementFunction<T, R>

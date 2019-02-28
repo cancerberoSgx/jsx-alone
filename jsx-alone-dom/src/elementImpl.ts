@@ -79,6 +79,7 @@ export abstract class ElementClass<P = {}> extends AbstractElementClass<P> imple
     this.containerEl = el
   }
 }
+
 function isSvgTag(t: string) {
   const r = new RegExp(`^${t}$`, 'i')
   return SvgTags.some(name => r.test(name))

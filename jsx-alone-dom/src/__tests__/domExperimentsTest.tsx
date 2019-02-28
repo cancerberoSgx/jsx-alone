@@ -1,3 +1,9 @@
+import { JSXAlone } from '..'
+import { ElementClass } from '../elementImpl';
+import { query, render } from './testUtil';
+import { markElement } from "../mark";
+import { RootEventManager } from '../events';
+
 describe('can I query elements that are not attached to the DOM?', () => {
 
   var d = document.createElement('div')
@@ -20,6 +26,7 @@ describe('can I query elements that are not attached to the DOM?', () => {
   })
 
   it('inlined event handlers are NOT removed when element is unattached automatically', () => {
+   
     var d = document.createElement('div')
     document.body.appendChild(d)
     const b = document.createElement('button')
@@ -44,4 +51,6 @@ describe('can I query elements that are not attached to the DOM?', () => {
     b.click()
     expect(b.getAttribute('data-value')).toBe("2")
   })
+
 })
+

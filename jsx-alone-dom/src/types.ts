@@ -14,16 +14,10 @@ export type RenderOutput = HTMLElement | Text
 export interface ElementLikeImplRenderConfigNoRoot<R extends ElementLike = ElementLike> extends RenderConfig<RenderOutput, R> {
   parent?: Node
   appendChildrenInDocumentFragment?: boolean
-  // handleAttribute? (options: HandleAttributeOptions<R>):boolean
-  // handleChildRender?(options: {config: ElementLikeImplRenderConfig<R>, parent: HTMLElement, child: NodeLike , elementLike: R}):boolean
-  // handleAfterRender?(options: {config: ElementLikeImplRenderConfig<R>, el: HTMLElement, elementLike: R }):boolean
 }
 export interface ElementLikeImplRenderConfig<R extends ElementLike = ElementLike> extends ElementLikeImplRenderConfigNoRoot< R> {
-  // parent?: HTMLElement
+  renderCallId:number
   rootElementLike: ElementLike
-  // handleAttribute? (options: HandleAttributeOptions<R>):boolean
-  // handleChildRender?(options: {config: ElementLikeImplRenderConfig<R>, parent: HTMLElement, child: NodeLike , elementLike: R}):boolean
-  // handleAfterRender?(options: {config: ElementLikeImplRenderConfig<R>, el: HTMLElement, elementLike: R }):boolean
 }
 
 export interface HandleAttributeOptions<R extends ElementLike = ElementLike>{
@@ -34,5 +28,4 @@ export interface IElementClass<P = {}> extends ICoreElementClass<P>{
   containerEl: HTMLElement |undefined
   /** element classes in DOM implementation will be given its container element.  */
   setContainerEl(el: HTMLElement):void
-  // __addRef<T extends IElementClass&Element>({el, value, elementLike}: {el: HTMLElement, value:RefObject<T>, elementLike: ElementLike}):void
 }

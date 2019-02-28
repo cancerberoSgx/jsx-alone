@@ -5,15 +5,9 @@ import { test } from './testUtil'
 describe('element class', () => {
   class C extends ElementClass<{ people: { name: string; age: number }[] }> {
     render() {
-      return (
-        <ul>
-          {this.props.people.map(p => (
-            <li>
-              {p.name} has half of {Math.trunc(p.age / 2)} years old
-            </li>
-          ))}
-        </ul>
-      )
+      return <ul>{this.props.people.map(p =>
+        <li>{p.name} has half of {Math.trunc(p.age / 2)} years old</li>
+      )}</ul>
     }
   }
   test({
