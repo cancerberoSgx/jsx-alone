@@ -1,4 +1,4 @@
-import { DummyImpl as JSXAlone, ElementClass, OutputEl } from './DummyImpl'
+import { JSXAloneJsonImpl as JSXAlone, JsonImplElementClass, } from '../JsonImpl'
 describe('DummyImpl', () => {
 
   it('intrinsic', () => {
@@ -16,7 +16,7 @@ describe('DummyImpl', () => {
 
 
   describe('element class', () => {
-    class C extends ElementClass<{ people: { name: string; age: number }[] }> {
+    class C extends JsonImplElementClass<{ people: { name: string; age: number }[] }> {
       render() {
         return (
           <ul>

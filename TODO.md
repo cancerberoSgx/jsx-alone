@@ -41,3 +41,5 @@
 
 
  * performance: for text we use document.createTextNode(this.content) - maybe is faster to use insertAdjacentText ? 
+
+ * write an app (with DOM impl) that is like an AST viewer for JSX - based on DummyImpl

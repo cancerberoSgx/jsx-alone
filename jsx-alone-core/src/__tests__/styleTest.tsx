@@ -1,4 +1,4 @@
-import { DummyImpl as JSXAlone, ElementClass, OutputEl } from './DummyImpl'
+import { JSXAloneJsonImpl as JSXAlone } from '../JsonImpl'
 import { ClassRule, Styles, Style, installJSXAloneAsGlobal } from '..'
 
 installJSXAloneAsGlobal(JSXAlone)
