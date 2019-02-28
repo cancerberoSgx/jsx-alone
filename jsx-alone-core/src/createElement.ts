@@ -37,7 +37,7 @@ export function createCreateElement<T, R extends ElementLike<T>=ElementLike<T>>(
     if (onElementCreate) {
       onElementCreate({ elementLike: element, elementClassInstance, attrs })
     }
-    attrs = tagIsString ? attrs : {}//(isClassElementClass(tag)&&!attrs.ref) ?{ref: attrs.ref}: attrs 
+    attrs = tagIsString ? attrs : {}
 
     Object.keys(attrs).forEach(name => {
       const value = attrs[name]

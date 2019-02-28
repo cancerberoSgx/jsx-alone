@@ -12,6 +12,7 @@ function buildJSXALone(): JSXAloneType<RenderOutput, ElementLike> {
     render(el, config) {
       return (el as any as ElementLike).render({ ...config, rootElementLike: el as any as ElementLike })
     },
+    
     createRef<T extends Element & IElementClass>(): RefObject<T> {
       return new RefObjectImpl<T>()
     }
@@ -19,28 +20,6 @@ function buildJSXALone(): JSXAloneType<RenderOutput, ElementLike> {
   }
   return Module
 }
-
-// function createExtraConfig(rootElementLike: ElementLike) {
-//   const c: ElementLikeImplRenderConfig = {
-    // handleAfterRender({ el, elementLike }: { el: HTMLElement; elementLike: ElementLike }) {
-    //   const elementClassWithContainer = elementLike._elementClassInstance || rootElementLike._elementClassInstance
-    //     if (elementLike.ref) {
-    //       // console.log('elementLike.ref', elementLike.ref, elementClassWithContainer && elementClassWithContainer.setContainerEl);
-    //       // if (elementLike.ref) {
-    //         // elementClassWithContainer.__addRef({ elementLike, el, value: elementLike.ref })
-    //       // }
-    //       setRef({ elementLike, el, value: elementLike.ref as RefObjectImpl<any> })
-    //     }
-    //   if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
-    //     elementClassWithContainer.setContainerEl(el)
-        
-    //   }
-    //   return true
-    // }
-
-  // }
-  // return c
-// }
 
 type RenderFunction<RenderOutput, R extends ElementLike=ElementLike> = (el: JSX.Element, config?: ElementLikeImplRenderConfigNoRoot<R>) => RenderOutput
 type JSXAloneType<T extends RenderOutput = RenderOutput, R extends ElementLike = ElementLike> = {

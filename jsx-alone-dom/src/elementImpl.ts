@@ -1,5 +1,5 @@
-import { AbstractElementLike, AbstractTextNodeLike, ElementClass as AbstractElementClass, printStyleHtmlAttribute, RefObject, Fragment } from 'jsx-alone-core';
-import { markElement, RefObjectImpl, setRef } from './Refs';
+import { AbstractElementLike, AbstractTextNodeLike, ElementClass as AbstractElementClass, printStyleHtmlAttribute, RefObject } from 'jsx-alone-core';
+import { RefObjectImpl, setRef } from './Refs';
 import { ElementLike, ElementLikeImplRenderConfig, IElementClass, RenderOutput } from './types';
 
 export class ElementLikeImpl<T extends ElementClass=ElementClass> extends AbstractElementLike<RenderOutput> implements ElementLike<T> {
@@ -18,7 +18,6 @@ export class ElementLikeImpl<T extends ElementClass=ElementClass> extends Abstra
 
     Object.keys(this.attrs).forEach(attribute => {
       const value = this.attrs[attribute]
-      // if (!config.handleAttribute || !config.handleAttribute({ config, el, attribute, value, elementLike: this })) {
       if (attribute === 'className') {
         el.setAttribute('class', value)
       }
@@ -31,14 +30,12 @@ export class ElementLikeImpl<T extends ElementClass=ElementClass> extends Abstra
       else {
         el.setAttribute(attribute, value)
       }
-      // }
     })
     if (this._innerHtml) {
       el.innerHTML = this._innerHtml
     }
     else {
       const parent: Node = config.appendChildrenInDocumentFragment ? document.createDocumentFragment() : el
-      // const fragment = document.createDocumentFragment()
       this.children.forEach(c => {
         c.render({ ...config, parent })
       })
