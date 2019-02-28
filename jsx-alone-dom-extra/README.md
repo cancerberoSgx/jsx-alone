@@ -25,33 +25,59 @@ This research is mostly about how to implement Component state , in different wa
 npm install jsx-alone-dom-extra
 ```
 
+## Extras
+
+WARNING - **Not ready for production yet**
+
+So jsx-alone-dom and jsx-alone-string take care of rendering JSX and are as small, fast and simple as possible with some APIs to hook in and extend they behavior. 
+
+For that reason, advanced features such as function attributes, (like `onClick` event handlers), have very limited support in both. This is why, `extra` packages, like `jsx-dom-extra`, provide these features that, although they are cool, add some overhead both in code size and render speed.
+
+`jsx-alone-dom-extra` package has support for cool features like function attributes and stateful components (WIP):
 
 ```jsx
-import { JSXAlone, ElementClass } from 'jsx-alone-dom'
-
-// example function element
-const TaskPageLink = props => 
-  <a href={`pages/tasks/${props.task}_small.html`}>{props.children}</a>
-
-// example class element that uses previous TaskPageLink element
-class App extends ElementClass {
+import { JSXAlone, StatefulElementClass } from 'jsx-alone-dom-extra'
+interface RepeaterP {
+  value: string
+}
+class Repeater extends StatefulElementClass<RepeaterP, RepeaterP> {
   render() {
-    return (
-      <article>
-        <h3>Welcome {this.props.name}!</h3>
-        <p>These are your tasks:</p>
-        <ul>
-          {this.props.tasks.map(task => (
-            <li>
-              <TaskPageLink task={task}>{task}</TaskPageLink>
-            </li>
-          ))}
-        </ul>
-      </article>
-    )
+    return <div className="Repeater">
+      Write something:
+      <input value={this.state.value} onKeyUp={e => {
+          this.setState({ value: e.currentTarget.value })
+        }}/>
+      <div>
+        Will be repeated: <span>{this.state.value}</span>
+      </div>
+    </div>    
   }
 }
-
+interface P {
+  people: {
+    name: string
+  }[]
+}
+class App extends StatefulElementClass<P, P> {
+  render() {
+    return  <div className="App">
+      <button id="add" onClick={e => this.setState({ people: 
+        [...this.state.people, { name: 'random name ' + Math.random() }] })}>          
+        add</button>
+      <ul>
+        {this.state.people.map(p => (
+          <li data-id={p.name}>
+            <Repeater value={p.name} />
+            <button className="remove" onClick={e => {
+                this.setState({ people: this.state.people.filter(p2 => p2.name !== p.name) })
+              }}
+            > remove </button>
+          </li>
+        ))}
+      </ul>
+    </div>    
+  }
+}
 // render the App and append the generated element to body
 const tasks = ['Wash dishes', 'Go outside', 'Play soccer']
 const app = <App name="John Doe" tasks={tasks} />
@@ -59,6 +85,7 @@ const el = JSXAlone.render(app)
 document.body.appendChild(el)
 ```
 
+[See it in action (DOM implementation)](https://cancerberosgx.github.io/jsx-alone/jsx-alone-dom-extra/statefulElementClassTestMain/index-min.html)
 
 ## State implementations
 
