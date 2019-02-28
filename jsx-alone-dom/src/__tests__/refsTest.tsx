@@ -25,17 +25,19 @@ describe('refs', () => {
       </div>
     }
   }
-  it('simple', () => {
-    render(<App name="seba" />)
+  beforeEach(() => 
+  render(<App name="seba" />))
 
+  it('should work on HTMLElement', () => {
     expect(query('#app #input').getAttribute('value')).toBe('initial')
     query('#app #changeInput').click()
     expect(query('#app #input').getAttribute('value')).toBe('changed_0')
+  })
 
-
+  it('should work on element classes', () => {
     expect(query('#app .box').textContent).toBe('seba')
     query('#app #changeBox').click()
-    expect(query('#app .box').textContent).toBe('changed_1')
+    expect(query('#app .box').textContent).toBe('changed_0')
   })
 
 })

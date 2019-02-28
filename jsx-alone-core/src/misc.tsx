@@ -78,3 +78,9 @@ type NotFalsy<C=any> = Exclude<C, Falsy>
 type Falsy = null | '' | undefined | false
 function isNotFalsy<T>(a: T): a is NotFalsy<T> { return !!a }
 
+export function getGlobal():any{
+  return (typeof window==='undefined' && typeof document==='undefined') ? global : window
+}
+export function installJSXAloneAsGlobal(i: typeof JSXAlone){
+  getGlobal()['JSXAlone']=i
+}

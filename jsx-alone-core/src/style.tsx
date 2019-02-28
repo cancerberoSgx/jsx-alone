@@ -1,8 +1,6 @@
-import {indent as indentImpl} from 'jsx-alone-core'
+import {  indent as indentImpl,  AbstractJSXAlone } from '.'
 
-import { JSXAlone } from './createElement'
-import { ElementLikeImplRenderConfig } from './config';
-
+declare const JSXAlone: typeof AbstractJSXAlone
 
 /** Render the <style> tag with all classes and styles inside. Usage example: 
 ```
@@ -36,6 +34,8 @@ export const Style = (props: StyleProps) => {
     }
     return s;
   }
+  // return new AbstractElementLike()
+
   return <style>{Object.keys(props.classes).map(c =>
     `${indent(1)}.${c}${(props.classes[c] && props.classes[c].selectorPostfix ? props.classes[c].selectorPostfix : '')} {${Object.keys(props.classes[c]).filter(p=>p!=='selectorPostfix').map(p =>`
 ${indent(2)}${fixProperty(p)}: ${props.classes[c][p as any]};`
@@ -59,5 +59,5 @@ export function Styles<T extends { [k: string]: ClassRule }>(styles: T): { style
 export type ClassRule = Partial<CSSStyleDeclaration> & { selectorPostfix?: string }
 interface StyleProps {
   classes: { [name: string]: ClassRule },
-  renderConfig?: ElementLikeImplRenderConfig
+  renderConfig?: {indent?: number}
 }
