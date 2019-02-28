@@ -1,13 +1,13 @@
-import { AbstractElementLike, AbstractTextNodeLike, ElementClass as AbstractElementClass, printStyleHtmlAttribute } from 'jsx-alone-core';
-import { markElement, RefObjectImpl } from './Refs';
+import { AbstractElementLike, AbstractTextNodeLike, ElementClass as AbstractElementClass, printStyleHtmlAttribute, RefObject } from 'jsx-alone-core';
+import { markElement, RefObjectImpl, setRef } from './Refs';
 import { ElementLike, ElementLikeImplRenderConfig, IElementClass, RenderOutput } from './types';
 
 export class ElementLikeImpl<T extends ElementClass=ElementClass> extends AbstractElementLike<RenderOutput> implements ElementLike<T> {
   private _innerHtml: string | undefined
-
+  ref?: RefObject<IElementClass&Element>
   _elementClassInstance: T | undefined
 
-  render(config: ElementLikeImplRenderConfig<ElementLikeImpl> = {}): RenderOutput {
+  render(config: ElementLikeImplRenderConfig<ElementLikeImpl>): RenderOutput {
     // TODO: support hook for createElement (is SVG document.createElementNS('http://www.w3.org/2000/svg', tagName))
 
     //TODO: create documentFragment and put el and all the children inside:     const fragment = createFragmentFrom(children)    element.appendChild(fragment)
@@ -18,7 +18,7 @@ export class ElementLikeImpl<T extends ElementClass=ElementClass> extends Abstra
 
     Object.keys(this.attrs).forEach(attribute => {
       const value = this.attrs[attribute]
-      if (!config.handleAttribute || !config.handleAttribute({ config, el, attribute, value, elementLike: this })) {
+      // if (!config.handleAttribute || !config.handleAttribute({ config, el, attribute, value, elementLike: this })) {
         if (attribute === 'className') {
           el.setAttribute('class', value)
         }
@@ -31,24 +31,37 @@ export class ElementLikeImpl<T extends ElementClass=ElementClass> extends Abstra
         else {
           el.setAttribute(attribute, value)
         }
-      }
+      // }
     })
     if (this._innerHtml) {
       el.innerHTML = this._innerHtml
     }
     else {
       this.children.forEach(c => {
-        if (!config.handleChildRender || !config.handleChildRender({ config, parent: el, child: c, elementLike: this })) {
+        // if (!config.handleChildRender || !config.handleChildRender({ config, parent: el, child: c, elementLike: this })) {
           (c as ElementLikeImpl).render({ ...config, parent: el })
-        }
+        // }
       })
     }
     if (config.parent) {
       config.parent.appendChild(el)
     }
-    if (config.handleAfterRender) {
-      config.handleAfterRender({ config, el, elementLike: this })
-    }
+    // if (config.handleAfterRender) {
+      // config.handleAfterRender({ config, el, elementLike: this })
+    // }
+
+    const elementClassWithContainer = this._elementClassInstance || config.rootElementLike._elementClassInstance
+        if (this.ref) {
+          // console.log('elementLike.ref', elementLike.ref, elementClassWithContainer && elementClassWithContainer.setContainerEl);
+          // if (elementLike.ref) {
+            // elementClassWithContainer.__addRef({ elementLike, el, value: elementLike.ref })
+          // }
+          setRef({elementLike:  this as any, el, value: this.ref as RefObjectImpl<any> })
+        }
+      if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
+        elementClassWithContainer.setContainerEl(el)
+        
+      }
     return el
   }
 
@@ -59,7 +72,7 @@ export class ElementLikeImpl<T extends ElementClass=ElementClass> extends Abstra
 }
 
 export class TextNodeLikeImpl extends AbstractTextNodeLike<RenderOutput> {
-  render(config: ElementLikeImplRenderConfig = {}): RenderOutput {
+  render(config: ElementLikeImplRenderConfig ): RenderOutput {
     const text = document.createTextNode(this.content)
     if (config.parent) {
       config.parent.appendChild(text)

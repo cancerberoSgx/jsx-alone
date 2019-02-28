@@ -107,3 +107,17 @@ Component state implementation by biding state properties with DOM elements and 
 (Idea)
 
 Similar to DestructiveDomRenderComponent, but uses the string implementation. Has some hacks for maintain current focus. 
+
+## The problem of removeEventListener / Component state and life cycle
+
+ * all state implementations will need an api to dispose an elementclass
+ * the first need is to callremoveEventListener on nodes that need to be detached
+ * introduce a new API destroy() (or componentWill/Did/Mount) - impls will have the change to call removeEventListener now or scheduled in the future
+
+### solution 1
+
+ * elementclass have a collection of refs to those nodes that were addEventListener (if nor user's then we automatically create it)
+
+### solution 2
+
+ * simlar to previouw but in a centraliced Manager independent of elementclass 

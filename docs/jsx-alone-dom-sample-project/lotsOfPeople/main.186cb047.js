@@ -563,7 +563,133 @@ function Styles(styles) {
 }
 
 exports.Styles = Styles;
-},{".":"USgY"}],"USgY":[function(require,module,exports) {
+},{".":"USgY"}],"enXX":[function(require,module,exports) {
+var __extends = this && this.__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+;
+
+var _1 = require("./");
+
+var createElement_1 = require("./createElement");
+
+var elementClass_1 = require("./elementClass");
+
+var JsonImplElementLikeImpl = function (_super) {
+  __extends(JsonImplElementLikeImpl, _super);
+
+  function JsonImplElementLikeImpl() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  JsonImplElementLikeImpl.prototype.render = function (config) {
+    if (config === void 0) {
+      config = {};
+    }
+
+    return {
+      tag: this.tag,
+      innerHtml: this.innerHtml,
+      attrs: this.attrs,
+      children: this.children.map(function (c) {
+        return __assign({}, c, {
+          parentElement: undefined
+        });
+      })
+    };
+  };
+
+  JsonImplElementLikeImpl.prototype.dangerouslySetInnerHTML = function (s) {
+    this.innerHtml = s;
+  };
+
+  return JsonImplElementLikeImpl;
+}(_1.AbstractElementLike);
+
+exports.JsonImplElementLikeImpl = JsonImplElementLikeImpl;
+
+var JsonImplTextNodeLikeImpl = function (_super) {
+  __extends(JsonImplTextNodeLikeImpl, _super);
+
+  function JsonImplTextNodeLikeImpl() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  JsonImplTextNodeLikeImpl.prototype.render = function (config) {
+    return {
+      content: this.content
+    };
+  };
+
+  return JsonImplTextNodeLikeImpl;
+}(_1.AbstractTextNodeLike);
+
+exports.JsonImplTextNodeLikeImpl = JsonImplTextNodeLikeImpl;
+
+var JsonImplElementClass = function (_super) {
+  __extends(JsonImplElementClass, _super);
+
+  function JsonImplElementClass() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  return JsonImplElementClass;
+}(elementClass_1.AbstractElementClass);
+
+exports.JsonImplElementClass = JsonImplElementClass;
+exports.JSXAloneJsonImpl = {
+  createElement: createElement_1.createCreateElement({
+    impl: JsonImplElementLikeImpl,
+    textNodeImpl: JsonImplTextNodeLikeImpl
+  }),
+  render: function render(el, config) {
+    if (config === void 0) {
+      config = {};
+    }
+
+    return el.render(config);
+  }
+};
+},{"./":"USgY","./createElement":"rCe5","./elementClass":"+nOU"}],"USgY":[function(require,module,exports) {
 function __export(m) {
   for (var p in m) {
     if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -588,7 +714,9 @@ __export(require("./misc"));
 __export(require("./util"));
 
 __export(require("./style"));
-},{"./elementImpl":"3p56","./elementClass":"+nOU","./createElement":"rCe5","./misc":"URgR","./util":"8yB0","./style":"SgzN"}],"/5mC":[function(require,module,exports) {
+
+__export(require("./JsonImpl"));
+},{"./elementImpl":"3p56","./elementClass":"+nOU","./createElement":"rCe5","./misc":"URgR","./util":"8yB0","./style":"SgzN","./JsonImpl":"enXX"}],"/5mC":[function(require,module,exports) {
 ;
 
 var jsx_alone_core_1 = require("jsx-alone-core");
@@ -1061,7 +1189,133 @@ function Styles(styles) {
 }
 
 exports.Styles = Styles;
-},{".":"BB47"}],"BB47":[function(require,module,exports) {
+},{".":"BB47"}],"WOpK":[function(require,module,exports) {
+var __extends = this && this.__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+;
+
+var _1 = require("./");
+
+var createElement_1 = require("./createElement");
+
+var elementClass_1 = require("./elementClass");
+
+var JsonImplElementLikeImpl = function (_super) {
+  __extends(JsonImplElementLikeImpl, _super);
+
+  function JsonImplElementLikeImpl() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  JsonImplElementLikeImpl.prototype.render = function (config) {
+    if (config === void 0) {
+      config = {};
+    }
+
+    return {
+      tag: this.tag,
+      innerHtml: this.innerHtml,
+      attrs: this.attrs,
+      children: this.children.map(function (c) {
+        return __assign({}, c, {
+          parentElement: undefined
+        });
+      })
+    };
+  };
+
+  JsonImplElementLikeImpl.prototype.dangerouslySetInnerHTML = function (s) {
+    this.innerHtml = s;
+  };
+
+  return JsonImplElementLikeImpl;
+}(_1.AbstractElementLike);
+
+exports.JsonImplElementLikeImpl = JsonImplElementLikeImpl;
+
+var JsonImplTextNodeLikeImpl = function (_super) {
+  __extends(JsonImplTextNodeLikeImpl, _super);
+
+  function JsonImplTextNodeLikeImpl() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  JsonImplTextNodeLikeImpl.prototype.render = function (config) {
+    return {
+      content: this.content
+    };
+  };
+
+  return JsonImplTextNodeLikeImpl;
+}(_1.AbstractTextNodeLike);
+
+exports.JsonImplTextNodeLikeImpl = JsonImplTextNodeLikeImpl;
+
+var JsonImplElementClass = function (_super) {
+  __extends(JsonImplElementClass, _super);
+
+  function JsonImplElementClass() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  return JsonImplElementClass;
+}(elementClass_1.AbstractElementClass);
+
+exports.JsonImplElementClass = JsonImplElementClass;
+exports.JSXAloneJsonImpl = {
+  createElement: createElement_1.createCreateElement({
+    impl: JsonImplElementLikeImpl,
+    textNodeImpl: JsonImplTextNodeLikeImpl
+  }),
+  render: function render(el, config) {
+    if (config === void 0) {
+      config = {};
+    }
+
+    return el.render(config);
+  }
+};
+},{"./":"BB47","./createElement":"fbNL","./elementClass":"+nOU"}],"BB47":[function(require,module,exports) {
 function __export(m) {
   for (var p in m) {
     if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -1086,7 +1340,9 @@ __export(require("./misc"));
 __export(require("./util"));
 
 __export(require("./style"));
-},{"./elementImpl":"3p56","./elementClass":"+nOU","./createElement":"fbNL","./misc":"k98/","./util":"8yB0","./style":"Grpd"}],"uJT8":[function(require,module,exports) {
+
+__export(require("./JsonImpl"));
+},{"./elementImpl":"3p56","./elementClass":"+nOU","./createElement":"fbNL","./misc":"k98/","./util":"8yB0","./style":"Grpd","./JsonImpl":"WOpK"}],"uJT8":[function(require,module,exports) {
 ;
 var jsx_alone_core_1 = require("jsx-alone-core");
 var RefObjectImpl = (function () {
@@ -1103,6 +1359,11 @@ var RefObjectImpl = (function () {
     return RefObjectImpl;
 }());
 exports.RefObjectImpl = RefObjectImpl;
+function setRef(_a) {
+    var el = _a.el, value = _a.value, elementLike = _a.elementLike;
+    value._current = elementLike._elementClassInstance || markElement(el);
+}
+exports.setRef = setRef;
 function markElement(e, label) {
     if (label === void 0) { label = '_jsxa_'; }
     var key = e.getAttribute("data-" + label);
@@ -1160,25 +1421,22 @@ var ElementLikeImpl = (function (_super) {
     }
     ElementLikeImpl.prototype.render = function (config) {
         var _this = this;
-        if (config === void 0) { config = {}; }
         var el = isSvgTag(this.tag)
             ? document.createElementNS('http://www.w3.org/2000/svg', this.tag)
             : document.createElement(this.tag);
         Object.keys(this.attrs).forEach(function (attribute) {
             var value = _this.attrs[attribute];
-            if (!config.handleAttribute || !config.handleAttribute({ config: config, el: el, attribute: attribute, value: value, elementLike: _this })) {
-                if (attribute === 'className') {
-                    el.setAttribute('class', value);
-                }
-                else if (attribute === 'style') {
-                    el.setAttribute('style', jsx_alone_core_1.printStyleHtmlAttribute(value));
-                }
-                else if (typeof value === 'function') {
-                    el.addEventListener(attribute.replace(/^on/, '').toLowerCase(), value.bind(_this));
-                }
-                else {
-                    el.setAttribute(attribute, value);
-                }
+            if (attribute === 'className') {
+                el.setAttribute('class', value);
+            }
+            else if (attribute === 'style') {
+                el.setAttribute('style', jsx_alone_core_1.printStyleHtmlAttribute(value));
+            }
+            else if (typeof value === 'function') {
+                el.addEventListener(attribute.replace(/^on/, '').toLowerCase(), value.bind(_this));
+            }
+            else {
+                el.setAttribute(attribute, value);
             }
         });
         if (this._innerHtml) {
@@ -1186,16 +1444,18 @@ var ElementLikeImpl = (function (_super) {
         }
         else {
             this.children.forEach(function (c) {
-                if (!config.handleChildRender || !config.handleChildRender({ config: config, parent: el, child: c, elementLike: _this })) {
-                    c.render(__assign({}, config, { parent: el }));
-                }
+                c.render(__assign({}, config, { parent: el }));
             });
         }
         if (config.parent) {
             config.parent.appendChild(el);
         }
-        if (config.handleAfterRender) {
-            config.handleAfterRender({ config: config, el: el, elementLike: this });
+        var elementClassWithContainer = this._elementClassInstance || config.rootElementLike._elementClassInstance;
+        if (this.ref) {
+            Refs_1.setRef({ elementLike: this, el: el, value: this.ref });
+        }
+        if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
+            elementClassWithContainer.setContainerEl(el);
         }
         return el;
     };
@@ -1211,7 +1471,6 @@ var TextNodeLikeImpl = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     TextNodeLikeImpl.prototype.render = function (config) {
-        if (config === void 0) { config = {}; }
         var text = document.createTextNode(this.content);
         if (config.parent) {
             config.parent.appendChild(text);
@@ -1228,10 +1487,6 @@ var ElementClass = (function (_super) {
     }
     ElementClass.prototype.setContainerEl = function (el) {
         this.containerEl = el;
-    };
-    ElementClass.prototype.__addRef = function (_a) {
-        var el = _a.el, value = _a.value, elementLike = _a.elementLike;
-        value._current = elementLike._elementClassInstance || Refs_1.markElement(el);
     };
     return ElementClass;
 }(jsx_alone_core_1.ElementClass));
@@ -1262,30 +1517,13 @@ function buildJSXALone() {
     var Module = {
         createElement: jsx_alone_core_1.createCreateElement(getCreateCreateElementConfig()),
         render: function (el, config) {
-            if (config === void 0) { config = {}; }
-            return el.render(__assign({}, config, createExtraConfig(el)));
+            return el.render(__assign({}, config, { rootElementLike: el }));
         },
         createRef: function () {
             return new Refs_1.RefObjectImpl();
         }
     };
     return Module;
-}
-function createExtraConfig(rootElementLike) {
-    var c = {
-        handleAfterRender: function (_a) {
-            var el = _a.el, elementLike = _a.elementLike;
-            var elementClassWithContainer = elementLike._elementClassInstance || rootElementLike._elementClassInstance;
-            if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
-                elementClassWithContainer.setContainerEl(el);
-                if (elementLike.ref) {
-                    elementClassWithContainer.__addRef({ elementLike: elementLike, el: el, value: elementLike.ref });
-                }
-            }
-            return true;
-        }
-    };
-    return c;
 }
 var createCreateElementConfig;
 function getCreateCreateElementConfig() {
@@ -1531,7 +1769,133 @@ function Styles(styles) {
 }
 
 exports.Styles = Styles;
-},{".":"6FnY"}],"6FnY":[function(require,module,exports) {
+},{".":"6FnY"}],"UvR+":[function(require,module,exports) {
+var __extends = this && this.__extends || function () {
+  var _extendStatics = function extendStatics(d, b) {
+    _extendStatics = Object.setPrototypeOf || {
+      __proto__: []
+    } instanceof Array && function (d, b) {
+      d.__proto__ = b;
+    } || function (d, b) {
+      for (var p in b) {
+        if (b.hasOwnProperty(p)) d[p] = b[p];
+      }
+    };
+
+    return _extendStatics(d, b);
+  };
+
+  return function (d, b) {
+    _extendStatics(d, b);
+
+    function __() {
+      this.constructor = d;
+    }
+
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+  };
+}();
+
+var __assign = this && this.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
+;
+
+var _1 = require("./");
+
+var createElement_1 = require("./createElement");
+
+var elementClass_1 = require("./elementClass");
+
+var JsonImplElementLikeImpl = function (_super) {
+  __extends(JsonImplElementLikeImpl, _super);
+
+  function JsonImplElementLikeImpl() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  JsonImplElementLikeImpl.prototype.render = function (config) {
+    if (config === void 0) {
+      config = {};
+    }
+
+    return {
+      tag: this.tag,
+      innerHtml: this.innerHtml,
+      attrs: this.attrs,
+      children: this.children.map(function (c) {
+        return __assign({}, c, {
+          parentElement: undefined
+        });
+      })
+    };
+  };
+
+  JsonImplElementLikeImpl.prototype.dangerouslySetInnerHTML = function (s) {
+    this.innerHtml = s;
+  };
+
+  return JsonImplElementLikeImpl;
+}(_1.AbstractElementLike);
+
+exports.JsonImplElementLikeImpl = JsonImplElementLikeImpl;
+
+var JsonImplTextNodeLikeImpl = function (_super) {
+  __extends(JsonImplTextNodeLikeImpl, _super);
+
+  function JsonImplTextNodeLikeImpl() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  JsonImplTextNodeLikeImpl.prototype.render = function (config) {
+    return {
+      content: this.content
+    };
+  };
+
+  return JsonImplTextNodeLikeImpl;
+}(_1.AbstractTextNodeLike);
+
+exports.JsonImplTextNodeLikeImpl = JsonImplTextNodeLikeImpl;
+
+var JsonImplElementClass = function (_super) {
+  __extends(JsonImplElementClass, _super);
+
+  function JsonImplElementClass() {
+    return _super !== null && _super.apply(this, arguments) || this;
+  }
+
+  return JsonImplElementClass;
+}(elementClass_1.AbstractElementClass);
+
+exports.JsonImplElementClass = JsonImplElementClass;
+exports.JSXAloneJsonImpl = {
+  createElement: createElement_1.createCreateElement({
+    impl: JsonImplElementLikeImpl,
+    textNodeImpl: JsonImplTextNodeLikeImpl
+  }),
+  render: function render(el, config) {
+    if (config === void 0) {
+      config = {};
+    }
+
+    return el.render(config);
+  }
+};
+},{"./":"6FnY","./createElement":"Nzec","./elementClass":"+nOU"}],"6FnY":[function(require,module,exports) {
 function __export(m) {
   for (var p in m) {
     if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -1556,7 +1920,9 @@ __export(require("./misc"));
 __export(require("./util"));
 
 __export(require("./style"));
-},{"./elementImpl":"3p56","./elementClass":"+nOU","./createElement":"Nzec","./misc":"h+Y6","./util":"8yB0","./style":"lkGg"}],"7W7v":[function(require,module,exports) {
+
+__export(require("./JsonImpl"));
+},{"./elementImpl":"3p56","./elementClass":"+nOU","./createElement":"Nzec","./misc":"h+Y6","./util":"8yB0","./style":"lkGg","./JsonImpl":"UvR+"}],"7W7v":[function(require,module,exports) {
 "use strict";
 
 exports.__esModule = true;

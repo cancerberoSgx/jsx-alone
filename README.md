@@ -98,7 +98,7 @@ See [jsx-alone-dom/README.md](jsx-alone-dom/README.md)
 
 # Changelog
 
-See [IMPLEMENTATION.md](CHANGELOG.md)
+See [CHANGELOG.md](CHANGELOG.md)
 
 # Limitations
 

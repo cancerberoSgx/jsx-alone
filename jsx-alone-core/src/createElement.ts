@@ -31,7 +31,7 @@ export function createCreateElement<T, R extends ElementLike<T>=ElementLike<T>>(
       // attrs = attrs.ref ? {ref: attrs.ref} : {}
     }
     else {
-      element = (tag as any)({ ...attrs, children: children })
+      element = (tag as any)({ ...attrs, children })
       // attrs={}
     }
     if (onElementCreate) {
