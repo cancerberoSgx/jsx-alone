@@ -13,6 +13,7 @@ export interface TextNodeLike extends  BaseTextNodeLike<RenderOutput>{}
 export type RenderOutput = HTMLElement | Text
 export interface ElementLikeImplRenderConfigNoRoot<R extends ElementLike = ElementLike> extends RenderConfig<RenderOutput, R> {
   parent?: Node
+  appendChildrenInDocumentFragment?: boolean
   // handleAttribute? (options: HandleAttributeOptions<R>):boolean
   // handleChildRender?(options: {config: ElementLikeImplRenderConfig<R>, parent: HTMLElement, child: NodeLike , elementLike: R}):boolean
   // handleAfterRender?(options: {config: ElementLikeImplRenderConfig<R>, el: HTMLElement, elementLike: R }):boolean

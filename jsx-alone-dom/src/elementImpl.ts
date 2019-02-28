@@ -4,7 +4,7 @@ import { ElementLike, ElementLikeImplRenderConfig, IElementClass, RenderOutput }
 
 export class ElementLikeImpl<T extends ElementClass=ElementClass> extends AbstractElementLike<RenderOutput> implements ElementLike<T> {
   private _innerHtml: string | undefined
-  ref?: RefObject<IElementClass&Element>
+  ref?: RefObject<IElementClass & Element>
   _elementClassInstance: T | undefined
 
   render(config: ElementLikeImplRenderConfig<ElementLikeImpl>): RenderOutput {
@@ -19,40 +19,43 @@ export class ElementLikeImpl<T extends ElementClass=ElementClass> extends Abstra
     Object.keys(this.attrs).forEach(attribute => {
       const value = this.attrs[attribute]
       // if (!config.handleAttribute || !config.handleAttribute({ config, el, attribute, value, elementLike: this })) {
-        if (attribute === 'className') {
-          el.setAttribute('class', value)
-        }
-        else if (attribute === 'style') {
-          el.setAttribute('style', printStyleHtmlAttribute(value))
-        }
-        else if (typeof value === 'function') {
-          el.addEventListener(attribute.replace(/^on/, '').toLowerCase(), value.bind(this))
-        }
-        else {
-          el.setAttribute(attribute, value)
-        }
+      if (attribute === 'className') {
+        el.setAttribute('class', value)
+      }
+      else if (attribute === 'style') {
+        el.setAttribute('style', printStyleHtmlAttribute(value))
+      }
+      else if (typeof value === 'function') {
+        el.addEventListener(attribute.replace(/^on/, '').toLowerCase(), value.bind(this))
+      }
+      else {
+        el.setAttribute(attribute, value)
+      }
       // }
     })
     if (this._innerHtml) {
       el.innerHTML = this._innerHtml
     }
     else {
-      const fragment = document.createDocumentFragment()
+      const parent: Node = config.appendChildrenInDocumentFragment ? document.createDocumentFragment() : el
+      // const fragment = document.createDocumentFragment()
       this.children.forEach(c => {
-          c.render({ ...config, parent: fragment })
+        c.render({ ...config, parent })
       })
-      el.appendChild(fragment)
+      if (el !== parent) {
+        el.appendChild(parent)
+      }
     }
     if (config.parent) {
       config.parent.appendChild(el)
     }
     const elementClassWithContainer = this._elementClassInstance || config.rootElementLike._elementClassInstance
-        if (this.ref) {
-          setRef({elementLike:  this as any, el, value: this.ref as RefObjectImpl<any> })
-        }
-      if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
-        elementClassWithContainer.setContainerEl(el)
-      }
+    if (this.ref) {
+      setRef({ elementLike: this as any, el, value: this.ref as RefObjectImpl<any> })
+    }
+    if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
+      elementClassWithContainer.setContainerEl(el)
+    }
     return el
   }
 
@@ -63,7 +66,7 @@ export class ElementLikeImpl<T extends ElementClass=ElementClass> extends Abstra
 }
 
 export class TextNodeLikeImpl extends AbstractTextNodeLike<RenderOutput> {
-  render(config: ElementLikeImplRenderConfig ): RenderOutput {
+  render(config: ElementLikeImplRenderConfig): RenderOutput {
     const text = document.createTextNode(this.content)
     if (config.parent) {
       config.parent.appendChild(text)
