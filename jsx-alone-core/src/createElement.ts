@@ -13,7 +13,7 @@ export function debug(err: string) {
 }
 
 export function createCreateElement<T, R extends ElementLike<T>=ElementLike<T>>(config: CreateCreateElementConfig<T, R>) {
-  console.log(config);
+  // console.log(config);
   
   const { impl, textNodeImpl, onElementReady, onElementCreated: onElementCreate } = config
 
@@ -35,7 +35,7 @@ export function createCreateElement<T, R extends ElementLike<T>=ElementLike<T>>(
       // attrs={}
     }
     if (onElementCreate) {
-      onElementCreate({ elementLike: element, elementClassInstance })
+      onElementCreate({ elementLike: element, elementClassInstance, attrs })
     }
     attrs = tagIsString ? attrs : {}//(isClassElementClass(tag)&&!attrs.ref) ?{ref: attrs.ref}: attrs 
 

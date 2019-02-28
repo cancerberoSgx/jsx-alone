@@ -1,5 +1,5 @@
 import { createCreateElement, CreateElementFunction, CreateCreateElementConfig } from 'jsx-alone-core';
-import { createCreateElementConfig,  ElementClass, ElementLike, ElementLikeImpl, ElementLikeImplRenderConfig, RenderOutput, TextNodeLikeImpl, JSXAlone as JSXAloneBase} from 'jsx-alone-dom';
+import {  ElementClass, getCreateCreateElementConfig, ElementLike, ElementLikeImpl, ElementLikeImplRenderConfig, RenderOutput, TextNodeLikeImpl, JSXAlone as JSXAloneBase} from 'jsx-alone-dom';
 
 // type RenderFunction = (el: JSX.Element, config?: FunctionAttributeRenderConfig) => RenderOutput
 
@@ -55,7 +55,7 @@ import { createCreateElementConfig,  ElementClass, ElementLike, ElementLikeImpl,
 // }
 
 export const createCreateConfig: CreateCreateElementConfig<RenderOutput, ElementLike> = {
-  ...createCreateElementConfig,
+  ...getCreateCreateElementConfig(),
 
   impl: ElementLikeImpl as any as ElementLike & { new(tag: string): ElementLike },
 
@@ -68,25 +68,26 @@ export const createCreateConfig: CreateCreateElementConfig<RenderOutput, Element
   // }
 }
 
-export const JSXAlone: typeof JSXAloneBase = {
+export const JSXAlone  =JSXAloneBase
+// : typeof JSXAloneBase = {
 
-  createElement: createCreateElement<RenderOutput, ElementLike>(createCreateConfig),
+//   createElement: createCreateElement<RenderOutput, ElementLike>(createCreateConfig),
 
-  render(el, config: ElementLikeImplRenderConfig = {}) {
-    const elementLike: ElementLike = el as any
-    return elementLike.render({ ...config, 
-      // ...buildExtraConfig(
-      // elementLike
-      // )
-     })
-  },
+//   render(el, config: ElementLikeImplRenderConfig = {}) {
+//     const elementLike: ElementLike = el as any
+//     return elementLike.render({ ...config, 
+//       // ...buildExtraConfig(
+//       // elementLike
+//       // )
+//      })
+//   },
 
-  createRef: JSXAloneBase.createRef
-  // createRef<T extends Element&ElementClass>(): RefObject<T>{
-  //   return new RefObjectImpl<T>()
-  // }
+//   createRef: JSXAloneBase.createRef
+//   // createRef<T extends Element&ElementClass>(): RefObject<T>{
+//   //   return new RefObjectImpl<T>()
+//   // }
   
-}
+// }
 
 // export const JSXAlone: JSXAloneType = Module
 

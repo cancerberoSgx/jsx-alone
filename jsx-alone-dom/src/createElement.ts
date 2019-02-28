@@ -1,7 +1,7 @@
 import { createCreateElement,CreateCreateElementConfig,  CreateElementFunction, RefObject } from 'jsx-alone-core'
 import { ElementLikeImpl, TextNodeLikeImpl , ElementLike} from '.'
 import { NodeLike, RenderOutput, ElementLikeImplRenderConfig, IElementClass } from './types';
-// import { RefObjectImpl } from './Refs';
+import { RefObjectImpl } from './Refs';
 
 // export interface CreateCreateElementDomConfig<R extends ElementLike = ElementLike> extends CreateCreateElementConfig<RenderOutput, R> {
 //   extraRenderConfig?: ElementLikeImplRenderConfig
@@ -15,20 +15,20 @@ function buildJSXALone(): JSXAloneType<RenderOutput, ElementLike>  {
     createElement: createCreateElement<RenderOutput, ElementLike>(getCreateCreateElementConfig()),
   
     render(el, config = {}) {
-      return (el as any as NodeLike).render(config)
-      // return (el as any as ElementLike).render({...config, ...createExtraConfig(el as any as ElementLike)})
+      // return (el as any as NodeLike).render(config)
+      return (el as any as ElementLike).render({...config, ...createExtraConfig(el as any as ElementLike)})
     },
     createRef<T extends Element&IElementClass>(): RefObject<T>{
-      // return new RefObjectImpl<T>()
-      throw 'jkasjksajksakjas'
+      return new RefObjectImpl<T>()
+      // throw 'jkasjksajksakjas'
     }
   
   }
   return Module
 }
 
-// function createExtraConfig(rootElementLike: ElementLike){
-//   const c: ElementLikeImplRenderConfig = {
+function createExtraConfig(rootElementLike: ElementLike){
+  const c: ElementLikeImplRenderConfig = {
     
 //     handleAttribute({elementLike, el, value}){
 //       const elementClassWithContainer = elementLike._elementClassInstance|| rootElementLike._elementClassInstance
@@ -42,21 +42,26 @@ function buildJSXALone(): JSXAloneType<RenderOutput, ElementLike>  {
 //     }
 //     return false
 // },
-// handleAfterRender({ el, elementLike }: { el: HTMLElement; elementLike: ElementLike }) {
-//   const elementClassWithContainer =  elementLike._elementClassInstance || rootElementLike._elementClassInstance
-//   // if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
-//     // const elementClassWithContainer =  elementLike._elementClassInstance || rootElementLike._elementClassInstance
-//     if (elementLike._elementClassInstance && elementLike._elementClassInstance.setContainerEl) {
-//       elementLike._elementClassInstance.setContainerEl(el)
-//       // elementClassWithContainer.setContainerEl(el)
-//   }
-//   // elementLike._elementClassInstance// = undefined // forget the reference
-//   return true
-// }
+handleAfterRender({ el, elementLike }: { el: HTMLElement; elementLike: ElementLike }) {
+  const elementClassWithContainer =  elementLike._elementClassInstance || rootElementLike._elementClassInstance
+  if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
+    // const elementClassWithContainer =  elementLike._elementClassInstance || rootElementLike._elementClassInstance
+    // if (elementLike._elementClassInstance && elementLike._elementClassInstance.setContainerEl) {
+      // elementLike._elementClassInstance.setContainerEl(el)
+      elementClassWithContainer.setContainerEl(el)
+      if(elementLike.ref){
+        // console.log('JSHAJASKJHASJKHSAJKHSAKJHASJKHASJKHASJKH', elementLike.ref);
+        
+        elementClassWithContainer.__addRef({elementLike, el, value: elementLike.ref})
+      }
+  }
+  // elementLike._elementClassInstance// = undefined // forget the reference
+  return true
+}
 
-//   }
-//   return c
-// }
+  }
+  return c
+}
 
 type RenderFunction<RenderOutput, R extends ElementLike=ElementLike> = (el: JSX.Element, config?: ElementLikeImplRenderConfig<R>) => RenderOutput
 
@@ -74,14 +79,26 @@ export function getCreateCreateElementConfig(){
     createCreateElementConfig= {
       impl: ElementLikeImpl,
       textNodeImpl: TextNodeLikeImpl,
-      onElementCreated({elementLike, elementClassInstance}){
+      onElementCreated({elementLike, elementClassInstance, attrs}){
         if (elementClassInstance) {
           elementLike._elementClassInstance = elementClassInstance 
         }
+
+        // console.log(attrs.ref);
         
-        // elementLike  .ref=elementLike.attrs.ref
+        elementLike  .ref=attrs.ref
         // elementLike.attrs.ref=undefined
       },
+//       onElementReady({elementLike, el}){
+        
+//     if(elementLike.ref && elementLike._elementClassInstance) {
+// // //       // if(!options.value){
+
+// // //       // }
+// elementLike._elementClassInstance.__addRef({elementLike: elementLike as any, el, value})
+// //       return true
+// //     }
+//       }
     }
     
   }

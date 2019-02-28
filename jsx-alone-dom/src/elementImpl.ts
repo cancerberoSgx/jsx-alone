@@ -1,6 +1,7 @@
 import { AbstractElementLike, AbstractTextNodeLike, ElementClass as AbstractElementClass, IElementClass as ICoreElementClass, printStyleHtmlAttribute } from 'jsx-alone-core';
 // import { markElement, RefObjectImpl } from './Refs';
 import { ElementLike, ElementLikeImplRenderConfig, RenderOutput, IElementClass } from './types';
+import { RefObjectImpl, markElement } from './Refs';
 
 export class ElementLikeImpl<T extends ElementClass=ElementClass> extends AbstractElementLike<RenderOutput>implements ElementLike<T> {
   private _innerHtml: string | undefined
@@ -74,14 +75,14 @@ export abstract class ElementClass<P = {}> extends AbstractElementClass< P> impl
   setContainerEl(el: HTMLElement) {
     this.containerEl = el
   }
-  // /** @internal */
-  //   __addRef<T extends ElementClass&Element>({el, value, elementLike}: {el: HTMLElement, value:RefObjectImpl<T>, elementLike: ElementLike}){
-  //   // console.log('CUCUCUCUC', value && value._current);
-  //   value._current=elementLike._elementClassInstance || markElement(el) as any
+  /** @internal */
+    __addRef<T extends ElementClass&Element>({el, value, elementLike}: {el: HTMLElement, value:RefObjectImpl<T>, elementLike: ElementLike}){
+    console.log('CUCUCUCUC', value && value._current);
+    value._current=elementLike._elementClassInstance || markElement(el) as any
     
-  //   // const key = markElement(el)
-  //   // value._current = 
-  // }
+    // const key = markElement(el)
+    // value._current = 
+  }
 }
 function isSvgTag(t: string) {
   const r = new RegExp(`^${t}$`, 'i')

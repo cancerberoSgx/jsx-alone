@@ -4,15 +4,15 @@ export interface NodeLike extends  BaseNodeLike<RenderOutput>{}
 
 export interface ElementLike<T=RenderOutput >  extends  BaseElementLike<RenderOutput>{
   _elementClassInstance?: IElementClass
-  ref?: RefObject<IElementClass>
+  ref?: RefObject<IElementClass&Element>
 
 }
 
-export interface IElementClass<P = {}> extends ICoreElementClass<P>{
-  containerEl: HTMLElement |undefined
-  /** element classes in DOM implementation will be given its container element.  */
-  setContainerEl(el: HTMLElement):void
-}
+// export interface IElementClass<P = {}> extends ICoreElementClass<P>{
+//   containerEl: HTMLElement |undefined
+//   /** element classes in DOM implementation will be given its container element.  */
+//   setContainerEl(el: HTMLElement):void
+// }
 
 export interface TextNodeLike extends  BaseTextNodeLike<RenderOutput>{}
 
@@ -33,4 +33,5 @@ export interface IElementClass<P = {}> extends ICoreElementClass<P>{
   containerEl: HTMLElement |undefined
   /** element classes in DOM implementation will be given its container element.  */
   setContainerEl(el: HTMLElement):void
+  __addRef<T extends IElementClass&Element>({el, value, elementLike}: {el: HTMLElement, value:RefObject<T>, elementLike: ElementLike}):void
 }

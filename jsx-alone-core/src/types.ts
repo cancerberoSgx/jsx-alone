@@ -81,5 +81,6 @@ export interface CreateCreateElementConfig<T, R extends ElementLike<T> = Element
   }
   textNodeImpl: { new (content: string): any }
   onElementReady?(event: { elementLike: R }): void
-  onElementCreated?(event: { elementLike: R, elementClassInstance?: C }): void // TODO: expose function element context
+  onElementCreated?(event: { elementLike: R, elementClassInstance?: C , 
+    attrs: JSXAloneAttrs<string>}): void // TODO: expose function element context
 }

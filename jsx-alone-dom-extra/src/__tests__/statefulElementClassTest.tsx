@@ -1,7 +1,6 @@
 import { statefulElementClassTestRenderApp } from './statefulElementClassTestRenderApp';
-import {JSXAlone} from'..'
+import {JSXAlone} from'jsx-alone-dom'
 import { query, render } from './testUtil';
-import { StatefulComponent } from '../StatefulComponent';
 import { RefObject } from 'jsx-alone-core';
 import { DestructiveDomRenderComponent } from '../DestructiveDomRenderComponent';
 describe('stateful element class', () => {
