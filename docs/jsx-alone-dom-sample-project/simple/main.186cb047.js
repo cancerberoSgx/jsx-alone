@@ -105,13 +105,15 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   // Override the current require with this new one
   return newRequire;
 })({"vmAk":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-function isJSXAloneComponent(c) {
+function isElementClassConstructor(c) {
   return c.prototype && c.prototype.render;
 }
 
-exports.isJSXAloneComponent = isJSXAloneComponent;
+exports.isElementClassConstructor = isElementClassConstructor;
 
 function isNode(n) {
   return isTextNodeLike(n) || isElementLike(n);
@@ -191,30 +193,14 @@ var __extends = this && this.__extends || function () {
   };
 }();
 
-;
-
-var elementImpl_1 = require("./elementImpl");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var ElementClass = function () {
   function ElementClass(props) {
     this.props = props;
   }
-
-  ElementClass.prototype.childrenAsArray = function () {
-    return Array.isArray(this.props.children) ? this.props.children : [this.props.children];
-  };
-
-  ElementClass.prototype.childrenElementsAsArray = function () {
-    return this.childrenAsArray().filter(function (c) {
-      return elementImpl_1.isElementLike(c);
-    });
-  };
-
-  ElementClass.prototype.firstChildElement = function () {
-    return this.childrenAsArray().find(function (e) {
-      return true;
-    });
-  };
 
   return ElementClass;
 }();
@@ -232,7 +218,7 @@ var AbstractElementClass = function (_super) {
 }(ElementClass);
 
 exports.AbstractElementClass = AbstractElementClass;
-},{"./elementImpl":"vmAk"}],"fbNL":[function(require,module,exports) {
+},{}],"fbNL":[function(require,module,exports) {
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var __assign = this && this.__assign || function () {
@@ -251,7 +237,9 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var elementImpl_1 = require("./elementImpl");
 
@@ -284,40 +272,34 @@ function createCreateElement(config) {
       children[_i - 2] = arguments[_i];
     }
 
+    attrs = attrs || {};
     var element;
     var elementClassInstance;
+    var tagIsString = typeof tag === 'string';
 
-    if (typeof tag === 'string') {
+    if (tagIsString) {
       element = new impl(tag);
+    } else if (elementImpl_1.isElementClassConstructor(tag)) {
+      elementClassInstance = new tag(__assign({}, attrs, {
+        children: children
+      }));
+      element = elementClassInstance.render();
     } else {
-      if (elementImpl_1.isJSXAloneComponent(tag)) {
-        elementClassInstance = new tag(__assign({}, attrs, {
-          children: children
-        }));
-        element = elementClassInstance.render();
-      } else {
-        if (_typeof(tag.prototype) !== undefined) {
-          element = new tag(__assign({}, attrs, {
-            children: children
-          }));
-        } else {
-          element = tag(__assign({}, attrs, {
-            children: children
-          }));
-        }
-      }
-
-      attrs = {};
+      element = tag(__assign({}, attrs, {
+        children: children
+      }));
     }
 
     if (onElementCreate) {
       onElementCreate({
         elementLike: element,
-        elementClassInstance: elementClassInstance
+        elementClassInstance: elementClassInstance,
+        attrs: attrs
       });
     }
 
-    Object.keys(attrs || {}).forEach(function (name) {
+    attrs = tagIsString ? attrs : {};
+    Object.keys(attrs).forEach(function (name) {
       var value = attrs[name];
 
       var type = _typeof(value);
@@ -335,7 +317,7 @@ function createCreateElement(config) {
       }
     });
 
-    if (typeof tag === 'string') {
+    if (tagIsString) {
       children.filter(function (c) {
         return c;
       }).forEach(function (child) {
@@ -343,12 +325,10 @@ function createCreateElement(config) {
           element.appendChild(child);
         } else if (Array.isArray(child)) {
           child.forEach(function (c) {
-            if (typeof c === 'string') {
-              element.appendChild(new textNodeImpl(c));
-            } else if (elementImpl_1.isNode(c)) {
+            if (elementImpl_1.isNode(c)) {
               element.appendChild(c);
             } else {
-              debug("Child is not a node or string: " + c + " , tag: " + tag);
+              element.appendChild(new textNodeImpl(c));
             }
           });
         } else {
@@ -372,7 +352,9 @@ function createCreateElement(config) {
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
 },{"./elementImpl":"vmAk"}],"k98/":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _1 = require(".");
 
@@ -419,7 +401,9 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 function checkThrow(r, msg) {
   if (msg === void 0) {
@@ -524,6 +508,17 @@ function printStyleHtmlAttribute(value) {
 }
 
 exports.printStyleHtmlAttribute = printStyleHtmlAttribute;
+var _unique = 0;
+
+function unique(prefix) {
+  if (prefix === void 0) {
+    prefix = '_';
+  }
+
+  return prefix + _unique++;
+}
+
+exports.unique = unique;
 },{}],"BB47":[function(require,module,exports) {
 function __export(m) {
   for (var p in m) {
@@ -531,7 +526,9 @@ function __export(m) {
   }
 }
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 __export(require("./elementImpl"));
 
@@ -547,7 +544,46 @@ exports.AbstractElementLike = elementImpl_1.AbstractElementLike;
 __export(require("./misc"));
 
 __export(require("./util"));
-},{"./elementImpl":"vmAk","./elementClass":"0Bvz","./createElement":"fbNL","./misc":"k98/","./util":"gOGk"}],"gNvY":[function(require,module,exports) {
+},{"./elementImpl":"vmAk","./elementClass":"0Bvz","./createElement":"fbNL","./misc":"k98/","./util":"gOGk"}],"uJT8":[function(require,module,exports) {
+Object.defineProperty(exports, "__esModule", { value: true });
+var jsx_alone_core_1 = require("jsx-alone-core");
+var RefObjectImpl = (function () {
+    function RefObjectImpl() {
+        this._current = null;
+    }
+    Object.defineProperty(RefObjectImpl.prototype, "current", {
+        get: function () {
+            return typeof this._current === 'string' ? getMarkedElement(this._current) : this._current;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return RefObjectImpl;
+}());
+exports.RefObjectImpl = RefObjectImpl;
+function markElement(e, label) {
+    if (label === void 0) { label = '_jsxa_'; }
+    var key = e.getAttribute("data-" + label);
+    if (!key) {
+        key = jsx_alone_core_1.unique(label);
+        e.setAttribute("data-" + label, key);
+    }
+    return key;
+}
+exports.markElement = markElement;
+function getElementMark(e, label) {
+    if (label === void 0) { label = '_jsxa_'; }
+    return e.getAttribute("data-" + label);
+}
+exports.getElementMark = getElementMark;
+function getMarkedElement(key, parent, label) {
+    if (parent === void 0) { parent = document; }
+    if (label === void 0) { label = '_jsxa_'; }
+    return parent.querySelector("[data-" + label + "=\"" + key + "\"]");
+}
+exports.getMarkedElement = getMarkedElement;
+
+},{"jsx-alone-core":"BB47"}],"gNvY":[function(require,module,exports) {
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -572,8 +608,9 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
+var Refs_1 = require("./Refs");
 var ElementLikeImpl = (function (_super) {
     __extends(ElementLikeImpl, _super);
     function ElementLikeImpl() {
@@ -592,7 +629,7 @@ var ElementLikeImpl = (function (_super) {
                     el.setAttribute('class', value);
                 }
                 else if (attribute === 'style') {
-                    el.setAttribute('class', jsx_alone_core_1.printStyleHtmlAttribute(value));
+                    el.setAttribute('style', jsx_alone_core_1.printStyleHtmlAttribute(value));
                 }
                 else if (typeof value === 'function') {
                     el.addEventListener(attribute.replace(/^on/, '').toLowerCase(), value.bind(_this));
@@ -647,7 +684,13 @@ var ElementClass = (function (_super) {
     function ElementClass() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    ElementClass.prototype.setContainerEl = function (el) { };
+    ElementClass.prototype.setContainerEl = function (el) {
+        this.containerEl = el;
+    };
+    ElementClass.prototype.__addRef = function (_a) {
+        var el = _a.el, value = _a.value, elementLike = _a.elementLike;
+        value._current = elementLike._elementClassInstance || Refs_1.markElement(el);
+    };
     return ElementClass;
 }(jsx_alone_core_1.ElementClass));
 exports.ElementClass = ElementClass;
@@ -657,32 +700,80 @@ function isSvgTag(t) {
 }
 var SvgTags = ['path', 'svg', 'use', 'g'];
 
-},{"jsx-alone-core":"BB47"}],"S0OW":[function(require,module,exports) {
-;
+},{"jsx-alone-core":"BB47","./Refs":"uJT8"}],"S0OW":[function(require,module,exports) {
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
-var elementImpl_1 = require("./elementImpl");
-exports.createCreateElementConfig = {
-    impl: elementImpl_1.ElementLikeImpl,
-    textNodeImpl: elementImpl_1.TextNodeLikeImpl,
-};
-var Module = {
-    createElement: jsx_alone_core_1.createCreateElement(exports.createCreateElementConfig),
-    render: function (el, config) {
-        if (config === void 0) { config = {}; }
-        return el.render(config);
+var _1 = require(".");
+var Refs_1 = require("./Refs");
+function buildJSXALone() {
+    var Module = {
+        createElement: jsx_alone_core_1.createCreateElement(getCreateCreateElementConfig()),
+        render: function (el, config) {
+            if (config === void 0) { config = {}; }
+            return el.render(__assign({}, config, createExtraConfig(el)));
+        },
+        createRef: function () {
+            return new Refs_1.RefObjectImpl();
+        }
+    };
+    return Module;
+}
+function createExtraConfig(rootElementLike) {
+    var c = {
+        handleAfterRender: function (_a) {
+            var el = _a.el, elementLike = _a.elementLike;
+            var elementClassWithContainer = elementLike._elementClassInstance || rootElementLike._elementClassInstance;
+            if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
+                elementClassWithContainer.setContainerEl(el);
+                if (elementLike.ref) {
+                    elementClassWithContainer.__addRef({ elementLike: elementLike, el: el, value: elementLike.ref });
+                }
+            }
+            return true;
+        }
+    };
+    return c;
+}
+var createCreateElementConfig;
+function getCreateCreateElementConfig() {
+    if (!createCreateElementConfig) {
+        createCreateElementConfig = {
+            impl: _1.ElementLikeImpl,
+            textNodeImpl: _1.TextNodeLikeImpl,
+            onElementCreated: function (_a) {
+                var elementLike = _a.elementLike, elementClassInstance = _a.elementClassInstance, attrs = _a.attrs;
+                if (elementClassInstance) {
+                    elementLike._elementClassInstance = elementClassInstance;
+                }
+                elementLike.ref = attrs.ref;
+            },
+        };
     }
-};
-exports.JSXAlone = Module;
+    return createCreateElementConfig;
+}
+exports.getCreateCreateElementConfig = getCreateCreateElementConfig;
+exports.JSXAlone = buildJSXALone();
 
-},{"jsx-alone-core":"BB47","./elementImpl":"gNvY"}],"MNUJ":[function(require,module,exports) {
+},{"jsx-alone-core":"BB47",".":"MNUJ","./Refs":"uJT8"}],"MNUJ":[function(require,module,exports) {
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-;
-__export(require("./createElement"));
+Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./elementImpl"));
+__export(require("./createElement"));
 
-},{"./createElement":"S0OW","./elementImpl":"gNvY"}],"wdqJ":[function(require,module,exports) {
+},{"./elementImpl":"gNvY","./createElement":"S0OW"}],"wdqJ":[function(require,module,exports) {
 "use strict";
 
 var __extends = this && this.__extends || function () {

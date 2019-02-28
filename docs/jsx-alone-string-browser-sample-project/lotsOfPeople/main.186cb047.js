@@ -105,13 +105,15 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   // Override the current require with this new one
   return newRequire;
 })({"3p56":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
-function isJSXAloneComponent(c) {
+function isElementClassConstructor(c) {
   return c.prototype && c.prototype.render;
 }
 
-exports.isJSXAloneComponent = isJSXAloneComponent;
+exports.isElementClassConstructor = isElementClassConstructor;
 
 function isNode(n) {
   return isTextNodeLike(n) || isElementLike(n);
@@ -191,30 +193,14 @@ var __extends = this && this.__extends || function () {
   };
 }();
 
-;
-
-var elementImpl_1 = require("./elementImpl");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var ElementClass = function () {
   function ElementClass(props) {
     this.props = props;
   }
-
-  ElementClass.prototype.childrenAsArray = function () {
-    return Array.isArray(this.props.children) ? this.props.children : [this.props.children];
-  };
-
-  ElementClass.prototype.childrenElementsAsArray = function () {
-    return this.childrenAsArray().filter(function (c) {
-      return elementImpl_1.isElementLike(c);
-    });
-  };
-
-  ElementClass.prototype.firstChildElement = function () {
-    return this.childrenAsArray().find(function (e) {
-      return true;
-    });
-  };
 
   return ElementClass;
 }();
@@ -232,7 +218,7 @@ var AbstractElementClass = function (_super) {
 }(ElementClass);
 
 exports.AbstractElementClass = AbstractElementClass;
-},{"./elementImpl":"3p56"}],"rCe5":[function(require,module,exports) {
+},{}],"rCe5":[function(require,module,exports) {
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var __assign = this && this.__assign || function () {
@@ -251,7 +237,9 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var elementImpl_1 = require("./elementImpl");
 
@@ -284,40 +272,34 @@ function createCreateElement(config) {
       children[_i - 2] = arguments[_i];
     }
 
+    attrs = attrs || {};
     var element;
     var elementClassInstance;
+    var tagIsString = typeof tag === 'string';
 
-    if (typeof tag === 'string') {
+    if (tagIsString) {
       element = new impl(tag);
+    } else if (elementImpl_1.isElementClassConstructor(tag)) {
+      elementClassInstance = new tag(__assign({}, attrs, {
+        children: children
+      }));
+      element = elementClassInstance.render();
     } else {
-      if (elementImpl_1.isJSXAloneComponent(tag)) {
-        elementClassInstance = new tag(__assign({}, attrs, {
-          children: children
-        }));
-        element = elementClassInstance.render();
-      } else {
-        if (_typeof(tag.prototype) !== undefined) {
-          element = new tag(__assign({}, attrs, {
-            children: children
-          }));
-        } else {
-          element = tag(__assign({}, attrs, {
-            children: children
-          }));
-        }
-      }
-
-      attrs = {};
+      element = tag(__assign({}, attrs, {
+        children: children
+      }));
     }
 
     if (onElementCreate) {
       onElementCreate({
         elementLike: element,
-        elementClassInstance: elementClassInstance
+        elementClassInstance: elementClassInstance,
+        attrs: attrs
       });
     }
 
-    Object.keys(attrs || {}).forEach(function (name) {
+    attrs = tagIsString ? attrs : {};
+    Object.keys(attrs).forEach(function (name) {
       var value = attrs[name];
 
       var type = _typeof(value);
@@ -335,7 +317,7 @@ function createCreateElement(config) {
       }
     });
 
-    if (typeof tag === 'string') {
+    if (tagIsString) {
       children.filter(function (c) {
         return c;
       }).forEach(function (child) {
@@ -343,12 +325,10 @@ function createCreateElement(config) {
           element.appendChild(child);
         } else if (Array.isArray(child)) {
           child.forEach(function (c) {
-            if (typeof c === 'string') {
-              element.appendChild(new textNodeImpl(c));
-            } else if (elementImpl_1.isNode(c)) {
+            if (elementImpl_1.isNode(c)) {
               element.appendChild(c);
             } else {
-              debug("Child is not a node or string: " + c + " , tag: " + tag);
+              element.appendChild(new textNodeImpl(c));
             }
           });
         } else {
@@ -372,7 +352,9 @@ function createCreateElement(config) {
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
 },{"./elementImpl":"3p56"}],"URgR":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _1 = require(".");
 
@@ -419,7 +401,9 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 function checkThrow(r, msg) {
   if (msg === void 0) {
@@ -524,6 +508,17 @@ function printStyleHtmlAttribute(value) {
 }
 
 exports.printStyleHtmlAttribute = printStyleHtmlAttribute;
+var _unique = 0;
+
+function unique(prefix) {
+  if (prefix === void 0) {
+    prefix = '_';
+  }
+
+  return prefix + _unique++;
+}
+
+exports.unique = unique;
 },{}],"USgY":[function(require,module,exports) {
 function __export(m) {
   for (var p in m) {
@@ -531,7 +526,9 @@ function __export(m) {
   }
 }
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 __export(require("./elementImpl"));
 
@@ -548,7 +545,9 @@ __export(require("./misc"));
 
 __export(require("./util"));
 },{"./elementImpl":"3p56","./elementClass":"+nOU","./createElement":"rCe5","./misc":"URgR","./util":"8yB0"}],"/5mC":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var jsx_alone_core_1 = require("jsx-alone-core");
 
@@ -567,7 +566,9 @@ exports.numbers = {
 };
 var firstNames = ["William", "Jack", "Oliver", "Joshua", "Thomas", "Lachlan", "Cooper", "Noah", "Ethan", "Lucas", "James", "Samuel", "Jacob", "Liam", "Alexander", "Benjamin", "Max", "Isaac", "Daniel", "Riley", "Ryan", "Xavier", "Harry", "Jayden", "Nicholas", "Harrison", "Levi", "Luke", "Adam", "Henry", "Aiden", "Dylan", "Oscar", "Michael", "Jackson", "Logan"];
 },{"jsx-alone-core":"USgY"}],"45O1":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var util_1 = require("../util");
 
@@ -600,75 +601,7 @@ function makePeople(config) {
     return p;
   });
 }
-},{"../util":"/5mC","jsx-alone-core":"USgY"}],"LbiZ":[function(require,module,exports) {
-var __extends = this && this.__extends || function () {
-  var _extendStatics = function extendStatics(d, b) {
-    _extendStatics = Object.setPrototypeOf || {
-      __proto__: []
-    } instanceof Array && function (d, b) {
-      d.__proto__ = b;
-    } || function (d, b) {
-      for (var p in b) {
-        if (b.hasOwnProperty(p)) d[p] = b[p];
-      }
-    };
-
-    return _extendStatics(d, b);
-  };
-
-  return function (d, b) {
-    _extendStatics(d, b);
-
-    function __() {
-      this.constructor = d;
-    }
-
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-}();
-
-;
-
-var elementImpl_1 = require("./elementImpl");
-
-var ElementClass = function () {
-  function ElementClass(props) {
-    this.props = props;
-  }
-
-  ElementClass.prototype.childrenAsArray = function () {
-    return Array.isArray(this.props.children) ? this.props.children : [this.props.children];
-  };
-
-  ElementClass.prototype.childrenElementsAsArray = function () {
-    return this.childrenAsArray().filter(function (c) {
-      return elementImpl_1.isElementLike(c);
-    });
-  };
-
-  ElementClass.prototype.firstChildElement = function () {
-    return this.childrenAsArray().find(function (e) {
-      return true;
-    });
-  };
-
-  return ElementClass;
-}();
-
-exports.ElementClass = ElementClass;
-
-var AbstractElementClass = function (_super) {
-  __extends(AbstractElementClass, _super);
-
-  function AbstractElementClass() {
-    return _super !== null && _super.apply(this, arguments) || this;
-  }
-
-  return AbstractElementClass;
-}(ElementClass);
-
-exports.AbstractElementClass = AbstractElementClass;
-},{"./elementImpl":"3p56"}],"TYq4":[function(require,module,exports) {
+},{"../util":"/5mC","jsx-alone-core":"USgY"}],"TYq4":[function(require,module,exports) {
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var __assign = this && this.__assign || function () {
@@ -687,7 +620,9 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var elementImpl_1 = require("./elementImpl");
 
@@ -720,40 +655,34 @@ function createCreateElement(config) {
       children[_i - 2] = arguments[_i];
     }
 
+    attrs = attrs || {};
     var element;
     var elementClassInstance;
+    var tagIsString = typeof tag === 'string';
 
-    if (typeof tag === 'string') {
+    if (tagIsString) {
       element = new impl(tag);
+    } else if (elementImpl_1.isElementClassConstructor(tag)) {
+      elementClassInstance = new tag(__assign({}, attrs, {
+        children: children
+      }));
+      element = elementClassInstance.render();
     } else {
-      if (elementImpl_1.isJSXAloneComponent(tag)) {
-        elementClassInstance = new tag(__assign({}, attrs, {
-          children: children
-        }));
-        element = elementClassInstance.render();
-      } else {
-        if (_typeof(tag.prototype) !== undefined) {
-          element = new tag(__assign({}, attrs, {
-            children: children
-          }));
-        } else {
-          element = tag(__assign({}, attrs, {
-            children: children
-          }));
-        }
-      }
-
-      attrs = {};
+      element = tag(__assign({}, attrs, {
+        children: children
+      }));
     }
 
     if (onElementCreate) {
       onElementCreate({
         elementLike: element,
-        elementClassInstance: elementClassInstance
+        elementClassInstance: elementClassInstance,
+        attrs: attrs
       });
     }
 
-    Object.keys(attrs || {}).forEach(function (name) {
+    attrs = tagIsString ? attrs : {};
+    Object.keys(attrs).forEach(function (name) {
       var value = attrs[name];
 
       var type = _typeof(value);
@@ -771,7 +700,7 @@ function createCreateElement(config) {
       }
     });
 
-    if (typeof tag === 'string') {
+    if (tagIsString) {
       children.filter(function (c) {
         return c;
       }).forEach(function (child) {
@@ -779,12 +708,10 @@ function createCreateElement(config) {
           element.appendChild(child);
         } else if (Array.isArray(child)) {
           child.forEach(function (c) {
-            if (typeof c === 'string') {
-              element.appendChild(new textNodeImpl(c));
-            } else if (elementImpl_1.isNode(c)) {
+            if (elementImpl_1.isNode(c)) {
               element.appendChild(c);
             } else {
-              debug("Child is not a node or string: " + c + " , tag: " + tag);
+              element.appendChild(new textNodeImpl(c));
             }
           });
         } else {
@@ -808,7 +735,9 @@ function createCreateElement(config) {
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
 },{"./elementImpl":"3p56"}],"TiN9":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _1 = require(".");
 
@@ -845,7 +774,9 @@ function __export(m) {
   }
 }
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 __export(require("./elementImpl"));
 
@@ -861,12 +792,12 @@ exports.AbstractElementLike = elementImpl_1.AbstractElementLike;
 __export(require("./misc"));
 
 __export(require("./util"));
-},{"./elementImpl":"3p56","./elementClass":"LbiZ","./createElement":"TYq4","./misc":"TiN9","./util":"8yB0"}],"xhWP":[function(require,module,exports) {
-;
+},{"./elementImpl":"3p56","./elementClass":"+nOU","./createElement":"TYq4","./misc":"TiN9","./util":"8yB0"}],"xhWP":[function(require,module,exports) {
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.defaultRenderConfig = { indentLevel: 0, indentTabSize: 2, indent: true };
 
 },{}],"CLcs":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 function indent(config) {
     var L = (config.indentLevel || 0) * (config.indentTabSize || 0);
     var a = [];
@@ -902,7 +833,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var config_1 = require("./config");
 var util_1 = require("./util");
@@ -963,7 +894,7 @@ var ElementClass = (function (_super) {
 exports.ElementClass = ElementClass;
 
 },{"jsx-alone-core":"kF9h","./config":"xhWP","./util":"CLcs"}],"zyVy":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var config_1 = require("./config");
 var elementImpl_1 = require("./elementImpl");
@@ -981,7 +912,7 @@ var Module = {
 exports.JSXAlone = Module;
 
 },{"jsx-alone-core":"kF9h","./config":"xhWP","./elementImpl":"/cDs"}],"AP0d":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var createElement_1 = require("./createElement");
 exports.Style = function (props) {
@@ -1014,14 +945,16 @@ exports.Styles = Styles;
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./createElement"));
 __export(require("./Style"));
 var elementImpl_1 = require("./elementImpl");
 exports.ElementClass = elementImpl_1.ElementClass;
 
 },{"./createElement":"zyVy","./Style":"AP0d","./elementImpl":"/cDs"}],"JVGL":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var jsx_alone_string_1 = require("jsx-alone-string");
 
@@ -1073,7 +1006,9 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var jsx_alone_core_1 = require("jsx-alone-core");
 
@@ -1175,7 +1110,9 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var model_1 = require("./model");
 
@@ -1227,82 +1164,16 @@ function __export(m) {
   }
 }
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var renderApp_1 = require("./lotsOfPeople/renderApp");
 
 exports.lotsOfPeople = renderApp_1.renderApp;
 
 __export(require("./util"));
-},{"./lotsOfPeople/renderApp":"z8rF","./util":"/5mC"}],"8O+M":[function(require,module,exports) {
-var __extends = this && this.__extends || function () {
-  var _extendStatics = function extendStatics(d, b) {
-    _extendStatics = Object.setPrototypeOf || {
-      __proto__: []
-    } instanceof Array && function (d, b) {
-      d.__proto__ = b;
-    } || function (d, b) {
-      for (var p in b) {
-        if (b.hasOwnProperty(p)) d[p] = b[p];
-      }
-    };
-
-    return _extendStatics(d, b);
-  };
-
-  return function (d, b) {
-    _extendStatics(d, b);
-
-    function __() {
-      this.constructor = d;
-    }
-
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-}();
-
-;
-
-var elementImpl_1 = require("./elementImpl");
-
-var ElementClass = function () {
-  function ElementClass(props) {
-    this.props = props;
-  }
-
-  ElementClass.prototype.childrenAsArray = function () {
-    return Array.isArray(this.props.children) ? this.props.children : [this.props.children];
-  };
-
-  ElementClass.prototype.childrenElementsAsArray = function () {
-    return this.childrenAsArray().filter(function (c) {
-      return elementImpl_1.isElementLike(c);
-    });
-  };
-
-  ElementClass.prototype.firstChildElement = function () {
-    return this.childrenAsArray().find(function (e) {
-      return true;
-    });
-  };
-
-  return ElementClass;
-}();
-
-exports.ElementClass = ElementClass;
-
-var AbstractElementClass = function (_super) {
-  __extends(AbstractElementClass, _super);
-
-  function AbstractElementClass() {
-    return _super !== null && _super.apply(this, arguments) || this;
-  }
-
-  return AbstractElementClass;
-}(ElementClass);
-
-exports.AbstractElementClass = AbstractElementClass;
-},{"./elementImpl":"3p56"}],"MFEV":[function(require,module,exports) {
+},{"./lotsOfPeople/renderApp":"z8rF","./util":"/5mC"}],"MFEV":[function(require,module,exports) {
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var __assign = this && this.__assign || function () {
@@ -1321,7 +1192,9 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var elementImpl_1 = require("./elementImpl");
 
@@ -1354,40 +1227,34 @@ function createCreateElement(config) {
       children[_i - 2] = arguments[_i];
     }
 
+    attrs = attrs || {};
     var element;
     var elementClassInstance;
+    var tagIsString = typeof tag === 'string';
 
-    if (typeof tag === 'string') {
+    if (tagIsString) {
       element = new impl(tag);
+    } else if (elementImpl_1.isElementClassConstructor(tag)) {
+      elementClassInstance = new tag(__assign({}, attrs, {
+        children: children
+      }));
+      element = elementClassInstance.render();
     } else {
-      if (elementImpl_1.isJSXAloneComponent(tag)) {
-        elementClassInstance = new tag(__assign({}, attrs, {
-          children: children
-        }));
-        element = elementClassInstance.render();
-      } else {
-        if (_typeof(tag.prototype) !== undefined) {
-          element = new tag(__assign({}, attrs, {
-            children: children
-          }));
-        } else {
-          element = tag(__assign({}, attrs, {
-            children: children
-          }));
-        }
-      }
-
-      attrs = {};
+      element = tag(__assign({}, attrs, {
+        children: children
+      }));
     }
 
     if (onElementCreate) {
       onElementCreate({
         elementLike: element,
-        elementClassInstance: elementClassInstance
+        elementClassInstance: elementClassInstance,
+        attrs: attrs
       });
     }
 
-    Object.keys(attrs || {}).forEach(function (name) {
+    attrs = tagIsString ? attrs : {};
+    Object.keys(attrs).forEach(function (name) {
       var value = attrs[name];
 
       var type = _typeof(value);
@@ -1405,7 +1272,7 @@ function createCreateElement(config) {
       }
     });
 
-    if (typeof tag === 'string') {
+    if (tagIsString) {
       children.filter(function (c) {
         return c;
       }).forEach(function (child) {
@@ -1413,12 +1280,10 @@ function createCreateElement(config) {
           element.appendChild(child);
         } else if (Array.isArray(child)) {
           child.forEach(function (c) {
-            if (typeof c === 'string') {
-              element.appendChild(new textNodeImpl(c));
-            } else if (elementImpl_1.isNode(c)) {
+            if (elementImpl_1.isNode(c)) {
               element.appendChild(c);
             } else {
-              debug("Child is not a node or string: " + c + " , tag: " + tag);
+              element.appendChild(new textNodeImpl(c));
             }
           });
         } else {
@@ -1442,7 +1307,9 @@ function createCreateElement(config) {
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
 },{"./elementImpl":"3p56"}],"TXrL":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _1 = require(".");
 
@@ -1479,7 +1346,9 @@ function __export(m) {
   }
 }
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 __export(require("./elementImpl"));
 
@@ -1495,7 +1364,7 @@ exports.AbstractElementLike = elementImpl_1.AbstractElementLike;
 __export(require("./misc"));
 
 __export(require("./util"));
-},{"./elementImpl":"3p56","./elementClass":"8O+M","./createElement":"MFEV","./misc":"TXrL","./util":"8yB0"}],"Y5I1":[function(require,module,exports) {
+},{"./elementImpl":"3p56","./elementClass":"+nOU","./createElement":"MFEV","./misc":"TXrL","./util":"8yB0"}],"Y5I1":[function(require,module,exports) {
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -1520,7 +1389,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var config_1 = require("./config");
 var util_1 = require("./util");
@@ -1581,7 +1450,7 @@ var ElementClass = (function (_super) {
 exports.ElementClass = ElementClass;
 
 },{"jsx-alone-core":"HpCL","./config":"xhWP","./util":"CLcs"}],"PHuq":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var config_1 = require("./config");
 var elementImpl_1 = require("./elementImpl");
@@ -1599,7 +1468,7 @@ var Module = {
 exports.JSXAlone = Module;
 
 },{"jsx-alone-core":"HpCL","./config":"xhWP","./elementImpl":"Y5I1"}],"V5o3":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var createElement_1 = require("./createElement");
 exports.Style = function (props) {
@@ -1632,81 +1501,13 @@ exports.Styles = Styles;
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./createElement"));
 __export(require("./Style"));
 var elementImpl_1 = require("./elementImpl");
 exports.ElementClass = elementImpl_1.ElementClass;
 
-},{"./createElement":"PHuq","./Style":"V5o3","./elementImpl":"Y5I1"}],"qWxh":[function(require,module,exports) {
-var __extends = this && this.__extends || function () {
-  var _extendStatics = function extendStatics(d, b) {
-    _extendStatics = Object.setPrototypeOf || {
-      __proto__: []
-    } instanceof Array && function (d, b) {
-      d.__proto__ = b;
-    } || function (d, b) {
-      for (var p in b) {
-        if (b.hasOwnProperty(p)) d[p] = b[p];
-      }
-    };
-
-    return _extendStatics(d, b);
-  };
-
-  return function (d, b) {
-    _extendStatics(d, b);
-
-    function __() {
-      this.constructor = d;
-    }
-
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-}();
-
-;
-
-var elementImpl_1 = require("./elementImpl");
-
-var ElementClass = function () {
-  function ElementClass(props) {
-    this.props = props;
-  }
-
-  ElementClass.prototype.childrenAsArray = function () {
-    return Array.isArray(this.props.children) ? this.props.children : [this.props.children];
-  };
-
-  ElementClass.prototype.childrenElementsAsArray = function () {
-    return this.childrenAsArray().filter(function (c) {
-      return elementImpl_1.isElementLike(c);
-    });
-  };
-
-  ElementClass.prototype.firstChildElement = function () {
-    return this.childrenAsArray().find(function (e) {
-      return true;
-    });
-  };
-
-  return ElementClass;
-}();
-
-exports.ElementClass = ElementClass;
-
-var AbstractElementClass = function (_super) {
-  __extends(AbstractElementClass, _super);
-
-  function AbstractElementClass() {
-    return _super !== null && _super.apply(this, arguments) || this;
-  }
-
-  return AbstractElementClass;
-}(ElementClass);
-
-exports.AbstractElementClass = AbstractElementClass;
-},{"./elementImpl":"3p56"}],"Nzec":[function(require,module,exports) {
+},{"./createElement":"PHuq","./Style":"V5o3","./elementImpl":"Y5I1"}],"Nzec":[function(require,module,exports) {
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var __assign = this && this.__assign || function () {
@@ -1725,7 +1526,9 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var elementImpl_1 = require("./elementImpl");
 
@@ -1758,40 +1561,34 @@ function createCreateElement(config) {
       children[_i - 2] = arguments[_i];
     }
 
+    attrs = attrs || {};
     var element;
     var elementClassInstance;
+    var tagIsString = typeof tag === 'string';
 
-    if (typeof tag === 'string') {
+    if (tagIsString) {
       element = new impl(tag);
+    } else if (elementImpl_1.isElementClassConstructor(tag)) {
+      elementClassInstance = new tag(__assign({}, attrs, {
+        children: children
+      }));
+      element = elementClassInstance.render();
     } else {
-      if (elementImpl_1.isJSXAloneComponent(tag)) {
-        elementClassInstance = new tag(__assign({}, attrs, {
-          children: children
-        }));
-        element = elementClassInstance.render();
-      } else {
-        if (_typeof(tag.prototype) !== undefined) {
-          element = new tag(__assign({}, attrs, {
-            children: children
-          }));
-        } else {
-          element = tag(__assign({}, attrs, {
-            children: children
-          }));
-        }
-      }
-
-      attrs = {};
+      element = tag(__assign({}, attrs, {
+        children: children
+      }));
     }
 
     if (onElementCreate) {
       onElementCreate({
         elementLike: element,
-        elementClassInstance: elementClassInstance
+        elementClassInstance: elementClassInstance,
+        attrs: attrs
       });
     }
 
-    Object.keys(attrs || {}).forEach(function (name) {
+    attrs = tagIsString ? attrs : {};
+    Object.keys(attrs).forEach(function (name) {
       var value = attrs[name];
 
       var type = _typeof(value);
@@ -1809,7 +1606,7 @@ function createCreateElement(config) {
       }
     });
 
-    if (typeof tag === 'string') {
+    if (tagIsString) {
       children.filter(function (c) {
         return c;
       }).forEach(function (child) {
@@ -1817,12 +1614,10 @@ function createCreateElement(config) {
           element.appendChild(child);
         } else if (Array.isArray(child)) {
           child.forEach(function (c) {
-            if (typeof c === 'string') {
-              element.appendChild(new textNodeImpl(c));
-            } else if (elementImpl_1.isNode(c)) {
+            if (elementImpl_1.isNode(c)) {
               element.appendChild(c);
             } else {
-              debug("Child is not a node or string: " + c + " , tag: " + tag);
+              element.appendChild(new textNodeImpl(c));
             }
           });
         } else {
@@ -1846,7 +1641,9 @@ function createCreateElement(config) {
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
 },{"./elementImpl":"3p56"}],"h+Y6":[function(require,module,exports) {
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _1 = require(".");
 
@@ -1883,7 +1680,9 @@ function __export(m) {
   }
 }
 
-;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 __export(require("./elementImpl"));
 
@@ -1899,7 +1698,7 @@ exports.AbstractElementLike = elementImpl_1.AbstractElementLike;
 __export(require("./misc"));
 
 __export(require("./util"));
-},{"./elementImpl":"3p56","./elementClass":"qWxh","./createElement":"Nzec","./misc":"h+Y6","./util":"8yB0"}],"wdqJ":[function(require,module,exports) {
+},{"./elementImpl":"3p56","./elementClass":"+nOU","./createElement":"Nzec","./misc":"h+Y6","./util":"8yB0"}],"wdqJ":[function(require,module,exports) {
 "use strict";
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
