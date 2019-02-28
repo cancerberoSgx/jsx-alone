@@ -13,20 +13,20 @@ export function renderApp(renderer: Renderer<LotsOfPeopleRendererConfig>, config
   }
 
   const buildModelT0 = Date.now();
-  console.time('buildModel');
+  // console.time('buildModel');
   const model = buildModel(config);
   const buildModelT = Date.now() - buildModelT0;
-  console.timeEnd('buildModel');
+  // console.timeEnd('buildModel');
 
   // createElement - declaring the JSX element here will end up in code calling JSXAlone.createElement
   const JSXAloneCreateElementT0 = Date.now();
-  console.time('JSXAlone.createElement');
+  // console.time('JSXAlone.createElement');
   const App = getApp(JSXAlone)
   const app = <div id="jsx-alone-sample-project-code">
     <App {...model} {...config} />;
   </div>
   const JSXAloneCreateElementT = Date.now() - JSXAloneCreateElementT0;
-  console.timeEnd('JSXAlone.createElement');
+  // console.timeEnd('JSXAlone.createElement');
 
   renderer(app, { buildModelT, JSXAloneCreateElementT });
   return app

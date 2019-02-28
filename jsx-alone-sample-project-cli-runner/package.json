@@ -1,0 +1,52 @@
+{
+  "name": "jsx-alone-sample-project-cli-runner",
+  "version": "0.0.2",
+  "description": " runs examples in sample-code in the CLI, without jest, to measure performance of both impls.",
+  "private": true,
+  "source": true,
+  "scripts": {
+    "build": "npx tsc",
+    "docs": "exit 0",
+    "test": "exit 0 && npx jest --testRegex \"/__tests__/.*\\.*Test\\.[t]sx?$\" ",
+    "test-js": "exit 0 && npx tsc && npx jest --passWithNoTests --testMatch \"**/dist/**/__tests__/**/*.js\"",
+    "clean": "rm -rf build/ dist/",
+    "test-clean": "exit 0 && npx jest --clearMocks",
+    "test-debug": "exit 0 && node --inspect-brk node_modules/.bin/jest --runInBand --no-cache --clearMocks",
+    "test-watch": "exit 0 && npm test -- --watch"
+  },
+  "dependencies": {
+    "jsx-alone-core": "file:../jsx-alone-core",
+    "jsx-alone-dom": "file:../jsx-alone-dom",
+    "jsx-alone-dom-sample-project": "file:../jsx-alone-dom-sample-project",
+    "jsx-alone-sample-project-code": "file:../jsx-alone-sample-project-code",
+    "jsx-alone-string": "file:../jsx-alone-string",
+    "yargs-parser": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/shelljs": "^0.8.3",
+    "parcel": "^1.11.0",
+    "@types/jest": "^24.0.6",
+    "jest": "^24.1.0",
+    "shelljs": "^0.8.3",
+    "ts-jest": "^24.0.0",
+    "typescript": "^3.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cancerberoSgx/jsx-alone.git"
+  },
+  "keywords": [
+    "without react",
+    "TypeScript",
+    "JavaScript",
+    "JSX",
+    "TSX",
+    "React"
+  ],
+  "author": "Sebastian Gurin",
+  "license": "MIT",
+  "homepage": "https://github.com/cancerberoSgx/jsx-alone",
+  "jest": {
+    "preset": "ts-jest"
+  }
+}

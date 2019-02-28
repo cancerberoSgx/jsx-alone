@@ -3,7 +3,10 @@
   "version": "0.0.2",
   "description": "",
   "private": true,
-  "source": true,
+  "source": true,  
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "typings": "dist/src/index.d.ts",
   "scripts": {
     "build": "npx tsc",
     "docs": "sh build.sh",
