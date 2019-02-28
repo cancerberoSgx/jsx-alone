@@ -1,13 +1,12 @@
-import { AbstractElementLike, AbstractTextNodeLike, ElementClass as AbstractElementClass, IElementClass as ICoreElementClass, printStyleHtmlAttribute } from 'jsx-alone-core';
-// import { markElement, RefObjectImpl } from './Refs';
-import { ElementLike, ElementLikeImplRenderConfig, RenderOutput, IElementClass } from './types';
-import { RefObjectImpl, markElement } from './Refs';
+import { AbstractElementLike, AbstractTextNodeLike, ElementClass as AbstractElementClass, printStyleHtmlAttribute } from 'jsx-alone-core';
+import { markElement, RefObjectImpl } from './Refs';
+import { ElementLike, ElementLikeImplRenderConfig, IElementClass, RenderOutput } from './types';
 
-export class ElementLikeImpl<T extends ElementClass=ElementClass> extends AbstractElementLike<RenderOutput>implements ElementLike<T> {
+export class ElementLikeImpl<T extends ElementClass=ElementClass> extends AbstractElementLike<RenderOutput> implements ElementLike<T> {
   private _innerHtml: string | undefined
 
-  _elementClassInstance: T|undefined
-  
+  _elementClassInstance: T | undefined
+
   render(config: ElementLikeImplRenderConfig<ElementLikeImpl> = {}): RenderOutput {
     // TODO: support hook for createElement (is SVG document.createElementNS('http://www.w3.org/2000/svg', tagName))
 
@@ -69,19 +68,15 @@ export class TextNodeLikeImpl extends AbstractTextNodeLike<RenderOutput> {
   }
 }
 
-export abstract class ElementClass<P = {}> extends AbstractElementClass< P> implements IElementClass<P> {
-  containerEl: HTMLElement |undefined
+export abstract class ElementClass<P = {}> extends AbstractElementClass<P> implements IElementClass<P> {
+  containerEl: HTMLElement | undefined
   /** called by ElementLike.render() */
   setContainerEl(el: HTMLElement) {
     this.containerEl = el
   }
   /** @internal */
-    __addRef<T extends ElementClass&Element>({el, value, elementLike}: {el: HTMLElement, value:RefObjectImpl<T>, elementLike: ElementLike}){
-    console.log('CUCUCUCUC', value && value._current);
-    value._current=elementLike._elementClassInstance || markElement(el) as any
-    
-    // const key = markElement(el)
-    // value._current = 
+  __addRef<T extends ElementClass & Element>({ el, value, elementLike }: { el: HTMLElement, value: RefObjectImpl<T>, elementLike: ElementLike }) {
+    value._current = elementLike._elementClassInstance || markElement(el) as any
   }
 }
 function isSvgTag(t: string) {

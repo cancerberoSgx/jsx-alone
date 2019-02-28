@@ -8,17 +8,9 @@ export interface ElementLike<T=RenderOutput >  extends  BaseElementLike<RenderOu
 
 }
 
-// export interface IElementClass<P = {}> extends ICoreElementClass<P>{
-//   containerEl: HTMLElement |undefined
-//   /** element classes in DOM implementation will be given its container element.  */
-//   setContainerEl(el: HTMLElement):void
-// }
-
 export interface TextNodeLike extends  BaseTextNodeLike<RenderOutput>{}
 
-
 export type RenderOutput = HTMLElement | Text
-
 
 export interface ElementLikeImplRenderConfig<R extends ElementLike = ElementLike> extends RenderConfig<RenderOutput, R> {
   parent?: HTMLElement
@@ -26,9 +18,11 @@ export interface ElementLikeImplRenderConfig<R extends ElementLike = ElementLike
   handleChildRender?(options: {config: ElementLikeImplRenderConfig<R>, parent: HTMLElement, child: NodeLike , elementLike: R}):boolean
   handleAfterRender?(options: {config: ElementLikeImplRenderConfig<R>, el: HTMLElement, elementLike: R }):boolean
 }
+
 export interface HandleAttributeOptions<R extends ElementLike = ElementLike>{
   config: ElementLikeImplRenderConfig<R>, el: HTMLElement, attribute:string, value:any, elementLike: R
 }
+
 export interface IElementClass<P = {}> extends ICoreElementClass<P>{
   containerEl: HTMLElement |undefined
   /** element classes in DOM implementation will be given its container element.  */
