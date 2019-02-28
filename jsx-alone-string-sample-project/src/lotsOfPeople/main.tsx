@@ -11,7 +11,7 @@ const renderer: Renderer = (app: JSX.Element, config: LotsOfPeopleRendererConfig
 let _indent:boolean
 export function renderLotsOfPeople(indent=false){
   _indent=indent
-  lotsOfPeople(renderer,  {peopleCount: 10, friendsCount: 2})
+  lotsOfPeople(renderer,  {peopleCount: 10, friendsCount: 2}, JSXAlone)
   return s
 }
 

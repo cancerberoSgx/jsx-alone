@@ -1,11 +1,11 @@
 OUTDIR=../docs/jsx-alone-dom-sample-project
 rm -rf $OUTDIR/simple/
 
-CWD=`pwd`
-cd ../jsx-alone-sample-project-code
-npm run setDomImpl
-# cp dist/src/implDom.js dist/src/impl.js
-cd $CWD
+# CWD=`pwd`
+# cd ../jsx-alone-sample-project-code
+# npm run setDomImpl
+# # cp dist/src/implDom.js dist/src/impl.js
+# cd $CWD
 
 # npm run setCodeDomImpl
 

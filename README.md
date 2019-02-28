@@ -14,19 +14,13 @@
 If you want to render in the browser directly creating DOM Nodes directly:
 
 ```sh
-npm install jsx-alone-core jsx-alone-dom
+npm install jsx-alone-dom
 ```
 
 or for rendering JSx to a string (supports node.js, browser, rhino, and others):
 
 ```sh
 npm install jsx-alone-string
-```
-
-Or same as jsx-alone-dom but with support for advance features such as stateful components (WIP - adds little overhead)
-
-```sh
-npm install jsx-alone-core jsx-alone-dom-extra
 ```
 
 

@@ -1,6 +1,7 @@
 import { lotsOfPeople, LotsOfPeopleRendererConfig, LotsOfPeopleConfig } from 'jsx-alone-sample-project-code'
 import { lotsOfPeopleRenderer } from "../lotsOfPeopleRenderer";
 import { printMs } from 'jsx-alone-core';
+import { JSXAlone } from 'jsx-alone-dom';
 
 // npm test -- --silent
 describe('dummy', () => {
@@ -25,7 +26,7 @@ friendsCount:     ${config.friendsCount}
       expect(el.querySelector<HTMLInputElement>('#peopleCount')!.value).toBe(config.peopleCount+'')
       expect(el.querySelector<HTMLInputElement>('#friendsCount')!.value).toBe(config.friendsCount+'')
       expect(el.querySelectorAll('tbody tr').length).toBe(config.peopleCount)
-    }, config)
+    }, config, JSXAlone)
 
   })
 })

@@ -3,7 +3,7 @@ rm -rf $OUTDIR
 mkdir -p $OUTDIR
 cp public/index.html $OUTDIR/index.html
 
-CWD=`pwd` ; cd ../jsx-alone-sample-project-code; npm run setDomImpl; cd $CWD
+# CWD=`pwd` ; cd ../jsx-alone-sample-project-code; npm run setDomImpl; cd $CWD
 
 export NODE_ENV=development
 npx parcel build src/lotsOfPeople/index.html --no-minify --no-content-hash --public-url './' --out-dir $OUTDIR/lotsOfPeople --out-file $OUTDIR/lotsOfPeople/index.html

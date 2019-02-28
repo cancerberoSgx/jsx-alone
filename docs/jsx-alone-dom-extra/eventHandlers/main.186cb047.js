@@ -105,9 +105,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   // Override the current require with this new one
   return newRequire;
 })({"Urqt":[function(require,module,exports) {
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+;
 
 function isElementClassConstructor(c) {
   return c.prototype && c.prototype.render;
@@ -193,9 +191,7 @@ var __extends = this && this.__extends || function () {
   };
 }();
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+;
 
 var ElementClass = function () {
   function ElementClass(props) {
@@ -237,9 +233,7 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+;
 
 var elementImpl_1 = require("./elementImpl");
 
@@ -352,9 +346,8 @@ function createCreateElement(config) {
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
 },{"./elementImpl":"Urqt"}],"h+Y6":[function(require,module,exports) {
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var global = arguments[3];
+;
 
 var _1 = require(".");
 
@@ -384,6 +377,18 @@ exports.If = If;
 function isNotFalsy(a) {
   return !!a;
 }
+
+function getGlobal() {
+  return typeof window === 'undefined' && typeof document === 'undefined' ? global : window;
+}
+
+exports.getGlobal = getGlobal;
+
+function installJSXAloneAsGlobal(i) {
+  getGlobal()['JSXAlone'] = i;
+}
+
+exports.installJSXAloneAsGlobal = installJSXAloneAsGlobal;
 },{".":"6FnY"}],"dHmX":[function(require,module,exports) {
 var __assign = this && this.__assign || function () {
   __assign = Object.assign || function (t) {
@@ -401,9 +406,7 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+;
 
 function checkThrow(r, msg) {
   if (msg === void 0) {
@@ -519,16 +522,55 @@ function unique(prefix) {
 }
 
 exports.unique = unique;
-},{}],"6FnY":[function(require,module,exports) {
+},{}],"lkGg":[function(require,module,exports) {
+;
+
+var _1 = require(".");
+
+exports.Style = function (props) {
+  function indent(n) {
+    return props.renderConfig && props.renderConfig.indent ? _1.indent(n) : '';
+  }
+
+  function fixProperty(s) {
+    var t;
+
+    while (t = /([A-Z])/.exec(s)) {
+      s = s.substring(0, t.index) + '-' + t[1].toLowerCase() + s.substring(t.index + 1, s.length);
+    }
+
+    return s;
+  }
+
+  return JSXAlone.createElement("style", null, Object.keys(props.classes).map(function (c) {
+    return indent(1) + "." + c + (props.classes[c] && props.classes[c].selectorPostfix ? props.classes[c].selectorPostfix : '') + " {" + Object.keys(props.classes[c]).filter(function (p) {
+      return p !== 'selectorPostfix';
+    }).map(function (p) {
+      return "\n" + indent(2) + fixProperty(p) + ": " + props.classes[c][p] + ";";
+    }).join("") + "\n}";
+  }).join('\n'));
+};
+
+function Styles(styles) {
+  var classes = {};
+  Object.keys(styles).forEach(function (k) {
+    classes[k] = k;
+  });
+  return {
+    styles: styles,
+    classes: classes
+  };
+}
+
+exports.Styles = Styles;
+},{".":"6FnY"}],"6FnY":[function(require,module,exports) {
 function __export(m) {
   for (var p in m) {
     if (!exports.hasOwnProperty(p)) exports[p] = m[p];
   }
 }
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+;
 
 __export(require("./elementImpl"));
 
@@ -544,7 +586,9 @@ exports.AbstractElementLike = elementImpl_1.AbstractElementLike;
 __export(require("./misc"));
 
 __export(require("./util"));
-},{"./elementImpl":"Urqt","./elementClass":"qWxh","./createElement":"Nzec","./misc":"h+Y6","./util":"dHmX"}],"fbNL":[function(require,module,exports) {
+
+__export(require("./style"));
+},{"./elementImpl":"Urqt","./elementClass":"qWxh","./createElement":"Nzec","./misc":"h+Y6","./util":"dHmX","./style":"lkGg"}],"fbNL":[function(require,module,exports) {
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var __assign = this && this.__assign || function () {
@@ -563,9 +607,7 @@ var __assign = this && this.__assign || function () {
   return __assign.apply(this, arguments);
 };
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+;
 
 var elementImpl_1 = require("./elementImpl");
 
@@ -678,9 +720,8 @@ function createCreateElement(config) {
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
 },{"./elementImpl":"Urqt"}],"k98/":[function(require,module,exports) {
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var global = arguments[3];
+;
 
 var _1 = require(".");
 
@@ -710,6 +751,59 @@ exports.If = If;
 function isNotFalsy(a) {
   return !!a;
 }
+
+function getGlobal() {
+  return typeof window === 'undefined' && typeof document === 'undefined' ? global : window;
+}
+
+exports.getGlobal = getGlobal;
+
+function installJSXAloneAsGlobal(i) {
+  getGlobal()['JSXAlone'] = i;
+}
+
+exports.installJSXAloneAsGlobal = installJSXAloneAsGlobal;
+},{".":"BB47"}],"Grpd":[function(require,module,exports) {
+;
+
+var _1 = require(".");
+
+exports.Style = function (props) {
+  function indent(n) {
+    return props.renderConfig && props.renderConfig.indent ? _1.indent(n) : '';
+  }
+
+  function fixProperty(s) {
+    var t;
+
+    while (t = /([A-Z])/.exec(s)) {
+      s = s.substring(0, t.index) + '-' + t[1].toLowerCase() + s.substring(t.index + 1, s.length);
+    }
+
+    return s;
+  }
+
+  return JSXAlone.createElement("style", null, Object.keys(props.classes).map(function (c) {
+    return indent(1) + "." + c + (props.classes[c] && props.classes[c].selectorPostfix ? props.classes[c].selectorPostfix : '') + " {" + Object.keys(props.classes[c]).filter(function (p) {
+      return p !== 'selectorPostfix';
+    }).map(function (p) {
+      return "\n" + indent(2) + fixProperty(p) + ": " + props.classes[c][p] + ";";
+    }).join("") + "\n}";
+  }).join('\n'));
+};
+
+function Styles(styles) {
+  var classes = {};
+  Object.keys(styles).forEach(function (k) {
+    classes[k] = k;
+  });
+  return {
+    styles: styles,
+    classes: classes
+  };
+}
+
+exports.Styles = Styles;
 },{".":"BB47"}],"BB47":[function(require,module,exports) {
 function __export(m) {
   for (var p in m) {
@@ -717,9 +811,7 @@ function __export(m) {
   }
 }
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+;
 
 __export(require("./elementImpl"));
 
@@ -735,8 +827,10 @@ exports.AbstractElementLike = elementImpl_1.AbstractElementLike;
 __export(require("./misc"));
 
 __export(require("./util"));
-},{"./elementImpl":"Urqt","./elementClass":"qWxh","./createElement":"fbNL","./misc":"k98/","./util":"dHmX"}],"uJT8":[function(require,module,exports) {
-Object.defineProperty(exports, "__esModule", { value: true });
+
+__export(require("./style"));
+},{"./elementImpl":"Urqt","./elementClass":"qWxh","./createElement":"fbNL","./misc":"k98/","./util":"dHmX","./style":"Grpd"}],"uJT8":[function(require,module,exports) {
+;
 var jsx_alone_core_1 = require("jsx-alone-core");
 var RefObjectImpl = (function () {
     function RefObjectImpl() {
@@ -799,7 +893,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+;
 var jsx_alone_core_1 = require("jsx-alone-core");
 var Refs_1 = require("./Refs");
 var ElementLikeImpl = (function (_super) {
@@ -903,7 +997,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+;
 var jsx_alone_core_1 = require("jsx-alone-core");
 var _1 = require(".");
 var Refs_1 = require("./Refs");
@@ -960,7 +1054,7 @@ exports.JSXAlone = buildJSXALone();
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-Object.defineProperty(exports, "__esModule", { value: true });
+;
 __export(require("./elementImpl"));
 __export(require("./createElement"));
 
@@ -1059,12 +1153,7 @@ function (_super) {
     _this.state = {};
     _this.state = __assign({}, p);
     return _this;
-  } // protected containerEl: HTMLElement = undefined as any
-  // /** called by ElementLike.render() */
-  // setContainerEl(el: HTMLElement) {
-  //   this.containerEl = el
-  // }
-
+  }
   /** changes the state, clean up containerEl and renders the element again and append it to containerEl.
    * Notice that descendant elements will be destroyed and */
 
@@ -1077,10 +1166,7 @@ function (_super) {
   return StatefulComponent;
 }(_1.ElementClass);
 
-exports.StatefulComponent = StatefulComponent; // {config: ElementLikeImplRenderConfig<R>, el: HTMLElement, attribute:string, value:any, elementLike: R}
-// export function isStatefulComponent(c: any): c is StatefulComponent {
-//   return c && c.setState
-// }
+exports.StatefulComponent = StatefulComponent;
 },{"./":"o2+O"}],"cbxI":[function(require,module,exports) {
 "use strict";
 

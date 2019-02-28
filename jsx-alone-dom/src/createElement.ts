@@ -1,7 +1,7 @@
 import { createCreateElement, CreateCreateElementConfig, CreateElementFunction, RefObject } from 'jsx-alone-core'
 import { ElementLikeImpl, TextNodeLikeImpl, ElementLike } from '.'
 import { NodeLike, RenderOutput, ElementLikeImplRenderConfig, IElementClass } from './types';
-import { RefObjectImpl } from './Refs';
+import { RefObjectImpl, setRef } from './Refs';
 
 function buildJSXALone(): JSXAloneType<RenderOutput, ElementLike> {
 
@@ -24,11 +24,16 @@ function createExtraConfig(rootElementLike: ElementLike) {
   const c: ElementLikeImplRenderConfig = {
     handleAfterRender({ el, elementLike }: { el: HTMLElement; elementLike: ElementLike }) {
       const elementClassWithContainer = elementLike._elementClassInstance || rootElementLike._elementClassInstance
+        if (elementLike.ref) {
+          // console.log('elementLike.ref', elementLike.ref, elementClassWithContainer && elementClassWithContainer.setContainerEl);
+          // if (elementLike.ref) {
+            // elementClassWithContainer.__addRef({ elementLike, el, value: elementLike.ref })
+          // }
+          setRef({ elementLike, el, value: elementLike.ref as RefObjectImpl<any> })
+        }
       if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
         elementClassWithContainer.setContainerEl(el)
-        if (elementLike.ref) {
-          elementClassWithContainer.__addRef({ elementLike, el, value: elementLike.ref })
-        }
+        
       }
       return true
     }

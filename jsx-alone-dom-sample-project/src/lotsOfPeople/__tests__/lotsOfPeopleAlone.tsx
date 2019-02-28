@@ -17,6 +17,7 @@ g.navigator = dom.window.navigator;
 import { lotsOfPeople, LotsOfPeopleRendererConfig, LotsOfPeopleConfig } from 'jsx-alone-sample-project-code'
 import { lotsOfPeopleRenderer } from "../lotsOfPeopleRenderer";
 import { printMs } from 'jsx-alone-core';
+import { JSXAlone } from 'jsx-alone-dom';
 
 
 export function lotsOfPeopleAloneTest(){
@@ -36,7 +37,7 @@ friendsCount:     ${config.friendsCount}
 `
 console.log(s);
 
-})
+}, undefined, JSXAlone)
 }
 
 lotsOfPeopleAloneTest()

@@ -27,5 +27,5 @@ export interface IElementClass<P = {}> extends ICoreElementClass<P>{
   containerEl: HTMLElement |undefined
   /** element classes in DOM implementation will be given its container element.  */
   setContainerEl(el: HTMLElement):void
-  __addRef<T extends IElementClass&Element>({el, value, elementLike}: {el: HTMLElement, value:RefObject<T>, elementLike: ElementLike}):void
+  // __addRef<T extends IElementClass&Element>({el, value, elementLike}: {el: HTMLElement, value:RefObject<T>, elementLike: ElementLike}):void
 }

@@ -5,6 +5,8 @@
 
  * ISSUE - <If> in dom impl : props.children is array
 
+ * the problem with dependency injection in sample-code project can be resolved by passing JSXAlone instance from invocator
+
  * core: interface ElementLike should BE or implementing JSX.Element where tag is type and attrs is props
  
  * improve: stateful element. when parent is updated,children state is reset

@@ -42,7 +42,7 @@ const renderer: Renderer = (app: JSX.Element, config: LotsOfPeopleRendererConfig
 
 }
 
-lotsOfPeople(renderer)
+lotsOfPeople(renderer, undefined, JSXAlone)
 
 
 // /** sets innerHTML and calls children scripts if any */

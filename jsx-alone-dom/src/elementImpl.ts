@@ -74,10 +74,12 @@ export abstract class ElementClass<P = {}> extends AbstractElementClass<P> imple
   setContainerEl(el: HTMLElement) {
     this.containerEl = el
   }
-  /** @internal */
-  __addRef<T extends ElementClass & Element>({ el, value, elementLike }: { el: HTMLElement, value: RefObjectImpl<T>, elementLike: ElementLike }) {
-    value._current = elementLike._elementClassInstance || markElement(el) as any
-  }
+  // /** @internal */
+  // __addRef<T extends ElementClass & Element>({ el, value, elementLike }: { el: HTMLElement, value: RefObjectImpl<T>, elementLike: ElementLike }) {
+  //   console.log('__addRef', elementLike._elementClassInstance || markElement(el));
+    
+  //   value._current = elementLike._elementClassInstance || markElement(el) as any
+  // }
 }
 function isSvgTag(t: string) {
   const r = new RegExp(`^${t}$`, 'i')
