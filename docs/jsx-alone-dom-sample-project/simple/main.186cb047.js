@@ -104,7 +104,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   // Override the current require with this new one
   return newRequire;
-})({"Urqt":[function(require,module,exports) {
+})({"vmAk":[function(require,module,exports) {
 ;
 
 function isElementClassConstructor(c) {
@@ -164,7 +164,7 @@ var AbstractElementLike = function () {
 }();
 
 exports.AbstractElementLike = AbstractElementLike;
-},{}],"qWxh":[function(require,module,exports) {
+},{}],"0Bvz":[function(require,module,exports) {
 var __extends = this && this.__extends || function () {
   var _extendStatics = function extendStatics(d, b) {
     _extendStatics = Object.setPrototypeOf || {
@@ -214,7 +214,7 @@ var AbstractElementClass = function (_super) {
 }(ElementClass);
 
 exports.AbstractElementClass = AbstractElementClass;
-},{}],"Nzec":[function(require,module,exports) {
+},{}],"fbNL":[function(require,module,exports) {
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var __assign = this && this.__assign || function () {
@@ -345,7 +345,7 @@ function createCreateElement(config) {
 
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
-},{"./elementImpl":"Urqt"}],"h+Y6":[function(require,module,exports) {
+},{"./elementImpl":"vmAk"}],"k98/":[function(require,module,exports) {
 var global = arguments[3];
 ;
 
@@ -389,7 +389,7 @@ function installJSXAloneAsGlobal(i) {
 }
 
 exports.installJSXAloneAsGlobal = installJSXAloneAsGlobal;
-},{".":"6FnY"}],"dHmX":[function(require,module,exports) {
+},{".":"BB47"}],"gOGk":[function(require,module,exports) {
 var __assign = this && this.__assign || function () {
   __assign = Object.assign || function (t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -522,376 +522,7 @@ function unique(prefix) {
 }
 
 exports.unique = unique;
-},{}],"lkGg":[function(require,module,exports) {
-;
-
-var _1 = require(".");
-
-exports.Style = function (props) {
-  function indent(n) {
-    return props.renderConfig && props.renderConfig.indent ? _1.indent(n) : '';
-  }
-
-  function fixProperty(s) {
-    var t;
-
-    while (t = /([A-Z])/.exec(s)) {
-      s = s.substring(0, t.index) + '-' + t[1].toLowerCase() + s.substring(t.index + 1, s.length);
-    }
-
-    return s;
-  }
-
-  return JSXAlone.createElement("style", null, Object.keys(props.classes).map(function (c) {
-    return indent(1) + "." + c + (props.classes[c] && props.classes[c].selectorPostfix ? props.classes[c].selectorPostfix : '') + " {" + Object.keys(props.classes[c]).filter(function (p) {
-      return p !== 'selectorPostfix';
-    }).map(function (p) {
-      return "\n" + indent(2) + fixProperty(p) + ": " + props.classes[c][p] + ";";
-    }).join("") + "\n}";
-  }).join('\n'));
-};
-
-function Styles(styles) {
-  var classes = {};
-  Object.keys(styles).forEach(function (k) {
-    classes[k] = k;
-  });
-  return {
-    styles: styles,
-    classes: classes
-  };
-}
-
-exports.Styles = Styles;
-},{".":"6FnY"}],"UvR+":[function(require,module,exports) {
-var __extends = this && this.__extends || function () {
-  var _extendStatics = function extendStatics(d, b) {
-    _extendStatics = Object.setPrototypeOf || {
-      __proto__: []
-    } instanceof Array && function (d, b) {
-      d.__proto__ = b;
-    } || function (d, b) {
-      for (var p in b) {
-        if (b.hasOwnProperty(p)) d[p] = b[p];
-      }
-    };
-
-    return _extendStatics(d, b);
-  };
-
-  return function (d, b) {
-    _extendStatics(d, b);
-
-    function __() {
-      this.constructor = d;
-    }
-
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-}();
-
-var __assign = this && this.__assign || function () {
-  __assign = Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-
-      for (var p in s) {
-        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-      }
-    }
-
-    return t;
-  };
-
-  return __assign.apply(this, arguments);
-};
-
-;
-
-var _1 = require("./");
-
-var createElement_1 = require("./createElement");
-
-var elementClass_1 = require("./elementClass");
-
-var JsonImplElementLikeImpl = function (_super) {
-  __extends(JsonImplElementLikeImpl, _super);
-
-  function JsonImplElementLikeImpl() {
-    return _super !== null && _super.apply(this, arguments) || this;
-  }
-
-  JsonImplElementLikeImpl.prototype.render = function (config) {
-    if (config === void 0) {
-      config = {};
-    }
-
-    return {
-      tag: this.tag,
-      innerHtml: this.innerHtml,
-      attrs: this.attrs,
-      children: this.children.map(function (c) {
-        return __assign({}, c, {
-          parentElement: undefined
-        });
-      })
-    };
-  };
-
-  JsonImplElementLikeImpl.prototype.dangerouslySetInnerHTML = function (s) {
-    this.innerHtml = s;
-  };
-
-  return JsonImplElementLikeImpl;
-}(_1.AbstractElementLike);
-
-exports.JsonImplElementLikeImpl = JsonImplElementLikeImpl;
-
-var JsonImplTextNodeLikeImpl = function (_super) {
-  __extends(JsonImplTextNodeLikeImpl, _super);
-
-  function JsonImplTextNodeLikeImpl() {
-    return _super !== null && _super.apply(this, arguments) || this;
-  }
-
-  JsonImplTextNodeLikeImpl.prototype.render = function (config) {
-    return {
-      content: this.content
-    };
-  };
-
-  return JsonImplTextNodeLikeImpl;
-}(_1.AbstractTextNodeLike);
-
-exports.JsonImplTextNodeLikeImpl = JsonImplTextNodeLikeImpl;
-
-var JsonImplElementClass = function (_super) {
-  __extends(JsonImplElementClass, _super);
-
-  function JsonImplElementClass() {
-    return _super !== null && _super.apply(this, arguments) || this;
-  }
-
-  return JsonImplElementClass;
-}(elementClass_1.AbstractElementClass);
-
-exports.JsonImplElementClass = JsonImplElementClass;
-exports.JSXAloneJsonImpl = {
-  createElement: createElement_1.createCreateElement({
-    impl: JsonImplElementLikeImpl,
-    textNodeImpl: JsonImplTextNodeLikeImpl
-  }),
-  render: function render(el, config) {
-    if (config === void 0) {
-      config = {};
-    }
-
-    return el.render(config);
-  }
-};
-},{"./":"6FnY","./createElement":"Nzec","./elementClass":"qWxh"}],"6FnY":[function(require,module,exports) {
-function __export(m) {
-  for (var p in m) {
-    if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-  }
-}
-
-;
-
-__export(require("./elementImpl"));
-
-__export(require("./elementClass"));
-
-__export(require("./createElement"));
-
-var elementImpl_1 = require("./elementImpl");
-
-exports.AbstractTextNodeLike = elementImpl_1.AbstractTextNodeLike;
-exports.AbstractElementLike = elementImpl_1.AbstractElementLike;
-
-__export(require("./misc"));
-
-__export(require("./util"));
-
-__export(require("./style"));
-
-__export(require("./JsonImpl"));
-},{"./elementImpl":"Urqt","./elementClass":"qWxh","./createElement":"Nzec","./misc":"h+Y6","./util":"dHmX","./style":"lkGg","./JsonImpl":"UvR+"}],"fbNL":[function(require,module,exports) {
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-var __assign = this && this.__assign || function () {
-  __assign = Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-
-      for (var p in s) {
-        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-      }
-    }
-
-    return t;
-  };
-
-  return __assign.apply(this, arguments);
-};
-
-;
-
-var elementImpl_1 = require("./elementImpl");
-
-var throwOnUnrecognized = false;
-
-function debug(err) {
-  if (throwOnUnrecognized) {
-    throw err;
-  } else {
-    console.error(err);
-  }
-}
-
-exports.debug = debug;
-
-function createCreateElement(config) {
-  var impl = config.impl,
-      textNodeImpl = config.textNodeImpl,
-      onElementReady = config.onElementReady,
-      onElementCreate = config.onElementCreated;
-
-  var createElement = function createElement(tag, attrs) {
-    if (attrs === void 0) {
-      attrs = {};
-    }
-
-    var children = [];
-
-    for (var _i = 2; _i < arguments.length; _i++) {
-      children[_i - 2] = arguments[_i];
-    }
-
-    attrs = attrs || {};
-    var element;
-    var elementClassInstance;
-    var tagIsString = typeof tag === 'string';
-
-    if (tagIsString) {
-      element = new impl(tag);
-    } else if (elementImpl_1.isElementClassConstructor(tag)) {
-      elementClassInstance = new tag(__assign({}, attrs, {
-        children: children
-      }));
-      element = elementClassInstance.render();
-    } else {
-      element = tag(__assign({}, attrs, {
-        children: children
-      }));
-    }
-
-    if (onElementCreate) {
-      onElementCreate({
-        elementLike: element,
-        elementClassInstance: elementClassInstance,
-        attrs: attrs
-      });
-    }
-
-    attrs = tagIsString ? attrs : {};
-    Object.keys(attrs).forEach(function (name) {
-      var value = attrs[name];
-
-      var type = _typeof(value);
-
-      if (type === 'string' || type === 'number') {
-        element.setAttribute(name, value);
-      } else if (type === 'function') {
-        element.setAttribute(name, value);
-      } else if (value === false) {} else if (value === true) {
-        element.setAttribute(name, name);
-      } else if (name === 'dangerouslySetInnerHTML' && value) {
-        element.dangerouslySetInnerHTML(value.__html);
-      } else {
-        element.setAttribute(name, value);
-      }
-    });
-
-    if (tagIsString) {
-      children.filter(function (c) {
-        return c;
-      }).forEach(function (child) {
-        if (elementImpl_1.isNode(child)) {
-          element.appendChild(child);
-        } else if (Array.isArray(child)) {
-          child.forEach(function (c) {
-            if (elementImpl_1.isNode(c)) {
-              element.appendChild(c);
-            } else {
-              element.appendChild(new textNodeImpl(c));
-            }
-          });
-        } else {
-          element.appendChild(new textNodeImpl(child));
-        }
-      });
-    }
-
-    if (onElementReady) {
-      onElementReady({
-        elementLike: element
-      });
-    }
-
-    return element;
-  };
-
-  return createElement;
-}
-
-exports.createCreateElement = createCreateElement;
-exports.AbstractJSXAlone = null;
-},{"./elementImpl":"Urqt"}],"k98/":[function(require,module,exports) {
-var global = arguments[3];
-;
-
-var _1 = require(".");
-
-exports.Fragment = function (props) {
-  return _1.AbstractJSXAlone.createElement("span", null, props.children);
-};
-
-function Js(props) {
-  var r = props.children();
-  console.log(r);
-  return r ? _1.AbstractJSXAlone.createElement(exports.Fragment, null, r) : null;
-}
-
-exports.Js = Js;
-
-function If(props) {
-  var f = Array.isArray(props.children) ? props.children[0] : props.children;
-  var c = props.c,
-      p = props.p;
-  if (isNotFalsy(c)) return f.apply(null, (p ? [p] : []).concat([c]));else {
-    return null;
-  }
-}
-
-exports.If = If;
-
-function isNotFalsy(a) {
-  return !!a;
-}
-
-function getGlobal() {
-  return typeof window === 'undefined' && typeof document === 'undefined' ? global : window;
-}
-
-exports.getGlobal = getGlobal;
-
-function installJSXAloneAsGlobal(i) {
-  getGlobal()['JSXAlone'] = i;
-}
-
-exports.installJSXAloneAsGlobal = installJSXAloneAsGlobal;
-},{".":"BB47"}],"Grpd":[function(require,module,exports) {
+},{}],"Grpd":[function(require,module,exports) {
 ;
 
 var _1 = require(".");
@@ -1058,7 +689,7 @@ exports.JSXAloneJsonImpl = {
     return el.render(config);
   }
 };
-},{"./":"BB47","./createElement":"fbNL","./elementClass":"qWxh"}],"BB47":[function(require,module,exports) {
+},{"./":"BB47","./createElement":"fbNL","./elementClass":"0Bvz"}],"BB47":[function(require,module,exports) {
 function __export(m) {
   for (var p in m) {
     if (!exports.hasOwnProperty(p)) exports[p] = m[p];
@@ -1085,7 +716,7 @@ __export(require("./util"));
 __export(require("./style"));
 
 __export(require("./JsonImpl"));
-},{"./elementImpl":"Urqt","./elementClass":"qWxh","./createElement":"fbNL","./misc":"k98/","./util":"dHmX","./style":"Grpd","./JsonImpl":"WOpK"}],"uJT8":[function(require,module,exports) {
+},{"./elementImpl":"vmAk","./elementClass":"0Bvz","./createElement":"fbNL","./misc":"k98/","./util":"gOGk","./style":"Grpd","./JsonImpl":"WOpK"}],"uJT8":[function(require,module,exports) {
 ;
 var jsx_alone_core_1 = require("jsx-alone-core");
 var RefObjectImpl = (function () {
@@ -1301,116 +932,7 @@ function __export(m) {
 __export(require("./elementImpl"));
 __export(require("./createElement"));
 
-},{"./elementImpl":"gNvY","./createElement":"S0OW"}],"kwGG":[function(require,module,exports) {
-"use strict";
-
-var __assign = this && this.__assign || function () {
-  __assign = Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-
-      for (var p in s) {
-        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-      }
-    }
-
-    return t;
-  };
-
-  return __assign.apply(this, arguments);
-};
-
-exports.__esModule = true;
-
-var jsx_alone_core_1 = require("jsx-alone-core");
-
-var jsx_alone_dom_1 = require("jsx-alone-dom");
-
-exports.ElementClass = jsx_alone_dom_1.ElementClass;
-exports.createCreateConfig = __assign({}, jsx_alone_dom_1.getCreateCreateElementConfig(), {
-  impl: jsx_alone_dom_1.ElementLikeImpl,
-  textNodeImpl: jsx_alone_dom_1.TextNodeLikeImpl
-});
-exports.JSXAlone = {
-  createElement: jsx_alone_core_1.createCreateElement(exports.createCreateConfig),
-  render: jsx_alone_dom_1.JSXAlone.render,
-  createRef: jsx_alone_dom_1.JSXAlone.createRef
-};
-},{"jsx-alone-core":"6FnY","jsx-alone-dom":"MNUJ"}],"4eCq":[function(require,module,exports) {
-"use strict";
-
-var __extends = this && this.__extends || function () {
-  var _extendStatics = function extendStatics(d, b) {
-    _extendStatics = Object.setPrototypeOf || {
-      __proto__: []
-    } instanceof Array && function (d, b) {
-      d.__proto__ = b;
-    } || function (d, b) {
-      for (var p in b) {
-        if (b.hasOwnProperty(p)) d[p] = b[p];
-      }
-    };
-
-    return _extendStatics(d, b);
-  };
-
-  return function (d, b) {
-    _extendStatics(d, b);
-
-    function __() {
-      this.constructor = d;
-    }
-
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-}();
-
-var __assign = this && this.__assign || function () {
-  __assign = Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-
-      for (var p in s) {
-        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-      }
-    }
-
-    return t;
-  };
-
-  return __assign.apply(this, arguments);
-};
-
-exports.__esModule = true;
-
-var _1 = require("./");
-
-var StatefulComponent =
-/** @class */
-function (_super) {
-  __extends(StatefulComponent, _super);
-
-  function StatefulComponent(p) {
-    var _this = _super.call(this, p) || this;
-
-    _this.state = {};
-    _this.state = __assign({}, p);
-    return _this;
-  }
-  /** changes the state, clean up containerEl and renders the element again and append it to containerEl.
-   * Notice that descendant elements will be destroyed and */
-
-
-  StatefulComponent.prototype.setState = function (s) {
-    //@ts-ignore
-    this.state = __assign({}, this.state, s);
-  };
-
-  return StatefulComponent;
-}(_1.ElementClass);
-
-exports.StatefulComponent = StatefulComponent;
-},{"./":"o2+O"}],"cbxI":[function(require,module,exports) {
+},{"./elementImpl":"gNvY","./createElement":"S0OW"}],"wdqJ":[function(require,module,exports) {
 "use strict";
 
 var __extends = this && this.__extends || function () {
@@ -1441,299 +963,80 @@ var __extends = this && this.__extends || function () {
 
 exports.__esModule = true;
 
-var _1 = require("./");
-
-var StatefulComponent_1 = require("./StatefulComponent");
-/**
- * implements stateful-ness by re-rendering it self again and again when the state changes. So it destroy its current
- * DOM nodes when the state changes and recreates them all again. Has some hacks to maintain current focus and children
- * state.
- *
- * Preserves focus.
- *
- * TODO: event listeners are not removed
- *
- * TODO: parent re-render actually resets the children (ISSUE)
- */
+var jsx_alone_dom_1 = require("jsx-alone-dom"); // example function element
 
 
-var DestructiveDomRenderComponent =
-/** @class */
-function (_super) {
-  __extends(DestructiveDomRenderComponent, _super);
+var TaskPageLink = function TaskPageLink(props) {
+  return jsx_alone_dom_1.JSXAlone.createElement("a", {
+    href: "pages/tasks/" + props.task + "_small.html"
+  }, props.children);
+}; // example class element that renders given information and uses previous TaskPageLink element
 
-  function DestructiveDomRenderComponent() {
-    return _super !== null && _super.apply(this, arguments) || this;
-  }
-  /** changes the state, clean up containerEl and renders the element again and append it to containerEl.
-   * Notice that descendant elements will be destroyed and */
-
-
-  DestructiveDomRenderComponent.prototype.setState = function (s) {
-    _super.prototype.setState.call(this, s);
-
-    if (!this.containerEl) {
-      throw new Error('this.containerEl is undefined - cannot DestructiveDomRender');
-    }
-
-    var activePath;
-    var selection = {
-      start: 0,
-      end: 0
-    };
-
-    if (document.activeElement) {
-      activePath = getXPathOfElement(document.activeElement);
-      selection = {
-        start: document.activeElement.selectionStart || 0,
-        end: document.activeElement.selectionEnd || 0,
-        direction: document.activeElement.selectionDirection || undefined
-      };
-    }
-
-    var jsx = this.render();
-
-    var el = _1.JSXAlone.render(jsx);
-
-    this.containerEl.parentElement.replaceChild(el, this.containerEl);
-    this.containerEl = el;
-
-    if (activePath) {
-      var activeEl = getElementByXPath(activePath + '');
-
-      if (activeEl && selection) {
-        activeEl.focus();
-
-        if (activeEl.setSelectionRange) {
-          activeEl.setSelectionRange(selection.start, selection.end, selection.direction);
-        }
-      }
-    }
-  };
-
-  return DestructiveDomRenderComponent;
-}(StatefulComponent_1.StatefulComponent);
-
-exports.DestructiveDomRenderComponent = DestructiveDomRenderComponent; //  TODO: move to misc
-
-function getXPathOfElement(el) {
-  if (typeof el == 'string') {
-    return document.evaluate(el, document, null, 0, null) + '';
-  }
-
-  if (!el || el.nodeType != 1) {
-    return '';
-  }
-
-  if (el.id) return "//*[@id='" + el.id + "']";
-
-  if (el.parentNode) {
-    var sames = Array.from(el.parentNode.children).filter(function (x) {
-      return x.tagName == el.tagName;
-    });
-    return getXPathOfElement(el.parentNode) + '/' + (el.tagName || '').toLowerCase() + (sames.length > 1 ? '[' + (sames.indexOf(el) + 1) + ']' : '');
-  } else {
-    return undefined;
-  }
-} //  TODO: move to misc
-
-
-function getElementByXPath(path, predicate) {
-  var p = document.evaluate(path, document, null, 0, null);
-
-  if (!predicate) {
-    return p.iterateNext();
-  }
-
-  try {
-    var n = void 0;
-    var n2 = void 0;
-
-    while ((n = p.iterateNext()) && !predicate(n)) {
-      n2 = n;
-    }
-
-    return n2;
-  } catch (e) {
-    alert('Error: Document tree modified during iteration ' + e);
-  }
-}
-},{"./":"o2+O","./StatefulComponent":"4eCq"}],"o2+O":[function(require,module,exports) {
-"use strict";
-
-function __export(m) {
-  for (var p in m) {
-    if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-  }
-}
-
-exports.__esModule = true;
-
-__export(require("./createElement"));
-
-__export(require("./StatefulComponent"));
-
-__export(require("./DestructiveDomRenderComponent")); // export * from './UpdateDomComponent'
-},{"./createElement":"kwGG","./StatefulComponent":"4eCq","./DestructiveDomRenderComponent":"cbxI"}],"zjbS":[function(require,module,exports) {
-"use strict";
-
-var __extends = this && this.__extends || function () {
-  var _extendStatics = function extendStatics(d, b) {
-    _extendStatics = Object.setPrototypeOf || {
-      __proto__: []
-    } instanceof Array && function (d, b) {
-      d.__proto__ = b;
-    } || function (d, b) {
-      for (var p in b) {
-        if (b.hasOwnProperty(p)) d[p] = b[p];
-      }
-    };
-
-    return _extendStatics(d, b);
-  };
-
-  return function (d, b) {
-    _extendStatics(d, b);
-
-    function __() {
-      this.constructor = d;
-    }
-
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-  };
-}();
-
-var __assign = this && this.__assign || function () {
-  __assign = Object.assign || function (t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-      s = arguments[i];
-
-      for (var p in s) {
-        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
-      }
-    }
-
-    return t;
-  };
-
-  return __assign.apply(this, arguments);
-};
-
-exports.__esModule = true;
-
-var __1 = require("..");
-
-var DestructiveDomRenderComponent_1 = require("../DestructiveDomRenderComponent");
-
-function statefulElementClassTestRenderApp() {
-  var parent = document.createElement('div');
-  document.body.appendChild(parent);
-
-  var el = __1.JSXAlone.render(__1.JSXAlone.createElement(App, {
-    people: [{
-      name: 'seba'
-    }, {
-      name: 'lau'
-    }]
-  }), {
-    parent: parent
-  });
-
-  parent.appendChild(el);
-  return parent;
-}
-
-exports.statefulElementClassTestRenderApp = statefulElementClassTestRenderApp;
-
-var Repeater =
-/** @class */
-function (_super) {
-  __extends(Repeater, _super);
-
-  function Repeater(p) {
-    var _this = _super.call(this, p) || this;
-
-    _this.state = __assign({}, p);
-    return _this;
-  }
-
-  Repeater.prototype.render = function () {
-    var _this = this;
-
-    return __1.JSXAlone.createElement("div", {
-      className: "Repeater"
-    }, "Write something:", __1.JSXAlone.createElement("input", {
-      value: this.state.value,
-      onKeyUp: function onKeyUp(e) {
-        _this.setState({
-          value: e.currentTarget.value
-        });
-      }
-    }), __1.JSXAlone.createElement("br", null), "Will be repeated: ", __1.JSXAlone.createElement("span", null, this.state.value), ' ');
-  };
-
-  return Repeater;
-}(DestructiveDomRenderComponent_1.DestructiveDomRenderComponent);
 
 var App =
 /** @class */
 function (_super) {
   __extends(App, _super);
 
-  function App(p) {
-    var _this = _super.call(this, p) || this;
-
-    _this.state = __assign({}, p);
-    return _this;
+  function App() {
+    return _super !== null && _super.apply(this, arguments) || this;
   }
 
   App.prototype.render = function () {
     var _this = this;
 
-    return __1.JSXAlone.createElement("div", {
-      className: "App"
-    }, __1.JSXAlone.createElement("button", {
-      id: "add",
+    return jsx_alone_dom_1.JSXAlone.createElement("article", null, jsx_alone_dom_1.JSXAlone.createElement("h3", null, "Welcome ", this.props.name, "!"), jsx_alone_dom_1.JSXAlone.createElement("p", null, "These are your tasks:"), jsx_alone_dom_1.JSXAlone.createElement("ul", null, this.props.tasks.map(function (task) {
+      return jsx_alone_dom_1.JSXAlone.createElement("li", null, jsx_alone_dom_1.JSXAlone.createElement(TaskPageLink, {
+        task: task
+      }, task));
+    })), jsx_alone_dom_1.JSXAlone.createElement("h2", null, "Tests with event handlers"), jsx_alone_dom_1.JSXAlone.createElement("p", null, "Accessing HTMLElement using `this` dont' work because this has the correct context:", jsx_alone_dom_1.JSXAlone.createElement("button", {
       onClick: function onClick(e) {
-        return _this.setState({
-          people: _this.state.people.concat([{
-            name: 'random name ' + Math.random()
-          }])
-        });
+        return alert(_this.tagName + " text is " + _this.textContent);
       }
-    }, "add"), __1.JSXAlone.createElement("ul", null, this.state.people.map(function (p) {
-      return __1.JSXAlone.createElement("li", {
-        "data-id": p.name
-      }, __1.JSXAlone.createElement(Repeater, {
-        value: p.name
-      }), __1.JSXAlone.createElement("button", {
-        className: "remove",
-        onClick: function onClick(e) {
-          _this.setState({
-            people: _this.state.people.filter(function (p2) {
-              return p2.name !== p.name;
-            })
-          });
-        }
-      }, "remove"));
+    }, "should work")), jsx_alone_dom_1.JSXAlone.createElement("p", null, "Accessing event argument works::", jsx_alone_dom_1.JSXAlone.createElement("button", {
+      onClick: function onClick(e) {
+        return alert(e.currentTarget.tagName + " text is " + e.currentTarget.textContent);
+      }
+    }, "should work")), jsx_alone_dom_1.JSXAlone.createElement("p", null, "Accessing variables in scope works:", jsx_alone_dom_1.JSXAlone.createElement("button", {
+      onClick: function onClick(e) {
+        return alert(dummy('So '));
+      }
+    }, "don't work")), jsx_alone_dom_1.JSXAlone.createElement("p", null, "Accessing members (this.) works: ", jsx_alone_dom_1.JSXAlone.createElement("button", {
+      onClick: function onClick(e) {
+        return alert(_this.dummy('So '));
+      }
+    }, "method")), jsx_alone_dom_1.JSXAlone.createElement("h2", null, "Tests with SVG"), jsx_alone_dom_1.JSXAlone.createElement("svg", {
+      viewBox: "0 0 141 41",
+      width: "500px",
+      height: "300px"
+    }, jsx_alone_dom_1.JSXAlone.createElement("text", {
+      fill: "green"
+    }, "hello world"), jsx_alone_dom_1.JSXAlone.createElement("path", {
+      d: "M241.74,421.43v-41h28.61v41H241.74Zm24.47-4.13V384.56H245.86V417.3h20.35Z",
+      transform: "translate(-241.74 -380.43)",
+      style: {
+        fill: '#ffcd05'
+      }
     })));
   };
 
-  App.prototype.setState = function (s) {
-    this.state = __assign({}, this.state, s);
-    this.containerEl.innerHTML = '';
-    this.containerEl.appendChild(__1.JSXAlone.render(this.render()));
+  App.prototype.dummy = function (n) {
+    return n + '_dummy';
   };
 
   return App;
-}(DestructiveDomRenderComponent_1.DestructiveDomRenderComponent);
-},{"..":"o2+O","../DestructiveDomRenderComponent":"cbxI"}],"7mCw":[function(require,module,exports) {
-"use strict";
+}(jsx_alone_dom_1.ElementClass);
 
-exports.__esModule = true;
+function dummy(n) {
+  return n + '_dummy';
+} // render the App and append the generated element to body
 
-var statefulElementClassTestRenderApp_1 = require("./statefulElementClassTestRenderApp");
 
-statefulElementClassTestRenderApp_1.statefulElementClassTestRenderApp();
-},{"./statefulElementClassTestRenderApp":"zjbS"}]},{},["7mCw"], null)
-//# sourceMappingURL=statefulElementClassTestMain.7e0bb39d.map
+var app = jsx_alone_dom_1.JSXAlone.createElement(App, {
+  name: "John Doe",
+  tasks: ['Wash dishes', 'Go outside', 'Play soccer']
+});
+var el = jsx_alone_dom_1.JSXAlone.render(app);
+document.body.appendChild(el);
+},{"jsx-alone-dom":"MNUJ"}]},{},["wdqJ"], null)
+//# sourceMappingURL=main.186cb047.map

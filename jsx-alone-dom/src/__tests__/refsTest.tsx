@@ -94,7 +94,7 @@ describe('refs', () => {
     })
 
 
-    it('should ref different components in the same render()', () => {
+    fit('should ref different components in the same render()', () => {
       expect(c1Fn).toBeCalledTimes(0)
       expect(c3Fn).toBeCalledTimes(0)
       expect(c2Fn).toBeCalledTimes(0)

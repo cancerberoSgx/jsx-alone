@@ -25,6 +25,7 @@ export class ElementLikeImpl<T extends ElementClass=ElementClass> extends Abstra
         el.setAttribute('style', printStyleHtmlAttribute(value))
       }
       else if (typeof value === 'function') {
+        debugger
         el.addEventListener(attribute.replace(/^on/, '').toLowerCase(), value.bind(this))
       }
       else {

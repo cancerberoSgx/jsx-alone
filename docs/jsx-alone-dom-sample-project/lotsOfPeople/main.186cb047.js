@@ -938,18 +938,14 @@ function renderApp(renderer, config, JSXAlone) {
   }
 
   var buildModelT0 = Date.now();
-  console.time('buildModel');
   var model = model_1.buildModel(config);
   var buildModelT = Date.now() - buildModelT0;
-  console.timeEnd('buildModel');
   var JSXAloneCreateElementT0 = Date.now();
-  console.time('JSXAlone.createElement');
   var App = App_1.getApp(JSXAlone);
   var app = JSXAlone.createElement("div", {
     id: "jsx-alone-sample-project-code"
   }, JSXAlone.createElement(App, __assign({}, model, config)), ";");
   var JSXAloneCreateElementT = Date.now() - JSXAloneCreateElementT0;
-  console.timeEnd('JSXAlone.createElement');
   renderer(app, {
     buildModelT: buildModelT,
     JSXAloneCreateElementT: JSXAloneCreateElementT
@@ -1433,6 +1429,7 @@ var ElementLikeImpl = (function (_super) {
                 el.setAttribute('style', jsx_alone_core_1.printStyleHtmlAttribute(value));
             }
             else if (typeof value === 'function') {
+                debugger;
                 el.addEventListener(attribute.replace(/^on/, '').toLowerCase(), value.bind(_this));
             }
             else {
@@ -1443,9 +1440,13 @@ var ElementLikeImpl = (function (_super) {
             el.innerHTML = this._innerHtml;
         }
         else {
+            var parent_1 = config.appendChildrenInDocumentFragment ? document.createDocumentFragment() : el;
             this.children.forEach(function (c) {
-                c.render(__assign({}, config, { parent: el }));
+                c.render(__assign({}, config, { parent: parent_1 }));
             });
+            if (el !== parent_1) {
+                el.appendChild(parent_1);
+            }
         }
         if (config.parent) {
             config.parent.appendChild(el);
@@ -1933,11 +1934,10 @@ var jsx_alone_core_1 = require("jsx-alone-core");
 
 exports.lotsOfPeopleRenderer = function (app, config) {
   // measures onload
-  var onloadT0 = Date.now();
-  console.time('onload');
+  var onloadT0 = Date.now(); // console.time('onload');
 
   window.onload = function () {
-    console.timeEnd('onload');
+    // console.timeEnd('onload');
     var onloadT = Date.now() - onloadT0;
     document.getElementById('timings_onload').innerHTML = jsx_alone_core_1.printMs(onloadT);
     document.getElementById('timings_buildModel').innerHTML = jsx_alone_core_1.printMs(config.buildModelT);
@@ -1946,10 +1946,10 @@ exports.lotsOfPeopleRenderer = function (app, config) {
   }; // measures render
 
 
-  var JSXAloneRenderT0 = Date.now();
-  console.time('JSXAlone.render()');
-  var el = jsx_alone_dom_1.JSXAlone.render(app);
-  console.timeEnd('JSXAlone.render()');
+  var JSXAloneRenderT0 = Date.now(); // console.time('JSXAlone.render()');
+
+  var el = jsx_alone_dom_1.JSXAlone.render(app); // console.timeEnd('JSXAlone.render()');
+
   var JSXAloneRenderT = Date.now() - JSXAloneRenderT0; // measures appendChild TODO: timing
 
   var root = document.getElementById('jsx-alone-sample-project-code');

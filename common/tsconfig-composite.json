@@ -25,5 +25,8 @@
     {
       "path": "../jsx-alone-string-sample-project"
     },
+    {
+      "path": "../strip-typescript-output"
+    }
   ],
 }

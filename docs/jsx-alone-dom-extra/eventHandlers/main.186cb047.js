@@ -1176,6 +1176,7 @@ var ElementLikeImpl = (function (_super) {
                 el.setAttribute('style', jsx_alone_core_1.printStyleHtmlAttribute(value));
             }
             else if (typeof value === 'function') {
+                debugger;
                 el.addEventListener(attribute.replace(/^on/, '').toLowerCase(), value.bind(_this));
             }
             else {
@@ -1186,9 +1187,13 @@ var ElementLikeImpl = (function (_super) {
             el.innerHTML = this._innerHtml;
         }
         else {
+            var parent_1 = config.appendChildrenInDocumentFragment ? document.createDocumentFragment() : el;
             this.children.forEach(function (c) {
-                c.render(__assign({}, config, { parent: el }));
+                c.render(__assign({}, config, { parent: parent_1 }));
             });
+            if (el !== parent_1) {
+                el.appendChild(parent_1);
+            }
         }
         if (config.parent) {
             config.parent.appendChild(el);

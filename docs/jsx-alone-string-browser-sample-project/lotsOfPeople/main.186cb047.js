@@ -938,18 +938,14 @@ function renderApp(renderer, config, JSXAlone) {
   }
 
   var buildModelT0 = Date.now();
-  console.time('buildModel');
   var model = model_1.buildModel(config);
   var buildModelT = Date.now() - buildModelT0;
-  console.timeEnd('buildModel');
   var JSXAloneCreateElementT0 = Date.now();
-  console.time('JSXAlone.createElement');
   var App = App_1.getApp(JSXAlone);
   var app = JSXAlone.createElement("div", {
     id: "jsx-alone-sample-project-code"
   }, JSXAlone.createElement(App, __assign({}, model, config)), ";");
   var JSXAloneCreateElementT = Date.now() - JSXAloneCreateElementT0;
-  console.timeEnd('JSXAlone.createElement');
   renderer(app, {
     buildModelT: buildModelT,
     JSXAloneCreateElementT: JSXAloneCreateElementT
