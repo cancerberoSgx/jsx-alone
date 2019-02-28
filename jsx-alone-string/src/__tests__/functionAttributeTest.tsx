@@ -1,8 +1,10 @@
 import { JSXAlone } from '..';
 import { test } from './testUtil';
+import { renderInDom, query, elSpyTimes, elSpy } from "./testUtilDom";
 
 describe('function attributes', () => {
 
+  describe('output', () => {
   test({
     label: 'intrinsic element',
     e: <button onClick={e => { alert('click') }}>click</button>,
@@ -37,5 +39,16 @@ describe('function attributes', () => {
     expected: `<button onClick="`,
     asCodeContains: true
   })
+})
+
+
+describe('should work in the browser', () => {
+  
+  renderInDom(<button id="b1" onClick={elSpy}>click</button>)
+  const b = query('#b1')
+  expect(elSpyTimes(b)).toBe(0)
+  b.click()  
+  expect(elSpyTimes(b)).toBe(1)
+})
 
 })
