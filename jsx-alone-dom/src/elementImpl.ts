@@ -1,4 +1,4 @@
-import { AbstractElementLike, AbstractTextNodeLike, ElementClass as AbstractElementClass, printStyleHtmlAttribute, RefObject } from 'jsx-alone-core';
+import { AbstractElementLike, AbstractTextNodeLike, ElementClass as AbstractElementClass, printStyleHtmlAttribute, RefObject, Fragment } from 'jsx-alone-core';
 import { markElement, RefObjectImpl, setRef } from './Refs';
 import { ElementLike, ElementLikeImplRenderConfig, IElementClass, RenderOutput } from './types';
 
@@ -37,30 +37,21 @@ export class ElementLikeImpl<T extends ElementClass=ElementClass> extends Abstra
       el.innerHTML = this._innerHtml
     }
     else {
+      const fragment = document.createDocumentFragment()
       this.children.forEach(c => {
-        // if (!config.handleChildRender || !config.handleChildRender({ config, parent: el, child: c, elementLike: this })) {
-          (c as ElementLikeImpl).render({ ...config, parent: el })
-        // }
+          c.render({ ...config, parent: fragment })
       })
+      el.appendChild(fragment)
     }
     if (config.parent) {
       config.parent.appendChild(el)
     }
-    // if (config.handleAfterRender) {
-      // config.handleAfterRender({ config, el, elementLike: this })
-    // }
-
     const elementClassWithContainer = this._elementClassInstance || config.rootElementLike._elementClassInstance
         if (this.ref) {
-          // console.log('elementLike.ref', elementLike.ref, elementClassWithContainer && elementClassWithContainer.setContainerEl);
-          // if (elementLike.ref) {
-            // elementClassWithContainer.__addRef({ elementLike, el, value: elementLike.ref })
-          // }
           setRef({elementLike:  this as any, el, value: this.ref as RefObjectImpl<any> })
         }
       if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
         elementClassWithContainer.setContainerEl(el)
-        
       }
     return el
   }
@@ -83,16 +74,9 @@ export class TextNodeLikeImpl extends AbstractTextNodeLike<RenderOutput> {
 
 export abstract class ElementClass<P = {}> extends AbstractElementClass<P> implements IElementClass<P> {
   containerEl: HTMLElement | undefined
-  /** called by ElementLike.render() */
   setContainerEl(el: HTMLElement) {
     this.containerEl = el
   }
-  // /** @internal */
-  // __addRef<T extends ElementClass & Element>({ el, value, elementLike }: { el: HTMLElement, value: RefObjectImpl<T>, elementLike: ElementLike }) {
-  //   console.log('__addRef', elementLike._elementClassInstance || markElement(el));
-    
-  //   value._current = elementLike._elementClassInstance || markElement(el) as any
-  // }
 }
 function isSvgTag(t: string) {
   const r = new RegExp(`^${t}$`, 'i')

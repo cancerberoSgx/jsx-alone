@@ -4,6 +4,7 @@ export interface Config {
   n: number[]
   m: number[]
   runs: number
+  log?:string
 }
 export interface Sample {
   name: Samples, impl: 'string'|'dom'
