@@ -1,8 +1,4 @@
 import { JSXAlone } from '..'
-import { ElementClass } from '../elementImpl';
-import { query, render } from './testUtil';
-import { markElement } from "../mark";
-import { RootEventManager } from '../events';
 
 describe('can I query elements that are not attached to the DOM?', () => {
 

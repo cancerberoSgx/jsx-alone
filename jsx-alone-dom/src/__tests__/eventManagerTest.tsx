@@ -1,14 +1,17 @@
-import { JSXAlone } from '..'
+import { BaseSyntheticEvent } from 'jsx-alone-core';
+import { JSXAlone } from '..';
 import { ElementClass } from '../elementImpl';
-import { query, render } from './testUtil';
-import { markElement } from "../mark";
-import { RootEventManager } from '../events';
+import { RootEventManager, MEvent } from '../rootEventManager';
+import { query } from './testUtil';
 
 describe('eventManager', () => {
 
-  it('event delegation', () => {
+  let manager: RootEventManager
+  let root: HTMLElement
+  // let fna:EventListener
 
-    class C extends ElementClass<{ s:string[] }> {
+  beforeEach(() => {
+    class C extends ElementClass<{ s: string[] }> {
       render() {
         return <ul>{this.props.s.map(s =>
           <li><button className={s}>{s}</button></li>
@@ -17,20 +20,43 @@ describe('eventManager', () => {
     }
 
     const app = <div><div id="container"><C s={['a', 'b']}></C></div></div>
-    const root = JSXAlone.render(app) as HTMLElement
+    root = JSXAlone.render(app) as HTMLElement
     document.body.appendChild(root)
-    const manager = new RootEventManager(root as HTMLElement)
-    console.log(root.outerHTML);
-    
+    // console.log(root.outerHTML);
+
+    manager = new RootEventManager(root as HTMLElement)
+
+
+  })
+  it('should notify only after added and allow removal', () => {
     const a = query('#container .a')
-      const fna = jest.fn(e=>{
-    })
+    const b = query('#container .b')
+    const fna = jest.fn((e: MEvent) => { })
+    const fnb = jest.fn((e: MEvent) => { })
+    expect(fna).toBeCalledTimes(0)
     a.click()
+    expect(fna).toBeCalledTimes(0)
+    expect(fnb).toBeCalledTimes(0)
     manager.addEventListener(a, 'click', fna)
     expect(fna).toBeCalledTimes(0)
+    expect(fnb).toBeCalledTimes(0)
+    a.click()
     expect(fna).toBeCalledTimes(1)
- 
-  
+    expect(fnb).toBeCalledTimes(0)
+    manager.addEventListener(b, 'click', fnb)
+    a.click()
+    expect(fna).toBeCalledTimes(2)
+    expect(fnb).toBeCalledTimes(0)
+    b.click()
+    expect(fna).toBeCalledTimes(2)
+    expect(fnb).toBeCalledTimes(1)
+    manager.removeListeners(a)
+    a.click()
+    expect(fna).toBeCalledTimes(2)
+    expect(fnb).toBeCalledTimes(1)
+    b.click()
+    expect(fna).toBeCalledTimes(2)
+    expect(fnb).toBeCalledTimes(2)
   })
 })
 
@@ -50,7 +76,7 @@ describe('eventManager', () => {
     //   if(!ls){
     //     ls = registeredByType[type] = []
     //     r.addEventListener(type, fn)
-        
+
     //   }
     //   ls.push({
     //     mark: markElement(el),
@@ -62,4 +88,3 @@ describe('eventManager', () => {
     //   const mark = markElement(el)
     // }
     // // const root = JSXAlone.render(app)
-  

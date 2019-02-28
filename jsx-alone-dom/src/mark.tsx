@@ -1,5 +1,6 @@
 import { unique } from 'jsx-alone-core';
-let mark = 1;
+
+/** returns element mark, if it doesn't have one generates one. It adds an unique data-attribute */
 export function markElement(e: HTMLElement, label = '_jsxa_') {
   let key = e.getAttribute(`data-${label}`);
   if (!key) {
