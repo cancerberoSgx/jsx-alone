@@ -21,7 +21,7 @@ describe('intrinsic elements', () => {
   test({
     label: 'style',
     e: <p style={{border: '1 px solid pink'}}>hs you</p>,
-    expected: "<p class=\"border: 1 px solid pink\">hs you</p>"
+    expected: "<p style=\"border: 1 px solid pink\">hs you</p>"
   })
 
   test({
@@ -29,6 +29,13 @@ describe('intrinsic elements', () => {
     e: <p className="foo">g<span className={['s','d'].join(' ')}>s</span>g</p>,
     expected: "<p class=\"foo\">g<span class=\"s d\">s</span>g</p>"
   })
+
+  test({
+    label: 'non string child text',
+    e: <p data-id={2}>{1} - {true}</p>,
+    expected: "<p data-id=\"2\">1 - true</p>"
+  })
+
 
   test({
     label: 'element children on any depth',

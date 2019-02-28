@@ -1,7 +1,3 @@
-import { JSXAlone } from '..'
-import { ElementClass } from '../elementImpl'
-import { test, unique, window, query } from './testUtil'
-
 describe('can I query elements that are not attached to the DOM?', () => {
 
   var d = document.createElement('div')
@@ -9,7 +5,6 @@ describe('can I query elements that are not attached to the DOM?', () => {
   let e: HTMLElement
 
   it('getElementById, parentNode, parentElement ownerDocument wont work', () => {
-
     let e = document.getElementById('doo')!
     expect(e).toBeNull()
     expect(d.parentElement).toBeNull()

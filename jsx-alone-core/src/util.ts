@@ -57,3 +57,9 @@ export function printStyleHtmlAttribute(value: any): any {
     .map(p => `${p}: ${value[p]}`)
     .join('; ')}`;
 }
+
+
+let _unique: number = 0
+export function unique(prefix: string='_'): string {
+  return prefix+_unique++
+}

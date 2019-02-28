@@ -1,5 +1,6 @@
-import { AbstractElementLike, isJSXAloneComponent as isClassElementClass, isNode } from './elementImpl'
-import { CreateCreateElementConfig, JSXAlone, JSXAloneAttrs, JSXAloneComponent, JSXAloneTag, ElementLike } from './types'
+import { ElementClass } from './elementClass';
+import { isElementClassConstructor, isNode } from './elementImpl';
+import { CreateCreateElementConfig, ElementLike, JSXAlone, JSXAloneAttrs, JSXAloneTag } from './types';
 
 const throwOnUnrecognized = false
 
@@ -12,101 +13,57 @@ export function debug(err: string) {
 }
 
 export function createCreateElement<T, R extends ElementLike<T>=ElementLike<T>>(config: CreateCreateElementConfig<T, R>) {
+  console.log(config);
+  
   const { impl, textNodeImpl, onElementReady, onElementCreated: onElementCreate } = config
 
-  const createElement: CreateElementFunction<T,R> = function(tag, attrs = {}, ...children: any[]) {
-    let element:  R
-    let elementClassInstance: JSXAloneComponent | undefined
-    if (typeof tag === 'string') {
-      element = new impl(tag)
-    } else {
-      if (isClassElementClass(tag)) {
-        elementClassInstance = new tag({ ...attrs, children: children })
-        element = elementClassInstance.render()
-      } else {
-        if (typeof tag.prototype !== undefined) {
-          element = new (tag as any)({ ...attrs, children: children })
-        } else {
-          element = tag({ ...attrs, children: children })
-        }
-      }
-      attrs = {}
+  const createElement: CreateElementFunction<T, R> = function (tag, attrs = {}, ...children: any[]) {
+    attrs = attrs || {}
+    let element: R
+    let elementClassInstance: ElementClass | undefined
+    const tagIsString = typeof tag === 'string'
+    if (tagIsString) {
+      element = new impl(tag as string)
+    }
+    else if (isElementClassConstructor(tag)) {
+      elementClassInstance = new tag({ ...attrs, children: children }) 
+      element = elementClassInstance.render() as any as R
+      // attrs = attrs.ref ? {ref: attrs.ref} : {}
+    }
+    else {
+      element = (tag as any)({ ...attrs, children: children })
+      // attrs={}
     }
     if (onElementCreate) {
       onElementCreate({ elementLike: element, elementClassInstance })
     }
+    attrs = tagIsString ? attrs : {}//(isClassElementClass(tag)&&!attrs.ref) ?{ref: attrs.ref}: attrs 
 
-    // for (let name in attrs) {
-      Object.keys(attrs||{}).forEach(name=> {
-        const value = attrs[name]
-      // if (name && attrs.hasOwnProperty(name)) {
-        // let value: any = attrs[name]
-        const type = typeof value
-        if(type==='string' || type==='number'){
-          element.setAttribute(name, value)
-        }
-        else if (type === 'function') {
-          // if (!functionAttributes || functionAttributes === 'preserve') {
-            element.setAttribute(name, value)
-          // } 
-          // else {
-          //   const code =
-          //     functionAttributes === 'toString-this'
-          //       ? `_this = __this__ = this; (${value.toString()}).apply(_this, arguments)`
-          //       : value.toString()
-          //   element.setAttribute(name,  code)
-          // }
-        }
-        else if(value===false){
-          // do nothing
-        }
-        else if(value===true) {
-          element.setAttribute(name, name)
-        }
-        // if (typeof value === 'boolean') {
-        //   if (value === true) {
-        //     element.setAttribute(name, name)
-        //   }
-        // }
-        // else
-        // else if (name === 'className') {
-          // if (name === 'className') {
-            // if (typeof value === 'string') {
-              // element.setAttribute('class', Array.isArray(value) ? value.join(' ') : value+'')
-            // } else if (Array.isArray(value) && value.length && typeof value[0] === 'string') {
-              // element.setAttribute('class', value.join(' '))
-            // } else {
-              // debug(`unrecognized className value ${typeof value} ${value}`)
-            // }
-          // } else {
-          //   element.setAttribute(name, value.toString())
-          // }
-        // }
-        // else if (typeof value === 'object') {
-          // if (name === 'style') { // TODO: performance - in DOM we dont need this - we directly assign the object  this is only neededd for string
-            // element.setAttribute(
-            //   'style',
-             
-            // )
-          // } 
-          else if (name === 'dangerouslySetInnerHTML' && value) {
-            element.dangerouslySetInnerHTML(value.__html)
-          }
-          else {
-            element.setAttribute(name, value)
-          }
-          // else {
-          //   debug(`unrecognized object attribute "${name}" - the only object attribute supported is "style"`)
-          // }
-        // } else {
-        //   debug(`unrecognized attribute "${name}" with type ${typeof value}`)
-        // }
-      // }
-    // }
-  })
+    Object.keys(attrs).forEach(name => {
+      const value = attrs[name]
+      const type = typeof value
+      if (type === 'string' || type === 'number') {
+        element.setAttribute(name, value)
+      }
+      else if (type === 'function') {
+        element.setAttribute(name, value)
+      }
+      else if (value === false) {
+        // do nothing
+      }
+      else if (value === true) {
+        element.setAttribute(name, name)
+      }
+      else if (name === 'dangerouslySetInnerHTML' && value) {
+        element.dangerouslySetInnerHTML(value.__html)
+      }
+      else {
+        element.setAttribute(name, value)
+      }
+    })
 
 
-    if (typeof tag === 'string') {
+    if (tagIsString) {
       // don't render children for function or classes since they are responsible of render their own children
       children
         .filter(c => c)
@@ -115,12 +72,11 @@ export function createCreateElement<T, R extends ElementLike<T>=ElementLike<T>>(
             element.appendChild(child)
           } else if (Array.isArray(child)) {
             child.forEach(c => {
-              if (typeof c === 'string') {
-                element.appendChild(new textNodeImpl(c))
-              } else if (isNode<T>(c)) {
+              if (isNode<T>(c)) {
                 element.appendChild(c)
-              } else {
-                debug(`Child is not a node or string: ${c} , tag: ${tag}`)
+              }
+              else {
+                element.appendChild(new textNodeImpl(c))
               }
             })
           } else {
@@ -138,7 +94,7 @@ export function createCreateElement<T, R extends ElementLike<T>=ElementLike<T>>(
 
 export const AbstractJSXAlone: JSXAlone<any> = null as any
 
-export type CreateElementFunction<T, R=AbstractElementLike<T>> = (
+export type CreateElementFunction<T, R=ElementLike<T>> = (
   tag: JSXAloneTag,
   attrs?: JSXAloneAttrs<string> | undefined,
   ...children: any[]

@@ -1,11 +1,12 @@
-import {  AbstractElementLike,  AbstractTextNodeLike,  ElementClass as AbstractElementClass, printStyleHtmlAttribute} from 'jsx-alone-core'
-import { ElementLikeImplRenderConfig } from './config'
-import { RenderOutput } from './createElement';
+import { AbstractElementLike, AbstractTextNodeLike, ElementClass as AbstractElementClass, IElementClass as ICoreElementClass, printStyleHtmlAttribute } from 'jsx-alone-core';
+// import { markElement, RefObjectImpl } from './Refs';
+import { ElementLike, ElementLikeImplRenderConfig, RenderOutput, IElementClass } from './types';
 
-
-export class ElementLikeImpl extends AbstractElementLike<RenderOutput> {
+export class ElementLikeImpl<T extends ElementClass=ElementClass> extends AbstractElementLike<RenderOutput>implements ElementLike<T> {
   private _innerHtml: string | undefined
 
+  _elementClassInstance: T|undefined
+  
   render(config: ElementLikeImplRenderConfig<ElementLikeImpl> = {}): RenderOutput {
     // TODO: support hook for createElement (is SVG document.createElementNS('http://www.w3.org/2000/svg', tagName))
 
@@ -22,7 +23,7 @@ export class ElementLikeImpl extends AbstractElementLike<RenderOutput> {
           el.setAttribute('class', value)
         }
         else if (attribute === 'style') {
-          el.setAttribute('class', printStyleHtmlAttribute(value))
+          el.setAttribute('style', printStyleHtmlAttribute(value))
         }
         else if (typeof value === 'function') {
           el.addEventListener(attribute.replace(/^on/, '').toLowerCase(), value.bind(this))
@@ -54,7 +55,7 @@ export class ElementLikeImpl extends AbstractElementLike<RenderOutput> {
   dangerouslySetInnerHTML(s: string): void {
     this._innerHtml = s
   }
-  // destroy(){}
+
 }
 
 export class TextNodeLikeImpl extends AbstractTextNodeLike<RenderOutput> {
@@ -67,11 +68,21 @@ export class TextNodeLikeImpl extends AbstractTextNodeLike<RenderOutput> {
   }
 }
 
-export abstract class ElementClass<P = {}> extends AbstractElementClass<RenderOutput, P> {
-  /** element classes in DOM implementation will be given its container element. The default implementation just ignore this to keep it lightweight, but other implementations could overwrite this method */
-  setContainerEl(el: HTMLElement) { }
+export abstract class ElementClass<P = {}> extends AbstractElementClass< P> implements IElementClass<P> {
+  containerEl: HTMLElement |undefined
+  /** called by ElementLike.render() */
+  setContainerEl(el: HTMLElement) {
+    this.containerEl = el
+  }
+  // /** @internal */
+  //   __addRef<T extends ElementClass&Element>({el, value, elementLike}: {el: HTMLElement, value:RefObjectImpl<T>, elementLike: ElementLike}){
+  //   // console.log('CUCUCUCUC', value && value._current);
+  //   value._current=elementLike._elementClassInstance || markElement(el) as any
+    
+  //   // const key = markElement(el)
+  //   // value._current = 
+  // }
 }
-
 function isSvgTag(t: string) {
   const r = new RegExp(`^${t}$`, 'i')
   return SvgTags.some(name => r.test(name))

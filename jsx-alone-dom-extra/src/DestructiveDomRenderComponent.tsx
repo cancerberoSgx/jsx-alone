@@ -1,13 +1,25 @@
 import { JSXAlone } from './';
 import { StatefulComponent } from './StatefulComponent';
-/** implement stateful -ness by re-rendering it self agin and agin when the stat changes. Preserves focus.
+
+/** 
+ * implements stateful-ness by re-rendering it self again and again when the state changes. So it destroy its current
+ * DOM nodes when the state changes and recreates them all again. Has some hacks to maintain current focus and children
+ * state. 
+ *
+ * Preserves focus. 
+ *
+ * TODO: event listeners are not removed
+ *
  * TODO: parent re-render actually resets the children (ISSUE)
  */
-export abstract class DestructiveDomRenderComponent<P = {}, S = Partial<P>> extends StatefulComponent<P, S> {
+export abstract class DestructiveDomRenderComponent<P = {}, S = P> extends StatefulComponent<P, S> {
   /** changes the state, clean up containerEl and renders the element again and append it to containerEl.
    * Notice that descendant elements will be destroyed and */
   setState(s: Partial<S>) {
     super.setState(s);
+    if(!this.containerEl){
+      throw new Error('this.containerEl is undefined - cannot DestructiveDomRender')
+    }
     let activePath: XPathResult | string | undefined;
     let selection: {
       start: number;
@@ -23,7 +35,7 @@ export abstract class DestructiveDomRenderComponent<P = {}, S = Partial<P>> exte
       };
     }
     const jsx = this.render();
-    const el = JSXAlone.render(jsx, { initialContext: this });
+    const el = JSXAlone.render(jsx);
     this.containerEl.parentElement!.replaceChild(el, this.containerEl);
     this.containerEl = el as HTMLElement;
     if (activePath) {

@@ -56,10 +56,6 @@ export function expectTextNotToContain(a?: string, b?: string, debug = false) {
 
 
 
-let _unique: number = 0
-export function unique(prefix: string='_'): string {
-  return prefix+_unique++
-}
 export function window(): typeof window &any{
   return window
 }

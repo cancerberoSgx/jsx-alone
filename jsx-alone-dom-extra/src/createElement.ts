@@ -1,70 +1,94 @@
-import { createCreateElement, isElementLike, JSXAloneComponent, CreateElementFunction } from 'jsx-alone-core'
-import {
-  createCreateElementConfig,
-  CreateCreateElementDomConfig,
-  ElementClass,
-  ElementLikeImpl,
-  ElementLikeImplRenderConfig,
-  TextNodeLikeImpl,
-  RenderOutput
-} from 'jsx-alone-dom'
+import { createCreateElement, CreateElementFunction, CreateCreateElementConfig } from 'jsx-alone-core';
+import { createCreateElementConfig,  ElementClass, ElementLike, ElementLikeImpl, ElementLikeImplRenderConfig, RenderOutput, TextNodeLikeImpl, JSXAlone as JSXAloneBase} from 'jsx-alone-dom';
 
-type RenderFunction = (el: JSX.Element, config?: FunctionAttributeRenderConfig) => RenderOutput
-type JSXAloneType = { render: RenderFunction; createElement: CreateElementFunction<RenderOutput, FunctionAttributesElement> }
+// type RenderFunction = (el: JSX.Element, config?: FunctionAttributeRenderConfig) => RenderOutput
 
-export interface FunctionAttributesElement extends ElementLikeImpl {
-  _elementClassInstance?: ElementClass | undefined
-}
+// type JSXAloneType = { 
+//   // render: RenderFunction; 
+//   // createElement: CreateElementFunction<RenderOutput, ElementLike> 
+// }&typeof JSXAloneBase
 
-export interface CreateCreateElementDomConfig<R extends FunctionAttributesElement = FunctionAttributesElement> extends CreateCreateElementDomConfig<R> {
-  extraRenderConfig?: ElementLikeImplRenderConfig
-}
-export interface FunctionAttributeRenderConfig extends ElementLikeImplRenderConfig {
-  initialContext?: any
-}
-function buildExtraConfig(
-  rootElementLike: FunctionAttributesElement,
-  extraConfig: FunctionAttributeRenderConfig
-): ElementLikeImplRenderConfig<FunctionAttributesElement> {
+// export interface FunctionAttributesElement<T extends ElementClass=ElementClass> extends ElementLikeImpl {
+  // _elementClassInstance?: T | undefined
+// }
 
-  const configHooks: ElementLikeImplRenderConfig<FunctionAttributesElement> = {
+// export interface CreateCreateElementDomConfig<R extends ElementLike = ElementLike> extends CreateCreateElementDomConfig<R> {
+//   // extraRenderConfig?: ElementLikeImplRenderConfig
+// }
 
-    handleAfterRender({ el, elementLike }: { el: HTMLElement; elementLike: FunctionAttributesElement }) {
-      const elementClassWithContainer =  elementLike._elementClassInstance || rootElementLike._elementClassInstance
-      if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
-        elementClassWithContainer.setContainerEl(el)
-      }
-      elementLike._elementClassInstance = undefined // forget the reference
-      return true
-    }
-  }
+// export interface FunctionAttributeRenderConfig extends ElementLikeImplRenderConfig {
+  // initialContext?: any
+// }
 
-  return configHooks
-}
+// function buildExtraConfig(
+//   // rootElementLike: ElementLike,
+//   // extraConfig?: ElementLikeImplRenderConfig
+// ): ElementLikeImplRenderConfig<ElementLike> {
 
-export const createCreateConfig: CreateCreateElementDomConfig<FunctionAttributesElement> = {
+//   const configHooks: ElementLikeImplRenderConfig<ElementLike> = {
+//     // handleAttribute(options){
+//     //   if(options.attribute==='ref'){
+//     //     // const elementClassWithContainer = options.elementLike._elementClassInstance|| rootElementLike._elementClassInstance as any
+//     //     // if(elementClassWithContainer&&elementClassWithContainer.__addRef) {
+//     //     //   // if(!options.value){
+
+//     //     //   // }
+//     //     //   elementClassWithContainer.__addRef(options)
+//     //     // }
+//     //     return true
+//     //   }
+//     //   return false
+//     // },
+//     // handleAfterRender({ el, elementLike }: { el: HTMLElement; elementLike: ElementLike }) {
+//     //   // const elementClassWithContainer =  elementLike._elementClassInstance || rootElementLike._elementClassInstance
+//     //   // if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
+//     //     // const elementClassWithContainer =  elementLike._elementClassInstance || rootElementLike._elementClassInstance
+//     //     if (elementLike._elementClassInstance && elementLike._elementClassInstance.setContainerEl) {
+//     //       elementLike._elementClassInstance.setContainerEl(el)
+//     //       // elementClassWithContainer.setContainerEl(el)
+//     //   }
+//     //   // elementLike._elementClassInstance// = undefined // forget the reference
+//     //   return true
+//     // }
+//   }
+//   return configHooks
+// }
+
+export const createCreateConfig: CreateCreateElementConfig<RenderOutput, ElementLike> = {
   ...createCreateElementConfig,
 
-  impl: ElementLikeImpl as any as FunctionAttributesElement & { new(tag: string): FunctionAttributesElement },
+  impl: ElementLikeImpl as any as ElementLike & { new(tag: string): ElementLike },
 
   textNodeImpl: TextNodeLikeImpl,
 
-  onElementCreated(config) {
-    if (config.elementClassInstance) {
-      config.elementLike._elementClassInstance = config.elementClassInstance as any
-    }
-  }
+  // onElementCreated(config) {
+  //   if (config.elementClassInstance) {
+  //     config.elementLike._elementClassInstance = config.elementClassInstance as any
+  //   }
+  // }
 }
 
-const Module: JSXAloneType = {
-  createElement: createCreateElement<RenderOutput, FunctionAttributesElement>(createCreateConfig),
+export const JSXAlone: typeof JSXAloneBase = {
 
-  render(el, config: FunctionAttributeRenderConfig = {}) {
-    const elementLike: FunctionAttributesElement = el as any
-    return elementLike.render({ ...config, ...buildExtraConfig(elementLike, { initialContext: config.initialContext || this }) })
-  }
+  createElement: createCreateElement<RenderOutput, ElementLike>(createCreateConfig),
+
+  render(el, config: ElementLikeImplRenderConfig = {}) {
+    const elementLike: ElementLike = el as any
+    return elementLike.render({ ...config, 
+      // ...buildExtraConfig(
+      // elementLike
+      // )
+     })
+  },
+
+  createRef: JSXAloneBase.createRef
+  // createRef<T extends Element&ElementClass>(): RefObject<T>{
+  //   return new RefObjectImpl<T>()
+  // }
+  
 }
 
-export const JSXAlone: JSXAloneType = Module
+// export const JSXAlone: JSXAloneType = Module
 
-export { ElementClass }
+export { ElementClass };
+

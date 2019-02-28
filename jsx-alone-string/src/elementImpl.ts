@@ -45,4 +45,4 @@ export class TextNodeLikeImpl extends AbstractTextNodeLike<string> implements Te
   }
 }
 
-export abstract class ElementClass<P = {}> extends AbstractElementClass<string, P> { }
+export abstract class ElementClass<P = {}> extends AbstractElementClass< P> { }

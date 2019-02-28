@@ -1,17 +1,6 @@
 {
   "extends": "./tsconfig.json",
   "references": [
-    // {
-    //   "path": "../jsx-alone-core",
-    // },
-    // {
-    //   "path": "../jsx-alone-string"
-    // },
-    // {
-    //   "path": "../jsx-alone-dom-sample-project"
-    // },
-
-
     {
       "path": "../jsx-alone-core"
     },

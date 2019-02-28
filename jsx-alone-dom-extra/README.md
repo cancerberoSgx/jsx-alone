@@ -66,7 +66,7 @@ document.body.appendChild(el)
 
 WIP
 
-Component state implementation that destroy current its current DOM when the state changes and recreates them all again. Has some hacks to maintain current focus and children state. 
+Component state implementation that destroy its current DOM nodes when the state changes and recreates them all again. Has some hacks to maintain current focus and children state. 
 
 ### UpdateDomComponent
 

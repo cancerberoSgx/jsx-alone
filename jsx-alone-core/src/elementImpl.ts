@@ -1,6 +1,8 @@
 import { JSXAloneComponent, NodeLike, ElementLike, TextNodeLike, RenderConfig } from '.'
+import { ElementClassProps, ElementClass } from './elementClass';
+import { ComponentClass, FunctionComponent } from './declarations/domElementDeclarations';
 
-export function isJSXAloneComponent(c: any): c is JSXAloneComponent {
+export function isElementClassConstructor(c: any): c is {new(props: ElementClassProps<any>): ElementClass} {
   return c.prototype && c.prototype.render
 }
 
@@ -22,6 +24,9 @@ export abstract class AbstractTextNodeLike<T> implements TextNodeLike<T> {
 }
 
 export abstract class AbstractElementLike<T> implements ElementLike<T> {
+  // type: string | ComponentClass<P> | FunctionComponent<P>;
+  // props: P;
+  // key: Key | null;
   attrs: {
     [name: string]: any
   }

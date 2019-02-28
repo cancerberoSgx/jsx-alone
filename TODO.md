@@ -5,6 +5,8 @@
 
  * ISSUE - <If> in dom impl : props.children is array
 
+ * core: interface ElementLike should BE or implementing JSX.Element where tag is type and attrs is props
+ 
  * improve: stateful element. when parent is updated,children state is reset
 
  * test in old browsers / rhino (should work on IE8)

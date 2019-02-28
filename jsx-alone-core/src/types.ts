@@ -1,4 +1,4 @@
-import { AbstractElementLike } from './elementImpl';
+import { ElementClass } from './elementClass';
 
 export type JSXAloneAttrs<ClassName extends string = string> = {
   [k: string]: any
@@ -31,7 +31,8 @@ export interface TextNodeLike<T> extends NodeLike<T> {
   content: string
 }
 
-export interface ElementLike<T> extends NodeLike<T> {
+// TODO: this should BE or implementing JSX.Element where tag is type, attrs is props
+export interface ElementLike<T> extends NodeLike<T>  {
   tag: string
   attrs: { [name: string]: any }
   children: NodeLike<T>[]
@@ -74,11 +75,11 @@ export interface RenderConfig<T,  R extends ElementLike<T> = ElementLike<T>> {
 
 
 // type FunctionAttributesMode = 'preserve' | 'toString-this' | 'toString'
-export interface CreateCreateElementConfig<T, R extends ElementLike<T> = ElementLike<T>> extends RenderConfig<T, R> {
+export interface CreateCreateElementConfig<T, R extends ElementLike<T> = ElementLike<T>, C extends ElementClass = ElementClass> extends RenderConfig<T, R> {
   impl: {
     new (tag: string): R
   }
   textNodeImpl: { new (content: string): any }
   onElementReady?(event: { elementLike: R }): void
-  onElementCreated?(event: { elementLike: R, elementClassInstance?: JSXAloneComponent }): void // TODO: expose function element context
+  onElementCreated?(event: { elementLike: R, elementClassInstance?: C }): void // TODO: expose function element context
 }

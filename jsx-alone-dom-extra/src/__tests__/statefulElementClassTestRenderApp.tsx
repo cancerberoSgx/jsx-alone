@@ -4,7 +4,7 @@ import { DestructiveDomRenderComponent } from '../DestructiveDomRenderComponent'
 export function statefulElementClassTestRenderApp(this: any) {
   const parent = document.createElement('div')
   document.body.appendChild(parent)
-  const el = JSXAlone.render(<App people={[{ name: 'seba' }, { name: 'lau' }]} />, { parent , initialContext: this  }) as HTMLElement
+  const el = JSXAlone.render(<App people={[{ name: 'seba' }, { name: 'lau' }]} />, { parent  }) as HTMLElement
   parent.appendChild(el)
   return parent
 }
@@ -70,7 +70,7 @@ class App extends DestructiveDomRenderComponent<P, P> {
   }
   setState(s: Partial<P>) {
     this.state = { ...this.state, ...s };
-    this.containerEl.innerHTML = '';
-    this.containerEl.appendChild(JSXAlone.render(this.render()));
+    this.containerEl!.innerHTML = '';
+    this.containerEl!.appendChild(JSXAlone.render(this.render()));
   }
 }
