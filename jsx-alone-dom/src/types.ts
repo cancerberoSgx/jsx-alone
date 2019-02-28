@@ -1,11 +1,12 @@
 import { ElementLike as BaseElementLike, NodeLike as BaseNodeLike, TextNodeLike as BaseTextNodeLike, RefObject, RenderConfig ,  IElementClass as ICoreElementClass, } from 'jsx-alone-core';
+import { RootEventManager } from './rootEventManager';
 
 export interface NodeLike extends  BaseNodeLike<RenderOutput>{}
 
 export interface ElementLike<T=RenderOutput >  extends  BaseElementLike<RenderOutput>{
   _elementClassInstance?: IElementClass
   ref?: RefObject<IElementClass&Element>
-
+  buildRootElement(config: ElementLikeImplRenderConfig<ElementLike>):HTMLElement
 }
 
 export interface TextNodeLike extends  BaseTextNodeLike<RenderOutput>{}
@@ -16,7 +17,7 @@ export interface ElementLikeImplRenderConfigNoRoot<R extends ElementLike = Eleme
   appendChildrenInDocumentFragment?: boolean
 }
 export interface ElementLikeImplRenderConfig<R extends ElementLike = ElementLike> extends ElementLikeImplRenderConfigNoRoot< R> {
-  renderCallId:number
+  // renderCallId:number
   rootElementLike: ElementLike
 }
 

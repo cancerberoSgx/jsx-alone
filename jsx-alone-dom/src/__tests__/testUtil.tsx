@@ -6,7 +6,7 @@ export function test({
   e,
   expected,
   label,
-  asCodeEquals,
+  asCodeEquals,asCodeNotContains,
   caseInsensitive
 }: {
   e: JSX.Element
@@ -14,6 +14,7 @@ export function test({
   label: string
   asCodeEquals?: boolean
   caseInsensitive?: boolean
+  asCodeNotContains?: boolean
 }) {
   it(label + ' without indent', () => {
     const output: HTMLElement = render(e)
@@ -21,7 +22,11 @@ export function test({
     const result = caseInsensitive ? output.outerHTML.toLowerCase() : output.outerHTML
     if (asCodeEquals) {
       expectTextEquals(result, expected)
-    } else {
+    } 
+    else if(asCodeNotContains){
+      expectTextNotToContain(result, expected)
+    }
+    else {
       expect(result).toBe(expected)
     }
   })

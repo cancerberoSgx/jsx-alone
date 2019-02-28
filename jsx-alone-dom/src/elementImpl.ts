@@ -1,20 +1,23 @@
 import { AbstractElementLike, AbstractTextNodeLike, ElementClass as AbstractElementClass, printStyleHtmlAttribute, RefObject } from 'jsx-alone-core';
 import { RefObjectImpl, setRef } from './Refs';
 import { ElementLike, ElementLikeImplRenderConfig, IElementClass, RenderOutput } from './types';
+import { RootEventManager } from './rootEventManager';
 
 export class ElementLikeImpl<T extends ElementClass=ElementClass> extends AbstractElementLike<RenderOutput> implements ElementLike<T> {
   private _innerHtml: string | undefined
   ref?: RefObject<IElementClass & Element>
   _elementClassInstance: T | undefined
 
-  render(config: ElementLikeImplRenderConfig<ElementLikeImpl>): RenderOutput {
-    // TODO: support hook for createElement (is SVG document.createElementNS('http://www.w3.org/2000/svg', tagName))
-
-    //TODO: create documentFragment and put el and all the children inside:     const fragment = createFragmentFrom(children)    element.appendChild(fragment)
-
-    const el: HTMLElement = isSvgTag(this.tag)
+  buildRootElement(config: ElementLikeImplRenderConfig<ElementLikeImpl>): HTMLElement {
+    return HTMLElement = isSvgTag(this.tag)
       ? document.createElementNS('http://www.w3.org/2000/svg', this.tag)
       : document.createElement(this.tag) as any
+  }
+
+  render(config: ElementLikeImplRenderConfig<ElementLikeImpl>&{
+    eventManager: RootEventManager, rootHTMLElement: HTMLElement}): RenderOutput {
+
+    const el = config.rootHTMLElement||this.buildRootElement(config)
 
     Object.keys(this.attrs).forEach(attribute => {
       const value = this.attrs[attribute]
@@ -25,8 +28,8 @@ export class ElementLikeImpl<T extends ElementClass=ElementClass> extends Abstra
         el.setAttribute('style', printStyleHtmlAttribute(value))
       }
       else if (typeof value === 'function') {
-        debugger
-        el.addEventListener(attribute.replace(/^on/, '').toLowerCase(), value.bind(this))
+        config.eventManager.addEventListener(el, attribute.replace(/^on/, '').toLowerCase(), value.bind(this))
+        // el.addEventListener(attribute.replace(/^on/, '').toLowerCase(), value.bind(this))
       }
       else {
         el.setAttribute(attribute, value)
@@ -38,7 +41,7 @@ export class ElementLikeImpl<T extends ElementClass=ElementClass> extends Abstra
     else {
       const parent: Node = config.appendChildrenInDocumentFragment ? document.createDocumentFragment() : el
       this.children.forEach(c => {
-        c.render({ ...config, parent })
+        c.render({ ...config, parent, rootHTMLElement: undefined })
       })
       if (el !== parent) {
         el.appendChild(parent)

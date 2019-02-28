@@ -15,9 +15,10 @@ describe('function attributes', () => {
           click
         </button>
       ),
-      expected: `<button>click</button>`,
-      asCodeEquals: true,
-      caseInsensitive: true
+      expected: `alert`,
+      asCodeNotContains: true,
+      caseInsensitive: true,
+      
     })
 
     const f1 = (props: { name: string }) => (
@@ -30,8 +31,8 @@ describe('function attributes', () => {
     test({
       label: 'function element attribute should not be printed ',
       e: f1({ name: 'hello' }),
-      expected: `<button></button>`,
-      asCodeEquals: true,
+      asCodeNotContains: true,
+      expected: `alert`,
       caseInsensitive: true
     })
   })
@@ -142,7 +143,9 @@ describe('function attributes', () => {
 
     it('event object is accessible', () => {
       const handler = jest.fn(e => {
-        return e.type + e.currentTarget.id
+        // HEADS UP - because we use event delegation , currentTarget is not the real target, it's target!
+        return e.type + e.target.id// return e.type + e.currentTarget.id
+
       })
       const el = render(
         <div>

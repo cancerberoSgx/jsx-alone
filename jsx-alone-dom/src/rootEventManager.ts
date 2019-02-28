@@ -1,4 +1,5 @@
 import { getElementMark, markElement } from './mark';
+import { unique } from 'jsx-alone-core';
 
 
 export interface MEvent<C extends EventTarget | HTMLElement = any, T extends EventTarget | HTMLElement = any> extends Event {
@@ -16,19 +17,24 @@ interface Entry {
   options?: boolean | AddEventListenerOptions
 }
 
-// listener: , options?: boolean | AddEventListenerOptions
-const defaultConfig = {
-}
-const MARK = '_jsxa_e_'
-const registeredByType: { [type: string]: Entry[] } = {}
-
-/** provides event delegation management to all nodes generated in a render() call, using the 
+/** provides event delegation management to all nodes generated in a render() 
+ * call, using the 
  * root element (the one returned bu JSXAlone.render() call) */
 export class RootEventManager {
-  constructor(private root: HTMLElement, private config = defaultConfig) {
+
+  constructor(private root: HTMLElement) {
     this.rootListener = this.rootListener.bind(this)
   }
+
   private registeredByType: { [type: string]: Entry[] } = {}
+
+  private mark = '_jsxa_e'+unique('_')
+  private markElement(el: HTMLElement) {
+    return markElement(el, this.mark)
+  }
+  private getElementMark(e: HTMLElement) {
+    return getElementMark(e, this.mark)
+  }
 
   /** handles all events */
   private rootListener(e: MEvent): any {
@@ -36,15 +42,10 @@ export class RootEventManager {
       const mark = this.getElementMark(e.target)
       const entry = mark && (this.registeredByType[e.type.toLowerCase()] || []).find(e => e.mark === mark)
       if (entry) {
-        entry.fn.apply(e.target, [e])
+        // entry.fn.apply(e.target, [e])
+        entry.fn(e)
       }
     }
-  }
-  private markElement(el: HTMLElement) {
-    return markElement(el, MARK)
-  }
-  private getElementMark(e: HTMLElement) {
-    return getElementMark(e, MARK)
   }
 
   addEventListener(el: HTMLElement, type: string, fn: EventListener) {
@@ -79,5 +80,6 @@ export class RootEventManager {
       })
     })
   }
+  
 }
 
