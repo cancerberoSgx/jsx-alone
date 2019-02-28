@@ -42,6 +42,8 @@ export class RootEventManager {
     if(e.target ){
 
       const mark = getElementMark(e.target)
+      // console.log(mark);
+      
       // if(mark){
 
         const entry = mark && (this.registeredByType[e.type.toLowerCase()]||[]).find(e=>e.mark===mark)
@@ -68,15 +70,33 @@ export class RootEventManager {
     // console.log(this.registeredByType);
     
   }
-
+  /** removes event listeners for element inside root */
   removeListeners(el: HTMLElement, types?: []) {
-    if (el === this.root) {
-      (types || Object.keys(this.registeredByType)).forEach(t => {
-        (this.registeredByType[t] || []).map(e => e.fn).forEach(listener => {
-          this.root.removeEventListener(t, listener)// TODO: options
+    // if (el === this.root) {
+    //   (types || Object.keys(this.registeredByType).map(t=>t.toLowerCase())).forEach(t => {
+    //     (this.registeredByType[t] || []).map(e => e.fn).forEach(listener => {
+    //       this.root.removeEventListener(t, listener)// TODO: options
+    //     })
+    //   })
+    // }
+    // else {
+      const mark = getElementMark(el);
+      if(mark){
+        (types || Object.keys(this.registeredByType).map(t=>t.toLowerCase())).forEach(t => {
+
+          this.registeredByType[t] = (this.registeredByType[t] || []).filter(e=>e.mark!==mark)
+          // const e = (this.registeredByType[t] || []).find(e=>e.mark===mark)
         })
-      })
+      }
+      
     }
+
+  uninstall(types?: []){
+    (types || Object.keys(this.registeredByType).map(t=>t.toLowerCase())).forEach(t => {
+          (this.registeredByType[t] || []).map(e => e.fn).forEach(listener => {
+            this.root.removeEventListener(t, listener)// TODO: options
+          })
+        })
+      }
   }
-}
 
