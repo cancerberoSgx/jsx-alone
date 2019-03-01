@@ -27,7 +27,7 @@ export const lotsOfPeopleRenderer = (app: JSX.Element, config: LotsOfPeopleRende
   if (root) {
     root.remove()
   }
-  root = document.createElement('dir')
+  root = document.createElement('div')
   root.setAttribute('id', 'jsx-alone-sample-project-code')
   root.appendChild(el)
   document.body.appendChild(root)

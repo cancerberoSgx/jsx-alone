@@ -1,10 +1,12 @@
 {
   "files.watcherExclude": {
-    "docs": true,
-    "./dist/**": true
+    "**/docs/**": true,
+    "**/dist/**": true,
+    "**/.cache/**": true
   },
   "search.exclude": {
-    "./dist/**": true,
-    "./docs/**": true
+    "**/dist/**": true,
+    "**/docs/**": true,
+    "**/.cache/**": true
   }
 }

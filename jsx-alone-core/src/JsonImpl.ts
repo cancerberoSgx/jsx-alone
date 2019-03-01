@@ -10,9 +10,11 @@ export interface JsonImplOutputEl {
   children: JsonImplOutput[]
   innerHtml: string|undefined
 }
+
 interface OutputText {
   content?: string
 }
+
 export type JsonImplOutput = JsonImplOutputEl|OutputText
 
 export interface JsonImplRenderConfig extends RenderConfig<JsonImplOutput> {

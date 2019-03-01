@@ -1,0 +1,18 @@
+{
+  "totalTime": 20095,
+  "currentCommit": "c2993b0",
+  "userConfig": {
+    "_": [],
+    "sample": "lotsOfPeopleDom",
+    "n": [
+      1000,
+      2000
+    ],
+    "m": [
+      10,
+      20
+    ],
+    "runs": 5,
+    "log": "logs"
+  }
+}

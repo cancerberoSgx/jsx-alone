@@ -18,7 +18,6 @@ export interface ElementLikeImplRenderConfigNoRoot<R extends ElementLike = Eleme
   appendChildrenInDocumentFragment?: boolean
 }
 export interface ElementLikeImplRenderConfig<R extends ElementLike = ElementLike> extends ElementLikeImplRenderConfigNoRoot< R> {
-  // renderCallId:number
   rootElementLike: ElementLike
 }
 

@@ -9,7 +9,7 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
   _elementClassInstance: T | undefined
 
   buildRootElement(config: ElementLikeImplRenderConfig<ElementLikeImpl>): HTMLElement {
-    return HTMLElement = isSvgTag(this.tag)
+    return isSvgTag(this.tag)
       ? document.createElementNS('http://www.w3.org/2000/svg', this.tag)
       : document.createElement(this.tag) as any
   }

@@ -1,17 +1,16 @@
-// import { AbstractJSXAlone as  } from './createElement';
 import { ReactNode, AbstractJSXAlone as JSXAlone } from '.'
 
 export type Children = ReactNode
 
-// export type Props = { children: Children }
+export type P = { children: Children }
 
-// TODO: like React.Fragment
-export const Fragment = (props: { children: Children }) => <span>{props.children}</span>
+// // TODO: like React.Fragment
+// export const Fragment = (props: { children: Children }) => <span>{props.children}</span>
 
 export function Js(props: {children: (...args: any[]) => any }) {
   const r = props.children()
   console.log(r)
-  return r ? <Fragment>{r}</Fragment> : null
+  return r ? <span>{r}</span> : null
 }
 
 /** if as statement. children need to be in a function and the function accepts a parameter which value is given condition `c` but casted to NotFalsy<C> so there's no need of type guards in the body. Example:

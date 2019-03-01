@@ -4,6 +4,7 @@ export interface Config {
   m: number[]
   runs: number
   log?: string
+  dontPrintRuns?: boolean
 }
 export interface Sample {
   name: SampleName
