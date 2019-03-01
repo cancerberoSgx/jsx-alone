@@ -1,7 +1,7 @@
-import { ElementClass as AbstractElementClass, AbstractElementLike, AbstractTextNodeLike, printStyleHtmlAttribute } from 'jsx-alone-core';
-import { defaultRenderConfig, ElementLikeImplRenderConfig } from './config';
-import { indent } from './util';
-import { TextNodeLike, ElementLike } from './types';
+import { ElementClass as AbstractElementClass, AbstractElementLike, AbstractTextNodeLike, printStyleHtmlAttribute } from 'jsx-alone-core'
+import { defaultRenderConfig, ElementLikeImplRenderConfig } from './config'
+import { indent } from './util'
+import { TextNodeLike, ElementLike } from './types'
 
 export class ElementLikeImpl extends AbstractElementLike<string> implements ElementLike {
 
@@ -35,7 +35,7 @@ function printHtmlAttribute(a: string, value: any) {
     // we reassign _this because typescript emitted code will change the function body "this" for "_this"
     value = `(${value.toString()}).apply(_this=this,arguments)`
   }
-  value = value.replace(/\"/gim, '&quot;') //replace(/\"/g, '\\"')
+  value = value.replace(/\"/gim, '&quot;') // replace(/\"/g, '\\"')
   return `${a}="${value}"`
 }
 

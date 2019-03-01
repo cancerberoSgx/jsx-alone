@@ -1,6 +1,6 @@
-import { JSXAlone } from '..';
-import { test } from './testUtil';
-import { renderInDom, query, elSpyTimes, elSpy } from "./testUtilDom";
+import { JSXAlone } from '..'
+import { test } from './testUtil'
+import { renderInDom, query, elSpyTimes, elSpy } from './testUtilDom'
 
 describe('function attributes', () => {
 
@@ -9,9 +9,8 @@ describe('function attributes', () => {
     label: 'intrinsic element',
     e: <button onClick={e => { alert('click') }}>click</button>,
     expected: `<button onClick="(function (e) { alert('click'); }).apply(_this=this,arguments)">click</button>`,
-    asCodeEquals: true,
+    asCodeEquals: true
   })
-
 
   const f1 = (props: { name: string }) => <button onClick={e => {
     alert(props.name)
@@ -23,7 +22,6 @@ describe('function attributes', () => {
     expected: `<button onClick="(function (e) { alert(props.name); }).apply(_this=this,arguments)">gg</button>`,
     asCodeEquals: true
   })
-
 
   async function loginService(): Promise<boolean> { return true }
   const LoginButton = (props: { clicked: (success: boolean) => void, label: string }) =>
@@ -41,13 +39,12 @@ describe('function attributes', () => {
   })
 })
 
+  describe('should work in the browser', () => {
 
-describe('should work in the browser', () => {
-  
   renderInDom(<button id="b1" onClick={elSpy}>click</button>)
   const b = query('#b1')
   expect(elSpyTimes(b)).toBe(0)
-  b.click()  
+  b.click()
   expect(elSpyTimes(b)).toBe(1)
 })
 

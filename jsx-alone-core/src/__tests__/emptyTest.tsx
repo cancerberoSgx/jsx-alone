@@ -1,6 +1,6 @@
 
 describe('empty', () => {
-  it('empty', ()=>{
+  it('empty', () => {
     expect(1).toBe(1)
   })
 })

@@ -2,13 +2,13 @@ import { JSXAlone } from '..'
 import { test } from './testUtil'
 
 describe('intrinsic elements', () => {
-  
+
   test({
     label: 'should render element without children',
     e: <div />,
     expected: '<div></div>',
     expectedTabSize2: `<div>
-  
+
 </div>`
   })
 
@@ -33,7 +33,7 @@ describe('intrinsic elements', () => {
   test({
     label: 'className attribute is class and should escape attributes "',
     e: <p className={'wr"on"g'}>"sd"</p>,
-    expected: `<p class=\"wr&quot;on&quot;g\">\"sd\"</p>`,
+    expected: `<p class=\"wr&quot;on&quot;g\">\"sd\"</p>`
   })
 
   test({

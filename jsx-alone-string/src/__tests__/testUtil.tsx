@@ -1,5 +1,5 @@
-import { JSXAlone } from '..';
-import { removeWhites } from 'jsx-alone-core';
+import { JSXAlone } from '..'
+import { removeWhites } from 'jsx-alone-core'
 export function test({ e, expected, label, expectedTabSize2, asCodeEquals, asCodeContains }: {
   e: JSX.Element;
   expected: string;
@@ -9,22 +9,22 @@ export function test({ e, expected, label, expectedTabSize2, asCodeEquals, asCod
   asCodeContains?: boolean
 }) {
   it(label + ' without indent', () => {
-    const output = JSXAlone.render(e, { indent: false, indentTabSize: 0 });
-    if(asCodeEquals){
+    const output = JSXAlone.render(e, { indent: false, indentTabSize: 0 })
+    if (asCodeEquals) {
       expectTextEquals(output, expected)
     }
-    else if(asCodeContains){
+    else if (asCodeContains) {
       expectTextToContain(output, expected)
     }
     else {
-      expect(output).toBe(expected);
+      expect(output).toBe(expected)
     }
-  });
+  })
   if (expectedTabSize2) {
     it(label + 'with indentTabSize: 2', () => {
-      const output = JSXAlone.render(e, { indent: true, indentTabSize: 2 });
-      expect(output).toBe(expectedTabSize2);
-    });
+      const output = JSXAlone.render(e, { indent: true, indentTabSize: 2 })
+      expect(output).toBe(expectedTabSize2)
+    })
   }
 }
 
@@ -43,4 +43,3 @@ export function expectTextNotToContain(a?: string, b?: string, debug = false) {
   if (!a || !b) return false
   expect(removeWhites(a)).not.toContain(removeWhites(b))
 }
-

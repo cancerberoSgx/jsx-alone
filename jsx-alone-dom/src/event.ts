@@ -1,8 +1,8 @@
 import { getElementMark, markElement } from './mark'
 import { unique } from 'jsx-alone-core'
-import { MEvent } from './types'
+import { HTMLEvent } from './types'
 
-export type EventListener<C extends EventTarget | HTMLElement = any, T extends EventTarget | HTMLElement = any> = (e: MEvent) => any
+export type EventListener<C extends EventTarget | HTMLElement = any, T extends EventTarget | HTMLElement = any> = (e: HTMLEvent) => any
 
 interface Entry {
   mark: string,
@@ -36,7 +36,7 @@ export class RootEventManager {
   }
 
   /** private handler for all events */
-  private rootListener(e: MEvent): any {
+  private rootListener(e: HTMLEvent): any {
     if (e.target) {
       const mark = this.getElementMark(e.target)
       const entry = mark && (this.registeredByType[e.type.toLowerCase()] || []).find(e => e.mark === mark)

@@ -1,6 +1,6 @@
-import { ElementClass } from './elementClass';
+import { ElementClass } from './elementClass'
 
-export type JSXAloneAttrs<ClassName extends string = string> = {
+export interface JSXAloneAttrs<ClassName extends string = string> {
   [k: string]: any
   className?: ClassName | ClassName[]
 }
@@ -13,7 +13,7 @@ export type JSXAloneValue = string | boolean | number
 
 export type JSXAloneElement = any
 
-export type JSXAloneComponent = {
+export interface JSXAloneComponent {
   new(props: JSXAloneProps): JSXAloneComponent
   render(): JSXAloneElement
 }
@@ -61,19 +61,16 @@ export interface RenderConfig<T, R extends ElementLike<T> = ElementLike<T>> {
 export interface CreateCreateElementConfig<T, R extends ElementLike<T> = ElementLike<T>, C extends ElementClass = ElementClass> extends RenderConfig<T, R> {
 
   /** implementation of TextNodeLike */
-  impl: {
-    new(tag: string): R
-  }
+  impl: new(tag: string) => R
 
   /** implementation of TextNodeLike */
-  textNodeImpl: { new(content: string): any }
+  textNodeImpl: new(content: string) => any
 
   /** let implementations grab the created HTML element and its associated ElementClass, if any, when their are just created (before processing attrs and children). Needs to be fast. TODO: expose function element context */
   onElementCreated?(event: {
     elementLike: R, elementClassInstance?: C,
     attrs: JSXAloneAttrs<string>
   }): void
-
 
   /** called when render () ends for an element . Needs to be fast.*/
   onElementReady?(event: { elementLike: R }): void

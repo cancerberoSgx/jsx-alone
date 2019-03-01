@@ -1,4 +1,4 @@
-import { JSXAloneJsonImpl as JSXAlone, JsonImplElementClass, } from '../JsonImpl'
+import { JSXAloneJsonImpl as JSXAlone, JsonImplElementClass } from '../JsonImpl'
 describe('DummyImpl', () => {
 
   it('intrinsic', () => {
@@ -13,7 +13,6 @@ describe('DummyImpl', () => {
         }
       )
   })
-
 
   describe('element class', () => {
     class C extends JsonImplElementClass<{ people: { name: string; age: number }[] }> {
@@ -35,20 +34,20 @@ describe('DummyImpl', () => {
         JSXAlone.render(<C people={[{ name: 'seba', age: 18 }, { name: 'laura', age: 33 }]} />))
         .toEqual(
           {
-            "tag": "ul",
-            "attrs": {},
-            "children": [
+            tag: 'ul',
+            attrs: {},
+            children: [
               {
-                "tag": "li",
-                "attrs": {},
-                "children": [{ "content": "seba" }, { "content": " has half of " }, 
-                { "content": 9 }, { "content": " years old" }]
+                tag: 'li',
+                attrs: {},
+                children: [{ content: 'seba' }, { content: ' has half of ' },
+                { content: 9 }, { content: ' years old' }]
               },
               {
-                "tag": "li",
-                "attrs": {},
-                "children": [{ "content": "laura" }, { "content": " has half of " }, 
-                { "content": 16 }, { "content": " years old" }]
+                tag: 'li',
+                attrs: {},
+                children: [{ content: 'laura' }, { content: ' has half of ' },
+                { content: 16 }, { content: ' years old' }]
               }
             ]
           }
@@ -57,7 +56,5 @@ describe('DummyImpl', () => {
     })
 
   })
-
-
 
 })

@@ -16,7 +16,7 @@ export function test({
   expected,
   label,
   asCodeEquals,
-  caseInsensitive, 
+  caseInsensitive,
   initialContext
 }: {
   e: JSX.Element
@@ -62,9 +62,9 @@ export function dummy(a: number) {
  * @param {HTMLNode} node The node to fire the event handler on.
  * @param {String} eventName The name of the event without the "on" (e.g., "focus")
  */
-export function fireEvent(node: HTMLElement, eventName: 'mousedown' | 'mouseup' | 'click' | 'focus' | 'change' | 'blur' | 'select') {
+export function fireEvent(node: HTMLElement&{dispatchEvent:any,fireEvent:any}, eventName: 'mousedown' | 'mouseup' | 'click' | 'focus' | 'change' | 'blur' | 'select') {
   // Make sure we use the ownerDocument from the provided node to avoid cross-window problems
-  var doc: any
+  let doc: any
   if (node.ownerDocument) {
     doc = node.ownerDocument
   } else if (node.nodeType == 9) {
@@ -76,7 +76,7 @@ export function fireEvent(node: HTMLElement, eventName: 'mousedown' | 'mouseup' 
 
   if (node.dispatchEvent) {
     // Gecko-style approach (now the standard) takes more work
-    var eventClass = ''
+    let eventClass = ''
 
     // Different events have different event classes.
     // If this switch statement can't map an eventName to an eventClass,
@@ -96,26 +96,24 @@ export function fireEvent(node: HTMLElement, eventName: 'mousedown' | 'mouseup' 
         break
 
       default:
-        throw "fireEvent: Couldn't find an event class for event '" + eventName + "'."
+        throw new Error('fireEvent: Couldn\'t find an event class for event \'' + eventName + '\'.')
         // break
     }
-    var event = doc.createEvent(eventClass)
+    const event = doc.createEvent(eventClass)
     event.initEvent(eventName, true, true) // All events created as bubbling and cancelable.
 
     event.synthetic = true // allow detection of synthetic events
     // The second parameter says go ahead with the default action
-    //@ts-ignore
     node.dispatchEvent(event, true)
-    //@ts-ignore
   } else if (node.fireEvent) {
     // IE-old school style, you can drop this if you don't need to support IE8 and lower
-    var event = doc.createEventObject()
+    const event = doc.createEventObject()
     event.synthetic = true // allow detection of synthetic events
-    //@ts-ignore
+    // @ts-ignore
     node.fireEvent('on' + eventName, event)
   }
 }
 
-export function query<T extends HTMLElement=HTMLElement>(s: string): T {
+export function query<T extends HTMLElement= HTMLElement>(s: string): T {
   return document.querySelector<T>(s)!
 }

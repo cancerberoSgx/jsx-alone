@@ -1,18 +1,18 @@
 import { ElementClass } from './'
 
-export abstract class StatefulComponent<P = {}, S =P> extends ElementClass<P> {
-  state: S ={} as any
+export abstract class StatefulComponent<P = {}, S = P> extends ElementClass<P> {
+  state: S = {} as any
 
   constructor(p: P) {
     super(p)
-    this.state ={...(p as any)}
+    this.state = {...(p as any)}
   }
 
-  /** changes the state, clean up containerEl and renders the element again and append it to containerEl. 
+  /** changes the state, clean up containerEl and renders the element again and append it to containerEl.
    * Notice that descendant elements will be destroyed and */
   setState(  s: Partial<S>) {
-    //@ts-ignore
-    this.state = { ...this.state, ...s }  
+    // @ts-ignore
+    this.state = { ...this.state, ...s }
   }
 
 }

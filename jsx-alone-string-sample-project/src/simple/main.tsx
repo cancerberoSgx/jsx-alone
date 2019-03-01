@@ -57,6 +57,5 @@ export function renderSimple(indent = false) {
   const s = JSXAlone.render(el, indent ? { indent: true, indentTabSize: 2 } : { indent: false, indentTabSize: 0 })
   console.timeEnd('render')
 
-
   return s
 }

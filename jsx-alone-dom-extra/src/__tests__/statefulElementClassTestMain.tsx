@@ -1,2 +1,2 @@
-import { statefulElementClassTestRenderApp } from "./statefulElementClassTestRenderApp";
+import { statefulElementClassTestRenderApp } from './statefulElementClassTestRenderApp'
 statefulElementClassTestRenderApp()

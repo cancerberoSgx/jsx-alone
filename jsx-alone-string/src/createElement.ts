@@ -1,14 +1,14 @@
-import { NodeLike, JSXAlone as JSXAloneType, createCreateElement, CreateCreateElementConfig } from 'jsx-alone-core';
-import { ElementLikeImplRenderConfig, defaultRenderConfig } from './config';
-import { ElementLikeImpl, TextNodeLikeImpl } from './elementImpl';
+import { NodeLike, JSXAlone as JSXAloneType, createCreateElement, CreateCreateElementConfig } from 'jsx-alone-core'
+import { ElementLikeImplRenderConfig, defaultRenderConfig } from './config'
+import { ElementLikeImpl, TextNodeLikeImpl } from './elementImpl'
 
 const createCreateElementConfig: CreateCreateElementConfig<string, ElementLikeImpl> = {
   impl: ElementLikeImpl,
-  textNodeImpl: TextNodeLikeImpl, 
+  textNodeImpl: TextNodeLikeImpl
 }
 
 const Module = {
-  
+
   createElement: createCreateElement<string>(createCreateElementConfig),
 
   render(el: JSX.Element, config: ElementLikeImplRenderConfig = defaultRenderConfig): string {
@@ -17,5 +17,4 @@ const Module = {
 
 }
 
-export const JSXAlone: JSXAloneType<string>&{render(el: JSX.Element, config?: ElementLikeImplRenderConfig):string} = Module
-
+export const JSXAlone: JSXAloneType<string>&{render(el: JSX.Element, config?: ElementLikeImplRenderConfig): string} = Module

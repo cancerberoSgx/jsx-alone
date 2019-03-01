@@ -2,7 +2,7 @@ import {  indent as indentImpl,  AbstractJSXAlone } from '.'
 
 declare const JSXAlone: typeof AbstractJSXAlone
 
-/** Render the <style> tag with all classes and styles inside. Usage example: 
+/** Render the <style> tag with all classes and styles inside. Usage example:
 ```
 const fieldTable: ClassRule = {
   selectorPostfix: ' td',
@@ -27,23 +27,22 @@ export const Style = (props: StyleProps) => {
   function indent(n: number): string {
     return props.renderConfig && props.renderConfig.indent ? indentImpl(n) : ''
   }
-  function fixProperty(s:string):string{
-    var t
+  function fixProperty(s: string): string {
+    let t
     while (t =  /([A-Z])/.exec(s)) {
-        s= s.substring(0, t.index)+'-'+t[1].toLowerCase()+s.substring(t.index+1, s.length)
+        s = s.substring(0, t.index) + '-' + t[1].toLowerCase() + s.substring(t.index + 1, s.length)
     }
-    return s;
+    return s
   }
   // return new AbstractElementLike()
 
   return <style>{Object.keys(props.classes).map(c =>
-    `${indent(1)}.${c}${(props.classes[c] && props.classes[c].selectorPostfix ? props.classes[c].selectorPostfix : '')} {${Object.keys(props.classes[c]).filter(p=>p!=='selectorPostfix').map(p =>`
+    `${indent(1)}.${c}${(props.classes[c] && props.classes[c].selectorPostfix ? props.classes[c].selectorPostfix : '')} {${Object.keys(props.classes[c]).filter(p => p !== 'selectorPostfix').map(p => `
 ${indent(2)}${fixProperty(p)}: ${props.classes[c][p as any]};`
 ).join(``)}
 }`).join('\n')}
   </style>
 }
-
 
 /** build a styles and classnames from a class styles mapped object so is easy to type-check classnames and use them . See `Style` for usage example */
 export function Styles<T extends { [k: string]: ClassRule }>(styles: T): { styles: T, classes: { [k in keyof T]: k } } {

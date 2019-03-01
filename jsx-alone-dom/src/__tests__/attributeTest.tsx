@@ -10,13 +10,13 @@ describe('attributes', () => {
 
   test({
     label: 'className',
-    e: <p className='foo'>g<span className={['s', 'd'].join(' ')}>s</span>g</p>,
+    e: <p className="foo">g<span className={['s', 'd'].join(' ')}>s</span>g</p>,
     expected: '<p class="foo">g<span class="s d">s</span>g</p>'
   })
 
   test({
     label: 'innerHTML',
-    e: <p className='foo' dangerouslySetInnerHTML={{__html: '<span as="inner">html</span>'}}>gsdf</p>,
+    e: <p className="foo" dangerouslySetInnerHTML={{__html: '<span as="inner">html</span>'}}>gsdf</p>,
     expected: `<p class="foo"><span as="inner">html</span></p>`
   })
 })

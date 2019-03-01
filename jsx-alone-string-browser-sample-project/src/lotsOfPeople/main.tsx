@@ -1,6 +1,6 @@
 import { lotsOfPeople, Renderer, LotsOfPeopleRendererConfig } from 'jsx-alone-sample-project-code'
 import { JSXAlone } from 'jsx-alone-string'
-import { printMs } from 'jsx-alone-core';
+import { printMs } from 'jsx-alone-core'
 
 const renderer: Renderer = (app: JSX.Element, config: LotsOfPeopleRendererConfig) => {
   // measures onload
@@ -18,9 +18,9 @@ const renderer: Renderer = (app: JSX.Element, config: LotsOfPeopleRendererConfig
   // measures render
   const JSXAloneRenderT0 = Date.now()
   console.time('JSXAlone.render()')
-  const s = JSXAlone.render(app, {indent: false, indentTabSize:0, indentLevel: 0})
-  console.log(typeof s);
-  
+  const s = JSXAlone.render(app, {indent: false, indentTabSize: 0, indentLevel: 0})
+  console.log(typeof s)
+
   console.timeEnd('JSXAlone.render()')
   const JSXAloneRenderT = Date.now() - JSXAloneRenderT0
 
@@ -31,7 +31,7 @@ const renderer: Renderer = (app: JSX.Element, config: LotsOfPeopleRendererConfig
   }
   root = document.createElement('dir')
   root.setAttribute('id', 'jsx-alone-sample-project-code')
-  root.innerHTML=s
+  root.innerHTML = s
   // setInnerHTML(root, s)
   document.body.appendChild(root)
 
@@ -43,7 +43,6 @@ const renderer: Renderer = (app: JSX.Element, config: LotsOfPeopleRendererConfig
 }
 
 lotsOfPeople(renderer, undefined, JSXAlone)
-
 
 // /** sets innerHTML and calls children scripts if any */
 // export function setInnerHTML(elm: HTMLElement, html: string) {

@@ -1,11 +1,11 @@
-import { JSXAlone  } from '..';
-import {ClassRule ,Styles, Style, installJSXAloneAsGlobal} from 'jsx-alone-core'
-import { expectTextToContain } from './testUtil';
+import { JSXAlone  } from '..'
+import {ClassRule , Styles, Style, installJSXAloneAsGlobal} from 'jsx-alone-core'
+import { expectTextToContain } from './testUtil'
 
 installJSXAloneAsGlobal(JSXAlone)
 
 describe('style', () => {
-  it('simple', ()=>{
+  it('simple', () => {
     expect(1).toBe(1)
 
     const field: ClassRule = {
@@ -23,15 +23,15 @@ describe('style', () => {
     }
     const { styles, classes } = Styles({  field,   primaryField, messageFromRedirect})
 
-    const App = (props: {msg: string})=><div>
+    const App = (props: {msg: string}) => <div>
       <Style classes={styles}></Style>
       <p className={classes.messageFromRedirect}>{props.msg}</p>
       <div className={classes.field}>field</div>
       <div className={classes.primaryField}>primaryField</div>
       </div>
 
-      const s = JSXAlone.render(<App msg="hello"></App>)
-      expectTextToContain(s, `
+    const s = JSXAlone.render(<App msg="hello"></App>)
+    expectTextToContain(s, `
       <div>
       <style>
         .field td {
@@ -55,6 +55,6 @@ describe('style', () => {
       </div>
     </div>
       `)
-      
+
   })
 })

@@ -8,7 +8,7 @@
   "source": true,
   "scripts": {
     "build": "npx tsc",
-    "build-watch": "npx tsc -w",    
+    "build-watch": "npx tsc -w",
     "test": "npx jest --testRegex \"/__tests__/.*\\.*Test\\.[t]sx?$\" ",
     "test-js": "npx tsc && npx jest --passWithNoTests --testMatch \"**/dist/**/__tests__/**/*.js\"",
     "test-clean": "npx jest --clearMocks",
@@ -26,6 +26,7 @@
     "jest": "^24.1.0",
     "shx": "^0.3.2",
     "ts-jest": "^24.0.0",
+    "tslint": "^5.13.1",
     "typescript": "^3.2.2"
   },
   "author": "Sebastian Gurin",

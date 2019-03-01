@@ -6,7 +6,7 @@ describe('function attributes first experiments', () => {
   describe('real life app', () => {
     class Container extends ElementClass<{ children: Children }> {
       render() {
-        return <div className='container'>{this.props.children}</div>
+        return <div className="container">{this.props.children}</div>
       }
     }
     interface P {
@@ -22,7 +22,7 @@ describe('function attributes first experiments', () => {
       render() {
         return (
           <Container>
-            <button id='add' onClick={e => this.setState({ people: [...this.state.people, { name: 'random name ' + Math.random() }] })}>
+            <button id="add" onClick={e => this.setState({ people: [...this.state.people, { name: 'random name ' + Math.random() }] })}>
               add
             </button>
             <ul>
@@ -30,7 +30,7 @@ describe('function attributes first experiments', () => {
                 <li data-id={p.name}>
                   <div>{p.name}</div>
                   <button
-                    className='remove'
+                    className="remove"
                     onClick={e => {
                       this.setState({ people: this.state.people.filter(p2 => p2.name !== p.name) })
                     }}>

@@ -6,7 +6,7 @@ describe('refs', () => {
   describe('case 1', () => {
     class Box extends DummyStatefulComponent<{ text: string }> {
       render() {
-        return <div className='box'>{this.state.text}</div>
+        return <div className="box">{this.state.text}</div>
       }
     }
     interface P { name: string }
@@ -20,13 +20,13 @@ describe('refs', () => {
       }
       counter = 0
       render() {
-        return <div id='app'>
-          <input value='initial' id='input' ref={this.textInput}></input>
-          <button id='changeInput'
+        return <div id="app">
+          <input value="initial" id="input" ref={this.textInput}></input>
+          <button id="changeInput"
             onClick={e => { this.textInput.current!.setAttribute('value', 'changed_' + this.counter++) }}>
             change input</button>
           <Box ref={this.box} text={this.state.name}></Box>
-          <button id='changeBox'
+          <button id="changeBox"
             onClick={e => {
               this.box.current!.setState({
                 text: this.textInput.current!.value = 'changed_' + this.counter++
@@ -37,7 +37,7 @@ describe('refs', () => {
       }
     }
     beforeEach(() =>
-      render(<App name='seba' />))
+      render(<App name="seba" />))
 
     it('should work on HTMLElement', () => {
       expect(query('#app #input').getAttribute('value')).toBe('initial')
@@ -61,9 +61,9 @@ describe('refs', () => {
       class C1 extends DummyStatefulComponent {
         static ref1 = JSXAlone.createRef<HTMLButtonElement>()
         render() {
-          return <div id='c1'>
+          return <div id="c1">
             <button ref={C1.ref1} onClick={c1Fn}>click c2</button>
-            <button className='trigger' onClick={e => C2.ref2.current!.click()}>trigger</button>
+            <button className="trigger" onClick={e => C2.ref2.current!.click()}>trigger</button>
           </div>
         }
       }
@@ -71,9 +71,9 @@ describe('refs', () => {
       class C2 extends DummyStatefulComponent {
         static ref2 = JSXAlone.createRef<HTMLButtonElement>()
         render() {
-          return <div id='c2'>
+          return <div id="c2">
             <button ref={C2.ref2} onClick={c2Fn}>click c3</button>
-            <button className='trigger' onClick={e => C3.ref3.current!.click()}>trigger</button>
+            <button className="trigger" onClick={e => C3.ref3.current!.click()}>trigger</button>
           </div>
         }
       }
@@ -81,9 +81,9 @@ describe('refs', () => {
       class C3 extends DummyStatefulComponent {
         static ref3 = JSXAlone.createRef<HTMLButtonElement>()
         render() {
-          return <div id='c3'>
+          return <div id="c3">
             <button ref={C3.ref3} onClick={c3Fn}>click c1</button>
-            <button className='trigger' onClick={e => C1.ref1.current!.click()}>trigger</button>
+            <button className="trigger" onClick={e => C1.ref1.current!.click()}>trigger</button>
           </div>
         }
       }

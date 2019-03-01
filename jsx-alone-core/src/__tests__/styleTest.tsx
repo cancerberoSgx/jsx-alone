@@ -33,22 +33,21 @@ describe('style', () => {
 
     // console.log(JSON.stringify(s, null, 2))
     expect(s).toEqual({
-      "tag": "div",
-      "attrs": {},
-      "children": [
+      tag: 'div',
+      attrs: {},
+      children: [
         {
-          "tag": "style",
-          "attrs": {},
-          "children": [{
-            "content": ".field td {\nborder: 1px solid #aaaaaa;\npadding: 2px;\n}\n.primaryField td {\nborder: 1px solid #ededed;\npadding: 2px;\nfont-size: 0.95em;\n}\n.messageFromRedirect {\nborder: 2px solid green;\n}"
+          tag: 'style',
+          attrs: {},
+          children: [{
+            content: '.field td {\nborder: 1px solid #aaaaaa;\npadding: 2px;\n}\n.primaryField td {\nborder: 1px solid #ededed;\npadding: 2px;\nfont-size: 0.95em;\n}\n.messageFromRedirect {\nborder: 2px solid green;\n}'
           }]
         },
-        { "tag": "p", "attrs": { "className": "messageFromRedirect" }, "children": [{ "content": "hello" }] },
-        { "tag": "div", "attrs": { "className": "field" }, "children": [{ "content": "field" }] },
-        { "tag": "div", "attrs": { "className": "primaryField" }, "children": [{ "content": "primaryField" }] }]
+        { tag: 'p', attrs: { className: 'messageFromRedirect' }, children: [{ content: 'hello' }] },
+        { tag: 'div', attrs: { className: 'field' }, children: [{ content: 'field' }] },
+        { tag: 'div', attrs: { className: 'primaryField' }, children: [{ content: 'primaryField' }] }]
     }
     )
-
 
   })
 })

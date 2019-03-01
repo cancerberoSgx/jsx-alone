@@ -34,7 +34,8 @@ export interface IElementClass<P = {}> extends ICoreElementClass<P> {
   readonly eventManager: RootEventManager
 }
 
-export interface MEvent<C extends EventTarget | HTMLElement = any, T extends EventTarget | HTMLElement = any> extends Event {
+/** high level interface on top of DOM Event type so it's easy to declare types of currentTarget and target */
+export interface HTMLEvent<C extends EventTarget | HTMLElement = any, T extends EventTarget | HTMLElement = any> extends Event {
   currentTarget: C
   target: T
 }

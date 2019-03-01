@@ -70,7 +70,7 @@ describe('function attributes', () => {
       expect(fn1).toBeCalledTimes(0)
       const F = (props: {}) => (
         <div>
-          <button id='b2' onClick={handler} />
+          <button id="b2" onClick={handler} />
         </div>
       )
       const el = render(
@@ -96,7 +96,7 @@ describe('function attributes', () => {
         const foo = 'foo'
         expect(foo + '_' + this.bar + '_' + var1).toBe(expected)
         return <div>
-          <button id='b2' onClick={e => fn1(foo + '_' + this.bar + '_' + var1)} />
+          <button id="b2" onClick={e => fn1(foo + '_' + this.bar + '_' + var1)} />
         </div>
       }
       render(<F />)
@@ -125,9 +125,9 @@ describe('function attributes', () => {
           return (
             <div>
               <Container>
-                <button id='b1' onClick={e => fn1(this.bar + foo)} />
+                <button id="b1" onClick={e => fn1(this.bar + foo)} />
               </Container>
-              <button id='b2' onClick={e => fn1(this.bar + foo + 1)} />
+              <button id="b2" onClick={e => fn1(this.bar + foo + 1)} />
             </div>
           )
         }
@@ -148,10 +148,10 @@ describe('function attributes', () => {
       })
       const el = render(
         <div>
-          <button id='b1' onClick={handler}>
+          <button id="b1" onClick={handler}>
             asd
           </button>
-          <input id='i1' value='foo' onChange={handler} />
+          <input id="i1" value="foo" onChange={handler} />
         </div>
       )
       const button = el.querySelector<HTMLButtonElement>('#b1')!
@@ -176,10 +176,10 @@ describe('function attributes', () => {
       })
       const d = (
         <div>
-          <button id='b1' onClick={handler}>
+          <button id="b1" onClick={handler}>
             asd
           </button>
-          <input id='i1' value='foo' onChange={handler} />
+          <input id="i1" value="foo" onChange={handler} />
         </div>
       )
       const el = render(d)

@@ -1,8 +1,8 @@
 import { JSXAloneComponent, NodeLike, ElementLike, TextNodeLike, RenderConfig } from '.'
-import { ElementClassProps, ElementClass } from './elementClass';
-import { ComponentClass, FunctionComponent } from './declarations/domElementDeclarations';
+import { ElementClassProps, ElementClass } from './elementClass'
+import { ComponentClass, FunctionComponent } from './declarations/domElementDeclarations'
 
-export function isElementClassConstructor(c: any): c is {new(props: ElementClassProps<any>): ElementClass} {
+export function isElementClassConstructor(c: any): c is new(props: ElementClassProps<any>) => ElementClass {
   return c.prototype && c.prototype.render
 }
 
@@ -32,7 +32,7 @@ export abstract class AbstractElementLike<T> implements ElementLike<T> {
   }
   children: NodeLike<T>[]
   parentElement?: ElementLike<T>
-  
+
   constructor(public tag: string) {
     this.attrs = {}
     this.children = []
@@ -50,7 +50,7 @@ export abstract class AbstractElementLike<T> implements ElementLike<T> {
       c.parentElement = this
     }
   }
-  
+
   abstract dangerouslySetInnerHTML(s: string): void
-  
+
 }

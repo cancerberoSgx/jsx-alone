@@ -1,5 +1,5 @@
 import { JSXAlone, StatefulComponent } from '..'
-import { DestructiveDomRenderComponent } from '../DestructiveDomRenderComponent';
+import { DestructiveDomRenderComponent } from '../DestructiveDomRenderComponent'
 
 export function statefulElementClassTestRenderApp(this: any) {
   const parent = document.createElement('div')
@@ -9,7 +9,7 @@ export function statefulElementClassTestRenderApp(this: any) {
   return parent
 }
 
-interface RepeaterP{
+interface RepeaterP {
   value: string
 }
 class Repeater extends DestructiveDomRenderComponent<RepeaterP, RepeaterP> {
@@ -69,8 +69,8 @@ class App extends DestructiveDomRenderComponent<P, P> {
     )
   }
   setState(s: Partial<P>) {
-    this.state = { ...this.state, ...s };
-    this.containerEl!.innerHTML = '';
-    this.containerEl!.appendChild(JSXAlone.render(this.render()));
+    this.state = { ...this.state, ...s }
+    this.containerEl!.innerHTML = ''
+    this.containerEl!.appendChild(JSXAlone.render(this.render()))
   }
 }

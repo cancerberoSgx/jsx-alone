@@ -20,7 +20,7 @@ describe('functions', () => {
   })
 
   const F2 = (props: { age: number; children: JSXAloneElement }) => (
-    <div className='wrapper'>
+    <div className="wrapper">
       {props.age}
       {props.children}
     </div>

@@ -1,6 +1,6 @@
 import { JSXAlone } from '..'
 import { ElementClass } from '../elementImpl'
-import { RootEventManager, MEvent } from '..'
+import { RootEventManager, HTMLEvent } from '..'
 import { query } from './testUtil'
 
 describe('eventManager', () => {
@@ -17,7 +17,7 @@ describe('eventManager', () => {
       }
     }
 
-    const app = <div><div id='container'><C s={['a', 'b']}></C></div></div>
+    const app = <div><div id="container"><C s={['a', 'b']}></C></div></div>
     root = JSXAlone.render(app) as HTMLElement
     document.body.appendChild(root)
 
@@ -27,8 +27,8 @@ describe('eventManager', () => {
   it('should notify after added and dont after removed', () => {
     const a = query('#container .a')
     const b = query('#container .b')
-    const fna = jest.fn((e: MEvent) => { })
-    const fnb = jest.fn((e: MEvent) => { })
+    const fna = jest.fn((e: HTMLEvent) => { })
+    const fnb = jest.fn((e: HTMLEvent) => { })
     expect(fna).toBeCalledTimes(0)
     a.click()
     expect(fna).toBeCalledTimes(0)

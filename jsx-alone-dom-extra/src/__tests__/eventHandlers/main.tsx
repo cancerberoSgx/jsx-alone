@@ -63,7 +63,7 @@ const app = (
   <div>
     <button
       onClick={e => {
-        //@ts-ignore
+        // @ts-ignore
         console.log(this, printMs(Date.now()), bar)
       }}>
       no root element class2
@@ -72,7 +72,7 @@ const app = (
     <Container>
       <button
         onClick={e => {
-          //@ts-ignore
+          // @ts-ignore
           console.log(this, printMs(Date.now()), bar)
         }}>
         should not override this with Container

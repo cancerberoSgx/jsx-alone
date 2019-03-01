@@ -1,20 +1,18 @@
 // import { AbstractJSXAlone as  } from './createElement';
-import { ReactNode, AbstractJSXAlone as JSXAlone } from '.';
-
+import { ReactNode, AbstractJSXAlone as JSXAlone } from '.'
 
 export type Children = ReactNode
 
 // export type Props = { children: Children }
 
 // TODO: like React.Fragment
-export const Fragment = (props: { children: Children })=><span>{props.children}</span>
+export const Fragment = (props: { children: Children }) => <span>{props.children}</span>
 
 export function Js(props: {children: (...args: any[]) => any }) {
   const r = props.children()
-  console.log(r);
+  console.log(r)
   return r ? <Fragment>{r}</Fragment> : null
 }
-
 
 /** if as statement. children need to be in a function and the function accepts a parameter which value is given condition `c` but casted to NotFalsy<C> so there's no need of type guards in the body. Example:
 ```
@@ -65,22 +63,22 @@ export class ErrorComponent extends React.Component<ErrorOptions> {
 */
 export function If<T extends any = any
 >(props: { c: any, p?: T, children: (...args: NotFalsy<T>[]) => JSX.Element }) {
-//TODO: issue in dom implementation, children is an array 
+// TODO: issue in dom implementation, children is an array
 const f = Array.isArray(props.children) ? props.children[0] : props.children
-  const { c, p } = props
-  if (isNotFalsy(c))
+const { c, p } = props
+if (isNotFalsy(c))
     return f.apply(null, [...(p ? [p] : []), c ])
   else {
     return null
   }
 }
-type NotFalsy<C=any> = Exclude<C, Falsy>
+type NotFalsy<C= any> = Exclude<C, Falsy>
 type Falsy = null | '' | undefined | false
 function isNotFalsy<T>(a: T): a is NotFalsy<T> { return !!a }
 
-export function getGlobal():any{
-  return (typeof window==='undefined' && typeof document==='undefined') ? global : window
+export function getGlobal(): any {
+  return (typeof window === 'undefined' && typeof document === 'undefined') ? global : window
 }
-export function installJSXAloneAsGlobal(i: typeof JSXAlone){
-  getGlobal()['JSXAlone']=i
+export function installJSXAloneAsGlobal(i: typeof JSXAlone) {
+  getGlobal()['JSXAlone'] = i
 }

@@ -1,14 +1,14 @@
-import { JSXAlone } from './';
-import { StatefulComponent } from './StatefulComponent';
-import { ClassAttributes, Children, RefObject } from 'jsx-alone-core';
+import { JSXAlone } from './'
+import { StatefulComponent } from './StatefulComponent'
+import { ClassAttributes, Children, RefObject } from 'jsx-alone-core'
 
-/** 
+/**
  * Component state implementation by biding state properties with DOM elements and changes the DOM only if necessary.
  * (is the contrary to DestructiveDomRenderComponent)
  */
 export abstract class UpdateDomComponent<P = {}, S = Partial<P>> extends StatefulComponent<P, S> {
   setState(s: Partial<S>) {
-    super.setState(s);
+    super.setState(s)
   }
 
   bindState(stateTarget: keyof S, domTarget: string): JSX.IntrinsicAttributes {

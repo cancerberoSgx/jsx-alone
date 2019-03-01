@@ -1,13 +1,12 @@
-import { ElementClass } from './elementClass';
-import { isElementClassConstructor, isNode } from './elementImpl';
-import { CreateCreateElementConfig, ElementLike, JSXAlone, JSXAloneAttrs, JSXAloneTag } from './types';
+import { ElementClass } from './elementClass'
+import { isElementClassConstructor, isNode } from './elementImpl'
+import { CreateCreateElementConfig, ElementLike, JSXAlone, JSXAloneAttrs, JSXAloneTag } from './types'
 
-
-export function createCreateElement<T, R extends ElementLike<T>=ElementLike<T>>(config: CreateCreateElementConfig<T, R>) {
+export function createCreateElement<T, R extends ElementLike<T>= ElementLike<T>>(config: CreateCreateElementConfig<T, R>) {
 
   const { impl, textNodeImpl, onElementReady, onElementCreated: onElementCreate } = config
 
-  const createElement: CreateElementFunction<T, R> = function (tag, attrs = {}, ...children: any[]) {
+  const createElement: CreateElementFunction<T, R> = function(tag, attrs = {}, ...children: any[]) {
     let element: R
     let elementClassInstance: ElementClass | undefined
     const tagIsString = typeof tag === 'string'
@@ -18,7 +17,7 @@ export function createCreateElement<T, R extends ElementLike<T>=ElementLike<T>>(
       element = new impl(tag as string)
     }
     else if (isElementClassConstructor(tag)) {
-      elementClassInstance = new tag({ ...attrs, children: children })
+      elementClassInstance = new tag({ ...attrs, children })
       element = elementClassInstance.render() as any as R
     }
     else {
@@ -84,7 +83,7 @@ export function createCreateElement<T, R extends ElementLike<T>=ElementLike<T>>(
 
 export const AbstractJSXAlone: JSXAlone<any> = null as any
 
-export type CreateElementFunction<T, R=ElementLike<T>> = (
+export type CreateElementFunction<T, R= ElementLike<T>> = (
   tag: JSXAloneTag,
   attrs?: JSXAloneAttrs<string> | undefined,
   ...children: any[]

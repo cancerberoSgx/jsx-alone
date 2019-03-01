@@ -1,8 +1,8 @@
-import { statefulElementClassTestRenderApp } from './statefulElementClassTestRenderApp';
+import { statefulElementClassTestRenderApp } from './statefulElementClassTestRenderApp'
 import { JSXAlone } from 'jsx-alone-dom'
-import { query, render } from './testUtil';
-import { RefObject } from 'jsx-alone-core';
-import { DestructiveDomRenderComponent } from '../DestructiveDomRenderComponent';
+import { query, render } from './testUtil'
+import { RefObject } from 'jsx-alone-core'
+import { DestructiveDomRenderComponent } from '../DestructiveDomRenderComponent'
 describe('stateful element class', () => {
   describe('sample 1', () => {
     it('simple', () => {
@@ -17,7 +17,6 @@ describe('stateful element class', () => {
     })
   })
 
-
   describe('refs', () => {
 
     class Box extends DestructiveDomRenderComponent<{ text: string }> {
@@ -25,10 +24,10 @@ describe('stateful element class', () => {
         return <div className="box">{this.state.text}</div>
       }
     }
-    type P = { name: string }
+    interface P { name: string }
     class App extends DestructiveDomRenderComponent<P> {
-      textInput: RefObject<HTMLInputElement>;
-      box: RefObject<Box>;
+      textInput: RefObject<HTMLInputElement>
+      box: RefObject<Box>
       constructor(p: P) {
         super(p)
         this.textInput = JSXAlone.createRef<HTMLInputElement>()
@@ -49,7 +48,6 @@ describe('stateful element class', () => {
       query('#app #changeInput').click()
       expect(query('#app #input').getAttribute('value')).toBe('changed_0')
 
-
       expect(query('#app .box').textContent).toBe('seba')
       query('#app #changeBox').click()
       expect(query('#app .box').textContent).toBe('changed_1')
@@ -57,9 +55,4 @@ describe('stateful element class', () => {
 
   })
 
-
 })
-
-
-
-
