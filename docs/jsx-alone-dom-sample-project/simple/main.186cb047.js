@@ -237,18 +237,6 @@ var __assign = this && this.__assign || function () {
 
 var elementImpl_1 = require("./elementImpl");
 
-var throwOnUnrecognized = false;
-
-function debug(err) {
-  if (throwOnUnrecognized) {
-    throw err;
-  } else {
-    console.error(err);
-  }
-}
-
-exports.debug = debug;
-
 function createCreateElement(config) {
   var impl = config.impl,
       textNodeImpl = config.textNodeImpl,
@@ -266,10 +254,10 @@ function createCreateElement(config) {
       children[_i - 2] = arguments[_i];
     }
 
-    attrs = attrs || {};
     var element;
     var elementClassInstance;
     var tagIsString = typeof tag === 'string';
+    attrs = attrs || {};
 
     if (tagIsString) {
       element = new impl(tag);
@@ -292,26 +280,24 @@ function createCreateElement(config) {
       });
     }
 
-    attrs = tagIsString ? attrs : {};
-    Object.keys(attrs).forEach(function (name) {
-      var value = attrs[name];
-
-      var type = _typeof(value);
-
-      if (type === 'string' || type === 'number') {
-        element.setAttribute(name, value);
-      } else if (type === 'function') {
-        element.setAttribute(name, value);
-      } else if (value === false) {} else if (value === true) {
-        element.setAttribute(name, name);
-      } else if (name === 'dangerouslySetInnerHTML' && value) {
-        element.dangerouslySetInnerHTML(value.__html);
-      } else {
-        element.setAttribute(name, value);
-      }
-    });
-
     if (tagIsString) {
+      Object.keys(attrs).forEach(function (name) {
+        var value = attrs[name];
+
+        var type = _typeof(value);
+
+        if (type === 'string' || type === 'number') {
+          element.setAttribute(name, value);
+        } else if (type === 'function') {
+          element.setAttribute(name, value);
+        } else if (value === false) {} else if (value === true) {
+          element.setAttribute(name, name);
+        } else if (name === 'dangerouslySetInnerHTML' && value) {
+          element.dangerouslySetInnerHTML(value.__html);
+        } else {
+          element.setAttribute(name, value);
+        }
+      });
       children.filter(function (c) {
         return c;
       }).forEach(function (child) {
@@ -345,6 +331,17 @@ function createCreateElement(config) {
 
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
+var throwOnUnrecognized = false;
+
+function debug(err) {
+  if (throwOnUnrecognized) {
+    throw err;
+  } else {
+    console.error(err);
+  }
+}
+
+exports.debug = debug;
 },{"./elementImpl":"vmAk"}],"k98/":[function(require,module,exports) {
 var global = arguments[3];
 ;
@@ -716,28 +713,9 @@ __export(require("./util"));
 __export(require("./style"));
 
 __export(require("./JsonImpl"));
-},{"./elementImpl":"vmAk","./elementClass":"0Bvz","./createElement":"fbNL","./misc":"k98/","./util":"gOGk","./style":"Grpd","./JsonImpl":"WOpK"}],"uJT8":[function(require,module,exports) {
+},{"./elementImpl":"vmAk","./elementClass":"0Bvz","./createElement":"fbNL","./misc":"k98/","./util":"gOGk","./style":"Grpd","./JsonImpl":"WOpK"}],"Ll6o":[function(require,module,exports) {
 ;
 var jsx_alone_core_1 = require("jsx-alone-core");
-var RefObjectImpl = (function () {
-    function RefObjectImpl() {
-        this._current = null;
-    }
-    Object.defineProperty(RefObjectImpl.prototype, "current", {
-        get: function () {
-            return typeof this._current === 'string' ? getMarkedElement(this._current) : this._current;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return RefObjectImpl;
-}());
-exports.RefObjectImpl = RefObjectImpl;
-function setRef(_a) {
-    var el = _a.el, value = _a.value, elementLike = _a.elementLike;
-    value._current = elementLike._elementClassInstance || markElement(el);
-}
-exports.setRef = setRef;
 function markElement(e, label) {
     if (label === void 0) { label = '_jsxa_'; }
     var key = e.getAttribute("data-" + label);
@@ -753,14 +731,46 @@ function getElementMark(e, label) {
     return e.getAttribute("data-" + label);
 }
 exports.getElementMark = getElementMark;
+function isElementMarked(e, label) {
+    if (label === void 0) { label = '_jsxa_'; }
+    return !!getElementMark(e, label);
+}
+exports.isElementMarked = isElementMarked;
 function getMarkedElement(key, parent, label) {
     if (parent === void 0) { parent = document; }
     if (label === void 0) { label = '_jsxa_'; }
-    return parent.querySelector("[data-" + label + "=\"" + key + "\"]");
+    return parent.querySelector(getMarkSSelector(label, key));
 }
 exports.getMarkedElement = getMarkedElement;
+function getMarkSSelector(label, key) {
+    return key ? "[data-" + label + "=\"" + key + "\"]" : "[data-" + label + "]";
+}
+exports.getMarkSSelector = getMarkSSelector;
 
-},{"jsx-alone-core":"BB47"}],"gNvY":[function(require,module,exports) {
+},{"jsx-alone-core":"BB47"}],"uJT8":[function(require,module,exports) {
+;
+var mark_1 = require("./mark");
+var RefObjectImpl = (function () {
+    function RefObjectImpl() {
+        this._current = null;
+    }
+    Object.defineProperty(RefObjectImpl.prototype, "current", {
+        get: function () {
+            return typeof this._current === 'string' ? mark_1.getMarkedElement(this._current) : this._current;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return RefObjectImpl;
+}());
+exports.RefObjectImpl = RefObjectImpl;
+function setRef(_a) {
+    var el = _a.el, value = _a.value, elementLike = _a.elementLike;
+    value._current = elementLike._elementClassInstance || mark_1.markElement(el);
+}
+exports.setRef = setRef;
+
+},{"./mark":"Ll6o"}],"gNvY":[function(require,module,exports) {
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -793,11 +803,14 @@ var ElementLikeImpl = (function (_super) {
     function ElementLikeImpl() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    ElementLikeImpl.prototype.render = function (config) {
-        var _this = this;
-        var el = isSvgTag(this.tag)
+    ElementLikeImpl.prototype.buildRootElement = function (config) {
+        return HTMLElement = isSvgTag(this.tag)
             ? document.createElementNS('http://www.w3.org/2000/svg', this.tag)
             : document.createElement(this.tag);
+    };
+    ElementLikeImpl.prototype.render = function (config) {
+        var _this = this;
+        var el = config.rootHTMLElement || this.buildRootElement(config);
         Object.keys(this.attrs).forEach(function (attribute) {
             var value = _this.attrs[attribute];
             if (attribute === 'className') {
@@ -807,8 +820,7 @@ var ElementLikeImpl = (function (_super) {
                 el.setAttribute('style', jsx_alone_core_1.printStyleHtmlAttribute(value));
             }
             else if (typeof value === 'function') {
-                debugger;
-                el.addEventListener(attribute.replace(/^on/, '').toLowerCase(), value.bind(_this));
+                config.eventManager.addEventListener(el, attribute.replace(/^on/, '').toLowerCase(), value.bind(_this));
             }
             else {
                 el.setAttribute(attribute, value);
@@ -820,7 +832,7 @@ var ElementLikeImpl = (function (_super) {
         else {
             var parent_1 = config.appendChildrenInDocumentFragment ? document.createDocumentFragment() : el;
             this.children.forEach(function (c) {
-                c.render(__assign({}, config, { parent: parent_1 }));
+                c.render(__assign({}, config, { parent: parent_1, rootHTMLElement: undefined }));
             });
             if (el !== parent_1) {
                 el.appendChild(parent_1);
@@ -876,7 +888,68 @@ function isSvgTag(t) {
 }
 var SvgTags = ['path', 'svg', 'use', 'g'];
 
-},{"jsx-alone-core":"BB47","./Refs":"uJT8"}],"S0OW":[function(require,module,exports) {
+},{"jsx-alone-core":"BB47","./Refs":"uJT8"}],"aslw":[function(require,module,exports) {
+;
+var mark_1 = require("./mark");
+var jsx_alone_core_1 = require("jsx-alone-core");
+var RootEventManager = (function () {
+    function RootEventManager(root) {
+        this.root = root;
+        this.registeredByType = {};
+        this.mark = '_jsxa_e' + jsx_alone_core_1.unique('_');
+        this.rootListener = this.rootListener.bind(this);
+    }
+    RootEventManager.prototype.markElement = function (el) {
+        return mark_1.markElement(el, this.mark);
+    };
+    RootEventManager.prototype.getElementMark = function (e) {
+        return mark_1.getElementMark(e, this.mark);
+    };
+    RootEventManager.prototype.rootListener = function (e) {
+        if (e.target) {
+            var mark_2 = this.getElementMark(e.target);
+            var entry = mark_2 && (this.registeredByType[e.type.toLowerCase()] || []).find(function (e) { return e.mark === mark_2; });
+            if (entry) {
+                entry.fn(e);
+            }
+        }
+    };
+    RootEventManager.prototype.addEventListener = function (el, type, fn) {
+        type = type.toLowerCase();
+        var ls = this.registeredByType[type];
+        if (!ls) {
+            ls = this.registeredByType[type] = [];
+            this.root.addEventListener(type, this.rootListener);
+        }
+        var mark = this.markElement(el);
+        var entry = ls.find(function (e) { return e.mark === mark; });
+        if (!entry) {
+            entry = { mark: mark, fn: fn, type: type };
+            ls.push(entry);
+        }
+    };
+    RootEventManager.prototype.removeListeners = function (el, types) {
+        var _this = this;
+        var mark = this.getElementMark(el);
+        if (mark) {
+            (types || Object.keys(this.registeredByType).map(function (t) { return t.toLowerCase(); })).forEach(function (t) {
+                _this.registeredByType[t] = (_this.registeredByType[t] || []).filter(function (e) { return e.mark !== mark; });
+            });
+        }
+    };
+    RootEventManager.prototype.uninstall = function (types) {
+        var _this = this;
+        (types || Object.keys(this.registeredByType).map(function (t) { return t.toLowerCase(); })).forEach(function (t) {
+            (_this.registeredByType[t] || []).map(function (e) { return e.fn; }).forEach(function (listener) {
+                _this.root.removeEventListener(t, listener);
+            });
+        });
+    };
+    return RootEventManager;
+}());
+exports.RootEventManager = RootEventManager;
+
+},{"./mark":"Ll6o","jsx-alone-core":"BB47"}],"S0OW":[function(require,module,exports) {
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -892,11 +965,17 @@ var __assign = (this && this.__assign) || function () {
 var jsx_alone_core_1 = require("jsx-alone-core");
 var _1 = require(".");
 var Refs_1 = require("./Refs");
+var event_1 = require("./event");
 function buildJSXALone() {
     var Module = {
         createElement: jsx_alone_core_1.createCreateElement(getCreateCreateElementConfig()),
-        render: function (el, config) {
-            return el.render(__assign({}, config, { rootElementLike: el }));
+        render: function (elementLike, config) {
+            var el = elementLike;
+            var almostCompleteConfig = __assign({}, config, { rootElementLike: el });
+            var rootHTMLElement = el.buildRootElement(almostCompleteConfig);
+            var eventManager = new event_1.RootEventManager(rootHTMLElement);
+            var completeConfig = __assign({}, almostCompleteConfig, { eventManager: eventManager, rootHTMLElement: rootHTMLElement });
+            return el.render(completeConfig);
         },
         createRef: function () {
             return new Refs_1.RefObjectImpl();
@@ -924,7 +1003,7 @@ function getCreateCreateElementConfig() {
 exports.getCreateCreateElementConfig = getCreateCreateElementConfig;
 exports.JSXAlone = buildJSXALone();
 
-},{"jsx-alone-core":"BB47",".":"MNUJ","./Refs":"uJT8"}],"MNUJ":[function(require,module,exports) {
+},{"jsx-alone-core":"BB47",".":"MNUJ","./Refs":"uJT8","./event":"aslw"}],"MNUJ":[function(require,module,exports) {
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }

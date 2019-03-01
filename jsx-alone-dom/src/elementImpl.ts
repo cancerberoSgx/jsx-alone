@@ -1,7 +1,7 @@
 import { AbstractElementLike, AbstractTextNodeLike, ElementClass as AbstractElementClass, printStyleHtmlAttribute, RefObject } from 'jsx-alone-core';
 import { RefObjectImpl, setRef } from './Refs';
 import { ElementLike, ElementLikeImplRenderConfig, IElementClass, RenderOutput } from './types';
-import { RootEventManager } from './rootEventManager';
+import { RootEventManager } from './event';
 
 export class ElementLikeImpl<T extends ElementClass=ElementClass> extends AbstractElementLike<RenderOutput> implements ElementLike<T> {
   private _innerHtml: string | undefined
@@ -14,10 +14,11 @@ export class ElementLikeImpl<T extends ElementClass=ElementClass> extends Abstra
       : document.createElement(this.tag) as any
   }
 
-  render(config: ElementLikeImplRenderConfig<ElementLikeImpl>&{
-    eventManager: RootEventManager, rootHTMLElement: HTMLElement}): RenderOutput {
+  render(config: ElementLikeImplRenderConfig<ElementLikeImpl> & {
+    eventManager: RootEventManager, rootHTMLElement: HTMLElement
+  }): RenderOutput {
 
-    const el = config.rootHTMLElement||this.buildRootElement(config)
+    const el = config.rootHTMLElement || this.buildRootElement(config)
 
     Object.keys(this.attrs).forEach(attribute => {
       const value = this.attrs[attribute]
@@ -55,6 +56,7 @@ export class ElementLikeImpl<T extends ElementClass=ElementClass> extends Abstra
       setRef({ elementLike: this as any, el, value: this.ref as RefObjectImpl<any> })
     }
     if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
+      (elementClassWithContainer as any)._eventManager = config.eventManager
       elementClassWithContainer.setContainerEl(el)
     }
     return el
@@ -80,6 +82,12 @@ export abstract class ElementClass<P = {}> extends AbstractElementClass<P> imple
   containerEl: HTMLElement | undefined
   setContainerEl(el: HTMLElement) {
     this.containerEl = el
+  }
+  destroy() {
+  }
+  protected _eventManager: RootEventManager = undefined as any
+  get eventManager(){
+    return this,this._eventManager
   }
 }
 

@@ -1,12 +1,6 @@
 import { getElementMark, markElement } from './mark';
 import { unique } from 'jsx-alone-core';
-
-
-export interface MEvent<C extends EventTarget | HTMLElement = any, T extends EventTarget | HTMLElement = any> extends Event {
-  // nativeEvent: E;
-  currentTarget: C;
-  target: T;
-}
+import { MEvent } from './types';
 
 export type EventListener<C extends EventTarget | HTMLElement = any, T extends EventTarget | HTMLElement = any> = (e: MEvent) => any
 
@@ -17,9 +11,14 @@ interface Entry {
   options?: boolean | AddEventListenerOptions
 }
 
-/** provides event delegation management to all nodes generated in a render() 
- * call, using the 
- * root element (the one returned bu JSXAlone.render() call) */
+/** 
+ * Provides event delegation management to all nodes generated in a render() 
+ * call, using the root element (the one returned bu JSXAlone.render() call) to addEventListener
+ * 
+ * TODO: remove registeredByType tp speed up - we dont really need that.
+ * 
+ * TODO: options
+ */
 export class RootEventManager {
 
   constructor(private root: HTMLElement) {
@@ -36,13 +35,12 @@ export class RootEventManager {
     return getElementMark(e, this.mark)
   }
 
-  /** handles all events */
+  /** private handler for all events */
   private rootListener(e: MEvent): any {
     if (e.target) {
       const mark = this.getElementMark(e.target)
       const entry = mark && (this.registeredByType[e.type.toLowerCase()] || []).find(e => e.mark === mark)
       if (entry) {
-        // entry.fn.apply(e.target, [e])
         entry.fn(e)
       }
     }
@@ -53,7 +51,7 @@ export class RootEventManager {
     let ls = this.registeredByType[type]
     if (!ls) {
       ls = this.registeredByType[type] = []
-      this.root.addEventListener(type, this.rootListener) // TODO: options   
+      this.root.addEventListener(type, this.rootListener) // 
     }
     const mark = this.markElement(el)
     let entry: Entry | undefined = ls.find(e => e.mark === mark)
@@ -76,7 +74,7 @@ export class RootEventManager {
   uninstall(types?: []) {
     (types || Object.keys(this.registeredByType).map(t => t.toLowerCase())).forEach(t => {
       (this.registeredByType[t] || []).map(e => e.fn).forEach(listener => {
-        this.root.removeEventListener(t, listener)// TODO: options
+        this.root.removeEventListener(t, listener)
       })
     })
   }

@@ -2,69 +2,58 @@ import { ElementClass } from './elementClass';
 import { isElementClassConstructor, isNode } from './elementImpl';
 import { CreateCreateElementConfig, ElementLike, JSXAlone, JSXAloneAttrs, JSXAloneTag } from './types';
 
-const throwOnUnrecognized = false
-
-export function debug(err: string) {
-  if (throwOnUnrecognized) {
-    throw err
-  } else {
-    console.error(err)
-  }
-}
 
 export function createCreateElement<T, R extends ElementLike<T>=ElementLike<T>>(config: CreateCreateElementConfig<T, R>) {
-  // console.log(config);
-  
+
   const { impl, textNodeImpl, onElementReady, onElementCreated: onElementCreate } = config
 
   const createElement: CreateElementFunction<T, R> = function (tag, attrs = {}, ...children: any[]) {
-    attrs = attrs || {}
     let element: R
     let elementClassInstance: ElementClass | undefined
     const tagIsString = typeof tag === 'string'
+
+    attrs = attrs || {}
+
     if (tagIsString) {
       element = new impl(tag as string)
     }
     else if (isElementClassConstructor(tag)) {
-      elementClassInstance = new tag({ ...attrs, children: children }) 
+      elementClassInstance = new tag({ ...attrs, children: children })
       element = elementClassInstance.render() as any as R
-      // attrs = attrs.ref ? {ref: attrs.ref} : {}
     }
     else {
       element = (tag as any)({ ...attrs, children })
-      // attrs={}
     }
     if (onElementCreate) {
       onElementCreate({ elementLike: element, elementClassInstance, attrs })
     }
-    attrs = tagIsString ? attrs : {}
 
-    Object.keys(attrs).forEach(name => {
-      const value = attrs[name]
-      const type = typeof value
-      if (type === 'string' || type === 'number') {
-        element.setAttribute(name, value)
-      }
-      else if (type === 'function') {
-        element.setAttribute(name, value)
-      }
-      else if (value === false) {
-        // do nothing
-      }
-      else if (value === true) {
-        element.setAttribute(name, name)
-      }
-      else if (name === 'dangerouslySetInnerHTML' && value) {
-        element.dangerouslySetInnerHTML(value.__html)
-      }
-      else {
-        element.setAttribute(name, value)
-      }
-    })
-
-
+    // HEADS UP non intrinsic els are responsible of rendering their own attributes and children
     if (tagIsString) {
-      // don't render children for function or classes since they are responsible of render their own children
+
+      Object.keys(attrs).forEach(name => {
+        const value = attrs[name]
+        const type = typeof value
+        if (type === 'string' || type === 'number') {
+          element.setAttribute(name, value)
+        }
+        else if (type === 'function') {
+          element.setAttribute(name, value)
+        }
+        else if (value === false) {
+          // do nothing
+        }
+        else if (value === true) {
+          element.setAttribute(name, name)
+        }
+        else if (name === 'dangerouslySetInnerHTML' && value) {
+          element.dangerouslySetInnerHTML(value.__html)
+        }
+        else {
+          element.setAttribute(name, value)
+        }
+      })
+
       children
         .filter(c => c)
         .forEach(child => {
@@ -84,6 +73,7 @@ export function createCreateElement<T, R extends ElementLike<T>=ElementLike<T>>(
           }
         })
     }
+
     if (onElementReady) {
       onElementReady({ elementLike: element })
     }
@@ -99,3 +89,13 @@ export type CreateElementFunction<T, R=ElementLike<T>> = (
   attrs?: JSXAloneAttrs<string> | undefined,
   ...children: any[]
 ) => R
+
+const throwOnUnrecognized = false
+
+export function debug(err: string) {
+  if (throwOnUnrecognized) {
+    throw err
+  } else {
+    console.error(err)
+  }
+}

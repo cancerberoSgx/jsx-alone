@@ -1,10 +1,9 @@
 import { lotsOfPeopleAloneTest } from './lotsOfPeople/lotsOfPeopleAlone';
-import { Sample, Result, SampleConfig } from './index';
+import { Sample, Result } from "./types";
 export const samples: Sample[] = [
   {
     name: 'lotsOfPeopleDom', impl: 'dom', run(config) {
       lotsOfPeopleAloneTest({ peopleCount: config.n, friendsCount: config.m });
-      // return {};
       return {} as any as Result
     }
   },

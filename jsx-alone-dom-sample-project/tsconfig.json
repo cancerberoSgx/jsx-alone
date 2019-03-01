@@ -1,17 +1,11 @@
 {  "extends": "../common/tsconfig.json",
   "compilerOptions": {
-    // "target": "es5",
-    // "module": "commonjs",
-    // "lib": [
-    //   "es5",
-    //   "dom"
-    // ],
+    "target": "es2018",
     "outDir": "./dist",
     "rootDir": ".",
     "jsx": "react",
     "jsxFactory": "JSXAlone.createElement",
-    // "strict": true,
-    // "esModuleInterop": false
+    "removeComments": false
   },
   "include": [
     "src"

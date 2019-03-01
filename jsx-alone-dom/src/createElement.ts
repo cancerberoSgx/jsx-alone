@@ -2,11 +2,11 @@ import { createCreateElement, CreateCreateElementConfig, CreateElementFunction, 
 import { ElementLikeImpl, TextNodeLikeImpl, ElementLike } from '.'
 import { NodeLike, RenderOutput, ElementLikeImplRenderConfig, IElementClass, ElementLikeImplRenderConfigNoRoot } from './types';
 import { RefObjectImpl, setRef } from './Refs';
-import { RootEventManager } from './rootEventManager';
+import { RootEventManager } from './event';
+import { ElementClass } from './elementImpl';
 
 function buildJSXALone(): JSXAloneType<RenderOutput, ElementLike> {
 
-  // let callId = 1
   const Module: JSXAloneType<RenderOutput, ElementLike> = {
 
     createElement: createCreateElement<RenderOutput, ElementLike>(getCreateCreateElementConfig()),
@@ -14,7 +14,6 @@ function buildJSXALone(): JSXAloneType<RenderOutput, ElementLike> {
     render(elementLike, config) {
       const el = elementLike as any as ElementLike
       const almostCompleteConfig = { ...config, rootElementLike: el, 
-        // renderCallId: callId++ 
       }
       const rootHTMLElement = el.buildRootElement(almostCompleteConfig)
       const eventManager = new RootEventManager(rootHTMLElement)
@@ -22,7 +21,7 @@ function buildJSXALone(): JSXAloneType<RenderOutput, ElementLike> {
       return el.render(completeConfig)
     },
     
-    createRef<T extends Element & IElementClass>(): RefObject<T> {
+    createRef<T extends Element & ElementClass>(): RefObject<T> {
       return new RefObjectImpl<T>()
     }
 

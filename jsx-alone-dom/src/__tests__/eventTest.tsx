@@ -1,14 +1,12 @@
-import { BaseSyntheticEvent } from 'jsx-alone-core';
 import { JSXAlone } from '..';
 import { ElementClass } from '../elementImpl';
-import { RootEventManager, MEvent } from '../rootEventManager';
+import { RootEventManager, MEvent } from '..';
 import { query } from './testUtil';
 
 describe('eventManager', () => {
 
   let manager: RootEventManager
   let root: HTMLElement
-  // let fna:EventListener
 
   beforeEach(() => {
     class C extends ElementClass<{ s: string[] }> {
@@ -22,13 +20,11 @@ describe('eventManager', () => {
     const app = <div><div id="container"><C s={['a', 'b']}></C></div></div>
     root = JSXAlone.render(app) as HTMLElement
     document.body.appendChild(root)
-    // console.log(root.outerHTML);
 
     manager = new RootEventManager(root as HTMLElement)
-
-
   })
-  it('should notify only after added and allow removal', () => {
+  
+  it('should notify after added and dont after removed', () => {
     const a = query('#container .a')
     const b = query('#container .b')
     const fna = jest.fn((e: MEvent) => { })
@@ -60,31 +56,30 @@ describe('eventManager', () => {
   })
 })
 
+// var d = document.createElement('div')
+// document.body.appendChild(d)
+// c
+// type Fn= (e:Event)=>any
+// interface Listener{
+//   mark:string,
+//   fn: Fn
+//   type:string
+// }
+// const registeredByType:{[type:string]:Listener[]} = {}
+// function register(el: HTMLElement, type:string, fn: Fn) {
+//   let ls = registeredByType[type]
+//   if(!ls){
+//     ls = registeredByType[type] = []
+//     r.addEventListener(type, fn)
 
-    // var d = document.createElement('div')
-    // document.body.appendChild(d)
-    // c
-    // type Fn= (e:Event)=>any
-    // interface Listener{
-    //   mark:string,
-    //   fn: Fn
-    //   type:string
-    // }
-    // const registeredByType:{[type:string]:Listener[]} = {}
-    // function register(el: HTMLElement, type:string, fn: Fn) {
-    //   let ls = registeredByType[type]
-    //   if(!ls){
-    //     ls = registeredByType[type] = []
-    //     r.addEventListener(type, fn)
-
-    //   }
-    //   ls.push({
-    //     mark: markElement(el),
-    //     fn,
-    //     type
-    //   })
-    //   return 
-    //   registered.push(type)
-    //   const mark = markElement(el)
-    // }
-    // // const root = JSXAlone.render(app)
+//   }
+//   ls.push({
+//     mark: markElement(el),
+//     fn,
+//     type
+//   })
+//   return 
+//   registered.push(type)
+//   const mark = markElement(el)
+// }
+// // const root = JSXAlone.render(app)

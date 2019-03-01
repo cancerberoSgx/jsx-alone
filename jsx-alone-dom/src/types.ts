@@ -1,5 +1,5 @@
 import { ElementLike as BaseElementLike, NodeLike as BaseNodeLike, TextNodeLike as BaseTextNodeLike, RefObject, RenderConfig ,  IElementClass as ICoreElementClass, } from 'jsx-alone-core';
-import { RootEventManager } from './rootEventManager';
+import { RootEventManager } from './event';
 
 export interface NodeLike extends  BaseNodeLike<RenderOutput>{}
 
@@ -29,4 +29,10 @@ export interface IElementClass<P = {}> extends ICoreElementClass<P>{
   containerEl: HTMLElement |undefined
   /** element classes in DOM implementation will be given its container element.  */
   setContainerEl(el: HTMLElement):void
+  destroy():void
+  readonly eventManager: RootEventManager
+}
+export interface MEvent<C extends EventTarget | HTMLElement = any, T extends EventTarget | HTMLElement = any> extends Event {
+  currentTarget: C;
+  target: T;
 }

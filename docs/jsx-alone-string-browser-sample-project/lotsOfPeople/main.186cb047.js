@@ -237,18 +237,6 @@ var __assign = this && this.__assign || function () {
 
 var elementImpl_1 = require("./elementImpl");
 
-var throwOnUnrecognized = false;
-
-function debug(err) {
-  if (throwOnUnrecognized) {
-    throw err;
-  } else {
-    console.error(err);
-  }
-}
-
-exports.debug = debug;
-
 function createCreateElement(config) {
   var impl = config.impl,
       textNodeImpl = config.textNodeImpl,
@@ -266,10 +254,10 @@ function createCreateElement(config) {
       children[_i - 2] = arguments[_i];
     }
 
-    attrs = attrs || {};
     var element;
     var elementClassInstance;
     var tagIsString = typeof tag === 'string';
+    attrs = attrs || {};
 
     if (tagIsString) {
       element = new impl(tag);
@@ -292,26 +280,24 @@ function createCreateElement(config) {
       });
     }
 
-    attrs = tagIsString ? attrs : {};
-    Object.keys(attrs).forEach(function (name) {
-      var value = attrs[name];
-
-      var type = _typeof(value);
-
-      if (type === 'string' || type === 'number') {
-        element.setAttribute(name, value);
-      } else if (type === 'function') {
-        element.setAttribute(name, value);
-      } else if (value === false) {} else if (value === true) {
-        element.setAttribute(name, name);
-      } else if (name === 'dangerouslySetInnerHTML' && value) {
-        element.dangerouslySetInnerHTML(value.__html);
-      } else {
-        element.setAttribute(name, value);
-      }
-    });
-
     if (tagIsString) {
+      Object.keys(attrs).forEach(function (name) {
+        var value = attrs[name];
+
+        var type = _typeof(value);
+
+        if (type === 'string' || type === 'number') {
+          element.setAttribute(name, value);
+        } else if (type === 'function') {
+          element.setAttribute(name, value);
+        } else if (value === false) {} else if (value === true) {
+          element.setAttribute(name, name);
+        } else if (name === 'dangerouslySetInnerHTML' && value) {
+          element.dangerouslySetInnerHTML(value.__html);
+        } else {
+          element.setAttribute(name, value);
+        }
+      });
       children.filter(function (c) {
         return c;
       }).forEach(function (child) {
@@ -345,6 +331,17 @@ function createCreateElement(config) {
 
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
+var throwOnUnrecognized = false;
+
+function debug(err) {
+  if (throwOnUnrecognized) {
+    throw err;
+  } else {
+    console.error(err);
+  }
+}
+
+exports.debug = debug;
 },{"./elementImpl":"3p56"}],"URgR":[function(require,module,exports) {
 var global = arguments[3];
 ;
@@ -992,18 +989,6 @@ var __assign = this && this.__assign || function () {
 
 var elementImpl_1 = require("./elementImpl");
 
-var throwOnUnrecognized = false;
-
-function debug(err) {
-  if (throwOnUnrecognized) {
-    throw err;
-  } else {
-    console.error(err);
-  }
-}
-
-exports.debug = debug;
-
 function createCreateElement(config) {
   var impl = config.impl,
       textNodeImpl = config.textNodeImpl,
@@ -1021,10 +1006,10 @@ function createCreateElement(config) {
       children[_i - 2] = arguments[_i];
     }
 
-    attrs = attrs || {};
     var element;
     var elementClassInstance;
     var tagIsString = typeof tag === 'string';
+    attrs = attrs || {};
 
     if (tagIsString) {
       element = new impl(tag);
@@ -1047,26 +1032,24 @@ function createCreateElement(config) {
       });
     }
 
-    attrs = tagIsString ? attrs : {};
-    Object.keys(attrs).forEach(function (name) {
-      var value = attrs[name];
-
-      var type = _typeof(value);
-
-      if (type === 'string' || type === 'number') {
-        element.setAttribute(name, value);
-      } else if (type === 'function') {
-        element.setAttribute(name, value);
-      } else if (value === false) {} else if (value === true) {
-        element.setAttribute(name, name);
-      } else if (name === 'dangerouslySetInnerHTML' && value) {
-        element.dangerouslySetInnerHTML(value.__html);
-      } else {
-        element.setAttribute(name, value);
-      }
-    });
-
     if (tagIsString) {
+      Object.keys(attrs).forEach(function (name) {
+        var value = attrs[name];
+
+        var type = _typeof(value);
+
+        if (type === 'string' || type === 'number') {
+          element.setAttribute(name, value);
+        } else if (type === 'function') {
+          element.setAttribute(name, value);
+        } else if (value === false) {} else if (value === true) {
+          element.setAttribute(name, name);
+        } else if (name === 'dangerouslySetInnerHTML' && value) {
+          element.dangerouslySetInnerHTML(value.__html);
+        } else {
+          element.setAttribute(name, value);
+        }
+      });
       children.filter(function (c) {
         return c;
       }).forEach(function (child) {
@@ -1100,6 +1083,17 @@ function createCreateElement(config) {
 
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
+var throwOnUnrecognized = false;
+
+function debug(err) {
+  if (throwOnUnrecognized) {
+    throw err;
+  } else {
+    console.error(err);
+  }
+}
+
+exports.debug = debug;
 },{"./elementImpl":"3p56"}],"TXrL":[function(require,module,exports) {
 var global = arguments[3];
 ;
@@ -1489,18 +1483,6 @@ var __assign = this && this.__assign || function () {
 
 var elementImpl_1 = require("./elementImpl");
 
-var throwOnUnrecognized = false;
-
-function debug(err) {
-  if (throwOnUnrecognized) {
-    throw err;
-  } else {
-    console.error(err);
-  }
-}
-
-exports.debug = debug;
-
 function createCreateElement(config) {
   var impl = config.impl,
       textNodeImpl = config.textNodeImpl,
@@ -1518,10 +1500,10 @@ function createCreateElement(config) {
       children[_i - 2] = arguments[_i];
     }
 
-    attrs = attrs || {};
     var element;
     var elementClassInstance;
     var tagIsString = typeof tag === 'string';
+    attrs = attrs || {};
 
     if (tagIsString) {
       element = new impl(tag);
@@ -1544,26 +1526,24 @@ function createCreateElement(config) {
       });
     }
 
-    attrs = tagIsString ? attrs : {};
-    Object.keys(attrs).forEach(function (name) {
-      var value = attrs[name];
-
-      var type = _typeof(value);
-
-      if (type === 'string' || type === 'number') {
-        element.setAttribute(name, value);
-      } else if (type === 'function') {
-        element.setAttribute(name, value);
-      } else if (value === false) {} else if (value === true) {
-        element.setAttribute(name, name);
-      } else if (name === 'dangerouslySetInnerHTML' && value) {
-        element.dangerouslySetInnerHTML(value.__html);
-      } else {
-        element.setAttribute(name, value);
-      }
-    });
-
     if (tagIsString) {
+      Object.keys(attrs).forEach(function (name) {
+        var value = attrs[name];
+
+        var type = _typeof(value);
+
+        if (type === 'string' || type === 'number') {
+          element.setAttribute(name, value);
+        } else if (type === 'function') {
+          element.setAttribute(name, value);
+        } else if (value === false) {} else if (value === true) {
+          element.setAttribute(name, name);
+        } else if (name === 'dangerouslySetInnerHTML' && value) {
+          element.dangerouslySetInnerHTML(value.__html);
+        } else {
+          element.setAttribute(name, value);
+        }
+      });
       children.filter(function (c) {
         return c;
       }).forEach(function (child) {
@@ -1597,6 +1577,17 @@ function createCreateElement(config) {
 
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
+var throwOnUnrecognized = false;
+
+function debug(err) {
+  if (throwOnUnrecognized) {
+    throw err;
+  } else {
+    console.error(err);
+  }
+}
+
+exports.debug = debug;
 },{"./elementImpl":"3p56"}],"h+Y6":[function(require,module,exports) {
 var global = arguments[3];
 ;
