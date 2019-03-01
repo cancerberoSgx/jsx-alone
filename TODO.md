@@ -1,8 +1,13 @@
 # TODO
 
- * ISSUE this is a bad design - we have two layers in rendering that are iterating atributes adnd childrens twice and creating memory objkects twice: Lternatively, we could re- implement diferently - for ex, in DOM elementlike.setAttribute will currently call setattribute on the real element / and in string - it will concat the attrbute to an existing buffer. Then at onElementReady we know it finish and we have everything rendered, instead of re-iterate like we are doing now.
 
- * ISSUE - DOM - test that event listeners are removed or provide an API - currently on a re-render event listeners are not removed
+  // tests with lots of event listeners and lots of calls and runner
+  // another EventManager that is not root - and compare performance
+  // runner - measure also memory consumption
+  
+ * StateFulComponent sample events are broken
+
+ * ISSUE this is a bad design - we have two layers in rendering that are iterating atributes adnd childrens twice and creating memory objkects twice: Lternatively, we could re- implement diferently - for ex, in DOM elementlike.setAttribute will currently call setattribute on the real element / and in string - it will concat the attrbute to an existing buffer. Then at onElementReady we know it finish and we have everything rendered, instead of re-iterate like we are doing now.
 
  * ISSUE - <If> in dom impl : props.children is array
 

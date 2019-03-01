@@ -35,7 +35,6 @@ export interface IElementClass<P = {}> extends ICoreElementClass<P> {
 }
 
 /** high level interface on top of DOM Event type so it's easy to declare types of currentTarget and target */
-export interface HTMLEvent<C extends EventTarget | HTMLElement = any, T extends EventTarget | HTMLElement = any> extends Event {
-  currentTarget: C
+export interface DelegatedEvent<T extends EventTarget | HTMLElement =  HTMLElement> extends Event {
   target: T
 }

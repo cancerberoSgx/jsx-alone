@@ -30,19 +30,19 @@
   </ul><h2>
     Tests with event handlers
   </h2><p>
-    accessing HTMLElement using `this` works::<button onClick="(function (e) { return alert(_this.tagName + &quot; text is &quot; + _this.textContent); }).apply(_this=this,arguments)">
+    accessing HTMLElement using `this` works::<button onClick="(e => alert(`${this.tagName} text is ${this.textContent}`)).apply(_this=this,arguments)">
       should work
     </button>
   </p><p>
-    accessing event argument works::<button onClick="(function (e) { return alert(e.currentTarget.tagName + &quot; text is &quot; + e.currentTarget.textContent); }).apply(_this=this,arguments)">
+    accessing event argument works::<button onClick="(e => alert(`${e.currentTarget.tagName} text is ${e.currentTarget.textContent}`)).apply(_this=this,arguments)">
       should work
     </button>
   </p><p>
-    accessing variables in scope won't work:<button onClick="(function (e) { return alert(dummy('So ')); }).apply(_this=this,arguments)">
+    accessing variables in scope won't work:<button onClick="(e => alert(dummy('So '))).apply(_this=this,arguments)">
       don't work
     </button>
   </p><p>
-    accessing members (this.) won't work: <button onClick="(function (e) { return alert(_this.dummy('So ')); }).apply(_this=this,arguments)">
+    accessing members (this.) won't work: <button onClick="(e => alert(this.dummy('So '))).apply(_this=this,arguments)">
       method
     </button>
   </p><h2>

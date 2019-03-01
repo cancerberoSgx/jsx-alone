@@ -140,7 +140,7 @@ describe('function attributes', () => {
       expect(fn1).lastReturnedWith(var1 + 1 + 2)
     })
 
-    it('event object is accessible', () => {
+    fit('event object is accessible', () => {
       const handler = jest.fn(e => {
         // HEADS UP - because we use event delegation , currentTarget is not the real target, it's target!
         return e.type + e.target.id// return e.type + e.currentTarget.id

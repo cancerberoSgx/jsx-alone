@@ -15,7 +15,7 @@ export function getElementMark(e: HTMLElement, label = '_jsxa_') {
 export function isElementMarked(e: HTMLElement, label = '_jsxa_') {
   return !!getElementMark(e, label)
 }
-export function getMarkedElement<T extends Element = Element>(key: string, parent = document, label = '_jsxa_') {
+export function getMarkedElement<T extends Element = Element>(key: string, parent:NodeSelector = document, label = '_jsxa_') {
   return parent.querySelector<T>(getMarkSSelector(label, key))
 }
 export function getMarkSSelector(label: string, key?: string): string {

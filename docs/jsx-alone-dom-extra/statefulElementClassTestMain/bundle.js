@@ -1,122 +1,68 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
+"use strict";
 ;
-var _1 = require("./");
-var createElement_1 = require("./createElement");
-var elementClass_1 = require("./elementClass");
-var JsonImplElementLikeImpl = (function (_super) {
-    __extends(JsonImplElementLikeImpl, _super);
-    function JsonImplElementLikeImpl() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    JsonImplElementLikeImpl.prototype.render = function (config) {
-        if (config === void 0) { config = {}; }
+const _1 = require("./");
+const createElement_1 = require("./createElement");
+const elementClass_1 = require("./elementClass");
+class JsonImplElementLikeImpl extends _1.AbstractElementLike {
+    render(config = {}) {
         return {
             tag: this.tag,
             innerHtml: this.innerHtml,
             attrs: this.attrs,
-            children: this.children.map(function (c) { return (__assign({}, c, { parentElement: undefined })); })
+            children: this.children.map(c => (Object.assign({}, c, { parentElement: undefined })))
         };
-    };
-    JsonImplElementLikeImpl.prototype.dangerouslySetInnerHTML = function (s) {
+    }
+    dangerouslySetInnerHTML(s) {
         this.innerHtml = s;
-    };
-    return JsonImplElementLikeImpl;
-}(_1.AbstractElementLike));
+    }
+}
 exports.JsonImplElementLikeImpl = JsonImplElementLikeImpl;
-var JsonImplTextNodeLikeImpl = (function (_super) {
-    __extends(JsonImplTextNodeLikeImpl, _super);
-    function JsonImplTextNodeLikeImpl() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    JsonImplTextNodeLikeImpl.prototype.render = function (config) {
+class JsonImplTextNodeLikeImpl extends _1.AbstractTextNodeLike {
+    render(config) {
         return { content: this.content };
-    };
-    return JsonImplTextNodeLikeImpl;
-}(_1.AbstractTextNodeLike));
-exports.JsonImplTextNodeLikeImpl = JsonImplTextNodeLikeImpl;
-var JsonImplElementClass = (function (_super) {
-    __extends(JsonImplElementClass, _super);
-    function JsonImplElementClass() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
-    return JsonImplElementClass;
-}(elementClass_1.AbstractElementClass));
+}
+exports.JsonImplTextNodeLikeImpl = JsonImplTextNodeLikeImpl;
+class JsonImplElementClass extends elementClass_1.AbstractElementClass {
+}
 exports.JsonImplElementClass = JsonImplElementClass;
 exports.JSXAloneJsonImpl = {
     createElement: createElement_1.createCreateElement({ impl: JsonImplElementLikeImpl, textNodeImpl: JsonImplTextNodeLikeImpl }),
-    render: function (el, config) {
-        if (config === void 0) { config = {}; }
+    render(el, config = {}) {
         return el.render(config);
     }
 };
 
 },{"./":5,"./createElement":2,"./elementClass":3}],2:[function(require,module,exports){
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
+"use strict";
 ;
-var elementImpl_1 = require("./elementImpl");
+const elementImpl_1 = require("./elementImpl");
 function createCreateElement(config) {
-    var impl = config.impl, textNodeImpl = config.textNodeImpl, onElementReady = config.onElementReady, onElementCreate = config.onElementCreated;
-    var createElement = function (tag, attrs) {
-        if (attrs === void 0) { attrs = {}; }
-        var children = [];
-        for (var _i = 2; _i < arguments.length; _i++) {
-            children[_i - 2] = arguments[_i];
-        }
-        var element;
-        var elementClassInstance;
-        var tagIsString = typeof tag === 'string';
+    const { impl, textNodeImpl, onElementReady, onElementCreated: onElementCreate } = config;
+    const createElement = function (tag, attrs = {}, ...children) {
+        let element;
+        let elementClassInstance;
+        const tagIsString = typeof tag === 'string';
         attrs = attrs || {};
         if (tagIsString) {
             element = new impl(tag);
         }
         else if (elementImpl_1.isElementClassConstructor(tag)) {
-            elementClassInstance = new tag(__assign({}, attrs, { children: children }));
+            elementClassInstance = new tag(Object.assign({}, attrs, { children }));
             element = elementClassInstance.render();
         }
         else {
-            element = tag(__assign({}, attrs, { children: children }));
+            element = tag(Object.assign({}, attrs, { children }));
         }
         if (onElementCreate) {
-            onElementCreate({ elementLike: element, elementClassInstance: elementClassInstance, attrs: attrs });
+            onElementCreate({ elementLike: element, elementClassInstance, attrs });
         }
+        // HEADS UP non intrinsic els are responsible of rendering their own attributes and children
         if (tagIsString) {
-            Object.keys(attrs).forEach(function (name) {
-                var value = attrs[name];
-                var type = typeof value;
+            Object.keys(attrs).forEach(name => {
+                const value = attrs[name];
+                const type = typeof value;
                 if (type === 'string' || type === 'number') {
                     element.setAttribute(name, value);
                 }
@@ -124,6 +70,7 @@ function createCreateElement(config) {
                     element.setAttribute(name, value);
                 }
                 else if (value === false) {
+                    // do nothing
                 }
                 else if (value === true) {
                     element.setAttribute(name, name);
@@ -136,13 +83,13 @@ function createCreateElement(config) {
                 }
             });
             children
-                .filter(function (c) { return c; })
-                .forEach(function (child) {
+                .filter(c => c)
+                .forEach(child => {
                 if (elementImpl_1.isNode(child)) {
                     element.appendChild(child);
                 }
                 else if (Array.isArray(child)) {
-                    child.forEach(function (c) {
+                    child.forEach(c => {
                         if (elementImpl_1.isNode(c)) {
                             element.appendChild(c);
                         }
@@ -165,7 +112,7 @@ function createCreateElement(config) {
 }
 exports.createCreateElement = createCreateElement;
 exports.AbstractJSXAlone = null;
-var throwOnUnrecognized = false;
+const throwOnUnrecognized = false;
 function debug(err) {
     if (throwOnUnrecognized) {
         throw err;
@@ -177,37 +124,23 @@ function debug(err) {
 exports.debug = debug;
 
 },{"./elementImpl":4}],3:[function(require,module,exports){
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+"use strict";
 ;
-var ElementClass = (function () {
-    function ElementClass(props) {
+/**
+ * A Class able to render() JSX. Similar to React.Component but only supporting properties, without state, context, ref, did/will methods, etc.
+ */
+class ElementClass {
+    constructor(props) {
         this.props = props;
     }
-    return ElementClass;
-}());
+}
 exports.ElementClass = ElementClass;
-var AbstractElementClass = (function (_super) {
-    __extends(AbstractElementClass, _super);
-    function AbstractElementClass() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return AbstractElementClass;
-}(ElementClass));
+class AbstractElementClass extends ElementClass {
+}
 exports.AbstractElementClass = AbstractElementClass;
 
 },{}],4:[function(require,module,exports){
+"use strict";
 ;
 function isElementClassConstructor(c) {
     return c.prototype && c.prototype.render;
@@ -225,33 +158,32 @@ function isTextNodeLike(n) {
     return n && n.content && !isElementLike(n);
 }
 exports.isTextNodeLike = isTextNodeLike;
-var AbstractTextNodeLike = (function () {
-    function AbstractTextNodeLike(content) {
+class AbstractTextNodeLike {
+    constructor(content) {
         this.content = content;
     }
-    return AbstractTextNodeLike;
-}());
+}
 exports.AbstractTextNodeLike = AbstractTextNodeLike;
-var AbstractElementLike = (function () {
-    function AbstractElementLike(tag) {
+class AbstractElementLike {
+    constructor(tag) {
         this.tag = tag;
         this.attrs = {};
         this.children = [];
     }
-    AbstractElementLike.prototype.setAttribute = function (name, value) {
+    setAttribute(name, value) {
         this.attrs[name] = value;
-    };
-    AbstractElementLike.prototype.appendChild = function (c) {
+    }
+    appendChild(c) {
         this.children.push(c);
         if (isElementLike(c)) {
             c.parentElement = this;
         }
-    };
-    return AbstractElementLike;
-}());
+    }
+}
 exports.AbstractElementLike = AbstractElementLike;
 
 },{}],5:[function(require,module,exports){
+"use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
@@ -269,19 +201,70 @@ __export(require("./JsonImpl"));
 
 },{"./JsonImpl":1,"./createElement":2,"./elementClass":3,"./elementImpl":4,"./misc":6,"./style":7,"./util":8}],6:[function(require,module,exports){
 (function (global){
+"use strict";
 ;
-var _1 = require(".");
+const _1 = require(".");
+// // TODO: like React.Fragment
+// export const Fragment = (props: { children: Children }) => <span>{props.children}</span>
 function Js(props) {
-    var r = props.children();
+    const r = props.children();
     console.log(r);
     return r ? _1.AbstractJSXAlone.createElement("span", null, r) : null;
 }
 exports.Js = Js;
+/** if as statement. children need to be in a function and the function accepts a parameter which value is given condition `c` but casted to NotFalsy<C> so there's no need of type guards in the body. Example:
+```
+<If c={type}>{type =>
+  <select multiple={true}>{names[type].map(c =>
+      <option value={c.id}>{c.label}</option>)}
+  </select>
+</If>
+```
+
+No error thrown on second line because parameter type is not falsy but keep the original type (excluding falsy values)
+
+Other example:
+
+```
+export class ErrorComponent extends React.Component<ErrorOptions> {
+  public render() {
+    return <div>
+      <If c={this.props.error}>{error =>
+        <React.Fragment>
+          <h2>Error</h2>
+          <If c={typeof error === 'string'}>{e =>
+            <h3>{e}</h3>}
+          </If>
+          <If c={typeof error === 'object'}>{e =>
+            <React.Fragment>
+              <h5>{error!.name}</h5>
+              <p>{error!.message}</p>
+              <If c={error.stack}>{e =>
+                <ul>
+                  {e.split('\n').map(e =>
+                    <li>{e}</li>)}
+                </ul>}
+              </If>
+            </React.Fragment>}
+          </If>
+          <If c={this.props.responseText}>{responseText =>
+            <iframe css={{ border: 0, width: '100%', height: '400px' }} srcDoc={responseText}>
+            </iframe>}
+          </If>
+        </React.Fragment>}
+      </If>
+    </div>
+  }
+}
+
+```
+*/
 function If(props) {
-    var f = Array.isArray(props.children) ? props.children[0] : props.children;
-    var c = props.c, p = props.p;
+    // TODO: issue in dom implementation, children is an array
+    const f = Array.isArray(props.children) ? props.children[0] : props.children;
+    const { c, p } = props;
     if (isNotFalsy(c))
-        return f.apply(null, (p ? [p] : []).concat([c]));
+        return f.apply(null, [...(p ? [p] : []), c]);
     else {
         return null;
     }
@@ -299,58 +282,77 @@ exports.installJSXAloneAsGlobal = installJSXAloneAsGlobal;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{".":5}],7:[function(require,module,exports){
+"use strict";
 ;
-var _1 = require(".");
-exports.Style = function (props) {
+const _1 = require(".");
+/** Render the <style> tag with all classes and styles inside. Usage example:
+```
+const fieldTable: ClassRule = {
+  selectorPostfix: ' td',
+  border: '1px solid #aaaaaa',
+  padding: '2px'
+}
+const sublistFieldTable: ClassRule = {
+  ...fieldTable,
+  fontSize: '0.95em',
+  border: '1px solid #ededed'
+}
+const messageFromRedirect: ClassRule = {
+  border: '2px solid green'
+}
+const { styles, classes } = Styles({ fieldTable, sublistFieldTable, messageFromRedirect})
+return <div>
+  <Style classes={styles}></Style>
+  <p className={classes.messageFromRedirect}>{props.msg}</p>
+    ```
+*/
+exports.Style = (props) => {
     function indent(n) {
         return props.renderConfig && props.renderConfig.indent ? _1.indent(n) : '';
     }
     function fixProperty(s) {
-        var t;
+        let t;
         while (t = /([A-Z])/.exec(s)) {
             s = s.substring(0, t.index) + '-' + t[1].toLowerCase() + s.substring(t.index + 1, s.length);
         }
         return s;
     }
-    return JSXAlone.createElement("style", null, Object.keys(props.classes).map(function (c) {
-        return indent(1) + "." + c + (props.classes[c] && props.classes[c].selectorPostfix ? props.classes[c].selectorPostfix : '') + " {" + Object.keys(props.classes[c]).filter(function (p) { return p !== 'selectorPostfix'; }).map(function (p) { return "\n" + indent(2) + fixProperty(p) + ": " + props.classes[c][p] + ";"; }).join("") + "\n}";
-    }).join('\n'));
+    // return new AbstractElementLike()
+    return JSXAlone.createElement("style", null, Object.keys(props.classes).map(c => `${indent(1)}.${c}${(props.classes[c] && props.classes[c].selectorPostfix ? props.classes[c].selectorPostfix : '')} {${Object.keys(props.classes[c]).filter(p => p !== 'selectorPostfix').map(p => `
+${indent(2)}${fixProperty(p)}: ${props.classes[c][p]};`).join(``)}
+}`).join('\n'));
 };
+/** build a styles and classnames from a class styles mapped object so is easy to type-check classnames and use them . See `Style` for usage example */
 function Styles(styles) {
-    var classes = {};
-    Object.keys(styles).forEach(function (k) {
+    const classes = {};
+    Object.keys(styles).forEach(k => {
         classes[k] = k;
     });
     return {
-        styles: styles, classes: classes
+        styles, classes
     };
 }
 exports.Styles = Styles;
 
 },{".":5}],8:[function(require,module,exports){
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
+"use strict";
 ;
-function checkThrow(r, msg) {
-    if (msg === void 0) { msg = 'Throwing on undefined value'; }
+function checkThrow(r, msg = 'Throwing on undefined value') {
     if (!r) {
         throw new Error(msg);
     }
     return r;
 }
 exports.checkThrow = checkThrow;
+// export function tryTo<F extends (...args: any[]) => any>(f: F): ReturnType<F> | undefined {
+//   try {
+//     return f()
+//   } catch (error) {
+//   }
+// }
 function array(n, sample) {
-    var a = [];
-    for (var i = 0; i < n; i++) {
+    const a = [];
+    for (let i = 0; i < n; i++) {
         a.push(typeof sample === 'undefined' ? i : sample);
     }
     return a;
@@ -360,9 +362,7 @@ function repeat(n, s) {
     return array(n, s).join('');
 }
 exports.repeat = repeat;
-function indent(i, tabSize) {
-    if (i === void 0) { i = 1; }
-    if (tabSize === void 0) { tabSize = 2; }
+function indent(i = 1, tabSize = 2) {
     return repeat(i * tabSize, ' ');
 }
 exports.indent = indent;
@@ -370,8 +370,7 @@ function getPosition(string, subString, index) {
     return string.split(subString, index).join(subString).length;
 }
 exports.getPosition = getPosition;
-function removeWhites(s, replaceWith) {
-    if (replaceWith === void 0) { replaceWith = ' '; }
+function removeWhites(s, replaceWith = ' ') {
     return s.replace(/\s+/gm, replaceWith).trim();
 }
 exports.removeWhites = removeWhites;
@@ -383,57 +382,52 @@ function randomItem(array) {
     return array[randomIntBetween(0, array.length)];
 }
 exports.randomItem = randomItem;
-function printMs(ms, config) {
-    if (config === void 0) { config = { minutes: false, seconds: true, ms: true }; }
-    config = __assign({ minutes: false, seconds: true, ms: true }, config);
-    var seconds = config.seconds && Math.floor(ms / 1000);
-    var minutes = config.minutes && seconds && Math.floor(seconds / 60);
-    var milliseconds = config.ms && Math.floor(ms % 1000 || ms);
-    return "" + (minutes ? minutes + " minutes " : '') + (seconds ? seconds + " seconds " : '') + (milliseconds ? milliseconds + " ms " : '');
+function printMs(ms, config = { minutes: false, seconds: true, ms: true }) {
+    config = Object.assign({ minutes: false, seconds: true, ms: true }, config);
+    const seconds = config.seconds && Math.floor(ms / 1000);
+    const minutes = config.minutes && seconds && Math.floor(seconds / 60);
+    const milliseconds = config.ms && Math.floor(ms % 1000 || ms);
+    return `${minutes ? `${minutes} minutes ` : ''}${seconds ? `${seconds} seconds ` : ''}${milliseconds ? `${milliseconds} ms ` : ''}`;
 }
 exports.printMs = printMs;
 function printStyleHtmlAttribute(value) {
-    return "" + Object.keys(value)
-        .map(function (p) { return p + ": " + value[p]; })
-        .join('; ');
+    return `${Object.keys(value)
+        .map(p => `${p}: ${value[p]}`)
+        .join('; ')}`;
 }
 exports.printStyleHtmlAttribute = printStyleHtmlAttribute;
-var _unique = 0;
-function unique(prefix) {
-    if (prefix === void 0) { prefix = '_'; }
+let _unique = 0;
+function unique(prefix = '_') {
     return prefix + _unique++;
 }
 exports.unique = unique;
 
 },{}],9:[function(require,module,exports){
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+"use strict";
 ;
-var _1 = require("./");
-var StatefulComponent_1 = require("./StatefulComponent");
-var DestructiveDomRenderComponent = (function (_super) {
-    __extends(DestructiveDomRenderComponent, _super);
-    function DestructiveDomRenderComponent() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    DestructiveDomRenderComponent.prototype.setState = function (s) {
-        _super.prototype.setState.call(this, s);
+const _1 = require("./");
+const StatefulComponent_1 = require("./StatefulComponent");
+/**
+ * implements stateful-ness by re-rendering it self again and again when the state changes. So it destroy its current
+ * DOM nodes when the state changes and recreates them all again. Has some hacks to maintain current focus and children
+ * state.
+ *
+ * Preserves focus.
+ *
+ * TODO: event listeners are not removed
+ *
+ * TODO: parent re-render actually resets the children (ISSUE)
+ */
+class DestructiveDomRenderComponent extends StatefulComponent_1.StatefulComponent {
+    /** changes the state, clean up containerEl and renders the element again and append it to containerEl.
+     * Notice that descendant elements will be destroyed and */
+    setState(s) {
+        super.setState(s);
         if (!this.containerEl) {
             throw new Error('this.containerEl is undefined - cannot DestructiveDomRender');
         }
-        var activePath;
-        var selection = { start: 0, end: 0 };
+        let activePath;
+        let selection = { start: 0, end: 0 };
         if (document.activeElement) {
             activePath = getXPathOfElement(document.activeElement);
             selection = {
@@ -442,12 +436,12 @@ var DestructiveDomRenderComponent = (function (_super) {
                 direction: document.activeElement.selectionDirection || undefined
             };
         }
-        var jsx = this.render();
-        var el = _1.JSXAlone.render(jsx);
+        const jsx = this.render();
+        const el = _1.JSXAlone.render(jsx);
         this.containerEl.parentElement.replaceChild(el, this.containerEl);
         this.containerEl = el;
         if (activePath) {
-            var activeEl = getElementByXPath(activePath + '');
+            const activeEl = getElementByXPath(activePath + '');
             if (activeEl && selection) {
                 activeEl.focus();
                 if (activeEl.setSelectionRange) {
@@ -455,10 +449,10 @@ var DestructiveDomRenderComponent = (function (_super) {
                 }
             }
         }
-    };
-    return DestructiveDomRenderComponent;
-}(StatefulComponent_1.StatefulComponent));
+    }
+}
 exports.DestructiveDomRenderComponent = DestructiveDomRenderComponent;
+//  TODO: move to misc
 function getXPathOfElement(el) {
     if (typeof el == 'string') {
         return document.evaluate(el, document, null, 0, null) + '';
@@ -469,7 +463,7 @@ function getXPathOfElement(el) {
     if (el.id)
         return '//*[@id=\'' + el.id + '\']';
     if (el.parentNode) {
-        var sames = Array.from(el.parentNode.children).filter(function (x) { return x.tagName == el.tagName; });
+        const sames = Array.from(el.parentNode.children).filter(x => x.tagName == el.tagName);
         return (getXPathOfElement(el.parentNode) +
             '/' +
             (el.tagName || '').toLowerCase() +
@@ -479,14 +473,15 @@ function getXPathOfElement(el) {
         return undefined;
     }
 }
+//  TODO: move to misc
 function getElementByXPath(path, predicate) {
-    var p = document.evaluate(path, document, null, 0, null);
+    const p = document.evaluate(path, document, null, 0, null);
     if (!predicate) {
         return p.iterateNext();
     }
     try {
-        var n = void 0;
-        var n2 = void 0;
+        let n;
+        let n2;
         while ((n = p.iterateNext()) && !predicate(n)) {
             n2 = n;
         }
@@ -498,151 +493,88 @@ function getElementByXPath(path, predicate) {
 }
 
 },{"./":14,"./StatefulComponent":10}],10:[function(require,module,exports){
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
+"use strict";
 ;
-var _1 = require("./");
-var StatefulComponent = (function (_super) {
-    __extends(StatefulComponent, _super);
-    function StatefulComponent(p) {
-        var _this = _super.call(this, p) || this;
-        _this.state = {};
-        _this.state = __assign({}, p);
-        return _this;
+const _1 = require("./");
+class StatefulComponent extends _1.ElementClass {
+    constructor(p) {
+        super(p);
+        this.state = {};
+        this.state = Object.assign({}, p);
     }
-    StatefulComponent.prototype.setState = function (s) {
-        this.state = __assign({}, this.state, s);
-    };
-    return StatefulComponent;
-}(_1.ElementClass));
+    /** changes the state, clean up containerEl and renders the element again and append it to containerEl.
+     * Notice that descendant elements will be destroyed and */
+    setState(s) {
+        // @ts-ignore
+        this.state = Object.assign({}, this.state, s);
+    }
+}
 exports.StatefulComponent = StatefulComponent;
 
 },{"./":14}],11:[function(require,module,exports){
+"use strict";
 ;
-var statefulElementClassTestRenderApp_1 = require("./statefulElementClassTestRenderApp");
+const statefulElementClassTestRenderApp_1 = require("./statefulElementClassTestRenderApp");
 statefulElementClassTestRenderApp_1.statefulElementClassTestRenderApp();
 
 },{"./statefulElementClassTestRenderApp":12}],12:[function(require,module,exports){
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
+"use strict";
 ;
-var __1 = require("..");
-var DestructiveDomRenderComponent_1 = require("../DestructiveDomRenderComponent");
+const __1 = require("..");
+const DestructiveDomRenderComponent_1 = require("../DestructiveDomRenderComponent");
 function statefulElementClassTestRenderApp() {
-    var parent = document.createElement('div');
+    const parent = document.createElement('div');
     document.body.appendChild(parent);
-    var el = __1.JSXAlone.render(__1.JSXAlone.createElement(App, { people: [{ name: 'seba' }, { name: 'lau' }] }), { parent: parent });
+    const el = __1.JSXAlone.render(__1.JSXAlone.createElement(App, { people: [{ name: 'seba' }, { name: 'lau' }] }), { parent });
     parent.appendChild(el);
     return parent;
 }
 exports.statefulElementClassTestRenderApp = statefulElementClassTestRenderApp;
-var Repeater = (function (_super) {
-    __extends(Repeater, _super);
-    function Repeater(p) {
-        var _this = _super.call(this, p) || this;
-        _this.state = __assign({}, p);
-        return _this;
+class Repeater extends DestructiveDomRenderComponent_1.DestructiveDomRenderComponent {
+    constructor(p) {
+        super(p);
+        this.state = Object.assign({}, p);
     }
-    Repeater.prototype.render = function () {
-        var _this = this;
+    render() {
         return (__1.JSXAlone.createElement("div", { className: "Repeater" },
             "Write something:",
-            __1.JSXAlone.createElement("input", { value: this.state.value, onKeyUp: function (e) {
-                    _this.setState({ value: e.currentTarget.value });
+            __1.JSXAlone.createElement("input", { value: this.state.value, onKeyUp: e => {
+                    this.setState({ value: e.currentTarget.value });
                 } }),
             __1.JSXAlone.createElement("br", null),
             "Will be repeated: ",
             __1.JSXAlone.createElement("span", null, this.state.value),
             ' '));
-    };
-    return Repeater;
-}(DestructiveDomRenderComponent_1.DestructiveDomRenderComponent));
-var App = (function (_super) {
-    __extends(App, _super);
-    function App(p) {
-        var _this = _super.call(this, p) || this;
-        _this.state = __assign({}, p);
-        return _this;
     }
-    App.prototype.render = function () {
-        var _this = this;
+}
+class App extends DestructiveDomRenderComponent_1.DestructiveDomRenderComponent {
+    constructor(p) {
+        super(p);
+        this.state = Object.assign({}, p);
+    }
+    render() {
         return (__1.JSXAlone.createElement("div", { className: "App" },
-            __1.JSXAlone.createElement("button", { id: "add", onClick: function (e) { return _this.setState({ people: _this.state.people.concat([{ name: 'random name ' + Math.random() }]) }); } }, "add"),
-            __1.JSXAlone.createElement("ul", null, this.state.people.map(function (p) { return (__1.JSXAlone.createElement("li", { "data-id": p.name },
+            __1.JSXAlone.createElement("button", { id: "add", onClick: e => this.setState({ people: [...this.state.people, { name: 'random name ' + Math.random() }] }) }, "add"),
+            __1.JSXAlone.createElement("ul", null, this.state.people.map(p => (__1.JSXAlone.createElement("li", { "data-id": p.name },
                 __1.JSXAlone.createElement(Repeater, { value: p.name }),
-                __1.JSXAlone.createElement("button", { className: "remove", onClick: function (e) {
-                        _this.setState({ people: _this.state.people.filter(function (p2) { return p2.name !== p.name; }) });
-                    } }, "remove"))); }))));
-    };
-    App.prototype.setState = function (s) {
-        this.state = __assign({}, this.state, s);
+                __1.JSXAlone.createElement("button", { className: "remove", onClick: e => {
+                        this.setState({ people: this.state.people.filter(p2 => p2.name !== p.name) });
+                    } }, "remove")))))));
+    }
+    setState(s) {
+        this.state = Object.assign({}, this.state, s);
         this.containerEl.innerHTML = '';
         this.containerEl.appendChild(__1.JSXAlone.render(this.render()));
-    };
-    return App;
-}(DestructiveDomRenderComponent_1.DestructiveDomRenderComponent));
+    }
+}
 
 },{"..":14,"../DestructiveDomRenderComponent":9}],13:[function(require,module,exports){
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
+"use strict";
 ;
-var jsx_alone_core_1 = require("jsx-alone-core");
-var jsx_alone_dom_1 = require("jsx-alone-dom");
+const jsx_alone_core_1 = require("jsx-alone-core");
+const jsx_alone_dom_1 = require("jsx-alone-dom");
 exports.ElementClass = jsx_alone_dom_1.ElementClass;
-exports.createCreateConfig = __assign({}, jsx_alone_dom_1.getCreateCreateElementConfig(), { impl: jsx_alone_dom_1.ElementLikeImpl, textNodeImpl: jsx_alone_dom_1.TextNodeLikeImpl });
+exports.createCreateConfig = Object.assign({}, jsx_alone_dom_1.getCreateCreateElementConfig(), { impl: jsx_alone_dom_1.ElementLikeImpl, textNodeImpl: jsx_alone_dom_1.TextNodeLikeImpl });
 exports.JSXAlone = {
     createElement: jsx_alone_core_1.createCreateElement(exports.createCreateConfig),
     render: jsx_alone_dom_1.JSXAlone.render,
@@ -650,6 +582,7 @@ exports.JSXAlone = {
 };
 
 },{"jsx-alone-core":5,"jsx-alone-dom":19}],14:[function(require,module,exports){
+"use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
@@ -657,50 +590,40 @@ function __export(m) {
 __export(require("./createElement"));
 __export(require("./StatefulComponent"));
 __export(require("./DestructiveDomRenderComponent"));
+// export * from './UpdateDomComponent'
 
 },{"./DestructiveDomRenderComponent":9,"./StatefulComponent":10,"./createElement":13}],15:[function(require,module,exports){
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
+"use strict";
 ;
-var jsx_alone_core_1 = require("jsx-alone-core");
-var _1 = require(".");
-var event_1 = require("./event");
-var refs_1 = require("./refs");
+const jsx_alone_core_1 = require("jsx-alone-core");
+const _1 = require(".");
+const event_1 = require("./event");
+const refs_1 = require("./refs");
 function buildJSXALone() {
-    var Module = {
+    const Module = {
         createElement: jsx_alone_core_1.createCreateElement(getCreateCreateElementConfig()),
-        render: function (elementLike, config) {
-            var el = elementLike;
-            var almostCompleteConfig = __assign({}, config, { rootElementLike: el });
-            var rootHTMLElement = el.buildRootElement(almostCompleteConfig);
-            var eventManager = new event_1.RootEventManager(rootHTMLElement);
-            var completeConfig = __assign({}, almostCompleteConfig, { eventManager: eventManager, rootHTMLElement: rootHTMLElement });
+        render(elementLike, config) {
+            const el = elementLike;
+            const almostCompleteConfig = Object.assign({}, config, { rootElementLike: el });
+            const rootHTMLElement = el.buildRootElement(almostCompleteConfig);
+            const eventManager = new event_1.RootEventManager(rootHTMLElement);
+            const completeConfig = Object.assign({}, almostCompleteConfig, { eventManager, rootHTMLElement });
             Module.lastEventManager = eventManager;
             return el.render(completeConfig);
         },
-        createRef: function () {
+        createRef() {
             return new refs_1.RefObjectImpl();
         }
     };
     return Module;
 }
-var createCreateElementConfig;
+let createCreateElementConfig;
 function getCreateCreateElementConfig() {
     if (!createCreateElementConfig) {
         createCreateElementConfig = {
             impl: _1.ElementLikeImpl,
             textNodeImpl: _1.TextNodeLikeImpl,
-            onElementCreated: function (_a) {
-                var elementLike = _a.elementLike, elementClassInstance = _a.elementClassInstance, attrs = _a.attrs;
+            onElementCreated({ elementLike, elementClassInstance, attrs }) {
                 if (elementClassInstance) {
                     elementLike._elementClassInstance = elementClassInstance;
                 }
@@ -714,86 +637,38 @@ exports.getCreateCreateElementConfig = getCreateCreateElementConfig;
 exports.JSXAlone = buildJSXALone();
 
 },{".":19,"./event":18,"./refs":21,"jsx-alone-core":5}],16:[function(require,module,exports){
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+"use strict";
 ;
-var jsx_alone_core_1 = require("jsx-alone-core");
-var ElementClass = (function (_super) {
-    __extends(ElementClass, _super);
-    function ElementClass() {
-        return _super !== null && _super.apply(this, arguments) || this;
+const jsx_alone_core_1 = require("jsx-alone-core");
+/** Base Element Class. Has support for removing event listeners thought this.eventManager which is assigned as property at render time and is responsible of event delegation. */
+class ElementClass extends jsx_alone_core_1.ElementClass {
+    get eventManager() {
+        return this._eventManager;
     }
-    Object.defineProperty(ElementClass.prototype, "eventManager", {
-        get: function () {
-            return this._eventManager;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    ElementClass.prototype.setContainerEl = function (el) {
+    setContainerEl(el) {
         this.containerEl = el;
-    };
-    ElementClass.prototype.destroy = function () {
+    }
+    destroy() {
         this.eventManager && this.eventManager.uninstall();
-    };
-    return ElementClass;
-}(jsx_alone_core_1.ElementClass));
+    }
+}
 exports.ElementClass = ElementClass;
 
 },{"jsx-alone-core":5}],17:[function(require,module,exports){
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
+"use strict";
 ;
-var jsx_alone_core_1 = require("jsx-alone-core");
-var refs_1 = require("./refs");
-var ElementLikeImpl = (function (_super) {
-    __extends(ElementLikeImpl, _super);
-    function ElementLikeImpl() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    ElementLikeImpl.prototype.buildRootElement = function (config) {
+const jsx_alone_core_1 = require("jsx-alone-core");
+const refs_1 = require("./refs");
+class ElementLikeImpl extends jsx_alone_core_1.AbstractElementLike {
+    buildRootElement(config) {
         return isSvgTag(this.tag)
             ? document.createElementNS('http://www.w3.org/2000/svg', this.tag)
             : document.createElement(this.tag);
-    };
-    ElementLikeImpl.prototype.render = function (config) {
-        var _this = this;
-        var el = config.rootHTMLElement || this.buildRootElement(config);
-        Object.keys(this.attrs).forEach(function (attribute) {
-            var value = _this.attrs[attribute];
+    }
+    render(config) {
+        const el = config.rootHTMLElement || this.buildRootElement(config);
+        Object.keys(this.attrs).forEach(attribute => {
+            const value = this.attrs[attribute];
             if (attribute === 'className') {
                 el.setAttribute('class', value);
             }
@@ -801,7 +676,7 @@ var ElementLikeImpl = (function (_super) {
                 el.setAttribute('style', jsx_alone_core_1.printStyleHtmlAttribute(value));
             }
             else if (typeof value === 'function') {
-                config.eventManager.addEventListener(el, attribute.replace(/^on/, '').toLowerCase(), value.bind(_this));
+                config.eventManager.addEventListener(el, attribute.replace(/^on/, '').toLowerCase(), value.bind(this));
             }
             else {
                 el.setAttribute(attribute, value);
@@ -811,118 +686,137 @@ var ElementLikeImpl = (function (_super) {
             el.innerHTML = this._innerHtml;
         }
         else {
-            var parent_1 = config.appendChildrenInDocumentFragment ? document.createDocumentFragment() : el;
-            this.children.forEach(function (c) {
-                c.render(__assign({}, config, { parent: parent_1, rootHTMLElement: undefined }));
+            const parent = config.appendChildrenInDocumentFragment ? document.createDocumentFragment() : el;
+            this.children.forEach(c => {
+                c.render(Object.assign({}, config, { parent, rootHTMLElement: undefined }));
             });
-            if (el !== parent_1) {
-                el.appendChild(parent_1);
+            if (el !== parent) {
+                el.appendChild(parent);
             }
         }
         if (config.parent) {
             config.parent.appendChild(el);
         }
-        var elementClassWithContainer = this._elementClassInstance || config.rootElementLike._elementClassInstance;
+        const elementClassWithContainer = this._elementClassInstance || config.rootElementLike._elementClassInstance;
         if (this.ref) {
-            refs_1.setRef({ elementLike: this, el: el, value: this.ref });
+            refs_1.setRef({ elementLike: this, el, value: this.ref });
         }
         if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
             elementClassWithContainer._eventManager = config.eventManager;
             elementClassWithContainer.setContainerEl(el);
         }
         return el;
-    };
-    ElementLikeImpl.prototype.dangerouslySetInnerHTML = function (s) {
-        this._innerHtml = s;
-    };
-    return ElementLikeImpl;
-}(jsx_alone_core_1.AbstractElementLike));
-exports.ElementLikeImpl = ElementLikeImpl;
-var TextNodeLikeImpl = (function (_super) {
-    __extends(TextNodeLikeImpl, _super);
-    function TextNodeLikeImpl() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
-    TextNodeLikeImpl.prototype.render = function (config) {
-        var text = document.createTextNode(this.content);
+    dangerouslySetInnerHTML(s) {
+        this._innerHtml = s;
+    }
+}
+exports.ElementLikeImpl = ElementLikeImpl;
+class TextNodeLikeImpl extends jsx_alone_core_1.AbstractTextNodeLike {
+    render(config) {
+        const text = document.createTextNode(this.content);
         if (config.parent) {
             config.parent.appendChild(text);
         }
         return text;
-    };
-    return TextNodeLikeImpl;
-}(jsx_alone_core_1.AbstractTextNodeLike));
+    }
+}
 exports.TextNodeLikeImpl = TextNodeLikeImpl;
 function isSvgTag(t) {
-    var r = new RegExp("^" + t + "$", 'i');
-    return SvgTags.some(function (name) { return r.test(name); });
+    const r = new RegExp(`^${t}$`, 'i');
+    return SvgTags.some(name => r.test(name));
 }
-var SvgTags = ['path', 'svg', 'use', 'g'];
+const SvgTags = ['path', 'svg', 'use', 'g'];
 
 },{"./refs":21,"jsx-alone-core":5}],18:[function(require,module,exports){
+"use strict";
 ;
-var mark_1 = require("./mark");
-var jsx_alone_core_1 = require("jsx-alone-core");
-var RootEventManager = (function () {
-    function RootEventManager(root, debug) {
+const mark_1 = require("./mark");
+const jsx_alone_core_1 = require("jsx-alone-core");
+/**
+ * Provides event delegation management to all nodes generated in a render() call, using the root element (the one
+ * returned bu JSXAlone.render() call) to addEventListener
+ *
+ * Notes:
+ *
+ *  * the event's `currentTarget` will be assigned with `target` (because if not it will be the root el) and this
+ * causes errors since the original el is expected and also Event's typings currentTarget is typed and target is not
+ *
+ *  * The elements are marked with a data attribute
+ *
+ * TODO: options
+ */
+class RootEventManager {
+    constructor(root, debug) {
         this.root = root;
         this.debug = debug;
         this.registeredByType = {};
         this.mark = '_jsxa_e' + jsx_alone_core_1.unique('_');
         this.rootListener = this.rootListener.bind(this);
     }
-    RootEventManager.prototype.markElement = function (el) {
+    markElement(el) {
         return mark_1.markElement(el, this.mark);
-    };
-    RootEventManager.prototype.getElementMark = function (e) {
+    }
+    getElementMark(e) {
         return mark_1.getElementMark(e, this.mark);
-    };
-    RootEventManager.prototype.rootListener = function (e) {
+    }
+    getMarkedElement(mark) {
+        return mark_1.getMarkedElement(mark, this.root, this.mark);
+    }
+    /** private handler for all events */
+    rootListener(e) {
         if (e.target) {
-            var mark_2 = this.getElementMark(e.target);
-            var entry = mark_2 && (this.registeredByType[e.type.toLowerCase()] || []).find(function (e) { return e.mark === mark_2; });
+            // e.currentTarget=e.target
+            const mark = this.getElementMark(e.target);
+            const entry = mark && (this.registeredByType[e.type.toLowerCase()] || []).find(e => e.mark === mark);
             if (entry) {
-                entry.fn(e);
+                entry.fn(Object.assign({}, e, { currentTarget: e.target }));
             }
         }
-    };
-    RootEventManager.prototype.addEventListener = function (el, type, fn) {
+    }
+    addEventListener(el, type, fn) {
         type = type.toLowerCase();
-        var ls = this.registeredByType[type];
+        let ls = this.registeredByType[type];
         if (!ls) {
             ls = this.registeredByType[type] = [];
-            this.root.addEventListener(type, this.rootListener);
+            this.root.addEventListener(type, this.rootListener); //
         }
-        var mark = this.markElement(el);
-        var entry = ls.find(function (e) { return e.mark === mark; });
+        const mark = this.markElement(el);
+        let entry = ls.find(e => e.mark === mark);
         if (!entry) {
-            entry = { mark: mark, fn: fn, type: type };
+            entry = { mark, fn, type };
             ls.push(entry);
         }
-    };
-    RootEventManager.prototype.removeListeners = function (el, types) {
-        var _this = this;
-        var mark = this.getElementMark(el);
+    }
+    /** removes event listeners for element inside root */
+    removeListeners(el, types) {
+        const mark = this.getElementMark(el);
         if (mark) {
-            (types || Object.keys(this.registeredByType).map(function (t) { return t.toLowerCase(); })).forEach(function (t) {
-                _this.registeredByType[t] = (_this.registeredByType[t] || []).filter(function (e) { return e.mark !== mark; });
+            (types || Object.keys(this.registeredByType).map(t => t.toLowerCase())).forEach(t => {
+                this.registeredByType[t] = (this.registeredByType[t] || []).filter(e => e.mark !== mark);
             });
         }
-    };
-    RootEventManager.prototype.uninstall = function (types) {
-        var _this = this;
-        (types || Object.keys(this.registeredByType).map(function (t) { return t.toLowerCase(); })).forEach(function (t) {
-            _this.registeredByType[t].map(function (e) { return e.fn; }).forEach(function (listener) {
-                _this.root.removeEventListener(t, listener);
-            });
-            _this.registeredByType[t] = [];
+    }
+    /** uninstall the event listeners in root. Reset the internal state. Optionally, remove the markings on descendant elements  */
+    uninstall(removeElementMarks = false, types) {
+        (types || Object.keys(this.registeredByType).map(t => t.toLowerCase())).forEach(t => {
+            this.root.removeEventListener(t, this.rootListener);
+            if (removeElementMarks) {
+                this.registeredByType[t].forEach(e => {
+                    const el = this.getMarkedElement(e.mark);
+                    if (el) {
+                        el.removeEventListener(e.type, e.fn, e.options);
+                    }
+                });
+            }
+            this.registeredByType[t] = [];
         });
-    };
-    return RootEventManager;
-}());
+    }
+}
 exports.RootEventManager = RootEventManager;
 
 },{"./mark":20,"jsx-alone-core":5}],19:[function(require,module,exports){
+"use strict";
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
@@ -934,58 +828,52 @@ exports.RootEventManager = event_1.RootEventManager;
 __export(require("./elementClass"));
 
 },{"./createElement":15,"./elementClass":16,"./elementImpl":17,"./event":18}],20:[function(require,module,exports){
+"use strict";
 ;
-var jsx_alone_core_1 = require("jsx-alone-core");
-function markElement(e, label) {
-    if (label === void 0) { label = '_jsxa_'; }
-    var key = e.getAttribute("data-" + label);
+const jsx_alone_core_1 = require("jsx-alone-core");
+/** returns element mark, if it doesn't have one generates one. It adds an unique data-attribute */
+function markElement(e, label = '_jsxa_') {
+    let key = e.getAttribute(`data-${label}`);
     if (!key) {
         key = jsx_alone_core_1.unique(label);
-        e.setAttribute("data-" + label, key);
+        e.setAttribute(`data-${label}`, key);
     }
     return key;
 }
 exports.markElement = markElement;
-function getElementMark(e, label) {
-    if (label === void 0) { label = '_jsxa_'; }
-    return e.getAttribute("data-" + label);
+function getElementMark(e, label = '_jsxa_') {
+    return e.getAttribute(`data-${label}`);
 }
 exports.getElementMark = getElementMark;
-function isElementMarked(e, label) {
-    if (label === void 0) { label = '_jsxa_'; }
+function isElementMarked(e, label = '_jsxa_') {
     return !!getElementMark(e, label);
 }
 exports.isElementMarked = isElementMarked;
-function getMarkedElement(key, parent, label) {
-    if (parent === void 0) { parent = document; }
-    if (label === void 0) { label = '_jsxa_'; }
+function getMarkedElement(key, parent = document, label = '_jsxa_') {
     return parent.querySelector(getMarkSSelector(label, key));
 }
 exports.getMarkedElement = getMarkedElement;
 function getMarkSSelector(label, key) {
-    return key ? "[data-" + label + "=\"" + key + "\"]" : "[data-" + label + "]";
+    return key ? `[data-${label}="${key}"]` : `[data-${label}]`;
 }
 exports.getMarkSSelector = getMarkSSelector;
 
 },{"jsx-alone-core":5}],21:[function(require,module,exports){
+"use strict";
 ;
-var mark_1 = require("./mark");
-var RefObjectImpl = (function () {
-    function RefObjectImpl() {
+const mark_1 = require("./mark");
+class RefObjectImpl {
+    constructor() {
         this._current = null;
     }
-    Object.defineProperty(RefObjectImpl.prototype, "current", {
-        get: function () {
-            return typeof this._current === 'string' ? mark_1.getMarkedElement(this._current) : this._current;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return RefObjectImpl;
-}());
+    get current() {
+        return typeof this._current === 'string' ? mark_1.getMarkedElement(this._current) : this._current;
+    }
+}
 exports.RefObjectImpl = RefObjectImpl;
-function setRef(_a) {
-    var el = _a.el, value = _a.value, elementLike = _a.elementLike;
+// /** @internal */
+function setRef({ el, value, elementLike }) {
+    // console.log('__addRef', elementLike._elementClassInstance || markElement(el));
     value._current = elementLike._elementClassInstance || mark_1.markElement(el);
 }
 exports.setRef = setRef;
