@@ -1,6 +1,13 @@
 # strip-typescript-output
 
-CLI tool to remove `use strict` and `esModuleInterop` statements from .js code emitted by TypeScript. 
+CLI tool to remove and `esModuleInterop` statements from .js code emitted by TypeScript. 
+
+TIP: for removing "use strict" statement you can use: 
+
+```
+"alwaysStrict": false,
+"noImplicitUseStrict": true,  
+```
 
 Supports compressed/changed output by minifiers
 
@@ -26,12 +33,10 @@ npx strip-typescript-output --input docs/**/*.js
 
 or globally:
 
-
 ```
 npm i -g strip-typescript-output
 strip-typescript-output --input docs/**/*.js
 ```
-
 
 ## TODO: 
 

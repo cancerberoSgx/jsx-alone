@@ -2,15 +2,14 @@ import { samples } from './samples';
 import { Config, Result, MainResult } from "./types";
 import { args } from "./cli";
 import { array } from '../../jsx-alone-core/dist/src';
-import { exec, config, mkdir } from 'shelljs';
+import { exec, config, mkdir, pwd } from 'shelljs';
 import { writeFileSync } from 'fs';
 
 let silent = false
 export function main(config: Config): MainResult {
-  config.n = config.n ? (config.n as any as string).split(',').map(s => parseInt(s)) : [100]
-  config.m = config.m ? (config.m as any as string).split(',').map(s => parseInt(s)) : [100]
+  config.n = config.n ? (config.n + "" as any as string).split(',').map(s => parseInt(s)) : [100]
+  config.m = config.m ? (config.m + '' as any as string).split(',').map(s => parseInt(s)) : [100]
   config.runs = config.runs || 5;
-
 
   if (!args.sample) {
     console.error(`--sample is required. Usage:
@@ -44,15 +43,27 @@ export function main(config: Config): MainResult {
     })
   })
   debug(`Sample ${sample.name}, ${config.runs} runs, ended in ${totalTime}ms `);
-  const result = { totalTime, results, currentCommit: getCUrrentCommit(), userConfig: config }
+  const result: MainResult = {
+    totalTime,
+    currentCommit: getCurrentCommit(),
+    userConfig: config,
+    command: process.argv.slice(process.argv.findIndex(c => c.startsWith('--')), process.argv.length).join(' '),
+    cwd: pwd(),
+    results,
+  }
+  const resultString = JSON.stringify(result, null, 2)
+  if (config.log) {
+    const logFile = `${config.log || '.'}/${Date.now()}-${result.currentCommit}-${sample.name}.json`
+    debug(JSON.stringify(result));
+    debug('total time' + result.totalTime)
+    config.log && mkdir('-p', config.log)
+    writeFileSync(logFile, resultString)
+    debug(`Saved log ${logFile}`);
+  }
+  else {
+    console.log(resultString);
 
-  const logFile = `${config.log || '.'}/${Date.now()}-${result.currentCommit}-${sample.name}.json`
-
-  debug(JSON.stringify(result));
-  debug('total time' + result.totalTime)
-  config.log && mkdir('-p', config.log)
-  writeFileSync(logFile, JSON.stringify(result, null, 2))
-  debug(`Saved log ${logFile}`);
+  }
 
   return result
 }
@@ -60,7 +71,7 @@ export function main(config: Config): MainResult {
 function debug(m: string) {
   !silent && console.log(m)
 }
-function getCUrrentCommit() {
+function getCurrentCommit() {
   config.silent = true
   return exec('git rev-parse --short HEAD').stdout.toString().trim()
 }

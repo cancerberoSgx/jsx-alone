@@ -86,8 +86,8 @@ export abstract class ElementClass<P = {}> extends AbstractElementClass<P> imple
   destroy() {
   }
   protected _eventManager: RootEventManager = undefined as any
-  get eventManager(){
-    return this,this._eventManager
+  get eventManager() {
+    return this, this._eventManager
   }
 }
 

@@ -1,5 +1,6 @@
 import { JSXAlone } from '..'
-import { query, render, DummyStatefulComponent } from './testUtil';
+import { query, render } from './testUtil';
+import { DummyStatefulComponent } from "./DummyStatefulComponent";
 import { RefObject } from 'jsx-alone-core';
 describe('refs', () => {
   describe('case 1', () => {
