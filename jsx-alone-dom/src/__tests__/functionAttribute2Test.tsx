@@ -1,7 +1,7 @@
-import { JSXAlone } from '..';
-import { dummy, fireEvent } from './testUtil';
-import { ElementClass } from '..';
-import { MouseEvent, AbstractCoreMouseEvent, Children } from 'jsx-alone-core';
+import { JSXAlone } from '..'
+import { dummy, fireEvent } from './testUtil'
+import { ElementClass } from '..'
+import { MouseEvent, AbstractCoreMouseEvent, Children } from 'jsx-alone-core'
 describe('context', () => {
   it('big app with handlers in many levels', () => {
     const handler = jest.fn(function(this: any, e) {
@@ -17,7 +17,7 @@ describe('context', () => {
           <button id={this.props.id} onClick={this.props.onClick}>
             {this.props.children}
           </button>
-        ) 
+        )
       }
     }
     class Container extends ElementClass<{ children: Children }> {
@@ -41,7 +41,7 @@ describe('context', () => {
         return (
           <div>
             <button
-              id="no-container"
+              id='no-container'
               onClick={e => {
                 handler(this.props.name + this.foo() + foo)
               }}>
@@ -51,7 +51,7 @@ describe('context', () => {
               <p>
                 just some tests for function attributes context
                 <button
-                  id="container-button"
+                  id='container-button'
                   onClick={e => {
                     handler(this.props.name + this.foo() + foo)
                   }}>
@@ -59,7 +59,7 @@ describe('context', () => {
                 </button>
                 <Container>
                   <button
-                    id="container-container-button"
+                    id='container-container-button'
                     onClick={e => {
                       handler(this.props.name + this.foo() + foo)
                     }}>
@@ -67,7 +67,7 @@ describe('context', () => {
                   </button>
                 </Container>
                 <Button
-                  id="container-button-class-el"
+                  id='container-button-class-el'
                   onClick={e => {
                     handler(this.props.name + this.foo() + foo)
                   }}>
@@ -86,9 +86,9 @@ describe('context', () => {
     const app = (
       <div>
         <button
-          id="no-root-element-class2"
+          id='no-root-element-class2'
           onClick={e => {
-            //@ts-ignore
+            // @ts-ignore
             handler(bar + dummy(1) + aux(65), this && this.props)
           }}>
           no-root-element-class2
@@ -96,7 +96,7 @@ describe('context', () => {
 
         <Container>
           <button
-            id="should-not-override-this-with-Container"
+            id='should-not-override-this-with-Container'
             onClick={e => {
               // @ts-ignore
               handler(bar + dummy(1) + aux(65), this && this.props)
@@ -105,11 +105,11 @@ describe('context', () => {
           </button>
         </Container>
 
-        <App name="John Doe" tasks={['Wash dishes', 'Go outside', 'Play soccer']}>
+        <App name='John Doe' tasks={['Wash dishes', 'Go outside', 'Play soccer']}>
           <button
-            id="should-not-have-ascendant-element-context"
+            id='should-not-have-ascendant-element-context'
             onClick={e => {
-              //@ts-ignore
+              // @ts-ignore
               handler(this && this.props && this.props.name)
             }}>
             should-not-have-ascendant-element-context
@@ -118,9 +118,9 @@ describe('context', () => {
 
         <Container>
           <button
-            id="should-not-have-app-context"
+            id='should-not-have-app-context'
             onClick={e => {
-              //@ts-ignore
+              // @ts-ignore
               handler(this && this.props && this.props.name)
             }}>
             should-not-have-app-context

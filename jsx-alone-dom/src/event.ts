@@ -1,6 +1,6 @@
-import { getElementMark, markElement } from './mark';
-import { unique } from 'jsx-alone-core';
-import { MEvent } from './types';
+import { getElementMark, markElement } from './mark'
+import { unique } from 'jsx-alone-core'
+import { MEvent } from './types'
 
 export type EventListener<C extends EventTarget | HTMLElement = any, T extends EventTarget | HTMLElement = any> = (e: MEvent) => any
 
@@ -11,12 +11,12 @@ interface Entry {
   options?: boolean | AddEventListenerOptions
 }
 
-/** 
- * Provides event delegation management to all nodes generated in a render() 
+/**
+ * Provides event delegation management to all nodes generated in a render()
  * call, using the root element (the one returned bu JSXAlone.render() call) to addEventListener
- * 
+ *
  * TODO: remove registeredByType tp speed up - we dont really need that.
- * 
+ *
  * TODO: options
  */
 export class RootEventManager {
@@ -27,7 +27,7 @@ export class RootEventManager {
 
   private registeredByType: { [type: string]: Entry[] } = {}
 
-  private mark = '_jsxa_e'+unique('_')
+  private mark = '_jsxa_e' + unique('_')
   private markElement(el: HTMLElement) {
     return markElement(el, this.mark)
   }
@@ -51,7 +51,7 @@ export class RootEventManager {
     let ls = this.registeredByType[type]
     if (!ls) {
       ls = this.registeredByType[type] = []
-      this.root.addEventListener(type, this.rootListener) // 
+      this.root.addEventListener(type, this.rootListener) //
     }
     const mark = this.markElement(el)
     let entry: Entry | undefined = ls.find(e => e.mark === mark)
@@ -63,7 +63,7 @@ export class RootEventManager {
 
   /** removes event listeners for element inside root */
   removeListeners(el: HTMLElement, types?: []) {
-    const mark = this.getElementMark(el);
+    const mark = this.getElementMark(el)
     if (mark) {
       (types || Object.keys(this.registeredByType).map(t => t.toLowerCase())).forEach(t => {
         this.registeredByType[t] = (this.registeredByType[t] || []).filter(e => e.mark !== mark)
@@ -78,6 +78,5 @@ export class RootEventManager {
       })
     })
   }
-  
-}
 
+}

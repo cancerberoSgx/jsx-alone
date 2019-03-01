@@ -1,9 +1,9 @@
-import { AbstractElementLike, AbstractTextNodeLike, ElementClass as AbstractElementClass, printStyleHtmlAttribute, RefObject } from 'jsx-alone-core';
-import { RefObjectImpl, setRef } from './Refs';
-import { ElementLike, ElementLikeImplRenderConfig, IElementClass, RenderOutput } from './types';
-import { RootEventManager } from './event';
+import { AbstractElementLike, AbstractTextNodeLike, ElementClass as AbstractElementClass, printStyleHtmlAttribute, RefObject } from 'jsx-alone-core'
+import { RefObjectImpl, setRef } from './Refs'
+import { ElementLike, ElementLikeImplRenderConfig, IElementClass, RenderOutput } from './types'
+import { RootEventManager } from './event'
 
-export class ElementLikeImpl<T extends ElementClass=ElementClass> extends AbstractElementLike<RenderOutput> implements ElementLike<T> {
+export class ElementLikeImpl<T extends ElementClass= ElementClass> extends AbstractElementLike<RenderOutput> implements ElementLike<T> {
   private _innerHtml: string | undefined
   ref?: RefObject<IElementClass & Element>
   _elementClassInstance: T | undefined

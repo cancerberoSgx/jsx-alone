@@ -18,13 +18,11 @@ describe('intrinsic elements', () => {
     expected: `<p>hello world how are you</p>`
   })
 
-
   test({
     label: 'non string child text',
     e: <p data-id={2}>{1} - {true}</p>,
-    expected: "<p data-id=\"2\">1 - true</p>"
+    expected: '<p data-id="2">1 - true</p>'
   })
-
 
   test({
     label: 'element children on any depth',

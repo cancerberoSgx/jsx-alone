@@ -1,7 +1,7 @@
-import { RefObject, unique } from 'jsx-alone-core';
-import { ElementClass } from '.';
-import { ElementLike } from './types';
-import { getMarkedElement, markElement } from './mark';
+import { RefObject, unique } from 'jsx-alone-core'
+import { ElementClass } from '.'
+import { ElementLike } from './types'
+import { getMarkedElement, markElement } from './mark'
 
 export class RefObjectImpl<T extends Element & ElementClass> implements RefObject<T> {
   _current: T | string | null = null

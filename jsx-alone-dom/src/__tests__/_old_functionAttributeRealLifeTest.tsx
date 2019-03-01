@@ -6,7 +6,7 @@ describe('function attributes first experiments', () => {
   describe('real life app', () => {
     class Container extends ElementClass<{ children: Children }> {
       render() {
-        return <div className="container">{this.props.children}</div>
+        return <div className='container'>{this.props.children}</div>
       }
     }
     interface P {
@@ -22,7 +22,7 @@ describe('function attributes first experiments', () => {
       render() {
         return (
           <Container>
-            <button id="add" onClick={e => this.setState({ people: [...this.state.people, { name: 'random name ' + Math.random() }] })}>
+            <button id='add' onClick={e => this.setState({ people: [...this.state.people, { name: 'random name ' + Math.random() }] })}>
               add
             </button>
             <ul>
@@ -30,7 +30,7 @@ describe('function attributes first experiments', () => {
                 <li data-id={p.name}>
                   <div>{p.name}</div>
                   <button
-                    className="remove"
+                    className='remove'
                     onClick={e => {
                       this.setState({ people: this.state.people.filter(p2 => p2.name !== p.name) })
                     }}>
@@ -51,10 +51,10 @@ describe('function attributes first experiments', () => {
 
     const container = document.createElement('div')
     document.body.appendChild(container)
-    const el = JSXAlone.render(<App container={container} people={[{ name: 'seba' }, { name: 'lau' }]} />, { parent:container  }) as HTMLElement
+    const el = JSXAlone.render(<App container={container} people={[{ name: 'seba' }, { name: 'lau' }]} />, { parent: container  }) as HTMLElement
     container.appendChild(el)
 
-    it('events handler should work', ()=>{
+    it('events handler should work', () => {
 
       expect(document.querySelectorAll('[data-id]')).toHaveLength(2)
       query('#add').click()

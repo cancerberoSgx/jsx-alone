@@ -1,9 +1,9 @@
 import { createCreateElement, CreateCreateElementConfig, CreateElementFunction, RefObject } from 'jsx-alone-core'
 import { ElementLikeImpl, TextNodeLikeImpl, ElementLike } from '.'
-import { NodeLike, RenderOutput, ElementLikeImplRenderConfig, IElementClass, ElementLikeImplRenderConfigNoRoot } from './types';
-import { RefObjectImpl, setRef } from './Refs';
-import { RootEventManager } from './event';
-import { ElementClass } from './elementImpl';
+import { NodeLike, RenderOutput, ElementLikeImplRenderConfig, IElementClass, ElementLikeImplRenderConfigNoRoot } from './types'
+import { RefObjectImpl, setRef } from './Refs'
+import { RootEventManager } from './event'
+import { ElementClass } from './elementImpl'
 
 function buildJSXALone(): JSXAloneType<RenderOutput, ElementLike> {
 
@@ -13,14 +13,16 @@ function buildJSXALone(): JSXAloneType<RenderOutput, ElementLike> {
 
     render(elementLike, config) {
       const el = elementLike as any as ElementLike
-      const almostCompleteConfig = { ...config, rootElementLike: el, 
+      const almostCompleteConfig = { ...
+        config,
+        rootElementLike: el
       }
       const rootHTMLElement = el.buildRootElement(almostCompleteConfig)
       const eventManager = new RootEventManager(rootHTMLElement)
       const completeConfig = {...almostCompleteConfig, eventManager, rootHTMLElement}
       return el.render(completeConfig)
     },
-    
+
     createRef<T extends Element & ElementClass>(): RefObject<T> {
       return new RefObjectImpl<T>()
     }
@@ -29,9 +31,9 @@ function buildJSXALone(): JSXAloneType<RenderOutput, ElementLike> {
   return Module
 }
 
-type RenderFunction<OO extends RenderOutput=RenderOutput, R extends ElementLike=ElementLike> = (el: JSX.Element, config?: ElementLikeImplRenderConfigNoRoot<R>) => OO
+type RenderFunction<OO extends RenderOutput= RenderOutput, R extends ElementLike= ElementLike> = (el: JSX.Element, config?: ElementLikeImplRenderConfigNoRoot<R>) => OO
 
-type JSXAloneType<T extends RenderOutput = RenderOutput, R extends ElementLike = ElementLike> = {
+interface JSXAloneType<T extends RenderOutput = RenderOutput, R extends ElementLike = ElementLike> {
   render: RenderFunction<T, R>
   createElement: CreateElementFunction<T, R>
   createRef<T>(): RefObject<T>
@@ -48,7 +50,7 @@ export function getCreateCreateElementConfig() {
           elementLike._elementClassInstance = elementClassInstance
         }
         elementLike.ref = attrs.ref
-      },
+      }
     }
   }
   return createCreateElementConfig

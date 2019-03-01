@@ -27,6 +27,7 @@
     "jest": "^24.1.0",
     "shx": "^0.3.2",
     "ts-jest": "^24.0.0",
+    "tslint": "^5.13.1",
     "typescript": "^3.2.2"
   },
   "author": "Sebastian Gurin",

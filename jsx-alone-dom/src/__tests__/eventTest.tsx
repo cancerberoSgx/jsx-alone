@@ -1,7 +1,7 @@
-import { JSXAlone } from '..';
-import { ElementClass } from '../elementImpl';
-import { RootEventManager, MEvent } from '..';
-import { query } from './testUtil';
+import { JSXAlone } from '..'
+import { ElementClass } from '../elementImpl'
+import { RootEventManager, MEvent } from '..'
+import { query } from './testUtil'
 
 describe('eventManager', () => {
 
@@ -17,13 +17,13 @@ describe('eventManager', () => {
       }
     }
 
-    const app = <div><div id="container"><C s={['a', 'b']}></C></div></div>
+    const app = <div><div id='container'><C s={['a', 'b']}></C></div></div>
     root = JSXAlone.render(app) as HTMLElement
     document.body.appendChild(root)
 
     manager = new RootEventManager(root as HTMLElement)
   })
-  
+
   it('should notify after added and dont after removed', () => {
     const a = query('#container .a')
     const b = query('#container .b')
@@ -78,7 +78,7 @@ describe('eventManager', () => {
 //     fn,
 //     type
 //   })
-//   return 
+//   return
 //   registered.push(type)
 //   const mark = markElement(el)
 // }

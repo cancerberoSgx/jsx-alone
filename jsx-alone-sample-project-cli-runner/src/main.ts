@@ -25,7 +25,7 @@ export function main(config: Config): MainResult {
   silent = !config.log
 
   if (sample.impl === 'dom') {
-    installJSDOM()
+    installJSDOM();
   }
   let totalTime = 0
   const results: (Result & { t: number })[] = []
