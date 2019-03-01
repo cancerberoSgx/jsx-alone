@@ -2,15 +2,17 @@ import { JSXAlone, ElementClass } from 'jsx-alone-dom'
 
 // example function element
 const TaskPageLink = (props: {
-  children: string;
-  task: string;
+  children: string
+  task: string
 }) => <a href={`pages/tasks/${props.task}_small.html`}>{props.children}</a>
 
+interface P {
+  name: string
+  tasks: string[]
+}
+
 // example class element that renders given information and uses previous TaskPageLink element
-class App extends ElementClass<{
-  name: string;
-  tasks: string[];
-}> {
+class App extends ElementClass<P> {
   render() {
     return <article>
       <h3>Welcome {this.props.name}!</h3>

@@ -1,5 +1,5 @@
 import { JSXAlone } from '..'
-import { ElementClass } from '../elementImpl'
+import { ElementClass } from "../elementClass";
 export abstract class DummyStatefulComponent<P = {}, S = P> extends ElementClass<P> {
   state: S
   constructor(p: P) {
@@ -14,6 +14,7 @@ export abstract class DummyStatefulComponent<P = {}, S = P> extends ElementClass
     if (!this.containerEl) {
       throw new Error('this.containerEl=== undefined cannot do magic in DummyStatefulComponent')
     }
+    this.destroy()
     const jsx = this.render()
     const el = JSXAlone.render(jsx)
     this.containerEl.parentElement!.replaceChild(el, this.containerEl)

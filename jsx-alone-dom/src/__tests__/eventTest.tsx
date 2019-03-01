@@ -1,14 +1,15 @@
 import { JSXAlone } from '..'
-import { ElementClass } from '../elementImpl'
+import { ElementClass } from "../elementClass";
 import { RootEventManager, HTMLEvent } from '..'
 import { query } from './testUtil'
 
 describe('eventManager', () => {
 
-  let manager: RootEventManager
-  let root: HTMLElement
+  it('should notify after added and dont after removed', () => {
 
-  beforeEach(() => {
+    let manager: RootEventManager
+    let root: HTMLElement
+  
     class C extends ElementClass<{ s: string[] }> {
       render() {
         return <ul>{this.props.s.map(s =>
@@ -22,9 +23,7 @@ describe('eventManager', () => {
     document.body.appendChild(root)
 
     manager = new RootEventManager(root as HTMLElement)
-  })
 
-  it('should notify after added and dont after removed', () => {
     const a = query('#container .a')
     const b = query('#container .b')
     const fna = jest.fn((e: HTMLEvent) => { })
@@ -54,32 +53,6 @@ describe('eventManager', () => {
     expect(fna).toBeCalledTimes(2)
     expect(fnb).toBeCalledTimes(2)
   })
+  
+
 })
-
-// var d = document.createElement('div')
-// document.body.appendChild(d)
-// c
-// type Fn= (e:Event)=>any
-// interface Listener{
-//   mark:string,
-//   fn: Fn
-//   type:string
-// }
-// const registeredByType:{[type:string]:Listener[]} = {}
-// function register(el: HTMLElement, type:string, fn: Fn) {
-//   let ls = registeredByType[type]
-//   if(!ls){
-//     ls = registeredByType[type] = []
-//     r.addEventListener(type, fn)
-
-//   }
-//   ls.push({
-//     mark: markElement(el),
-//     fn,
-//     type
-//   })
-//   return
-//   registered.push(type)
-//   const mark = markElement(el)
-// }
-// // const root = JSXAlone.render(app)

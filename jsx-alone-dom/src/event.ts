@@ -21,7 +21,7 @@ interface Entry {
  */
 export class RootEventManager {
 
-  constructor(private root: HTMLElement) {
+  constructor(private root: HTMLElement, private debug?: boolean) {
     this.rootListener = this.rootListener.bind(this)
   }
 
@@ -73,9 +73,10 @@ export class RootEventManager {
 
   uninstall(types?: []) {
     (types || Object.keys(this.registeredByType).map(t => t.toLowerCase())).forEach(t => {
-      (this.registeredByType[t] || []).map(e => e.fn).forEach(listener => {
+      this.registeredByType[t].map(e => e.fn).forEach(listener => {
         this.root.removeEventListener(t, listener)
       })
+      this.registeredByType[t]=[]
     })
   }
 

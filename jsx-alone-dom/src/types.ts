@@ -16,6 +16,7 @@ export type RenderOutput = HTMLElement | Text
 export interface ElementLikeImplRenderConfigNoRoot<R extends ElementLike = ElementLike> extends RenderConfig<RenderOutput, R> {
   parent?: Node
   appendChildrenInDocumentFragment?: boolean
+  debug?: boolean
 }
 export interface ElementLikeImplRenderConfig<R extends ElementLike = ElementLike> extends ElementLikeImplRenderConfigNoRoot< R> {
   rootElementLike: ElementLike
@@ -30,7 +31,7 @@ export interface IElementClass<P = {}> extends ICoreElementClass<P> {
   /** element classes in DOM implementation will be given its container element.  */
   setContainerEl(el: HTMLElement): void
   destroy(): void
-  readonly eventManager: RootEventManager
+  readonly eventManager?: RootEventManager
 }
 
 /** high level interface on top of DOM Event type so it's easy to declare types of currentTarget and target */

@@ -22,7 +22,6 @@
     "misc-utils-of-mine-random-data": "0.0.4"
   },
   "devDependencies": {
-    "parcel": "^1.11.0",
     "typescript": "^3.2.2"
   },
   "repository": {

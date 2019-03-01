@@ -24,11 +24,11 @@
     "jsx-alone-sample-project-code": "file:../jsx-alone-sample-project-code"
   },
   "devDependencies": {
-    "@types/shelljs": "^0.8.3",
-    "parcel": "^1.11.0",
     "@types/jest": "^24.0.6",
+    "@types/shelljs": "^0.8.3",
     "jest": "^24.1.0",
     "shelljs": "^0.8.3",
+    "terser": "^3.16.1",
     "ts-jest": "^24.0.0",
     "typescript": "^3.2.2"
   },

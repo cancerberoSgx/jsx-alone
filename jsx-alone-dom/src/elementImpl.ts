@@ -1,11 +1,15 @@
-import { AbstractElementLike, AbstractTextNodeLike, ElementClass as AbstractElementClass, printStyleHtmlAttribute, RefObject } from 'jsx-alone-core'
-import { RefObjectImpl, setRef } from './Refs'
+import { AbstractElementLike, AbstractTextNodeLike, printStyleHtmlAttribute, RefObject } from 'jsx-alone-core'
+import { RefObjectImpl, setRef } from './refs'
 import { ElementLike, ElementLikeImplRenderConfig, IElementClass, RenderOutput } from './types'
 import { RootEventManager } from './event'
+import { ElementClass } from './elementClass';
 
 export class ElementLikeImpl<T extends ElementClass= ElementClass> extends AbstractElementLike<RenderOutput> implements ElementLike<T> {
+
   private _innerHtml: string | undefined
+
   ref?: RefObject<IElementClass & Element>
+  
   _elementClassInstance: T | undefined
 
   buildRootElement(config: ElementLikeImplRenderConfig<ElementLikeImpl>): HTMLElement {
@@ -30,7 +34,6 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
       }
       else if (typeof value === 'function') {
         config.eventManager.addEventListener(el, attribute.replace(/^on/, '').toLowerCase(), value.bind(this))
-        // el.addEventListener(attribute.replace(/^on/, '').toLowerCase(), value.bind(this))
       }
       else {
         el.setAttribute(attribute, value)
@@ -75,19 +78,6 @@ export class TextNodeLikeImpl extends AbstractTextNodeLike<RenderOutput> {
       config.parent.appendChild(text)
     }
     return text
-  }
-}
-
-export abstract class ElementClass<P = {}> extends AbstractElementClass<P> implements IElementClass<P> {
-  containerEl: HTMLElement | undefined
-  setContainerEl(el: HTMLElement) {
-    this.containerEl = el
-  }
-  destroy() {
-  }
-  protected _eventManager: RootEventManager = undefined as any
-  get eventManager() {
-    return this, this._eventManager
   }
 }
 

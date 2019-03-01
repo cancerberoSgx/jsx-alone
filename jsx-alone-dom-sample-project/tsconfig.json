@@ -1,11 +1,11 @@
 {  "extends": "../common/tsconfig.json",
   "compilerOptions": {
     "target": "es2018",
+    "lib": ["es2018", "dom"],
     "outDir": "./dist",
     "rootDir": ".",
     "jsx": "react",
     "jsxFactory": "JSXAlone.createElement",
-    "removeComments": false
   },
   "include": [
     "src"
