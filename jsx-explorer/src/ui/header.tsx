@@ -71,10 +71,10 @@ export class Header extends ElementClass<P> {
           <div className="navbar-item">
             <div className="buttons">
               <button className="button" onClick={e=>{
-                const theme = this.props.state.theme.name==='dark' ? lightTheme: darkTheme
+                const theme = this.props.state.layout.theme.name==='dark' ? lightTheme: darkTheme
                 store.dispatch({type: 'CHANGE_THEME', theme})
               }}>
-              Switch to {this.props.state.theme.name==='dark' ? 'light' : 'dark'} theme
+              Switch to {this.props.state.layout.theme.name==='dark' ? 'light' : 'dark'} theme
               </button>
             </div>
           </div>

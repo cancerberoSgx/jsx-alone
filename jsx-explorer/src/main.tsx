@@ -1,4 +1,4 @@
-import { installJSXAloneAsGlobal } from 'jsx-alone-core';
+import { installJSXAloneAsGlobal, Style } from 'jsx-alone-core';
 import { JSXAlone, ElementClass, ElementLike, RootEventManager } from 'jsx-alone-dom';
 import { createStore, Action, Store } from 'redux';
 import "../node_modules/bulma/bulma.sass";
@@ -7,25 +7,46 @@ import { create } from './monaco';
 import { query } from './util';
 import { reducers } from './store/store';
 import { State } from './store/types';
+import { getThemeOverrideStyles } from './theme';
 
 installJSXAloneAsGlobal(JSXAlone)
 
 export const store = createStore(reducers)
-// const app = <App state={store.getState()} />
+const s  =  store.getState()
 let rootElement: HTMLElement
 let eventManager: RootEventManager
-function render(){
 
+function render() {
   eventManager && eventManager.uninstall()
-  rootElement && rootElement.remove()
-
-  rootElement = JSXAlone.render(<App state={store.getState()} />) as HTMLElement
-  document.body.appendChild(rootElement)
+  const el = JSXAlone.render(<Main state={store.getState()} />) as HTMLElement
   eventManager = JSXAlone.lastEventManager!
-  create({
+  if (rootElement) { 
+    rootElement.replaceWith(el) 
+    }
+  else {
+    document.body.appendChild(el)
+  }
+  rootElement = el
+  editor();
+}
+
+const Main = (props: {state: State})=> 
+  <div>
+    <Style classes={getThemeOverrideStyles(props.state.layout.theme)}></Style>
+    <App state={props.state} />
+  </div>
+
+
+function editor() {
+  let code = store.getState().editor.code
+  const ed = create({
     container: query('#editorContainer'),
-    code: store.getState().code,
-    theme: store.getState().theme.name === 'dark' ? 'dark' : 'light'
+    code,
+    theme: store.getState().layout.theme.name === 'dark' ? 'dark' : 'light'
+  });
+  ed.getModel()!.onDidChangeContent(e=>{
+    code=ed.getModel()!.getValue()
+    store.dispatch({type: 'CHANGE_CODE', code})
   })
 }
 

@@ -13,7 +13,6 @@ interface P {
 export class App extends ElementClass<P> {
   render() {
     const classStyles = {
-      ...getThemeOverrideStyles(this.props.state.theme),
       editorContainer: {
         width: '100%',
         height: '600px',
@@ -35,7 +34,7 @@ export class App extends ElementClass<P> {
     const { styles, classes } = Styles(classStyles);
 
     return <section className={`section`}>
-      <Style classes={styles}></Style>
+      <Style classes={styles}/>
       <ForkRibbon></ForkRibbon>
       <Header {...this.props}></Header>
       <div className={`container ${classes.firstContainer}`}>
@@ -49,7 +48,9 @@ export class App extends ElementClass<P> {
       <div className={`container ${classes.mainContainer}`}>
         <div className="columns">
           <div className={`${classes.border} column is-one-third`}>Explorer</div>
-          <div className={` column is-two-thirds`}> <div id="editorContainer" className={classes.editorContainer}></div>
+          <div className={` column is-two-thirds`}> 
+          <div id="editorContainer" className={classes.editorContainer}>
+          </div>
           </div>
         </div>
       </div>
