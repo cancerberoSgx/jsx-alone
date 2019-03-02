@@ -1,0 +1,25 @@
+{  "extends": "../common/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": ".",
+    "jsx": "react",
+    "jsxFactory": "JSXAlone.createElement",
+  },
+  "include": [
+    "src"
+  ],
+  "references": [
+    {
+      "path": "../jsx-alone-core"
+    },
+    {
+      "path": "../jsx-alone-dom"
+    },
+    {
+      "path": "../jsx-alone-dom-extra"
+    },
+    {
+      "path": "../jsx-alone-sample-project-code"
+    },
+  ],
+}

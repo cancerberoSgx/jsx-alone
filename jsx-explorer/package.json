@@ -19,14 +19,18 @@
     "test-watch": "npm test -- --watch"
   },
   "dependencies": {
+    "bulma": "^0.7.4",
+    "jsonc-parser": "^2.0.3",
     "jsx-alone-core": "file:../jsx-alone-core",
     "jsx-alone-dom": "file:../jsx-alone-dom",
-    "jsx-alone-sample-project-code": "file:../jsx-alone-sample-project-code"
+    "monaco-editor": "^0.15.6",
+    "vscode-languageserver-types": "^3.14.0"
   },
   "devDependencies": {
     "@types/jest": "^24.0.6",
     "@types/shelljs": "^0.8.3",
     "cssnano": "^4.1.10",
+    "parcel": "^1.11.0",
     "jest": "^24.1.0",
     "shelljs": "^0.8.3",
     "terser": "^3.16.1",
