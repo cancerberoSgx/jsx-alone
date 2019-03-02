@@ -44,6 +44,11 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
     }
     else {
       this.children.forEach((c, i) => {
+        // TODO if(config.updateExisting ){} else {}
+        if(config.updateExisting && (c as any as ElementClass).update && (c as any as ElementClass).update()){
+          // the child element class knew how to update itself 
+          return 
+        }
         // Heads up: if config.updateExisting then we don't append new child, just render it and replace the existing child only if !isEqualNode
         const existingChildToUpdate = config.updateExisting&& config.updateExisting!.childNodes.item(i)
         const cel = c.render({ ...config, 

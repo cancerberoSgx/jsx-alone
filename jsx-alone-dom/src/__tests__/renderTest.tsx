@@ -29,7 +29,7 @@ describe('render', () => {
       expect(parent.outerHTML).toEqual(`<div id="test-root"><p>lau<i>3</i></p></div>`)
     })
 
-    fit('a component should be able to update just the elements that changed', () => {
+    it('a component should be able to update just the elements that changed', () => {
       interface P { name: string }
       class C extends ElementClass<P> {
         state: P
@@ -41,12 +41,10 @@ describe('render', () => {
         render() {
           return <p><i className="changed">{this.state.name}</i><i className="same"></i></p>
         }
-
         afterRender(containerEl: HTMLElement) {
           this.containerEl = containerEl
         }
-
-        update() {
+        updateUI() { // we don't want to implement update() on purpose here!
           JSXAlone.render(this.render(), {
             updateExisting: this.containerEl
           })
@@ -55,12 +53,13 @@ describe('render', () => {
       const c = new C({ name: 'seba' })
       const parent = prepareRenderParent()
       const el = JSXAlone.render(c.asJSXElement(), { parent }) as HTMLElement
+      
       const s1 = parent.querySelector('.same')!
       const c1 = parent.querySelector('.changed')!
       const c1Text = c1.textContent + ''
 
       c.state.name = 'lau'
-      c.update()
+      c.updateUI()
 
       const s2 = parent.querySelector('.same')!
       const c2 = parent.querySelector('.changed')!

@@ -48,6 +48,13 @@ export abstract class AbstractElementLike<T> implements ElementLike<T> {
       c.parentElement = this
     }
   }
+  
+  replaceChild(i: number, c: NodeLike<T>){
+    this.children[i]=c
+    if (isElementLike<T>(c)) {
+      c.parentElement = this
+    }
+  }
 
   abstract dangerouslySetInnerHTML(s: string): void
 

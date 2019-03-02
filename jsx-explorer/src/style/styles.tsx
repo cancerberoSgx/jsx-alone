@@ -16,8 +16,8 @@ export class Styles extends Component<{theme: Theme}> {
     const { styles, classes } = S(_styles)
 
     return  <div>
-      {this.props.theme.name==='dark' && <style dangerouslySetInnerHTML={{__html: darkCss}}></style>}
-      {this.props.theme.name==='light' && <style dangerouslySetInnerHTML={{__html: lightCss}}></style>}
+      {this.state.theme.name==='dark' && <style dangerouslySetInnerHTML={{__html: darkCss}}></style>}
+      {this.state.theme.name==='light' && <style dangerouslySetInnerHTML={{__html: lightCss}}></style>}
       <Style classes={styles}/>
     </div>
   }

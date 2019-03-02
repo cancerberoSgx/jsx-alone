@@ -20,8 +20,8 @@ export abstract class DummyStatefulComponent<P = {}, S = P> extends ElementClass
     this.containerEl.parentElement!.replaceChild(el, this.containerEl)
     this.containerEl = el as HTMLElement
   }
-  update(e: HTMLElement) {
-    this.containerEl=e
+  afterRender(e: HTMLElement) {
+    this.containerEl = e
   }
-  protected containerEl: HTMLElement|undefined
+  protected containerEl: HTMLElement | undefined
 }

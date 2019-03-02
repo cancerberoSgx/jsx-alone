@@ -1,25 +1,13 @@
-import { lightTheme, darkTheme } from '../style/theme'
-import { State } from './types'
-import { changeTheme, ChangeThemeAction } from './theme'
-import { compose, Reducer, combineReducers } from 'redux'
-import { changeCode, ChangeCodeAction } from './editor'
+import { combineReducers, Reducer } from 'redux';
+import { changeCode, ChangeCodeAction } from './editor';
+import { status, PushLogAction } from './status';
+import { changeTheme, ChangeThemeAction } from './theme';
+import { State } from './types';
 
-export const reducers = combineReducers({
+export const reducers = combineReducers<State>({
   layout: changeTheme,
-  editor: changeCode
+  editor: changeCode, 
+  status: status
 })
 
-// export const reducers = compose(changeTheme, changeCode);
-
-// type A = ChangeCodeAction | ChangeThemeAction
-// const allReducers = [changeCode, changeTheme]
-// export const reducers: Reducer<State, A> = (state = initialState, action) => {
-//   switch (action.type) {
-//     case 'CHANGE_CODE':
-//       return changeCode(state, action)
-//     case 'CHANGE_THEME':
-//       return changeTheme(state, action)
-//     default:
-//       return state;
-//   }
-// };
+export type AllActions = ChangeCodeAction|PushLogAction|ChangeCodeAction|ChangeThemeAction

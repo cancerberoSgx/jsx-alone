@@ -1,5 +1,5 @@
-import { createCreateElement, CreateCreateElementConfig, CreateElementFunction, RefObject } from 'jsx-alone-core';
-import { ElementLike, ElementLikeImpl, TextNodeLikeImpl , isElementClass} from '.';
+import { createCreateElement, CreateCreateElementConfig, CreateElementFunction, RefObject, updateElement, JSXAloneTag, JSXAloneAttrs } from 'jsx-alone-core';
+import { ElementLike, ElementLikeImpl, TextNodeLikeImpl, isElementClass } from '.';
 import { ElementClass } from "./elementClass";
 import { RootEventManager, EventManager } from './event';
 import { RefObjectImpl } from './refs';
@@ -10,6 +10,7 @@ type RenderFunction<OO extends RenderOutput= RenderOutput, R extends ElementLike
 interface JSXAloneType<T extends RenderOutput = RenderOutput, R extends ElementLike = ElementLike> {
   render: RenderFunction<T, R>
   createElement: CreateElementFunction<T, R>
+  updateElement<T, R>(element: R, tag: JSXAloneTag, attrs: JSXAloneAttrs<string>, children: any[], create?: boolean): void
   createRef<T>(): RefObject<T>
   /** so render() users have a way of removing event listeners when unattaching rendered html element */
   lastEventManager?: EventManager
@@ -18,18 +19,25 @@ interface JSXAloneType<T extends RenderOutput = RenderOutput, R extends ElementL
 function buildJSXALone(): JSXAloneType<RenderOutput, ElementLike> {
 
   const Module: JSXAloneType<RenderOutput, ElementLike> = {
+
     createElement: createCreateElement<RenderOutput, ElementLike>(getCreateCreateElementConfig()),
+
+    // updateElement: ([element, tag, attrs, children, create]: Parameters<typeof updateElement>) => updateElement(element, tag, attrs, children, create),
+    
+    updateElement: (element,  tag, attrs, children, create) => updateElement(element as any, TextNodeLikeImpl, tag, attrs, children, create),
+
 
     render(elementLike, config) {
       const el = elementLike as any as ElementLike
-      const almostCompleteConfig = { ...
+      const almostCompleteConfig = {
+        ...
         config,
         rootElementLike: el
       }
-      const updateExisting = el._elementClassInstance && el._elementClassInstance!.eventManager && config && config.updateExisting 
+      const updateExisting = el._elementClassInstance && el._elementClassInstance!.eventManager && config && config.updateExisting
       const rootHTMLElement = updateExisting || el.buildRootElement(almostCompleteConfig)
       const eventManager = updateExisting ? el._elementClassInstance!.eventManager : new RootEventManager(rootHTMLElement)
-      const completeConfig = {...almostCompleteConfig, eventManager, rootHTMLElement}
+      const completeConfig = { ...almostCompleteConfig, eventManager, rootHTMLElement }
       Module.lastEventManager = eventManager
       return el.render(completeConfig)
     },

@@ -1,7 +1,7 @@
 import { RenderConfig, ElementLike,  TextNodeLike } from './'
 import { AbstractElementLike, AbstractTextNodeLike } from './'
 import {  JSXAlone as JSXAloneType } from './'
-import { createCreateElement } from './createElement'
+import { createCreateElement, updateElement } from './createElement'
 import { AbstractElementClass } from './elementClass'
 
 export interface JsonImplOutputEl {
@@ -24,12 +24,9 @@ export class JsonImplElementLikeImpl extends AbstractElementLike<JsonImplOutput>
   innerHtml: string|undefined
   render(config: JsonImplRenderConfig = {}): JsonImplOutput {
     return  {
-      //@ts-ignore
       tag: this.tag,
       innerHtml: this.innerHtml,
       attrs: this.attrs,
-      //@ts-ignore
-      // foo: 123123,
       children: this.children.map(c => {
         const r = {...c}
         delete (r as any).parentElement
@@ -55,6 +52,8 @@ export abstract class JsonImplElementClass<P = {}> extends AbstractElementClass<
 export const JSXAloneJsonImpl: JSXAloneType<JsonImplOutput,  ElementLike<JsonImplOutput>> = {
 
   createElement: createCreateElement<JsonImplOutput, JsonImplElementLikeImpl>({impl: JsonImplElementLikeImpl, textNodeImpl : JsonImplTextNodeLikeImpl}),
+  
+  updateElement: (element,  tag, attrs, children, create) => updateElement(element, JsonImplTextNodeLikeImpl, tag, attrs, children, create),
 
   render(el, config = {}) {
     return (el as any as JsonImplElementLikeImpl).render(config)

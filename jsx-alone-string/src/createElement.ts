@@ -1,4 +1,4 @@
-import { NodeLike, JSXAlone as JSXAloneType, createCreateElement, CreateCreateElementConfig } from 'jsx-alone-core'
+import { NodeLike, JSXAlone as JSXAloneType, createCreateElement, CreateCreateElementConfig, updateElement, JSXAloneTag, JSXAloneAttrs } from 'jsx-alone-core'
 import { ElementLikeImplRenderConfig, defaultRenderConfig } from './config'
 import { ElementLikeImpl, TextNodeLikeImpl } from './elementImpl'
 
@@ -11,6 +11,8 @@ const Module = {
 
   createElement: createCreateElement<string>(createCreateElementConfig),
 
+  updateElement: (element: ElementLikeImpl, tag: JSXAloneTag, attrs: JSXAloneAttrs<string>, children: any[], create?: boolean) => updateElement(element, TextNodeLikeImpl, tag, attrs, children, create),
+  
   render(el: JSX.Element, config: ElementLikeImplRenderConfig = defaultRenderConfig): string {
     return `${((el as any) as NodeLike<string>).render(config)}`
   }

@@ -38,6 +38,7 @@ export interface ElementLike<T> extends NodeLike<T> {
   setAttribute(name: string, value: string): void
   dangerouslySetInnerHTML(s: string): void
   appendChild(c: NodeLike<T>): void
+  replaceChild(i: number, c: NodeLike<T>): void
   parentElement?: ElementLike<T>
   // destroy: ()=>void
   // findDescendant(p: Predicate<T>): ElementLike<T> | undefined
@@ -51,6 +52,7 @@ export interface ElementLike<T> extends NodeLike<T> {
 
 export interface JSXAlone<T, R extends ElementLike<T> = ElementLike<T>> {
   createElement(tag: JSXAloneTag, attrs: JSXAloneAttrs, ...children: JSXAloneChild[]): R
+   updateElement(element: R,   tag: JSXAloneTag, attrs:  JSXAloneAttrs<string>, children: any[], create?: boolean):void
   render(el: JSX.Element, config?: RenderConfig<T, R>): T
 }
 

@@ -2,15 +2,16 @@ import { ElementClass } from 'jsx-alone-dom'
 import { ClassRule, Styles, Style } from 'jsx-alone-core'
 import { ForkRibbon } from './forkRibbon'
 import { JSXAlone } from 'jsx-alone-dom'
-import { State } from '../store/types'
+import { State, Layout, Theme } from '../store/types'
 import {  darkTheme, lightTheme } from '../style/theme'
-import { store } from '../main'
+import { Component } from '../component';
+import { dispatch } from '../main';
 
 interface P {
-  state: State
+  theme: Theme
 }
 
-export class Header extends ElementClass<P> {
+export class Header extends Component<P> {
   render() {
     return <nav className="navbar" role="navigation" aria-label="main navigation">
       <ForkRibbon />
@@ -53,10 +54,10 @@ export class Header extends ElementClass<P> {
           <div className="navbar-item">
             <div className="buttons">
               <button className="button" onClick={e => {
-                const theme = this.props.state.layout.theme.name === 'dark' ? lightTheme : darkTheme
-                store.dispatch({ type: 'CHANGE_THEME', theme })
+                const theme = this.state.theme.name === 'dark' ? lightTheme : darkTheme
+                dispatch({ type: 'CHANGE_THEME', theme })
               }}>
-                Switch to {this.props.state.layout.theme.name === 'dark' ? 'light' : 'dark'} theme
+                Switch to {this.state.theme.name === 'dark' ? 'light' : 'dark'} theme
               </button>
             </div>
           </div>

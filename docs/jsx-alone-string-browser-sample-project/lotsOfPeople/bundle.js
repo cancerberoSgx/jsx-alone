@@ -72,6 +72,7 @@ var JsonImplElementClass = (function (_super) {
 exports.JsonImplElementClass = JsonImplElementClass;
 exports.JSXAloneJsonImpl = {
     createElement: createElement_1.createCreateElement({ impl: JsonImplElementLikeImpl, textNodeImpl: JsonImplTextNodeLikeImpl }),
+    updateElement: function (element, tag, attrs, children, create) { return createElement_1.updateElement(element, JsonImplTextNodeLikeImpl, tag, attrs, children, create); },
     render: function (el, config) {
         if (config === void 0) { config = {}; }
         return el.render(config);
@@ -117,49 +118,7 @@ function createCreateElement(config) {
         if (onElementCreate) {
             onElementCreate({ elementLike: element, elementClassInstance: elementClassInstance, attrs: attrs });
         }
-        if (tagIsString) {
-            Object.keys(attrs).forEach(function (name) {
-                var value = attrs[name];
-                var type = typeof value;
-                if (type === 'string' || type === 'number') {
-                    element.setAttribute(name, value);
-                }
-                else if (type === 'function') {
-                    element.setAttribute(name, value);
-                }
-                else if (value === false) {
-                }
-                else if (value === true) {
-                    element.setAttribute(name, name);
-                }
-                else if (name === 'dangerouslySetInnerHTML' && value) {
-                    element.dangerouslySetInnerHTML(value.__html);
-                }
-                else {
-                    element.setAttribute(name, value);
-                }
-            });
-            children
-                .filter(function (c) { return c; })
-                .forEach(function (child) {
-                if (elementImpl_1.isNode(child)) {
-                    element.appendChild(child);
-                }
-                else if (Array.isArray(child)) {
-                    child.forEach(function (c) {
-                        if (elementImpl_1.isNode(c)) {
-                            element.appendChild(c);
-                        }
-                        else {
-                            element.appendChild(new textNodeImpl(c));
-                        }
-                    });
-                }
-                else {
-                    element.appendChild(new textNodeImpl(child));
-                }
-            });
-        }
+        updateElement(element, textNodeImpl, tag, attrs, children, true);
         if (onElementReady) {
             onElementReady({ elementLike: element });
         }
@@ -168,6 +127,76 @@ function createCreateElement(config) {
     return createElement;
 }
 exports.createCreateElement = createCreateElement;
+function updateElement(element, textNodeImpl, tag, attrs, children, create) {
+    if (create === void 0) { create = false; }
+    if (typeof tag === 'string') {
+        element.tag = tag;
+        Object.keys(attrs).forEach(function (name) {
+            var value = attrs[name];
+            var type = typeof value;
+            if (type === 'string' || type === 'number') {
+                element.setAttribute(name, value);
+            }
+            else if (type === 'function') {
+                element.setAttribute(name, value);
+            }
+            else if (value === false) {
+            }
+            else if (value === true) {
+                element.setAttribute(name, name);
+            }
+            else if (name === 'dangerouslySetInnerHTML' && value) {
+                element.dangerouslySetInnerHTML(value.__html);
+            }
+            else {
+                element.setAttribute(name, value);
+            }
+        });
+        children
+            .forEach(function (child, i) {
+            if (!child) {
+                return;
+            }
+            if (elementImpl_1.isNode(child)) {
+                if (!create && i < element.children.length) {
+                    element.replaceChild(i, child);
+                }
+                else {
+                    element.appendChild(child);
+                }
+            }
+            else if (Array.isArray(child)) {
+                child.forEach(function (c, j) {
+                    if (elementImpl_1.isNode(c)) {
+                        if (!create && i + j < child.length) {
+                            element.replaceChild(i + j, c);
+                        }
+                        else {
+                            element.appendChild(c);
+                        }
+                    }
+                    else {
+                        if (!create && i + j < child.length) {
+                            element.replaceChild(i, new textNodeImpl(c));
+                        }
+                        else {
+                            element.appendChild(new textNodeImpl(c));
+                        }
+                    }
+                });
+            }
+            else {
+                if (!create && i < element.children.length) {
+                    element.replaceChild(i, new textNodeImpl(child));
+                }
+                else {
+                    element.appendChild(new textNodeImpl(child));
+                }
+            }
+        });
+    }
+}
+exports.updateElement = updateElement;
 exports.AbstractJSXAlone = null;
 var throwOnUnrecognized = false;
 function debug(err) {
@@ -251,6 +280,12 @@ var AbstractElementLike = (function () {
     };
     AbstractElementLike.prototype.appendChild = function (c) {
         this.children.push(c);
+        if (isElementLike(c)) {
+            c.parentElement = this;
+        }
+    };
+    AbstractElementLike.prototype.replaceChild = function (i, c) {
+        this.children[i] = c;
         if (isElementLike(c)) {
             c.parentElement = this;
         }
@@ -487,6 +522,8 @@ function getApp(JSXAlone) {
                             JSXAlone.createElement("strong", { id: "timings_JSXAloneRender" })))); }),
                 JSXAlone.createElement(People, { people: this.props.people }));
         };
+        AppImpl.prototype.afterRender = function (containerEl) {
+        };
         return AppImpl;
     }(jsx_alone_core_1.AbstractElementClass));
     var EditButton = function (props) { return (JSXAlone.createElement("button", { "data-name": props.name, onClick: function (e) {
@@ -676,6 +713,7 @@ var createCreateElementConfig = {
 };
 var Module = {
     createElement: jsx_alone_core_1.createCreateElement(createCreateElementConfig),
+    updateElement: function (element, tag, attrs, children, create) { return jsx_alone_core_1.updateElement(element, elementImpl_1.TextNodeLikeImpl, tag, attrs, children, create); },
     render: function (el, config) {
         if (config === void 0) { config = config_1.defaultRenderConfig; }
         return "" + el.render(config);

@@ -15,18 +15,15 @@ export abstract class ElementClass<P = {}> extends AbstractElementClass<P> imple
     this.eventManager && this.eventManager.uninstall()
   }
 
-  onAppendToDom() {
-
-  }
-
   afterRender(containerEl: HTMLElement) {
-
   }
-
   asJSXElement() {
     const el = this.render();
     (el as any)._elementClassInstance = this
     return el
+  }
+  update(props?: P) {
+    return false
   }
 }
 

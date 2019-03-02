@@ -4,12 +4,15 @@ import { State } from '../store/types';
 import { Editor } from './editor';
 import { Header } from './header';
 import { registerStyle } from '../style/styles';
+import { Component } from '../component';
+import { Explorer } from './explorer';
+import { Logger } from './logger';
 
 interface P {
   state: State
 }
 
-export class App extends ElementClass<P> {
+export class App extends Component<P> {
   render() {
     const s = {
       mainContainer: {
@@ -26,10 +29,9 @@ export class App extends ElementClass<P> {
       } as ClassRule
     }
     registerStyle(s)
-    const { styles, classes } = Styles(s)
-    
+    const { classes } = Styles(s)
     return <section className={`section`}>
-      <Header {...this.props} />
+      <Header theme={this.state.state.layout.theme} />
       <div className={`container ${classes.firstContainer}`}>
         <h1 className="title">
           JSX Explorer
@@ -40,12 +42,13 @@ export class App extends ElementClass<P> {
       </div>
       <div className={`container ${classes.mainContainer}`}>
         <div className="columns">
-          <div className={`${classes.border} column is-one-third`}>Explorer</div>
+          <Explorer editor={this.state.state.editor}></Explorer>
           <div className={` column is-two-thirds`}>
-            <Editor {...this.props} />
+            <Editor {...this.state} />
           </div>
         </div>
       </div>
+      <Logger status={this.state.state.status}></Logger>
     </section>
   }
 }

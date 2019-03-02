@@ -12,7 +12,7 @@ export const createCreateConfig: CreateCreateElementConfig<RenderOutput, Element
 export const JSXAlone: typeof JSXAloneBase = {
 
   createElement: createCreateElement<RenderOutput, ElementLike>(createCreateConfig),
-
+  updateElement: JSXAloneBase.updateElement,
   render : JSXAloneBase.render,
   createRef: JSXAloneBase.createRef
 
