@@ -6,6 +6,7 @@ export type ElementClassProps<P> = ( Readonly<{ children?: ReactNode}>&Readonly<
 
 export interface IElementClass<P= {}> {
   props: ElementClassProps<P>
+  asJSXElement():JSX.Element
   render(): JSX.Element
 }
 
@@ -18,6 +19,12 @@ export abstract class ElementClass<  P= {}> implements IElementClass<P> {
   }
 
   abstract render(): JSX.Element
+
+  asJSXElement() {
+    const el = this.render();
+    (el as any)._elementClassInstance = this
+    return el
+  }
 
 }
 

@@ -15,7 +15,6 @@ export interface TextNodeLike extends  BaseTextNodeLike<RenderOutput> {}
 export interface IElementClass<P = {}> extends ICoreElementClass<P> {
   destroy(): void
   afterRender(containerEl: HTMLElement):void
-  asJSXElement():JSX.Element
   update(props?: P):boolean
   readonly eventManager?: RootEventManager
 }

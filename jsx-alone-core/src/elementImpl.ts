@@ -50,6 +50,8 @@ export abstract class AbstractElementLike<T> implements ElementLike<T> {
   }
   
   replaceChild(i: number, c: NodeLike<T>){
+    console.log('replaceChild', i, this.children[i], c);
+    debugger
     this.children[i]=c
     if (isElementLike<T>(c)) {
       c.parentElement = this
