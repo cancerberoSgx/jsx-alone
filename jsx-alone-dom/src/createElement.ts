@@ -1,5 +1,5 @@
-import { createCreateElement, CreateCreateElementConfig, CreateElementFunction, RefObject, isElementClassConstructor, isElementClass } from 'jsx-alone-core';
-import { ElementLike, ElementLikeImpl, TextNodeLikeImpl } from '.';
+import { createCreateElement, CreateCreateElementConfig, CreateElementFunction, RefObject } from 'jsx-alone-core';
+import { ElementLike, ElementLikeImpl, TextNodeLikeImpl , isElementClass} from '.';
 import { ElementClass } from "./elementClass";
 import { RootEventManager, EventManager } from './event';
 import { RefObjectImpl } from './refs';
@@ -56,9 +56,9 @@ export function getCreateCreateElementConfig() {
         elementLike.ref = attrs.ref
       },
       // onElementReady({elementLike}){
-        // if(isElementClass(elementLike)) {
-        //   elementLike
-        // }
+      //   if(isElementClass(elementLike) && elementLike._elementClassInstance) {
+      //     elementLike.setContainerEl(elementLike._elementClassInstance.containerEl)
+      //   }
       // }
     }
   }

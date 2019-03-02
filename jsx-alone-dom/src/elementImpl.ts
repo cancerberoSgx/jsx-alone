@@ -22,9 +22,7 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
     eventManager: RootEventManager, rootHTMLElement: HTMLElement
   }): RenderOutput {
 
-    
-    const el = config.rootHTMLElement || this.buildRootElement(config)
-    
+    const el = config.updateExisting||config.rootHTMLElement || this.buildRootElement(config)
 
     Object.keys(this.attrs).forEach(attribute => {
       const value = this.attrs[attribute]
@@ -45,8 +43,8 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
       el.innerHTML = this._innerHtml
     }
     else {
-      // const parent: Node = el//config.appendChildrenInDocumentFragment ? document.createDocumentFragment() : el
       this.children.forEach((c, i) => {
+        // Heads up: if config.updateExisting then we don't append new child, just render it and replace the existing child only if !isEqualNode
         const existingChildToUpdate = config.updateExisting&& config.updateExisting!.childNodes.item(i)
         const cel = c.render({ ...config, 
           updateExisting: existingChildToUpdate||undefined ,
@@ -60,17 +58,16 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
         }
         // otherwise means node to update is equals to the new one
       })
-      // if (el !== parent && !config.updateExisting) {
-      //   el.appendChild(parent)
-      // }
     }
     if (config.parent &&!config.updateExisting) {
       config.parent.appendChild(el)
     }
-    const elementClassWithContainer = this._elementClassInstance || config.rootElementLike._elementClassInstance
+    console.log(this._elementClassInstance, config.rootElementLike._elementClassInstance);
+    
     if (this.ref) {
       setRef({ elementLike: this as any, el, value: this.ref as RefObjectImpl<any> })
     }
+    const elementClassWithContainer = this._elementClassInstance || config.rootElementLike._elementClassInstance
     if (elementClassWithContainer) {
       (elementClassWithContainer as any)._eventManager = config.eventManager
       elementClassWithContainer.setContainerEl(el)
@@ -78,7 +75,6 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
         this._elementClassInstance.afterRender()
       }
     }
-    // console.log(el.outerHTML, config.updateExisting && config.updateExisting!.outerHTML);
     
     return el
   }
