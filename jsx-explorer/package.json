@@ -8,14 +8,11 @@
   "types": "dist/src/index.d.ts",
   "typings": "dist/src/index.d.ts",
   "scripts": {
-    "build": "npx tsc",
-    "docs": "sh build.sh",
-    "docs-simple": "sh build-simple.sh",
-    "test": "npx jest --testRegex \"/__tests__/.*\\.*Test\\.[t]sx?$\" ",
-    "test-js": "npx tsc && npx jest --passWithNoTests --testMatch \"**/dist/**/__tests__/**/*.js\"",
-    "clean": "rm -rf build/ dist/",
-    "test-clean": "npx jest --clearMocks",
+    "build": "sh build",
+    "start": "parcel src/index.html",
+    "clean": "rm -rf build/ dist/ .cache",
     "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand --no-cache --clearMocks",
+    "test": "npx jest --testRegex \"/__tests__/.*\\.*Test\\.[t]sx?$\" ",
     "test-watch": "npm test -- --watch"
   },
   "dependencies": {
@@ -24,14 +21,16 @@
     "jsx-alone-core": "file:../jsx-alone-core",
     "jsx-alone-dom": "file:../jsx-alone-dom",
     "monaco-editor": "^0.15.6",
+    "redux": "^4.0.1",
     "vscode-languageserver-types": "^3.14.0"
   },
   "devDependencies": {
     "@types/jest": "^24.0.6",
     "@types/shelljs": "^0.8.3",
     "cssnano": "^4.1.10",
-    "parcel": "^1.11.0",
     "jest": "^24.1.0",
+    "node-sass": "^4.11.0",
+    "parcel": "^1.11.0",
     "shelljs": "^0.8.3",
     "terser": "^3.16.1",
     "ts-jest": "^24.0.0",

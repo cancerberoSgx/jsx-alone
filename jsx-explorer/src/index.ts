@@ -1,1 +1,0 @@
-export {lotsOfPeopleRenderer} from './lotsOfPeople/lotsOfPeopleRenderer'

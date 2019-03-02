@@ -1,4 +1,4 @@
-import { JSXAloneJsonImpl as JSXAlone } from 'jsx-alone-core'
+import { JSXAlone } from 'jsx-alone-dom'
 import * as monaco from 'monaco-editor';
 
 (self as any).MonacoEnvironment = {
