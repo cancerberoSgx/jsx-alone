@@ -23,13 +23,21 @@ export interface JsonImplRenderConfig extends RenderConfig<JsonImplOutput> {
 export class JsonImplElementLikeImpl extends AbstractElementLike<JsonImplOutput> implements ElementLike<JsonImplOutput> {
   innerHtml: string|undefined
   render(config: JsonImplRenderConfig = {}): JsonImplOutput {
-    return {
+    return  {
+      //@ts-ignore
       tag: this.tag,
       innerHtml: this.innerHtml,
       attrs: this.attrs,
-      children: this.children.map(c => ({...c,  parentElement: undefined})) as any
+      //@ts-ignore
+      // foo: 123123,
+      children: this.children.map(c => {
+        const r = {...c}
+        delete (r as any).parentElement
+        return r
+    })
+    } as any
     }
-  }
+  
 
   dangerouslySetInnerHTML(s: string): void {
     this.innerHtml = s

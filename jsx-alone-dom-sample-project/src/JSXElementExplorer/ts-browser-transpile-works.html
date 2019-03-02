@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>TypeScript Compiler API very simple example - transpiling code</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+  
+  <h3>Output: </h3>
+  <pre id="output"></pre>
+
+  <script src="../../node_modules/typescript/lib/typescript.js"></script>
+
+  <script src="bundle.js"></script>
+
+  <script>
+    JSXAlone=jsxAloneCore.JSXAloneJsonImpl
+    log = function (s) { document.getElementById('output').innerText += s + '\n' }
+    var content = `
+function(){
+var a = 12312
+const c = <article>
+  <div>{a}</div>
+</article>
+return c
+}
+`
+    log('\n=========Input code=========\n')
+    log(content)
+    var res1 = ts.transpileModule(content, { compilerOptions: { 
+      module: ts.ModuleKind.None, 
+    "jsx": "react",
+    "jsxFactory": "JSXAlone.createElement", }, 
+    // moduleName: "myModule2" 
+  });
+    log('\n=========Transpile output 1=========\n')
+    log(res1.outputText);
+
+  try {
+    const r = eval(`(${res1.outputText})()`)
+    console.log(r)
+  } catch (e) {
+    console.error(e);
+    
+  }
+  </script>
+
+</body>
+
+</html>

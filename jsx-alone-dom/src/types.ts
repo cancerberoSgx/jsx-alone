@@ -1,4 +1,4 @@
-import { ElementLike as BaseElementLike, NodeLike as BaseNodeLike, TextNodeLike as BaseTextNodeLike, RefObject, RenderConfig ,  IElementClass as ICoreElementClass } from 'jsx-alone-core'
+import { ElementLike as BaseElementLike, NodeLike as BaseNodeLike, TextNodeLike as BaseTextNodeLike, RefObject, RenderConfig ,  IElementClass as ICoreElementClass, MouseEvent, AbstractCoreMouseEvent } from 'jsx-alone-core'
 import { RootEventManager } from './event'
 
 export interface NodeLike extends  BaseNodeLike<RenderOutput> {}
@@ -35,6 +35,12 @@ export interface IElementClass<P = {}> extends ICoreElementClass<P> {
 }
 
 /** high level interface on top of DOM Event type so it's easy to declare types of currentTarget and target */
-export interface DelegatedEvent<T extends EventTarget | HTMLElement =  HTMLElement> extends Event {
+export interface DelegatedEvent<T extends  EventTarget =  EventTarget> extends Event {
+  target: T
+}
+// export interface DelegatedMouseEvent<T extends EventTarget =  EventTarget> extends MouseEvent<T>  {
+//   target: T
+// }
+export interface DelegatedMouseEvent<T extends EventTarget =  EventTarget> extends MouseEvent<AbstractCoreMouseEvent,T>  {
   target: T
 }

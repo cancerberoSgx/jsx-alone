@@ -16,12 +16,13 @@ interface Entry {
  * returned bu JSXAlone.render() call) to addEventListener
  *
  * Notes:
- *  
- *  * the event's `currentTarget` will be assigned with `target` (because if not it will be the root el) and this
- * causes errors since the original el is expected and also Event's typings currentTarget is typed and target is not
- * 
- *  * The elements are marked with a data attribute
- * 
+ *
+ *  * the event's `currentTarget` will be assigned with `target` (because if not it will be the root el) and this causes
+ *    errors since the original el is expected and also Event's typings currentTarget is typed and target is not. This
+ *    is done using es6 Proxy
+ *
+ *  * The elements are marked with a data attribute 
+ *
  * TODO: options
  */
 export class RootEventManager {
@@ -51,11 +52,9 @@ export class RootEventManager {
       const mark = this.getElementMark(e.target)
       const entry = mark && (this.registeredByType[e.type.toLowerCase()] || []).find(e => e.mark === mark)
       if (entry) {
-        // e.currentTarget=e.target // would be ideal but it wont work cause is readonly, instead we have to clone:
-        // entry.fn({...e,  currentTarget: e.target, target: e.target})
-        entry.fn(e)
-        // @ts-ignore
-        // entry.fn({...e, currentTarget: e.target})
+        // heads up - the user expect e.currentTarget to be the target the target element, but because of event delegation it's the root element. This is why we wrap the event object with a proxy: 
+        entry.fn(new E(e) as any)
+        // entry.fn(e)
       }
     }
   }
@@ -101,4 +100,19 @@ export class RootEventManager {
     })
   }
 
+}
+
+// const ProxyPolyfill = require('proxy-polyfill/src/proxy')
+class E {
+  constructor(private e: any){
+    // debugger
+    // return new ProxyPolyfill(this, this);
+    return new Proxy(this, this);
+  }
+  get(target:any, prop:string){
+    if(prop==='currentTarget'){
+      return this.e.target
+    }
+    return this.e[prop]
+  }
 }

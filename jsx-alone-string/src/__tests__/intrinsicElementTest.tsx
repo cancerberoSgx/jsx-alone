@@ -8,7 +8,7 @@ describe('intrinsic elements', () => {
     e: <div />,
     expected: '<div></div>',
     expectedTabSize2: `<div>
-
+  
 </div>`
   })
 

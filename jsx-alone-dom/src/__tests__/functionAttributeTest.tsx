@@ -1,6 +1,7 @@
 import { JSXAlone, ElementClass } from '..'
 import { fireEvent, render, test, query } from './testUtil'
-import { Children } from 'jsx-alone-core'
+import { Children, MouseEvent, ChangeEvent } from 'jsx-alone-core'
+import { DelegatedMouseEvent } from '../types';
 
 describe('function attributes', () => {
   describe('output', () => {
@@ -141,9 +142,9 @@ describe('function attributes', () => {
     })
 
     fit('event object is accessible', () => {
-      const handler = jest.fn(e => {
+      const handler = jest.fn((e:  MouseEvent<HTMLButtonElement>&ChangeEvent<HTMLInputElement>) => {
         // HEADS UP - because we use event delegation , currentTarget is not the real target, it's target!
-        return e.type + e.target.id// return e.type + e.currentTarget.id
+        return e.type + e.currentTarget.id// return e.type + e.currentTarget.id
 
       })
       const el = render(

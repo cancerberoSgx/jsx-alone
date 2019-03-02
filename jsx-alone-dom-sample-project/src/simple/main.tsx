@@ -26,7 +26,7 @@ class App extends ElementClass<P> {
         Tests with event handlers
           </h2>
       <p>Accessing HTMLElement using `this` dont' work because this has the correct context:<button onClick={e => alert(`${(this as any).tagName} text is ${(this as any).textContent}`)}>should work</button></p>
-      <p>Accessing event argument works::<button onClick={e => alert(`${e.currentTarget.tagName} text is ${e.currentTarget.textContent}`)}>should work</button></p>
+      <p>Accessing event argument works::<button onClick={e => { alert(`${e.currentTarget.tagName} text is ${e.currentTarget.textContent}`)}}>should work</button></p>
       <p>Accessing variables in scope works:<button onClick={e => alert(dummy('So '))}>don't work</button></p>
       <p>Accessing members (this.) works: <button onClick={e => alert(this.dummy('So '))}>method</button></p>
 
