@@ -1,6 +1,6 @@
 import { JSXAlone } from '..'
 import { ElementClass } from "../elementClass";
-import { RootEventManager, DelegatedEvent } from '..'
+import { RootEventManager } from '..'
 import { query, render } from './testUtil'
 import { MouseEvent, unique } from 'jsx-alone-core';
 
@@ -29,8 +29,8 @@ describe('events', () => {
 
       const a = query('#container .a')
       const b = query('#container .b')
-      const fna = jest.fn((e: DelegatedEvent) => { })
-      const fnb = jest.fn((e: DelegatedEvent) => { })
+      const fna = jest.fn((e: Event) => { })
+      const fnb = jest.fn((e: Event) => { })
       expect(fna).toBeCalledTimes(0)
       a.click()
       expect(fna).toBeCalledTimes(0)

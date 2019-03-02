@@ -1,27 +1,19 @@
-import { ElementClass } from 'jsx-alone-dom';
-import { ClassRule, Styles, Style } from 'jsx-alone-core';
-import { ForkRibbon } from './forkRibbon';
+import { ElementClass } from 'jsx-alone-dom'
+import { ClassRule, Styles, Style } from 'jsx-alone-core'
+import { ForkRibbon } from './forkRibbon'
 import { JSXAlone } from 'jsx-alone-dom'
-import { State } from '../store/types';
-import { getThemeOverrideStyles, darkTheme, lightTheme } from '../theme';
-import { store } from '../main';
+import { State } from '../store/types'
+import {  darkTheme, lightTheme } from '../theme'
+import { store } from '../main'
 
 interface P {
-  state: State;
+  state: State
 }
 
 export class Header extends ElementClass<P> {
   render() {
-    const classStyles = {
-      border: {
-        borderRight: '1px solid grey'
-      } as ClassRule,
-    };
-    const { styles, classes } = Styles(classStyles);
-
     return <nav className="navbar" role="navigation" aria-label="main navigation">
-    <Style classes={styles}></Style>
-
+      <ForkRibbon />
       <div className="navbar-brand">
         <a className="navbar-item" href="https://bulma.io">
           <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28"></img>
@@ -36,26 +28,16 @@ export class Header extends ElementClass<P> {
 
       <div id="navbarBasicExample" className="navbar-menu">
         <div className="navbar-start">
-          <a className="navbar-item">
-            Home
-      </a>
+          <a className="navbar-item">Home</a>
 
-          <a className="navbar-item">
-            Documentation
-      </a>
+          <a className="navbar-item">Documentation</a>
 
           <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link">
-              More
-        </a>
+            <a className="navbar-link">More</a>
 
             <div className="navbar-dropdown">
-              <a className="navbar-item">
-                About
-          </a>
-              <a className="navbar-item">
-                Jobs
-          </a>
+              <a className="navbar-item">About</a>
+              <a className="navbar-item">Jobs</a>
               <a className="navbar-item">
                 Contact
           </a>
@@ -70,11 +52,11 @@ export class Header extends ElementClass<P> {
         <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
-              <button className="button" onClick={e=>{
-                const theme = this.props.state.layout.theme.name==='dark' ? lightTheme: darkTheme
-                store.dispatch({type: 'CHANGE_THEME', theme})
+              <button className="button" onClick={e => {
+                const theme = this.props.state.layout.theme.name === 'dark' ? lightTheme : darkTheme
+                store.dispatch({ type: 'CHANGE_THEME', theme })
               }}>
-              Switch to {this.props.state.layout.theme.name==='dark' ? 'light' : 'dark'} theme
+                Switch to {this.props.state.layout.theme.name === 'dark' ? 'light' : 'dark'} theme
               </button>
             </div>
           </div>

@@ -31,16 +31,15 @@ export interface IElementClass<P = {}> extends ICoreElementClass<P> {
   /** element classes in DOM implementation will be given its container element.  */
   setContainerEl(el: HTMLElement): void
   destroy(): void
+  onAppendToDom():void
+  afterRender():void
   readonly eventManager?: RootEventManager
 }
 
-/** high level interface on top of DOM Event type so it's easy to declare types of currentTarget and target */
-export interface DelegatedEvent<T extends  EventTarget =  EventTarget> extends Event {
-  target: T
-}
-// export interface DelegatedMouseEvent<T extends EventTarget =  EventTarget> extends MouseEvent<T>  {
+// /** high level interface on top of DOM Event type so it's easy to declare types of currentTarget and target */
+// export interface DelegatedEvent<T extends  EventTarget =  EventTarget> extends Event {
 //   target: T
 // }
-export interface DelegatedMouseEvent<T extends EventTarget =  EventTarget> extends MouseEvent<AbstractCoreMouseEvent,T>  {
-  target: T
-}
+// export interface DelegatedMouseEvent<T extends EventTarget =  EventTarget> extends MouseEvent<AbstractCoreMouseEvent,T>  {
+//   target: T
+// }

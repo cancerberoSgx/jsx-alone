@@ -1,6 +1,0 @@
-
-describe('Fragment', () => {
-  it('test', () => {
-
-  })
-})

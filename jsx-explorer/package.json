@@ -16,7 +16,6 @@
     "test-watch": "npm test -- --watch"
   },
   "dependencies": {
-    "bulma": "^0.7.4",
     "jsonc-parser": "^2.0.3",
     "jsx-alone-core": "file:../jsx-alone-core",
     "jsx-alone-dom": "file:../jsx-alone-dom",
@@ -34,6 +33,7 @@
     "shelljs": "^0.8.3",
     "terser": "^3.16.1",
     "ts-jest": "^24.0.0",
+    "tslint": "^5.13.1",
     "typescript": "^3.2.2"
   },
   "repository": {

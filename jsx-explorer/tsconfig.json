@@ -1,4 +1,5 @@
-{  "extends": "../common/tsconfig.json",
+{  
+  "extends": "../common/tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": ".",
@@ -14,12 +15,6 @@
     },
     {
       "path": "../jsx-alone-dom"
-    },
-    {
-      "path": "../jsx-alone-dom-extra"
-    },
-    {
-      "path": "../jsx-alone-sample-project-code"
-    },
+    }
   ],
 }

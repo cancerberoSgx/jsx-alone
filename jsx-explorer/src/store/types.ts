@@ -4,12 +4,15 @@ export interface State {
   readonly editor: Editor
 
 }
+
 export interface Layout {
   readonly theme: Theme
 }
+
 export interface Editor {
   readonly code: string
 }
+
 export interface Theme {
   readonly name: string,
   readonly colors: {

@@ -1,60 +1,62 @@
-import { installJSXAloneAsGlobal, Style } from 'jsx-alone-core';
-import { JSXAlone, ElementClass, ElementLike, RootEventManager } from 'jsx-alone-dom';
-import { createStore, Action, Store } from 'redux';
-import "../node_modules/bulma/bulma.sass";
-import { App } from './ui/app';
-import { create } from './monaco';
-import { query } from './util';
-import { reducers } from './store/store';
-import { State } from './store/types';
-import { getThemeOverrideStyles } from './theme';
+import { installJSXAloneAsGlobal, Style } from 'jsx-alone-core'
+import { JSXAlone  } from 'jsx-alone-dom'
+import { createStore, Action, Store } from 'redux'
+// import '../node_modules/bulma/bulma.sass'
+import { App } from './ui/app'
+import { reducers } from './store/store'
+import { State } from './store/types'
+import { EventManager } from 'jsx-alone-dom'
+import { Styles } from './ui/styles';
 
 installJSXAloneAsGlobal(JSXAlone)
 
 export const store = createStore(reducers)
 const s  =  store.getState()
 let rootElement: HTMLElement
-let eventManager: RootEventManager
+let eventManager: EventManager
 
 function render() {
   eventManager && eventManager.uninstall()
   const el = JSXAlone.render(<Main state={store.getState()} />) as HTMLElement
   eventManager = JSXAlone.lastEventManager!
-  if (rootElement) { 
-    rootElement.replaceWith(el) 
-    }
+  if (rootElement) {
+    rootElement.replaceWith(el)
+  }
   else {
     document.body.appendChild(el)
   }
+  eventManager.onAppendToDom()
   rootElement = el
-  editor();
+  // editor()
 }
 
-const Main = (props: {state: State})=> 
+const Main = (props: {state: State}) =>
   <div>
-    <Style classes={getThemeOverrideStyles(props.state.layout.theme)}></Style>
     <App state={props.state} />
+    <Styles theme={props.state.layout.theme}/>
   </div>
 
-
-function editor() {
-  let code = store.getState().editor.code
-  const ed = create({
-    container: query('#editorContainer'),
-    code,
-    theme: store.getState().layout.theme.name === 'dark' ? 'dark' : 'light'
-  });
-  ed.getModel()!.onDidChangeContent(e=>{
-    code=ed.getModel()!.getValue()
-    store.dispatch({type: 'CHANGE_CODE', code})
-  })
-}
 
 render()
 
 store.subscribe(() => {
   render()
 })
+
+// function editor() {
+//   let code = store.getState().editor.code
+//   const ed = create({
+//     container: query('#editorContainer'),
+//     code,
+//     theme: store.getState().layout.theme.name === 'dark' ? 'dark' : 'light'
+//   })
+//   ed.getModel()!.onDidChangeContent(e => {
+//     code = ed.getModel()!.getValue()
+//     store.dispatch({type: 'CHANGE_CODE', code})
+//   })
+// }
+
+
 
 // interface BaseProps { state: State }
 // type ElementFunction<P=BaseProps> = (props: P) => ElementLike
@@ -70,7 +72,6 @@ store.subscribe(() => {
 //       rootElement = JSXAlone.render(elements as any)
 //       eventManager = JSXAlone.lastEventManager!
 //     }
-
 
 //     // updateElement(parentNode, nextNode, parentNode.firstChild)
 //   })
@@ -96,7 +97,6 @@ store.subscribe(() => {
 //   }
 // }
 
-
 // store.subscribe(()=>{
 
 // })
@@ -104,4 +104,3 @@ store.subscribe(() => {
 // export function dispatch(action: Action){
 //   store.dispatch(action)
 // }
-

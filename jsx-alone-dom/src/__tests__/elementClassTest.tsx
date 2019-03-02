@@ -68,5 +68,20 @@ describe('render', () => {
     })
   
   })
+  it('should call afterRender', () => {
+    const fn = jest.fn()
+    class C extends ElementClass  {
+      render() {
+        return <div></div>
+      }
+      afterRender(){
+        fn()
+      }
+    }
+    expect(fn).toBeCalledTimes(0)
+    JSXAlone.render(<C></C>)
+    expect(fn).toBeCalledTimes(1)
+
+  })
 
 })

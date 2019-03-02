@@ -58,9 +58,12 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
     if (this.ref) {
       setRef({ elementLike: this as any, el, value: this.ref as RefObjectImpl<any> })
     }
-    if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
+    if (elementClassWithContainer) {
       (elementClassWithContainer as any)._eventManager = config.eventManager
       elementClassWithContainer.setContainerEl(el)
+      if (this._elementClassInstance) {
+        this._elementClassInstance.afterRender()
+      }
     }
     return el
   }

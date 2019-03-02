@@ -1,7 +1,6 @@
 import { JSXAlone, ElementClass } from '..'
 import { fireEvent, render, test, query } from './testUtil'
 import { Children, MouseEvent, ChangeEvent } from 'jsx-alone-core'
-import { DelegatedMouseEvent } from '../types';
 
 describe('function attributes', () => {
   describe('output', () => {

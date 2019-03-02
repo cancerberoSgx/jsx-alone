@@ -19,16 +19,6 @@ export abstract class ElementClass<  P= {}> implements IElementClass<P> {
 
   abstract render(): JSX.Element
 
-  // protected childrenAsArray(): NodeLike<P>[] {
-  //   return (Array.isArray(this.props.children) ? this.props.children : [this.props.children]) as NodeLike<P>[];
-  // }
-
-  // protected childrenElementsAsArray(): ElementLike<P>[] {
-  //   return this.childrenAsArray().filter(c => isElementLike<P>(c)) as ElementLike<P>[]
-  // }
-
-  // protected firstChildElement(): ElementLike<P> | undefined {
-  //   return this.childrenAsArray().find(e => true) as ElementLike<P> | undefined
-  // }
 }
+
 export abstract class AbstractElementClass<P= {}> extends ElementClass< P> {}

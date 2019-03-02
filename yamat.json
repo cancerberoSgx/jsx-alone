@@ -38,5 +38,9 @@
     {
         "name": "jsx-alone-sample-project-cli-runner",
         "path": "./jsx-alone-sample-project-cli-runner"
+    },
+    {
+        "name": "jsx-explorer",
+        "path": "./jsx-explorer"
     }
 ]

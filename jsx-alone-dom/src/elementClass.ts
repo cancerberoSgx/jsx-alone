@@ -6,6 +6,7 @@ import { RootEventManager } from './event'
 export abstract class ElementClass<P = {}> extends AbstractElementClass<P> implements IElementClass<P> {
 
   protected _eventManager?: RootEventManager
+  
   containerEl: HTMLElement | undefined
   
   get eventManager() {
@@ -20,4 +21,11 @@ export abstract class ElementClass<P = {}> extends AbstractElementClass<P> imple
     this.eventManager && this.eventManager.uninstall()
   }
   
+  onAppendToDom(){
+    
+  }
+
+  afterRender(){
+    
+  }
 }

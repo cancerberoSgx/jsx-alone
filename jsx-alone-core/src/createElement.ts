@@ -1,12 +1,12 @@
 import { ElementClass } from './elementClass'
-import { isElementClassConstructor, isNode } from './elementImpl'
+import { isElementClassConstructor, isNode, isElementClass } from './elementImpl'
 import { CreateCreateElementConfig, ElementLike, JSXAlone, JSXAloneAttrs, JSXAloneTag } from './types'
 
 export function createCreateElement<T, R extends ElementLike<T>= ElementLike<T>>(config: CreateCreateElementConfig<T, R>) {
 
   const { impl, textNodeImpl, onElementReady, onElementCreated: onElementCreate } = config
 
-  const createElement: CreateElementFunction<T, R> = function(tag, attrs = {}, ...children: any[]) {
+  const createElement: CreateElementFunction<T, R> = function (tag, attrs = {}, ...children: any[]) {
     let element: R
     let elementClassInstance: ElementClass | undefined
     const tagIsString = typeof tag === 'string'

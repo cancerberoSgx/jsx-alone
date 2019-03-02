@@ -1,15 +1,13 @@
-import { lightTheme, darkTheme } from '../theme';
-import { State } from './types';
-import { changeTheme, ChangeThemeAction } from './theme';
-import { compose, Reducer, combineReducers } from 'redux';
-import { changeCode, ChangeCodeAction } from './editor';
-
+import { lightTheme, darkTheme } from '../theme'
+import { State } from './types'
+import { changeTheme, ChangeThemeAction } from './theme'
+import { compose, Reducer, combineReducers } from 'redux'
+import { changeCode, ChangeCodeAction } from './editor'
 
 export const reducers = combineReducers({
   layout: changeTheme,
   editor: changeCode
 })
-
 
 // export const reducers = compose(changeTheme, changeCode);
 

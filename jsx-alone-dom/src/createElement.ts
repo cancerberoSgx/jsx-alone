@@ -1,7 +1,7 @@
-import { createCreateElement, CreateCreateElementConfig, CreateElementFunction, RefObject } from 'jsx-alone-core';
+import { createCreateElement, CreateCreateElementConfig, CreateElementFunction, RefObject, isElementClassConstructor, isElementClass } from 'jsx-alone-core';
 import { ElementLike, ElementLikeImpl, TextNodeLikeImpl } from '.';
 import { ElementClass } from "./elementClass";
-import { RootEventManager } from './event';
+import { RootEventManager, EventManager } from './event';
 import { RefObjectImpl } from './refs';
 import { ElementLikeImplRenderConfigNoRoot, IElementClass, RenderOutput } from './types';
 
@@ -12,7 +12,7 @@ interface JSXAloneType<T extends RenderOutput = RenderOutput, R extends ElementL
   createElement: CreateElementFunction<T, R>
   createRef<T>(): RefObject<T>
   /** so render() users have a way of removing event listeners when unattaching rendered html element */
-  lastEventManager?: RootEventManager
+  lastEventManager?: EventManager
 }
 
 function buildJSXALone(): JSXAloneType<RenderOutput, ElementLike> {
@@ -42,6 +42,7 @@ function buildJSXALone(): JSXAloneType<RenderOutput, ElementLike> {
 }
 
 let createCreateElementConfig: CreateCreateElementConfig<RenderOutput, ElementLike, IElementClass>
+
 export function getCreateCreateElementConfig() {
   if (!createCreateElementConfig) {
     createCreateElementConfig = {
@@ -52,7 +53,12 @@ export function getCreateCreateElementConfig() {
           elementLike._elementClassInstance = elementClassInstance
         }
         elementLike.ref = attrs.ref
-      }
+      },
+      // onElementReady({elementLike}){
+        // if(isElementClass(elementLike)) {
+        //   elementLike
+        // }
+      // }
     }
   }
   return createCreateElementConfig

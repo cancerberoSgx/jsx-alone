@@ -1,23 +1,17 @@
-import { ElementClass } from 'jsx-alone-dom';
-import { ClassRule, Styles, Style } from 'jsx-alone-core';
-import { ForkRibbon } from './forkRibbon';
-import { JSXAlone } from 'jsx-alone-dom'
+import { ClassRule, Styles } from 'jsx-alone-core';
+import { ElementClass, JSXAlone } from 'jsx-alone-dom';
 import { State } from '../store/types';
-import { getThemeOverrideStyles } from '../theme';
+import { Editor } from './editor';
 import { Header } from './header';
+import { registerStyle } from './styles';
 
 interface P {
-  state: State;
+  state: State
 }
 
 export class App extends ElementClass<P> {
   render() {
-    const classStyles = {
-      editorContainer: {
-        width: '100%',
-        height: '600px',
-        border: '1px solid grey'
-      } as ClassRule,
+    const s = {
       mainContainer: {
         padding: '0 !important',
         margin: '0 !important',
@@ -30,13 +24,12 @@ export class App extends ElementClass<P> {
       firstContainer: {
         marginBottom: '3em'
       } as ClassRule
-    };
-    const { styles, classes } = Styles(classStyles);
-
+    }
+    registerStyle(s)
+    const { styles, classes } = Styles(s)
+    
     return <section className={`section`}>
-      <Style classes={styles}/>
-      <ForkRibbon></ForkRibbon>
-      <Header {...this.props}></Header>
+      <Header {...this.props} />
       <div className={`container ${classes.firstContainer}`}>
         <h1 className="title">
           JSX Explorer
@@ -48,12 +41,11 @@ export class App extends ElementClass<P> {
       <div className={`container ${classes.mainContainer}`}>
         <div className="columns">
           <div className={`${classes.border} column is-one-third`}>Explorer</div>
-          <div className={` column is-two-thirds`}> 
-          <div id="editorContainer" className={classes.editorContainer}>
-          </div>
+          <div className={` column is-two-thirds`}>
+            <Editor {...this.props} />
           </div>
         </div>
       </div>
-    </section>;
+    </section>
   }
 }
