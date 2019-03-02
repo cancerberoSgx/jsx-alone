@@ -36,6 +36,8 @@ export function getApp(JSXAlone: typeof AbstractJSXAlone): App {
         <People people={this.props.people} />
       </div>
     }
+    afterRender(containerEl: HTMLElement) {
+    }
   }
 
   const EditButton = (props: { name: string; children: Children }) => (

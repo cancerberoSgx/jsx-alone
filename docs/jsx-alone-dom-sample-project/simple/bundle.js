@@ -428,248 +428,50 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var _1 = require("./");
-var StatefulComponent_1 = require("./StatefulComponent");
-var DestructiveDomRenderComponent = (function (_super) {
-    __extends(DestructiveDomRenderComponent, _super);
-    function DestructiveDomRenderComponent() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    DestructiveDomRenderComponent.prototype.setState = function (s) {
-        _super.prototype.setState.call(this, s);
-        if (!this.containerEl) {
-            throw new Error('this.containerEl is undefined - cannot DestructiveDomRender');
-        }
-        var activePath;
-        var selection = { start: 0, end: 0 };
-        if (document.activeElement) {
-            activePath = getXPathOfElement(document.activeElement);
-            selection = {
-                start: document.activeElement.selectionStart || 0,
-                end: document.activeElement.selectionEnd || 0,
-                direction: document.activeElement.selectionDirection || undefined
-            };
-        }
-        var jsx = this.render();
-        var el = _1.JSXAlone.render(jsx);
-        this.containerEl.parentElement.replaceChild(el, this.containerEl);
-        this.containerEl = el;
-        if (activePath) {
-            var activeEl = getElementByXPath(activePath + '');
-            if (activeEl && selection) {
-                activeEl.focus();
-                if (activeEl.setSelectionRange) {
-                    activeEl.setSelectionRange(selection.start, selection.end, selection.direction);
-                }
-            }
-        }
-    };
-    return DestructiveDomRenderComponent;
-}(StatefulComponent_1.StatefulComponent));
-exports.DestructiveDomRenderComponent = DestructiveDomRenderComponent;
-function getXPathOfElement(el) {
-    if (typeof el == 'string') {
-        return document.evaluate(el, document, null, 0, null) + '';
-    }
-    if (!el || el.nodeType != 1) {
-        return '';
-    }
-    if (el.id)
-        return '//*[@id=\'' + el.id + '\']';
-    if (el.parentNode) {
-        var sames = Array.from(el.parentNode.children).filter(function (x) { return x.tagName == el.tagName; });
-        return (getXPathOfElement(el.parentNode) +
-            '/' +
-            (el.tagName || '').toLowerCase() +
-            (sames.length > 1 ? '[' + (sames.indexOf(el) + 1) + ']' : ''));
-    }
-    else {
-        return undefined;
-    }
-}
-function getElementByXPath(path, predicate) {
-    var p = document.evaluate(path, document, null, 0, null);
-    if (!predicate) {
-        return p.iterateNext();
-    }
-    try {
-        var n = void 0;
-        var n2 = void 0;
-        while ((n = p.iterateNext()) && !predicate(n)) {
-            n2 = n;
-        }
-        return n2;
-    }
-    catch (e) {
-        alert('Error: Document tree modified during iteration ' + e);
-    }
-}
-
-},{"./":14,"./StatefulComponent":10}],10:[function(require,module,exports){
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var _1 = require("./");
-var StatefulComponent = (function (_super) {
-    __extends(StatefulComponent, _super);
-    function StatefulComponent(p) {
-        var _this = _super.call(this, p) || this;
-        _this.state = {};
-        _this.state = __assign({}, p);
-        return _this;
-    }
-    StatefulComponent.prototype.setState = function (s) {
-        this.state = __assign({}, this.state, s);
-    };
-    StatefulComponent.prototype.afterRender = function (containerEl) {
-        this.containerEl = containerEl;
-    };
-    return StatefulComponent;
-}(_1.ElementClass));
-exports.StatefulComponent = StatefulComponent;
-
-},{"./":14}],11:[function(require,module,exports){
-Object.defineProperty(exports, "__esModule", { value: true });
-var statefulElementClassTestRenderApp_1 = require("./statefulElementClassTestRenderApp");
-statefulElementClassTestRenderApp_1.statefulElementClassTestRenderApp();
-
-},{"./statefulElementClassTestRenderApp":12}],12:[function(require,module,exports){
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var __1 = require("..");
-var DestructiveDomRenderComponent_1 = require("../DestructiveDomRenderComponent");
-function statefulElementClassTestRenderApp() {
-    var parent = document.createElement('div');
-    document.body.appendChild(parent);
-    var el = __1.JSXAlone.render(__1.JSXAlone.createElement(App, { people: [{ name: 'seba' }, { name: 'lau' }] }), { parent: parent });
-    parent.appendChild(el);
-    return parent;
-}
-exports.statefulElementClassTestRenderApp = statefulElementClassTestRenderApp;
-var Repeater = (function (_super) {
-    __extends(Repeater, _super);
-    function Repeater(p) {
-        var _this = _super.call(this, p) || this;
-        _this.state = __assign({}, p);
-        return _this;
-    }
-    Repeater.prototype.render = function () {
-        var _this = this;
-        return (__1.JSXAlone.createElement("div", { className: "Repeater" },
-            "Write something:",
-            __1.JSXAlone.createElement("input", { value: this.state.value, onKeyUp: function (e) {
-                    _this.setState({ value: e.currentTarget.value });
-                } }),
-            __1.JSXAlone.createElement("br", null),
-            "Will be repeated: ",
-            __1.JSXAlone.createElement("span", null, this.state.value),
-            ' '));
-    };
-    return Repeater;
-}(DestructiveDomRenderComponent_1.DestructiveDomRenderComponent));
+var jsx_alone_dom_1 = require("jsx-alone-dom");
+var TaskPageLink = function (props) { return jsx_alone_dom_1.JSXAlone.createElement("a", { href: "pages/tasks/" + props.task + "_small.html" }, props.children); };
 var App = (function (_super) {
     __extends(App, _super);
-    function App(p) {
-        var _this = _super.call(this, p) || this;
-        _this.state = __assign({}, p);
-        return _this;
+    function App() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     App.prototype.render = function () {
         var _this = this;
-        return (__1.JSXAlone.createElement("div", { className: "App" },
-            __1.JSXAlone.createElement("button", { id: "add", onClick: function (e) { return _this.setState({ people: _this.state.people.concat([{ name: 'random name ' + Math.random() }]) }); } }, "add"),
-            __1.JSXAlone.createElement("ul", null, this.state.people.map(function (p) { return (__1.JSXAlone.createElement("li", { "data-id": p.name },
-                __1.JSXAlone.createElement(Repeater, { value: p.name }),
-                __1.JSXAlone.createElement("button", { className: "remove", onClick: function (e) {
-                        _this.setState({ people: _this.state.people.filter(function (p2) { return p2.name !== p.name; }) });
-                    } }, "remove"))); }))));
+        return jsx_alone_dom_1.JSXAlone.createElement("article", null,
+            jsx_alone_dom_1.JSXAlone.createElement("h3", null,
+                "Welcome ",
+                this.props.name,
+                "!"),
+            jsx_alone_dom_1.JSXAlone.createElement("p", null, "These are your tasks:"),
+            jsx_alone_dom_1.JSXAlone.createElement("ul", null, this.props.tasks.map(function (task) { return jsx_alone_dom_1.JSXAlone.createElement("li", null,
+                jsx_alone_dom_1.JSXAlone.createElement(TaskPageLink, { task: task }, task)); })),
+            jsx_alone_dom_1.JSXAlone.createElement("h2", null, "Tests with event handlers"),
+            jsx_alone_dom_1.JSXAlone.createElement("p", null,
+                "Accessing HTMLElement using `this` dont' work because this has the correct context:",
+                jsx_alone_dom_1.JSXAlone.createElement("button", { onClick: function (e) { return alert(_this.tagName + " text is " + _this.textContent); } }, "should work")),
+            jsx_alone_dom_1.JSXAlone.createElement("p", null,
+                "Accessing event argument works::",
+                jsx_alone_dom_1.JSXAlone.createElement("button", { onClick: function (e) { alert(e.currentTarget.tagName + " text is " + e.currentTarget.textContent); } }, "should work")),
+            jsx_alone_dom_1.JSXAlone.createElement("p", null,
+                "Accessing variables in scope works:",
+                jsx_alone_dom_1.JSXAlone.createElement("button", { onClick: function (e) { return alert(dummy('So ')); } }, "don't work")),
+            jsx_alone_dom_1.JSXAlone.createElement("p", null,
+                "Accessing members (this.) works: ",
+                jsx_alone_dom_1.JSXAlone.createElement("button", { onClick: function (e) { return alert(_this.dummy('So ')); } }, "method")),
+            jsx_alone_dom_1.JSXAlone.createElement("h2", null, "Tests with SVG"),
+            jsx_alone_dom_1.JSXAlone.createElement("svg", { viewBox: "0 0 141 41", width: "500px", height: "300px" },
+                jsx_alone_dom_1.JSXAlone.createElement("text", { fill: "green" }, "hello world"),
+                jsx_alone_dom_1.JSXAlone.createElement("path", { d: "M241.74,421.43v-41h28.61v41H241.74Zm24.47-4.13V384.56H245.86V417.3h20.35Z", transform: "translate(-241.74 -380.43)", style: { fill: '#ffcd05' } })));
     };
-    App.prototype.setState = function (s) {
-        this.state = __assign({}, this.state, s);
-        this.containerEl.innerHTML = '';
-        this.containerEl.appendChild(__1.JSXAlone.render(this.render()));
-    };
+    App.prototype.dummy = function (n) { return n + '_dummy'; };
     return App;
-}(DestructiveDomRenderComponent_1.DestructiveDomRenderComponent));
+}(jsx_alone_dom_1.ElementClass));
+function dummy(n) { return n + '_dummy'; }
+var app = jsx_alone_dom_1.JSXAlone.createElement(App, { name: "John Doe", tasks: ['Wash dishes', 'Go outside', 'Play soccer'] });
+var el = jsx_alone_dom_1.JSXAlone.render(app);
+document.body.appendChild(el);
 
-},{"..":14,"../DestructiveDomRenderComponent":9}],13:[function(require,module,exports){
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var jsx_alone_core_1 = require("jsx-alone-core");
-var jsx_alone_dom_1 = require("jsx-alone-dom");
-exports.ElementClass = jsx_alone_dom_1.ElementClass;
-exports.createCreateConfig = __assign({}, jsx_alone_dom_1.getCreateCreateElementConfig(), { impl: jsx_alone_dom_1.ElementLikeImpl, textNodeImpl: jsx_alone_dom_1.TextNodeLikeImpl });
-exports.JSXAlone = {
-    createElement: jsx_alone_core_1.createCreateElement(exports.createCreateConfig),
-    render: jsx_alone_dom_1.JSXAlone.render,
-    createRef: jsx_alone_dom_1.JSXAlone.createRef
-};
-
-},{"jsx-alone-core":5,"jsx-alone-dom":19}],14:[function(require,module,exports){
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-Object.defineProperty(exports, "__esModule", { value: true });
-__export(require("./createElement"));
-__export(require("./StatefulComponent"));
-__export(require("./DestructiveDomRenderComponent"));
-
-},{"./DestructiveDomRenderComponent":9,"./StatefulComponent":10,"./createElement":13}],15:[function(require,module,exports){
+},{"jsx-alone-dom":14}],10:[function(require,module,exports){
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -725,7 +527,7 @@ function getCreateCreateElementConfig() {
 exports.getCreateCreateElementConfig = getCreateCreateElementConfig;
 exports.JSXAlone = buildJSXALone();
 
-},{".":19,"./event":18,"./refs":21,"jsx-alone-core":5}],16:[function(require,module,exports){
+},{".":14,"./event":13,"./refs":16,"jsx-alone-core":5}],11:[function(require,module,exports){
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -773,7 +575,7 @@ function isElementClass(c) {
 }
 exports.isElementClass = isElementClass;
 
-},{"jsx-alone-core":5}],17:[function(require,module,exports){
+},{"jsx-alone-core":5}],12:[function(require,module,exports){
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -886,7 +688,7 @@ function isSvgTag(t) {
 }
 var SvgTags = ['path', 'svg', 'use', 'g'];
 
-},{"./refs":21,"jsx-alone-core":5}],18:[function(require,module,exports){
+},{"./refs":16,"jsx-alone-core":5}],13:[function(require,module,exports){
 Object.defineProperty(exports, "__esModule", { value: true });
 var mark_1 = require("./mark");
 var jsx_alone_core_1 = require("jsx-alone-core");
@@ -979,7 +781,7 @@ var E = (function () {
     return E;
 }());
 
-},{"./mark":20,"jsx-alone-core":5}],19:[function(require,module,exports){
+},{"./mark":15,"jsx-alone-core":5}],14:[function(require,module,exports){
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
@@ -989,7 +791,7 @@ __export(require("./createElement"));
 __export(require("./event"));
 __export(require("./elementClass"));
 
-},{"./createElement":15,"./elementClass":16,"./elementImpl":17,"./event":18}],20:[function(require,module,exports){
+},{"./createElement":10,"./elementClass":11,"./elementImpl":12,"./event":13}],15:[function(require,module,exports){
 Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 function markElement(e, label) {
@@ -1023,7 +825,7 @@ function getMarkSSelector(label, key) {
 }
 exports.getMarkSSelector = getMarkSSelector;
 
-},{"jsx-alone-core":5}],21:[function(require,module,exports){
+},{"jsx-alone-core":5}],16:[function(require,module,exports){
 Object.defineProperty(exports, "__esModule", { value: true });
 var mark_1 = require("./mark");
 var RefObjectImpl = (function () {
@@ -1046,4 +848,4 @@ function setRef(_a) {
 }
 exports.setRef = setRef;
 
-},{"./mark":20}]},{},[11]);
+},{"./mark":15}]},{},[9]);

@@ -6,30 +6,30 @@ import { RootEventManager } from './event'
 export abstract class ElementClass<P = {}> extends AbstractElementClass<P> implements IElementClass<P> {
 
   protected _eventManager?: RootEventManager
-  
-  containerEl: HTMLElement | undefined
-  
+
   get eventManager() {
     return this._eventManager
-  }
-  
-  setContainerEl(el: HTMLElement) {
-    this.containerEl = el
   }
 
   destroy() {
     this.eventManager && this.eventManager.uninstall()
   }
-  
-  onAppendToDom(){
-    
+
+  onAppendToDom() {
+
   }
 
-  afterRender(){
-    
+  afterRender(containerEl: HTMLElement) {
+
+  }
+
+  asJSXElement() {
+    const el = this.render();
+    (el as any)._elementClassInstance = this
+    return el
   }
 }
 
-export function isElementClass(c: any): c is ElementClass{
-  return !!((c as ElementClass).render && (c as ElementClass).setContainerEl)
+export function isElementClass(c: any): c is ElementClass {
+  return !!((c as ElementClass).render && (c as ElementClass).afterRender)
 }

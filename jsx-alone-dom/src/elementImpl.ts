@@ -62,7 +62,6 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
     if (config.parent &&!config.updateExisting) {
       config.parent.appendChild(el)
     }
-    console.log(this._elementClassInstance, config.rootElementLike._elementClassInstance);
     
     if (this.ref) {
       setRef({ elementLike: this as any, el, value: this.ref as RefObjectImpl<any> })
@@ -70,9 +69,8 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
     const elementClassWithContainer = this._elementClassInstance || config.rootElementLike._elementClassInstance
     if (elementClassWithContainer) {
       (elementClassWithContainer as any)._eventManager = config.eventManager
-      elementClassWithContainer.setContainerEl(el)
       if (this._elementClassInstance) {
-        this._elementClassInstance.afterRender()
+        this._elementClassInstance.afterRender(el)
       }
     }
     

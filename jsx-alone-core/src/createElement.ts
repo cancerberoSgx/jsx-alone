@@ -23,7 +23,9 @@ export function createCreateElement<T, R extends ElementLike<T>= ElementLike<T>>
     else {
       element = (tag as any)({ ...attrs, children })
     }
+    
     if (onElementCreate) {
+      
       onElementCreate({ elementLike: element, elementClassInstance, attrs })
     }
 

@@ -13,12 +13,10 @@ export interface ElementLike<T extends RenderOutput = RenderOutput >  extends  B
 export interface TextNodeLike extends  BaseTextNodeLike<RenderOutput> {}
 
 export interface IElementClass<P = {}> extends ICoreElementClass<P> {
-  containerEl: HTMLElement |undefined
-  /** element classes in DOM implementation will be given its container element.  */
-  setContainerEl(el: HTMLElement): void
   destroy(): void
   onAppendToDom():void
-  afterRender():void
+  afterRender(containerEl: HTMLElement):void
+  asJSXElement():JSX.Element
   readonly eventManager?: RootEventManager
 }
 

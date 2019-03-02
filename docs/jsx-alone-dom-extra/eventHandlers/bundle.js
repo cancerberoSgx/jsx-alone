@@ -23,7 +23,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var _1 = require("./");
 var createElement_1 = require("./createElement");
 var elementClass_1 = require("./elementClass");
@@ -38,7 +38,11 @@ var JsonImplElementLikeImpl = (function (_super) {
             tag: this.tag,
             innerHtml: this.innerHtml,
             attrs: this.attrs,
-            children: this.children.map(function (c) { return (__assign({}, c, { parentElement: undefined })); })
+            children: this.children.map(function (c) {
+                var r = __assign({}, c);
+                delete r.parentElement;
+                return r;
+            })
         };
     };
     JsonImplElementLikeImpl.prototype.dangerouslySetInnerHTML = function (s) {
@@ -86,7 +90,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var elementImpl_1 = require("./elementImpl");
 function createCreateElement(config) {
     var impl = config.impl, textNodeImpl = config.textNodeImpl, onElementReady = config.onElementReady, onElementCreate = config.onElementCreated;
@@ -190,7 +194,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var ElementClass = (function () {
     function ElementClass(props) {
         this.props = props;
@@ -208,11 +212,15 @@ var AbstractElementClass = (function (_super) {
 exports.AbstractElementClass = AbstractElementClass;
 
 },{}],4:[function(require,module,exports){
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 function isElementClassConstructor(c) {
     return c.prototype && c.prototype.render;
 }
 exports.isElementClassConstructor = isElementClassConstructor;
+function isElementClass(c) {
+    return c.render && c.afterRender;
+}
+exports.isElementClass = isElementClass;
 function isNode(n) {
     return isTextNodeLike(n) || isElementLike(n);
 }
@@ -255,7 +263,7 @@ exports.AbstractElementLike = AbstractElementLike;
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./elementImpl"));
 __export(require("./elementClass"));
 __export(require("./createElement"));
@@ -269,7 +277,7 @@ __export(require("./JsonImpl"));
 
 },{"./JsonImpl":1,"./createElement":2,"./elementClass":3,"./elementImpl":4,"./misc":6,"./style":7,"./util":8}],6:[function(require,module,exports){
 (function (global){
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var _1 = require(".");
 function Js(props) {
     var r = props.children();
@@ -299,7 +307,7 @@ exports.installJSXAloneAsGlobal = installJSXAloneAsGlobal;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{".":5}],7:[function(require,module,exports){
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var _1 = require(".");
 exports.Style = function (props) {
     function indent(n) {
@@ -339,7 +347,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 function checkThrow(r, msg) {
     if (msg === void 0) { msg = 'Throwing on undefined value'; }
     if (!r) {
@@ -419,7 +427,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var _1 = require("./");
 var StatefulComponent_1 = require("./StatefulComponent");
 var DestructiveDomRenderComponent = (function (_super) {
@@ -522,7 +530,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var _1 = require("./");
 var StatefulComponent = (function (_super) {
     __extends(StatefulComponent, _super);
@@ -534,6 +542,9 @@ var StatefulComponent = (function (_super) {
     }
     StatefulComponent.prototype.setState = function (s) {
         this.state = __assign({}, this.state, s);
+    };
+    StatefulComponent.prototype.afterRender = function (containerEl) {
+        this.containerEl = containerEl;
     };
     return StatefulComponent;
 }(_1.ElementClass));
@@ -554,7 +565,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 var _this = this;
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var __1 = require("../..");
 var Button = (function (_super) {
@@ -630,7 +641,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var jsx_alone_dom_1 = require("jsx-alone-dom");
 exports.ElementClass = jsx_alone_dom_1.ElementClass;
@@ -645,7 +656,7 @@ exports.JSXAlone = {
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./createElement"));
 __export(require("./StatefulComponent"));
 __export(require("./DestructiveDomRenderComponent"));
@@ -662,7 +673,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var _1 = require(".");
 var event_1 = require("./event");
@@ -673,8 +684,9 @@ function buildJSXALone() {
         render: function (elementLike, config) {
             var el = elementLike;
             var almostCompleteConfig = __assign({}, config, { rootElementLike: el });
-            var rootHTMLElement = el.buildRootElement(almostCompleteConfig);
-            var eventManager = new event_1.RootEventManager(rootHTMLElement);
+            var updateExisting = el._elementClassInstance && el._elementClassInstance.eventManager && config && config.updateExisting;
+            var rootHTMLElement = updateExisting || el.buildRootElement(almostCompleteConfig);
+            var eventManager = updateExisting ? el._elementClassInstance.eventManager : new event_1.RootEventManager(rootHTMLElement);
             var completeConfig = __assign({}, almostCompleteConfig, { eventManager: eventManager, rootHTMLElement: rootHTMLElement });
             Module.lastEventManager = eventManager;
             return el.render(completeConfig);
@@ -697,7 +709,7 @@ function getCreateCreateElementConfig() {
                     elementLike._elementClassInstance = elementClassInstance;
                 }
                 elementLike.ref = attrs.ref;
-            }
+            },
         };
     }
     return createCreateElementConfig;
@@ -719,7 +731,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var ElementClass = (function (_super) {
     __extends(ElementClass, _super);
@@ -733,15 +745,25 @@ var ElementClass = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    ElementClass.prototype.setContainerEl = function (el) {
-        this.containerEl = el;
-    };
     ElementClass.prototype.destroy = function () {
         this.eventManager && this.eventManager.uninstall();
+    };
+    ElementClass.prototype.onAppendToDom = function () {
+    };
+    ElementClass.prototype.afterRender = function (containerEl) {
+    };
+    ElementClass.prototype.asJSXElement = function () {
+        var el = this.render();
+        el._elementClassInstance = this;
+        return el;
     };
     return ElementClass;
 }(jsx_alone_core_1.ElementClass));
 exports.ElementClass = ElementClass;
+function isElementClass(c) {
+    return !!(c.render && c.afterRender);
+}
+exports.isElementClass = isElementClass;
 
 },{"jsx-alone-core":5}],16:[function(require,module,exports){
 var __extends = (this && this.__extends) || (function () {
@@ -768,7 +790,7 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var refs_1 = require("./refs");
 var ElementLikeImpl = (function (_super) {
@@ -783,7 +805,7 @@ var ElementLikeImpl = (function (_super) {
     };
     ElementLikeImpl.prototype.render = function (config) {
         var _this = this;
-        var el = config.rootHTMLElement || this.buildRootElement(config);
+        var el = config.updateExisting || config.rootHTMLElement || this.buildRootElement(config);
         Object.keys(this.attrs).forEach(function (attribute) {
             var value = _this.attrs[attribute];
             if (attribute === 'className') {
@@ -803,24 +825,29 @@ var ElementLikeImpl = (function (_super) {
             el.innerHTML = this._innerHtml;
         }
         else {
-            var parent_1 = config.appendChildrenInDocumentFragment ? document.createDocumentFragment() : el;
-            this.children.forEach(function (c) {
-                c.render(__assign({}, config, { parent: parent_1, rootHTMLElement: undefined }));
+            this.children.forEach(function (c, i) {
+                var existingChildToUpdate = config.updateExisting && config.updateExisting.childNodes.item(i);
+                var cel = c.render(__assign({}, config, { updateExisting: existingChildToUpdate || undefined, rootHTMLElement: existingChildToUpdate || undefined }));
+                if (!existingChildToUpdate) {
+                    el.appendChild(cel);
+                }
+                else if (!existingChildToUpdate.isEqualNode(cel)) {
+                    existingChildToUpdate.replaceWith(cel);
+                }
             });
-            if (el !== parent_1) {
-                el.appendChild(parent_1);
-            }
         }
-        if (config.parent) {
+        if (config.parent && !config.updateExisting) {
             config.parent.appendChild(el);
         }
-        var elementClassWithContainer = this._elementClassInstance || config.rootElementLike._elementClassInstance;
         if (this.ref) {
             refs_1.setRef({ elementLike: this, el: el, value: this.ref });
         }
-        if (elementClassWithContainer && elementClassWithContainer.setContainerEl) {
+        var elementClassWithContainer = this._elementClassInstance || config.rootElementLike._elementClassInstance;
+        if (elementClassWithContainer) {
             elementClassWithContainer._eventManager = config.eventManager;
-            elementClassWithContainer.setContainerEl(el);
+            if (this._elementClassInstance) {
+                this._elementClassInstance.afterRender(el);
+            }
         }
         return el;
     };
@@ -852,7 +879,7 @@ function isSvgTag(t) {
 var SvgTags = ['path', 'svg', 'use', 'g'];
 
 },{"./refs":20,"jsx-alone-core":5}],17:[function(require,module,exports){
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var mark_1 = require("./mark");
 var jsx_alone_core_1 = require("jsx-alone-core");
 var RootEventManager = (function () {
@@ -860,6 +887,7 @@ var RootEventManager = (function () {
         this.root = root;
         this.debug = debug;
         this.registeredByType = {};
+        this.appendToDomListeners = [];
         this.mark = '_jsxa_e' + jsx_alone_core_1.unique('_');
         this.rootListener = this.rootListener.bind(this);
     }
@@ -880,6 +908,12 @@ var RootEventManager = (function () {
                 entry.fn(new E(e));
             }
         }
+    };
+    RootEventManager.prototype.addAppendToDomListener = function (l) {
+        this.appendToDomListeners.push(l);
+    };
+    RootEventManager.prototype.onAppendToDom = function () {
+        this.appendToDomListeners.forEach(function (l) { return l(); });
     };
     RootEventManager.prototype.addEventListener = function (el, type, fn) {
         type = type.toLowerCase();
@@ -941,15 +975,14 @@ var E = (function () {
 function __export(m) {
     for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
 }
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 __export(require("./elementImpl"));
 __export(require("./createElement"));
-var event_1 = require("./event");
-exports.RootEventManager = event_1.RootEventManager;
+__export(require("./event"));
 __export(require("./elementClass"));
 
 },{"./createElement":14,"./elementClass":15,"./elementImpl":16,"./event":17}],19:[function(require,module,exports){
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 function markElement(e, label) {
     if (label === void 0) { label = '_jsxa_'; }
@@ -983,7 +1016,7 @@ function getMarkSSelector(label, key) {
 exports.getMarkSSelector = getMarkSSelector;
 
 },{"jsx-alone-core":5}],20:[function(require,module,exports){
-;
+Object.defineProperty(exports, "__esModule", { value: true });
 var mark_1 = require("./mark");
 var RefObjectImpl = (function () {
     function RefObjectImpl() {

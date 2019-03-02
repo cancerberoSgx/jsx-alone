@@ -14,5 +14,9 @@ export abstract class StatefulComponent<P = {}, S = P> extends ElementClass<P> {
     // @ts-ignore
     this.state = { ...this.state, ...s }
   }
+  afterRender(containerEl: HTMLElement) {
+    this.containerEl=containerEl
+  }
+  protected containerEl: HTMLElement|undefined
 
 }
