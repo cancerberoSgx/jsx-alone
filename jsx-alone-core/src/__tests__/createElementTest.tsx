@@ -44,20 +44,13 @@ describe('createElement', () => {
         containerEl: JSX.Element|undefined
         render() {
           this.containerEl= <p><i className="changed">{this.state.name}</i><i className="same"></i></p>
-          // console.log('RENDER',JSON.stringify(c.print2(this.containerEl), null, 2));
           return this.containerEl
         }
         updateUi(){
           if(this.containerEl){
             debugger
             const o = JSXAlone.render(this.asJSXElement()) as JsonImplOutputEl
-
-            // function update(o:any, e:JsonImplElementLikeImpl= new JsonImplElementLikeImpl(o.tag)){
-            //   e.att
-            // }
-            // const e = new JsonImplElementLikeImpl(o2.tag)
             const newEl = this.update(o)
-            // console.log(o);
             JSXAlone.updateElement(this.containerEl as any, newEl.tag, newEl.attrs, newEl.children)
           }
         }
@@ -74,17 +67,37 @@ describe('createElement', () => {
           }) as any
           return e
         }
-        print(){
+        getOutput(){
           return this.containerEl as any
+          // return this.print2(this.containerEl as any)
+        }
+        printOutput(e: any=this.containerEl as any as JsonImplElementLikeImpl): any{
+          if(e){
+            const p = {...e,   children:( (e as any as JsonImplElementLikeImpl).children||[]).map(c=>this.printOutput(c as any as JsonImplElementLikeImpl))}
+
+            delete p.parentElement
+            delete p.containerEl
+            delete p._elementClassInstance
+            if(p.children.length===0){
+              delete p.children
+            }
+            return p
+          }
         }
       }
       const c = new C({name: 'seba'})
       JSXAlone.render(c.asJSXElement())
-      expect(c.print().children[0].children[0].content).toBe('seba')
-
+      // console.log(JSON.stringify(c.printOutput(), null, 2));
+      expect(c.getOutput().children[0].children[0].content).toBe('seba')
+      const same = c.getOutput().children[0].children[1]
+      const notSame =  c.getOutput().children[0].children[0]
       c.state.name='lau'
       c.updateUi()           
-      expect(c.print().children[0].children[0].content).toBe('lau')
+      expect(c.getOutput().children[0].children[0].content).toBe('lau')
+      expect(c.getOutput().children[0].children[1]).toBe(same)
+      expect(c.getOutput().children[0].children[0]).not.toBe(notSame)
+      // console.log(JSON.stringify(c.printOutput(), null, 2));
+      
     })
 
   })
