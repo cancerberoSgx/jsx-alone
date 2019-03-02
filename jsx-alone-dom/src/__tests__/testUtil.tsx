@@ -33,14 +33,19 @@ export function test({
 }
 
 export function render(e: JSX.Element, config?: ElementLikeImplRenderConfigNoRoot) {
-  let parent = document.getElementById('test-root')
-  if (parent) {
-    parent.remove()
-  }
-  parent = document.createElement('div')
-  parent.setAttribute('id', 'test-root')
-  document.body.appendChild(parent)
+  let parent = prepareRenderParent();
   return JSXAlone.render(e, { ...config, parent }) as HTMLElement
+}
+
+export function prepareRenderParent() {
+  let parent = document.getElementById('test-root');
+  if (parent) {
+    parent.remove();
+  }
+  parent = document.createElement('div');
+  parent.setAttribute('id', 'test-root');
+  document.body.appendChild(parent);
+  return parent;
 }
 
 export function expectTextEquals(a?: string, b?: string, debug = false) {

@@ -3,7 +3,7 @@ import { ClassRule, Styles, Style } from 'jsx-alone-core'
 import { ForkRibbon } from './forkRibbon'
 import { JSXAlone } from 'jsx-alone-dom'
 import { State } from '../store/types'
-import {  darkTheme, lightTheme } from '../theme'
+import {  darkTheme, lightTheme } from '../style/theme'
 import { store } from '../main'
 
 interface P {

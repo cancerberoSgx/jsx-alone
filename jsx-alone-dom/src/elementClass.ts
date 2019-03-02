@@ -29,3 +29,7 @@ export abstract class ElementClass<P = {}> extends AbstractElementClass<P> imple
     
   }
 }
+
+export function isElementClass(c: any): c is ElementClass{
+  return !!((c as ElementClass).render && (c as ElementClass).setContainerEl)
+}

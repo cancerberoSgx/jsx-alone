@@ -1,6 +1,6 @@
 import { Action, Reducer, compose } from 'redux'
 import { State, Theme, Layout } from './types'
-import { lightTheme } from '../theme'
+import { lightTheme } from '../style/theme'
 
 const initialState = {
   theme: lightTheme

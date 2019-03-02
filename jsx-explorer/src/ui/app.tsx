@@ -3,7 +3,7 @@ import { ElementClass, JSXAlone } from 'jsx-alone-dom';
 import { State } from '../store/types';
 import { Editor } from './editor';
 import { Header } from './header';
-import { registerStyle } from './styles';
+import { registerStyle } from '../style/styles';
 
 interface P {
   state: State

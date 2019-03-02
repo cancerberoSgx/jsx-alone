@@ -1,4 +1,4 @@
-import { lightTheme, darkTheme } from '../theme'
+import { lightTheme, darkTheme } from '../style/theme'
 import { State } from './types'
 import { changeTheme, ChangeThemeAction } from './theme'
 import { compose, Reducer, combineReducers } from 'redux'

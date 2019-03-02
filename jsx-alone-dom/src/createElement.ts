@@ -26,8 +26,9 @@ function buildJSXALone(): JSXAloneType<RenderOutput, ElementLike> {
         config,
         rootElementLike: el
       }
-      const rootHTMLElement = el.buildRootElement(almostCompleteConfig)
-      const eventManager = new RootEventManager(rootHTMLElement)
+      const updateExisting = el._elementClassInstance && el._elementClassInstance!.eventManager && config && config.updateExisting 
+      const rootHTMLElement = updateExisting || el.buildRootElement(almostCompleteConfig)
+      const eventManager = updateExisting ? el._elementClassInstance!.eventManager : new RootEventManager(rootHTMLElement)
       const completeConfig = {...almostCompleteConfig, eventManager, rootHTMLElement}
       Module.lastEventManager = eventManager
       return el.render(completeConfig)

@@ -2,9 +2,9 @@ import { AbstractElementLike, AbstractTextNodeLike, printStyleHtmlAttribute, Ref
 import { RefObjectImpl, setRef } from './refs'
 import { ElementLike, ElementLikeImplRenderConfig, IElementClass, RenderOutput } from './types'
 import { RootEventManager } from './event'
-import { ElementClass } from './elementClass';
+import { ElementClass, isElementClass } from './elementClass';
 
-export class ElementLikeImpl<T extends ElementClass= ElementClass> extends AbstractElementLike<RenderOutput> implements ElementLike<T> {
+export class ElementLikeImpl<T extends ElementClass= ElementClass> extends AbstractElementLike<RenderOutput> implements ElementLike {
 
   private _innerHtml: string | undefined
 
@@ -22,7 +22,9 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
     eventManager: RootEventManager, rootHTMLElement: HTMLElement
   }): RenderOutput {
 
+    
     const el = config.rootHTMLElement || this.buildRootElement(config)
+    
 
     Object.keys(this.attrs).forEach(attribute => {
       const value = this.attrs[attribute]
@@ -43,15 +45,26 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
       el.innerHTML = this._innerHtml
     }
     else {
-      const parent: Node = config.appendChildrenInDocumentFragment ? document.createDocumentFragment() : el
-      this.children.forEach(c => {
-        c.render({ ...config, parent, rootHTMLElement: undefined })
+      // const parent: Node = el//config.appendChildrenInDocumentFragment ? document.createDocumentFragment() : el
+      this.children.forEach((c, i) => {
+        const existingChildToUpdate = config.updateExisting&& config.updateExisting!.childNodes.item(i)
+        const cel = c.render({ ...config, 
+          updateExisting: existingChildToUpdate||undefined ,
+          rootHTMLElement: existingChildToUpdate||undefined ,
+        }) as HTMLElement
+        if(!existingChildToUpdate){
+          el.appendChild(cel)
+        }
+        else if(!existingChildToUpdate.isEqualNode(cel)) {
+            existingChildToUpdate.replaceWith(cel)
+        }
+        // otherwise means node to update is equals to the new one
       })
-      if (el !== parent) {
-        el.appendChild(parent)
-      }
+      // if (el !== parent && !config.updateExisting) {
+      //   el.appendChild(parent)
+      // }
     }
-    if (config.parent) {
+    if (config.parent &&!config.updateExisting) {
       config.parent.appendChild(el)
     }
     const elementClassWithContainer = this._elementClassInstance || config.rootElementLike._elementClassInstance
@@ -65,6 +78,8 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
         this._elementClassInstance.afterRender()
       }
     }
+    // console.log(el.outerHTML, config.updateExisting && config.updateExisting!.outerHTML);
+    
     return el
   }
 

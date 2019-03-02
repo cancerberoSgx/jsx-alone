@@ -4,7 +4,7 @@ import { store } from '../main';
 import { create } from '../monaco';
 import { State } from '../store/types';
 import { query } from '../util';
-import { registerStyle } from './styles';
+import { registerStyle } from '../style/styles';
 
 interface P {
   state: State

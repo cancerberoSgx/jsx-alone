@@ -6,7 +6,8 @@ import { App } from './ui/app'
 import { reducers } from './store/store'
 import { State } from './store/types'
 import { EventManager } from 'jsx-alone-dom'
-import { Styles } from './ui/styles';
+import { Styles } from './style/styles';
+import { Component } from './component';
 
 installJSXAloneAsGlobal(JSXAlone)
 
@@ -15,9 +16,12 @@ const s  =  store.getState()
 let rootElement: HTMLElement
 let eventManager: EventManager
 
+let main:Main
 function render() {
   eventManager && eventManager.uninstall()
-  const el = JSXAlone.render(<Main state={store.getState()} />) as HTMLElement
+  // const main = <Main state={store.getState()} />
+  main = new Main({state: store.getState()})
+  const el = JSXAlone.render( main.render()) as HTMLElement
   eventManager = JSXAlone.lastEventManager!
   if (rootElement) {
     rootElement.replaceWith(el)
@@ -27,22 +31,28 @@ function render() {
   }
   eventManager.onAppendToDom()
   rootElement = el
-  // editor()
 }
-
-const Main = (props: {state: State}) =>
-  <div>
-    <App state={props.state} />
-    <Styles theme={props.state.layout.theme}/>
-  </div>
-
 
 render()
 
 store.subscribe(() => {
-  render()
+  // render()
 })
 
+class Main extends Component<{state: State}> {
+  render() {
+    return <div>
+    <App state={this.props.state} />
+    <Styles theme={this.props.state.layout.theme}/>
+  </div>
+  }
+}
+
+// const Main = (props: {state: State}) =>
+//   <div>
+//     <App state={props.state} />
+//     <Styles theme={props.state.layout.theme}/>
+//   </div>
 // function editor() {
 //   let code = store.getState().editor.code
 //   const ed = create({
