@@ -13,19 +13,30 @@ export abstract class Component<P={}> extends ElementClass<P> {
   afterRender(containerEl: HTMLElement) {
     this.containerEl = containerEl
   }
-  protected updateUI() { 
+  // protected updateUI() { 
+  //   const el = this.render()
+  //   // @ts-ignore
+  //   el._elementClassInstance = this
+  //   JSXAlone.render(el, {
+  //     updateExisting: this.containerEl
+  //   })
+  // }
+  updateProps(s: Partial<P>){
+    this.state={...this.state, ...s}
+    this._props =this.state
     const el = this.render()
-    //@ts-ignore
+    // @ts-ignore
     el._elementClassInstance = this
     JSXAlone.render(el, {
       updateExisting: this.containerEl
     })
+    // this.updateUI()    
   }
-  setState(s: Partial<P>) {
-    this.state={...this.state, ...s}
-    this._props = this.state
-    this.updateUI()
-  }
+  // setState(s: Partial<P>) {
+  //   this.state={...this.state, ...s}
+  //   this._props = this.state
+  //   this.updateUI()
+  // }
 }
 
 

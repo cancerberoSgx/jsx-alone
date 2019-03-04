@@ -16,9 +16,6 @@ class Main extends Component<{ state: State }> {
       <Styles theme={this.props.state.layout.theme} />
     </div>
   }
-  updateProps(p: { state: State }){
-    this._props = {...this._props, ...p}
-  }
 }
 
 const store = createStore(reducers)
@@ -26,12 +23,7 @@ let eventManager: EventManager
 
 store.subscribe(() => {
   const state = store.getState()
-  // if(JSON.stringify(main.state.state)!==JSON.stringify(state)) {
-    console.log('subscribe', state.layout.theme.name);
-    
     main && main.updateProps({state})
-    main && main.setState({state})
-  // }
 })
 
 export function getState(): State{
@@ -39,15 +31,8 @@ export function getState(): State{
 }
 
 export function dispatch(action: AllActions){
-  // lastAction=action.type
-  // console.log(action  );
-  
   store.dispatch(action)
-  // if(action.type!==lastAction){
-  //   store.dispatch({type: 'PUSH_LOG', log: 'dispatch: '+JSON.stringify(getState())})
-  // }
 }
-// let lastAction:string=''
 
 let main: Main
 
@@ -61,8 +46,3 @@ function start() {
 }
 
 start()
-
-
-// setTimeout(() => {
-//   store.dispatch({ type: 'PUSH_LOG', log: 'hellokajhsd' })
-// }, 1000);
