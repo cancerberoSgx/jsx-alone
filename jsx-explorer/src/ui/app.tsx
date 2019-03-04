@@ -14,6 +14,8 @@ interface P {
 
 export class App extends Component<P> {
   render() {
+    // console.log(this.getComponentName(), 'props: '+this.props.state.layout.theme.name, 'state', this.state.state.layout.theme.name);
+
     const s = {
       mainContainer: {
         padding: '0 !important',
@@ -31,7 +33,7 @@ export class App extends Component<P> {
     registerStyle(s)
     const { classes } = Styles(s)
     return <section className={`section`}>
-      <Header theme={this.state.state.layout.theme} />
+      <Header theme={this.props.state.layout.theme} />
       <div className={`container ${classes.firstContainer}`}>
         <h1 className="title">
           JSX Explorer

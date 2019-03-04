@@ -8,7 +8,7 @@
   "types": "dist/src/index.d.ts",
   "typings": "dist/src/index.d.ts",
   "scripts": {
-    "build": "sh build",
+    "build": "rm -rf  ../docs/jsx-explorer &&  parcel build src/index.html -d ../docs/jsx-explorer",
     "start": "parcel src/index.html",
     "clean": "rm -rf build/ dist/ .cache",
     "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand --no-cache --clearMocks",

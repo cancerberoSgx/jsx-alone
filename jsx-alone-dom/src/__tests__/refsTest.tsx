@@ -1,8 +1,33 @@
 import { JSXAlone } from '..'
 import { query, render } from './testUtil'
-import { DummyStatefulComponent } from './dummyStatefulComponent'
 import { RefObject } from 'jsx-alone-core'
+import { ElementClass } from '../elementClass';
 describe('refs', () => {
+  abstract class DummyStatefulComponent<P = {}, S = P> extends ElementClass<P> {
+    state: S
+    constructor(p: P) {
+      super(p)
+      this.state = { ...(p as any) }
+    }
+    /** changes the state, clean up containerEl and renders the element again and append it to containerEl.
+     * Notice that descendant elements will be destroyed and */
+    setState(s: Partial<S>) {
+      this.state = { ...this.state, ...s }
+      if (!this.containerEl) {
+        throw new Error('this.containerEl=== undefined cannot do magic in DummyStatefulComponent')
+      }
+      this.destroy()
+      const jsx = this.render()
+      const el = JSXAlone.render(jsx)
+      this.containerEl.parentElement!.replaceChild(el, this.containerEl)
+      this.containerEl = el as HTMLElement
+    }
+    afterRender(e: HTMLElement) {
+      this.containerEl = e
+    }
+    protected containerEl: HTMLElement | undefined
+  }
+    
   describe('case 1', () => {
     class Box extends DummyStatefulComponent<{ text: string }> {
       render() {

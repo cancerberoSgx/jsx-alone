@@ -17,7 +17,7 @@ export abstract class ElementClass<P = {}> extends AbstractElementClass<P> imple
 
   afterRender(containerEl: HTMLElement) {
   }
-  update(props?: P) {
+  update(containerEl: HTMLElement, props?: P) {
     return false
   }
 }

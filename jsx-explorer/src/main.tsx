@@ -12,36 +12,42 @@ installJSXAloneAsGlobal(JSXAlone)
 class Main extends Component<{ state: State }> {
   render() {
     return <div>
-      <App state={this.state.state} />
-      <Styles theme={this.state.state.layout.theme} />
+      <App state={this.props.state} />
+      <Styles theme={this.props.state.layout.theme} />
     </div>
   }
-
+  updateProps(p: { state: State }){
+    this._props = {...this._props, ...p}
+  }
 }
 
 const store = createStore(reducers)
 let eventManager: EventManager
 
 store.subscribe(() => {
-  const newState = store.getState()
-  if(JSON.stringify(main.state.state)!==JSON.stringify(newState)) {
-    // main.state.state=store.getState()
-    main && main.update({state: store.getState()})
-  }
+  const state = store.getState()
+  // if(JSON.stringify(main.state.state)!==JSON.stringify(state)) {
+    console.log('subscribe', state.layout.theme.name);
+    
+    main && main.updateProps({state})
+    main && main.setState({state})
+  // }
 })
 
 export function getState(): State{
   return store.getState()
 }
-export function dispatch(action: AllActions){
-  lastAction=action.type
-  store.dispatch(action)
-  if(action.type!==lastAction){
-    store.dispatch({type: 'PUSH_LOG', log: 'dispatch: '+JSON.stringify(getState())})
-  }
-}
-let lastAction:string=''
 
+export function dispatch(action: AllActions){
+  // lastAction=action.type
+  // console.log(action  );
+  
+  store.dispatch(action)
+  // if(action.type!==lastAction){
+  //   store.dispatch({type: 'PUSH_LOG', log: 'dispatch: '+JSON.stringify(getState())})
+  // }
+}
+// let lastAction:string=''
 
 let main: Main
 

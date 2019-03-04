@@ -1,6 +1,8 @@
 # TODO
 
 
+ * event handlers are bind to an old this, we need to read props from an external variable
+ 
   // tests with lots of event listeners and lots of calls and runner
   // another EventManager that is not root - and compare performance
   // runner - measure also memory consumption

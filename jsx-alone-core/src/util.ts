@@ -60,3 +60,11 @@ let _unique: number = 0
 export function unique(prefix: string= '_'): string {
   return prefix + _unique++
 }
+
+export function objectMap(o: {[k:string]:any}, f: (k:string, v:any)=>any){
+  var r:any = {}
+  Object.keys(o).forEach(k=>{
+    r[k] = f(k, o[k])
+  })
+  return r
+}

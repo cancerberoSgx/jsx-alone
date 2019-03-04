@@ -1,5 +1,8 @@
 import { getElementMark, markElement, getMarkedElement } from './mark'
-import { unique } from 'jsx-alone-core'
+import { unique, objectMap } from 'jsx-alone-core'
+import { ElementLikeImpl } from './elementImpl';
+import { ElementClass } from './elementClass';
+import { ElementLike } from './types';
 // import { DelegatedEvent } from './types'
 
 export type EventListener<C extends EventTarget | HTMLElement = any, T extends EventTarget | HTMLElement = any> = (e: Event) => any
@@ -38,15 +41,19 @@ export interface EventManager {
  * @internal
  */
 export class RootEventManager implements EventManager {
+  
 
   private registeredByType: { [type: string]: Entry[] } = {}
   private appendToDomListeners: AppendDoDomListener[] = []
+  mark = '_jsxa_e' + unique('_')
+
   constructor(private root: HTMLElement, private debug?: boolean) {
     this.rootListener = this.rootListener.bind(this)
+    // console.log('consrttrtr');
+    
   }
 
 
-  private mark = '_jsxa_e' + unique('_')
   private markElement(el: HTMLElement) {
     return markElement(el, this.mark)
   }
@@ -78,6 +85,7 @@ export class RootEventManager implements EventManager {
     this.appendToDomListeners.forEach(l=>l())
   }
   addEventListener(el: HTMLElement, type: string, fn: EventListener) {
+    // console.log('addEventListener', el.tagName);
     type = type.toLowerCase()
     let ls = this.registeredByType[type]
     if (!ls) {
@@ -90,8 +98,59 @@ export class RootEventManager implements EventManager {
       entry = { mark, fn, type }
       ls.push(entry)
     }
+    else {
+      // console.log('addEventListener else');
+      // even if it's already registered, we replace fn with the new one since it's bind to an old `this`
+      entry.fn = fn
+    }
   }
+  updateEventListeners(ec: ElementClass, oldEl:HTMLElement, newEl: HTMLElement, elLike: ElementLike): any {
+    // console.log('updateEventListeners', !!ec, el.tagName);
 
+    if(!oldEl || !ec || !newEl||!oldEl.getAttribute || !newEl.getAttribute){
+      return 
+    }    
+    
+    // console.log(ec.props);
+    const mark = this.getElementMark(oldEl as any)
+    if(!mark){return }
+    Object.values(this.registeredByType).forEach(v=>{
+      v.filter(e=>e.mark===mark).forEach(e=>{
+        // oldEl.removeEventListener(e.type, e.fn)
+
+        // console.log(ec, `on${e.type.substring(0,1).toUpperCase()}${e.type.substring(1, e.type.length)}`, elLike.attrs[`on${e.type.substring(0,1).toUpperCase()}${e.type.substring(1, e.type.length)}`], );
+        // e.fn
+        e.fn = elLike.attrs[`on${e.type.substring(0,1).toUpperCase()}${e.type.substring(1, e.type.length)}`].bind(ec)
+        //  e.fn.bind(ec)
+        
+
+        // newEl.addEventListener(e.type, e.fn)
+        // newEl.setAttribute(`data-${this.mark}`, mark)
+        // console.log('updateEventListeners', newEl.tagName, this.getElementMark(newEl), ec.props, v);
+        
+        // console.log(elLike._elementClassInstance);
+        
+      })
+    })
+    //   const e = this.registeredByType['click'].find(e=>e.mark===mark)
+    //   if(e){
+    //     e.fn = e.fn.bind(elLike)
+    //   }
+
+    // if(el.getAttribute(`data-${this.mark}`)){
+
+    // }
+    // Array.from(el.querySelectorAll(`[data-${this.mark}]`)).forEach(el=>{
+    //   const mark = this.getElementMark(el as any)
+    //   const e = this.registeredByType['click'].find(e=>e.mark===mark)
+    //   console.log('updateEventListeners', el.tagName, mark, e);
+    //   if(e){
+    //     e.fn = e.fn.bind(elLike)
+    //   }
+    //   // !.fn  forEach(e=>)
+    // })
+    
+  }
 
   removeListeners(el: HTMLElement, types?: []) {
     const mark = this.getElementMark(el)

@@ -9,7 +9,7 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
   private _innerHtml: string | undefined
 
   ref?: RefObject<IElementClass & Element>
-  
+
   _elementClassInstance: T | undefined
 
   buildRootElement(config: ElementLikeImplRenderConfig<ElementLikeImpl>): HTMLElement {
@@ -22,7 +22,18 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
     eventManager: RootEventManager, rootHTMLElement: HTMLElement
   }): RenderOutput {
 
-    const el = config.updateExisting||config.rootHTMLElement || this.buildRootElement(config)
+    // // check if the component knows how to update itself given this el like that has new data and a containerEL
+    // if (config.updateExisting && isElementClass(this)) {
+    //   const props = { ...this.attrs, children: this.children }
+    //   const result = this.update(config.updateExisting, props)
+    //   // the child element class knew how to update itself 
+    //   if(result){
+    //     return config.updateExisting
+    //   }
+    // }
+
+    const el = config.updateExisting || config.rootHTMLElement || this.buildRootElement(config)
+
 
     Object.keys(this.attrs).forEach(attribute => {
       const value = this.attrs[attribute]
@@ -33,7 +44,7 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
         el.setAttribute('style', printStyleHtmlAttribute(value))
       }
       else if (typeof value === 'function') {
-        config.eventManager.addEventListener(el, attribute.replace(/^on/, '').toLowerCase(), value.bind(this))
+        config.eventManager.addEventListener(el, attribute.replace(/^on/, '').toLowerCase(), value)
       }
       else {
         el.setAttribute(attribute, value)
@@ -44,30 +55,28 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
     }
     else {
       this.children.forEach((c, i) => {
-        // TODO if(config.updateExisting ){} else {}
-        if(config.updateExisting && (c as any as ElementClass).update && (c as any as ElementClass).update()){
-          // the child element class knew how to update itself 
-          return 
-        }
         // Heads up: if config.updateExisting then we don't append new child, just render it and replace the existing child only if !isEqualNode
-        const existingChildToUpdate = config.updateExisting&& config.updateExisting!.childNodes.item(i)
-        const cel = c.render({ ...config, 
-          updateExisting: existingChildToUpdate||undefined ,
-          rootHTMLElement: existingChildToUpdate||undefined ,
-        }) as HTMLElement
-        if(!existingChildToUpdate){
+        const existingChildToUpdate = config.updateExisting && config.updateExisting!.childNodes.item(i)
+        const cel = c.render({
+          ...config,
+          updateExisting: existingChildToUpdate || undefined,
+          rootHTMLElement: existingChildToUpdate || undefined,
+        }) 
+        if (!existingChildToUpdate) {
           el.appendChild(cel)
         }
-        else if(!existingChildToUpdate.isEqualNode(cel)) {
-            existingChildToUpdate.replaceWith(cel)
+        else if (existingChildToUpdate 
+          && !existingChildToUpdate.isEqualNode(cel)
+          ) {
+        existingChildToUpdate.replaceWith(cel)
+        config.eventManager.updateEventListeners(this._elementClassInstance || config.rootElementLike._elementClassInstance as any,  config.updateExisting as HTMLElement, el as HTMLElement, this)
         }
-        // otherwise means node to update is equals to the new one
       })
     }
-    if (config.parent &&!config.updateExisting) {
+    if (config.parent && !config.updateExisting) {
       config.parent.appendChild(el)
     }
-    
+
     if (this.ref) {
       setRef({ elementLike: this as any, el, value: this.ref as RefObjectImpl<any> })
     }
@@ -78,7 +87,7 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
         this._elementClassInstance.afterRender(el)
       }
     }
-    
+
     return el
   }
 

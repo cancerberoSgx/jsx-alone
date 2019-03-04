@@ -86,7 +86,7 @@ describe('function attributes', () => {
       expect(fn1).lastReturnedWith(var1 + var2)
     })
 
-    xit('function attribute accessing this.prop and prototype prop should work in extras by default', () => {
+    it('function attribute accessing this.prop and prototype prop should work in extras by default', () => {
       const fn1 = jest.fn()
       const var1 = 'var1'
       const expected = `foo_bar_var1`

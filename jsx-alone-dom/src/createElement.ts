@@ -22,8 +22,6 @@ function buildJSXALone(): JSXAloneType<RenderOutput, ElementLike> {
 
     createElement: createCreateElement<RenderOutput, ElementLike>(getCreateCreateElementConfig()),
 
-    // updateElement: ([element, tag, attrs, children, create]: Parameters<typeof updateElement>) => updateElement(element, tag, attrs, children, create),
-    
     updateElement: (element,  tag, attrs, children, create) => updateElement(element as any, TextNodeLikeImpl, tag, attrs, children, create),
 
 
@@ -34,9 +32,10 @@ function buildJSXALone(): JSXAloneType<RenderOutput, ElementLike> {
         config,
         rootElementLike: el
       }
+      
       const updateExisting = el._elementClassInstance && el._elementClassInstance!.eventManager && config && config.updateExisting
       const rootHTMLElement = updateExisting || el.buildRootElement(almostCompleteConfig)
-      const eventManager = updateExisting ? el._elementClassInstance!.eventManager : new RootEventManager(rootHTMLElement)
+      const eventManager = Module.lastEventManager || (updateExisting ? el._elementClassInstance!.eventManager : new RootEventManager(rootHTMLElement))
       const completeConfig = { ...almostCompleteConfig, eventManager, rootHTMLElement }
       Module.lastEventManager = eventManager
       return el.render(completeConfig)
@@ -50,7 +49,7 @@ function buildJSXALone(): JSXAloneType<RenderOutput, ElementLike> {
   return Module
 }
 
-let createCreateElementConfig: CreateCreateElementConfig<RenderOutput, ElementLike, IElementClass>
+let createCreateElementConfig: CreateCreateElementConfig<RenderOutput, ElementLike, ElementClass>
 
 export function getCreateCreateElementConfig() {
   if (!createCreateElementConfig) {
@@ -62,12 +61,7 @@ export function getCreateCreateElementConfig() {
           elementLike._elementClassInstance = elementClassInstance
         }
         elementLike.ref = attrs.ref
-      },
-      // onElementReady({elementLike}){
-      //   if(isElementClass(elementLike) && elementLike._elementClassInstance) {
-      //     elementLike.setContainerEl(elementLike._elementClassInstance.containerEl)
-      //   }
-      // }
+      }
     }
   }
   return createCreateElementConfig

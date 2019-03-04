@@ -1,6 +1,6 @@
 import {  JSXAloneJsonImpl as JSXAlone, JsonImplOutputEl, JsonImplElementClass, JsonImplElementLikeImpl} from '../JsonImpl';
 import { ElementLike, JSXAloneElement } from '../types';
-import { unique } from '../util';
+import { unique, objectMap } from '../util';
 import { isElementClass } from '../elementImpl';
 describe('createElement', () => {
   describe('updateElement', () => {
@@ -69,7 +69,6 @@ describe('createElement', () => {
         }
         getOutput(){
           return this.containerEl as any
-          // return this.print2(this.containerEl as any)
         }
         printOutput(e: any=this.containerEl as any as JsonImplElementLikeImpl): any{
           if(e){
@@ -102,11 +101,3 @@ describe('createElement', () => {
 
   })
 })
-
-function objectMap(o: {[k:string]:any}, f: (k:string, v:any)=>any){
-  var r:any = {}
-  Object.keys(o).forEach(k=>{
-    r[k] = f(k, o[k])
-  })
-  return r
-}
