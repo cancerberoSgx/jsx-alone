@@ -9,12 +9,18 @@ export function evaluate(jsx: string) {
     const s = `(${compiled})()`
     const jsxLike = eval(s)
     r = JSXAlone.render(jsxLike) as any
+    removeCircles(r)
   } catch (e) {
     console.error(e)
   }
   return r
 }
-
+function removeCircles(r: any): any {
+  if(r){
+    delete r.parentElement;
+    (r.children||[]).forEach((c:any)=>removeCircles(c))
+  }
+}
 export function compileTs(code: string) {
   let res = ts.transpileModule(code, {
     compilerOptions: {
