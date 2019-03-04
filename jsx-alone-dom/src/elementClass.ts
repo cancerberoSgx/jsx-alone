@@ -17,9 +17,11 @@ export abstract class ElementClass<P = {}> extends AbstractElementClass<P> imple
 
   afterRender(containerEl: HTMLElement) {
   }
+
   update(containerEl: HTMLElement, props?: P) {
     return false
   }
+  
 }
 
 export function isElementClass(c: any): c is ElementClass {

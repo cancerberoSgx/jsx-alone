@@ -61,15 +61,15 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
           ...config,
           updateExisting: existingChildToUpdate || undefined,
           rootHTMLElement: existingChildToUpdate || undefined,
-        }) 
+        })
         if (!existingChildToUpdate) {
           el.appendChild(cel)
         }
-        else if (existingChildToUpdate 
+        else if (existingChildToUpdate
           && !existingChildToUpdate.isEqualNode(cel)
-          ) {
-        existingChildToUpdate.replaceWith(cel)
-        config.eventManager.updateEventListeners(this._elementClassInstance || config.rootElementLike._elementClassInstance as any,  config.updateExisting as HTMLElement, el as HTMLElement, this)
+        ) {
+          existingChildToUpdate.replaceWith(cel)
+          config.eventManager.updateEventListeners(this._elementClassInstance || config.rootElementLike._elementClassInstance as any, config.updateExisting as HTMLElement, el as HTMLElement, this)
         }
       })
     }

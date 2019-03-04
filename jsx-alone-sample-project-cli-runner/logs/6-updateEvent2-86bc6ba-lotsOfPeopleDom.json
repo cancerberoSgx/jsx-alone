@@ -1,0 +1,21 @@
+{
+  "totalTime": 22386,
+  "currentCommit": "86bc6ba",
+  "userConfig": {
+    "_": [],
+    "sample": "lotsOfPeopleDom",
+    "n": [
+      1000,
+      2000
+    ],
+    "m": [
+      10,
+      20
+    ],
+    "runs": 5,
+    "dontPrintRuns": true,
+    "log": "logs/6-updateEvent2"
+  },
+  "command": "--sample lotsOfPeopleDom --n 1000,2000 --m 10,20 --runs 5 --dontPrintRuns --log logs/6-updateEvent2",
+  "cwd": "/home/sg/git/jsx-alone/jsx-alone-sample-project-cli-runner"
+}

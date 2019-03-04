@@ -123,7 +123,6 @@ export type CreateElementFunction<T, R= ElementLike<T>> = (
 
 const throwOnUnrecognized = false
 
-
 export function debug(err: string) {
   if (throwOnUnrecognized) {
     throw err
