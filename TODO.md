@@ -1,5 +1,6 @@
 # TODO
 
+ * ISSUE:  DOM : refs fail in jsx-explorer/src/ui/explorer.tsx Node collapse button
 
   // tests with lots of event listeners and lots of calls and runner
   // another EventManager that is not root - and compare performance

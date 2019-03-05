@@ -1,12 +1,12 @@
 import { ElementClass, JSXAlone } from 'jsx-alone-dom';
 
 export abstract class Component<P={}> extends ElementClass<P> {
-  state: P
+  // state: P
   containerEl: HTMLElement | undefined
-  constructor(p: P) {
-    super(p)
-    this.state = { ...p }
-  }
+  // constructor(p: P) {
+    // super(p)
+    // this.state = { ...p }
+  // }
   protected getComponentName() {
     return this.constructor.name
   }
@@ -22,8 +22,9 @@ export abstract class Component<P={}> extends ElementClass<P> {
   //   })
   // }
   updateProps(s: Partial<P>){
-    this.state={...this.state, ...s}
-    this._props =this.state
+    // this.state={...this.state, ...s}
+    // this._props =this.state
+    this._props = {...this._props, ...s}
     const el = this.render()
     // @ts-ignore
     el._elementClassInstance = this

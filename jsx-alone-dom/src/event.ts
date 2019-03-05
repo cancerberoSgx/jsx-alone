@@ -105,8 +105,6 @@ export class RootEventManager implements EventManager {
     if(!oldEl || !ec || !newEl||!oldEl.getAttribute || !newEl.getAttribute){
       return 
     }    
-    console.log('updateEventListeners');
-    
     const mark = this.getElementMark(oldEl as any)
     if(!mark){return }
     Object.values(this.registeredByType).forEach(v=>{

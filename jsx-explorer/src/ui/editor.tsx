@@ -12,7 +12,7 @@ interface P {
   state: State
 }
 
-let editor: monaco.editor.IStandaloneCodeEditor|undefined
+let editor: monaco.editor.IStandaloneCodeEditor | undefined
 
 export class Editor extends Component<P> {
   render() {
@@ -24,47 +24,34 @@ export class Editor extends Component<P> {
       }
     }
     registerStyle(s)
-    const {  classes } = Styles(s)
+    const { classes } = Styles(s)
     return <div id="editorContainer" className={classes.editorContainer} />
   }
-  afterRender(e: HTMLElement){
+  afterRender(e: HTMLElement) {
     super.afterRender(e)
-    this.eventManager && this.eventManager.addAppendToDomListener(()=>{
+    this.eventManager && this.eventManager.addAppendToDomListener(() => {
       this.installEditor()
     })
 
-    if(editor){
-    // always set the theme - we dont know/cant getTheme to compare
-    monaco.editor.setTheme(this.props.state.layout.theme.name==='light' ? 'vs' : 'vs-dark')
+    if (editor) {
+      // always set the theme - we dont know/cant getTheme to compare
+      monaco.editor.setTheme(this.props.state.layout.theme.name === 'light' ? 'vs' : 'vs-dark')
 
-    if(editor.getModel()!.getValue()!==this.props.state.editor.code){
-      console.warn(`strange: editor.getModel()!.getValue()!==this.props.state.editor.code`)
-      editor.getModel()!.setValue(this.props.state.editor.code)
+      if (editor.getModel()!.getValue() !== this.props.state.editor.code) {
+        console.warn(`strange: editor.getModel()!.getValue()!==this.props.state.editor.code`)
+        editor.getModel()!.setValue(this.props.state.editor.code)
+      }
     }
   }
-  }
-  // update(){
-  //   if(!editor){
-  //     return true
-  //   }
-  //   // always set the theme - we dont know/cant getTheme to compare
-  //   monaco.editor.setTheme(this.props.state.layout.theme.name)
-
-  //   if(editor.getModel()!.getValue()!==this.props.state.editor.code){
-  //     console.warn(`strange: editor.getModel()!.getValue()!==this.props.state.editor.code`)
-  //     editor.getModel()!.setValue(this.props.state.editor.code)
-  //   }
-  //   return true
-  // }
   protected installEditor() {
-    if(editor){return}
+    if (editor) { return }
     let code = this.props.state.editor.code
     editor = create({
       container: query('#editorContainer'),
       code,
       theme: this.props.state.layout.theme.name === 'dark' ? 'dark' : 'light'
     })
-    
+
     editor.getModel()!.onDidChangeContent(e => {
       code = editor!.getModel()!.getValue()
       // shount need to set this.props...

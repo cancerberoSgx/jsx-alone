@@ -7,7 +7,7 @@ export class Logger extends Component<{status: Status}> {
   render() {
     return <div>
       <h3>Logs</h3>
-      <ul>{this.state.status.logs.map(l=><li>{l}</li>)}</ul>
+      <ul>{this.props.status.logs.map(l=><li>{l}</li>)}</ul>
     </div>
   }
 }

@@ -14,8 +14,6 @@ interface P {
 
 export class App extends Component<P> {
   render() {
-    // console.log(this.getComponentName(), 'props: '+this.props.state.layout.theme.name, 'state', this.state.state.layout.theme.name);
-
     const s = {
       mainContainer: {
         padding: '0 !important',
@@ -44,13 +42,15 @@ export class App extends Component<P> {
       </div>
       <div className={`container ${classes.mainContainer}`}>
         <div className="columns">
-          <Explorer editor={this.state.state.editor}></Explorer>
-          <div className={` column is-two-thirds`}>
-            <Editor {...this.state} />
+          <div className={`column is-one-third`}>
+            <Explorer editor={this.props.state.editor}></Explorer>
+          </div>
+          <div className={`column is-two-thirds`}>
+            <Editor {...this.props} />
           </div>
         </div>
       </div>
-      <Logger status={this.state.state.status}></Logger>
+      {/* <Logger status={this.state.state.status}></Logger> */}
     </section>
   }
 }

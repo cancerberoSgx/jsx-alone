@@ -11,11 +11,18 @@ export interface JsonImplOutputEl {
   innerHtml: string | undefined
 }
 
-interface OutputText {
+export interface JSONImplOutputText {
   content?: string
 }
 
-export type JsonImplOutput = JsonImplOutputEl | OutputText
+export type JsonImplOutput = JsonImplOutputEl | JSONImplOutputText
+
+export function isJsonImplOutputEl(a:any):a is JsonImplOutputEl{
+  return a && typeof a.tag==='string'
+}
+export function isJsonImplOutputText(a:any):a is JSONImplOutputText{
+  return a && a.content
+}
 
 export interface JsonImplRenderConfig extends RenderConfig<JsonImplOutput> {
 }
@@ -36,8 +43,6 @@ export class JsonImplElementLikeImpl extends AbstractElementLike<JsonImplOutput>
     delete r.parentElement
     return r
   }
-
-
   dangerouslySetInnerHTML(s: string): void {
     this.innerHtml = s
   }
@@ -48,7 +53,12 @@ export class JsonImplTextNodeLikeImpl extends AbstractTextNodeLike<JsonImplOutpu
     return { content: this.content }
   }
 }
-
+// export function isJsonImplTextNodeLike(a:any):a is JsonImplTextNodeLikeImpl{
+//   return a && typeof a.content==='string'
+// }
+// export function isJsonImplElementLikeImpl(a:any):a is JsonImplElementLikeImpl{
+//   return a && typeof a.tag==='string'
+// }
 export abstract class JsonImplElementClass<P = {}> extends AbstractElementClass<P> { }
 
 export const JSXAloneJsonImpl: JSXAloneType<JsonImplOutput, ElementLike<JsonImplOutput>> = {
