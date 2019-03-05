@@ -3,6 +3,7 @@ import { AbstractElementLike, AbstractTextNodeLike } from './'
 import { JSXAlone as JSXAloneType } from './'
 import { createCreateElement, updateElement } from './createElement'
 import { AbstractElementClass } from './elementClass'
+import { indent } from './util';
 
 export interface JsonImplOutputEl {
   tag: string
@@ -20,6 +21,7 @@ export type JsonImplOutput = JsonImplOutputEl | JSONImplOutputText
 export function isJsonImplOutputEl(a:any):a is JsonImplOutputEl{
   return a && typeof a.tag==='string'
 }
+
 export function isJsonImplOutputText(a:any):a is JSONImplOutputText{
   return a && a.content
 }
@@ -53,12 +55,11 @@ export class JsonImplTextNodeLikeImpl extends AbstractTextNodeLike<JsonImplOutpu
     return { content: this.content }
   }
 }
-// export function isJsonImplTextNodeLike(a:any):a is JsonImplTextNodeLikeImpl{
-//   return a && typeof a.content==='string'
-// }
-// export function isJsonImplElementLikeImpl(a:any):a is JsonImplElementLikeImpl{
-//   return a && typeof a.tag==='string'
-// }
+
+export function JsonImplOutputElAsHtml(node: JsonImplOutputEl, indentLevel=0):string{
+  return `\n${indent(indentLevel)}<${node.tag}${Object.keys(node.attrs).length?' ' : ''}${Object.keys(node.attrs).map(a=>`${a}="${node.attrs[a].toString ? node.attrs[a].toString() : node.attrs[a]}"`).join(' ')}>${node.children.map(c=>isJsonImplOutputEl(c) ? JsonImplOutputElAsHtml(c, indentLevel+1) : c.content).join('')}\n${indent(indentLevel)}</${node.tag}>`
+}
+
 export abstract class JsonImplElementClass<P = {}> extends AbstractElementClass<P> { }
 
 export const JSXAloneJsonImpl: JSXAloneType<JsonImplOutput, ElementLike<JsonImplOutput>> = {

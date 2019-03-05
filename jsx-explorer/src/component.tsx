@@ -1,71 +1,29 @@
-import { ElementClass, JSXAlone } from 'jsx-alone-dom';
+import { ElementClass, JSXAlone, ElementLikeImpl } from 'jsx-alone-dom';
+import { ElementLike } from 'jsx-alone-core';
 
 export abstract class Component<P={}> extends ElementClass<P> {
-  // state: P
-  containerEl: HTMLElement | undefined
-  // constructor(p: P) {
-    // super(p)
-    // this.state = { ...p }
-  // }
+
+  protected containerEl: HTMLElement | undefined
+
   protected getComponentName() {
     return this.constructor.name
   }
+
+  protected query<T extends HTMLElement=HTMLElement>(s:string):T{
+    return this.containerEl!.querySelector(s)! as any
+  }
+
   afterRender(containerEl: HTMLElement) {
     this.containerEl = containerEl
   }
-  // protected updateUI() { 
-  //   const el = this.render()
-  //   // @ts-ignore
-  //   el._elementClassInstance = this
-  //   JSXAlone.render(el, {
-  //     updateExisting: this.containerEl
-  //   })
-  // }
+
   updateProps(s: Partial<P>){
-    // this.state={...this.state, ...s}
-    // this._props =this.state
     this._props = {...this._props, ...s}
-    const el = this.render()
-    // @ts-ignore
-    el._elementClassInstance = this
+    const el = this.render();
+    (el as any as ElementLikeImpl)._elementClassInstance = this
     JSXAlone.render(el, {
       updateExisting: this.containerEl
     })
-    // this.updateUI()    
   }
-  // setState(s: Partial<P>) {
-  //   this.state={...this.state, ...s}
-  //   this._props = this.state
-  //   this.updateUI()
-  // }
 }
 
-
-// export abstract class Component<P> extends ElementClass<P> {
-
-//   state: P
-  
-//   protected containerEl: HTMLElement | undefined
-
-//   constructor(p: P) {
-//     super(p)
-//     this.state =p
-//   }
-  
-//   afterRender(containerEl: HTMLElement) {
-//     this.containerEl = containerEl
-//   }
-
-//   update(props?:P) {
-//     if (!this.containerEl) {
-//       throw new Error('Cannot update without this.containerEl')
-//     }
-//     // if(props && JSON.stringify(this.state)!==JSON.stringify(props)){
-//       JSXAlone.render(this.render(), {
-//         updateExisting: this.containerEl!
-//       })
-//       // return true
-//     // }
-//     return true
-//   }
-// }

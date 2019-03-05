@@ -11,6 +11,8 @@ import { Logger } from './logger';
 interface P {
   state: State
 }
+registerStyle(`
+`)
 
 export class App extends Component<P> {
   render() {
@@ -30,7 +32,7 @@ export class App extends Component<P> {
     }
     registerStyle(s)
     const { classes } = Styles(s)
-    return <section className={`section`}>
+    return <section className={`section `}>
       <Header theme={this.props.state.layout.theme} />
       <div className={`container ${classes.firstContainer}`}>
         <h1 className="title">
@@ -41,7 +43,22 @@ export class App extends Component<P> {
         </p>
       </div>
       <div className={`container ${classes.mainContainer}`}>
-        <div className="columns">
+
+        <div className="tile is-ancestor">
+          <div className="tile is-vertical is-4">
+            <article className="tile is-child">
+              <Explorer  editor={this.props.state.editor}></Explorer>
+            </article>
+          </div>
+
+          <div className="tile is-vertical is-8">
+            <article className="tile is-child ">
+              <Editor {...this.props} />
+            </article>
+          </div>
+        </div>
+
+        {/* <div className="columns">
           <div className={`column is-one-third`}>
             <Explorer editor={this.props.state.editor}></Explorer>
           </div>
@@ -49,8 +66,12 @@ export class App extends Component<P> {
             <Editor {...this.props} />
           </div>
         </div>
+     */}
+
+
+        {/* <Logger status={this.state.state.status}></Logger> */}
+
       </div>
-      {/* <Logger status={this.state.state.status}></Logger> */}
     </section>
   }
 }

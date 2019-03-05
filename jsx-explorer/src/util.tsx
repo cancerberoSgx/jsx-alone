@@ -5,20 +5,21 @@ export function evaluate(jsx: string) {
   const JSXAlone = JSXAloneJsonImpl // cannot put the name as named import because transpilation changes it
   const compiled = compileTs(jsx)
   let r: JsonImplOutputEl = null as any
+  const s = `(${compiled})()`
   try {
-    const s = `(${compiled})()`
     const jsxLike = eval(s)
     r = JSXAlone.render(jsxLike) as any
     removeCircles(r)
   } catch (e) {
-    console.error(e)
+    e.evaluated = s
+    throw e
   }
   return r
 }
 function removeCircles(r: any): any {
-  if(r){
+  if (r) {
     delete r.parentElement;
-    (r.children||[]).forEach((c:any)=>removeCircles(c))
+    (r.children || []).forEach((c: any) => removeCircles(c))
   }
 }
 export function compileTs(code: string) {
