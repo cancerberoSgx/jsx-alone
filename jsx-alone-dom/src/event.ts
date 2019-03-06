@@ -1,4 +1,4 @@
-import { getElementMark, markElement, getMarkedElement } from './mark'
+import { getElementMark, markElement, getMarkedElement, getDescendantsMarks, getMarkedDescendants, removeElementMark } from './mark'
 import { unique, objectMap } from 'jsx-alone-core'
 import { ElementLikeImpl } from './elementImpl';
 import { ElementClass } from './elementClass';
@@ -17,10 +17,11 @@ type AppendDoDomListener = () => void
 
 export interface EventManager {
   addAppendToDomListener(l: AppendDoDomListener): void
-  onAppendToDom():void
+  onAppendToDom(): void
   addEventListener(el: HTMLElement, type: string, fn: EventListener): void
   /** removes event listeners for element inside root */
-  removeListeners(el: HTMLElement, types?: []): void
+  // removeListeners(el: HTMLElement, types?: []): void
+  removeListeners(el: HTMLElement, andDescendants?: boolean, types?: []): void
   /** uninstall the event listeners in root. Reset the internal state. Optionally, remove the markings on descendant elements  */
   uninstall(removeElementMarks?: boolean, types?: []): void
 }
@@ -41,7 +42,7 @@ export interface EventManager {
  * @internal
  */
 export class RootEventManager implements EventManager {
-  
+
 
   private registeredByType: { [type: string]: Entry[] } = {}
   private appendToDomListeners: AppendDoDomListener[] = []
@@ -50,23 +51,28 @@ export class RootEventManager implements EventManager {
   constructor(private root: HTMLElement, private debug?: boolean) {
     this.rootListener = this.rootListener.bind(this)
     // console.log('consrttrtr');
-    
+
   }
 
 
   private markElement(el: HTMLElement) {
     return markElement(el, this.mark)
   }
-  private getElementMark(e: HTMLElement) {
+  private getElementMark(e: Element) {
     return getElementMark(e, this.mark)
+  }
+  private removeElementMark(e: Element) {
+    return removeElementMark(e, this.mark)
   }
   private getMarkedElement(mark: string) {
     return getMarkedElement(mark, this.root, this.mark)
   }
-
+  private getMarkedDescendants(e: Element) {
+    return getMarkedDescendants(e, this.mark)
+  }
 
   /** private handler for all events */
-  private rootListener(e: Event ): any {
+  private rootListener(e: Event): any {
     if (e.target) {
       const mark = this.getElementMark(e.target as HTMLElement)
       const entry = mark && (this.registeredByType[e.type.toLowerCase()] || []).find(e => e.mark === mark)
@@ -80,9 +86,11 @@ export class RootEventManager implements EventManager {
   addAppendToDomListener(l: AppendDoDomListener) {
     this.appendToDomListeners.push(l)
   }
-  onAppendToDom(){
-    this.appendToDomListeners.forEach(l=>l())
+
+  onAppendToDom() {
+    this.appendToDomListeners.forEach(l => l())
   }
+
   addEventListener(el: HTMLElement, type: string, fn: EventListener) {
     type = type.toLowerCase()
     let ls = this.registeredByType[type]
@@ -101,28 +109,37 @@ export class RootEventManager implements EventManager {
       entry.fn = fn
     }
   }
-  updateEventListeners(ec: ElementClass, oldEl:HTMLElement, newEl: HTMLElement, elLike: ElementLike): any {
-    if(!oldEl || !ec || !newEl||!oldEl.getAttribute || !newEl.getAttribute){
-      return 
-    }    
+
+  updateEventListeners(ec: ElementClass, oldEl: HTMLElement, newEl: HTMLElement, elLike: ElementLike): any {
+    if (!oldEl || !ec || !newEl || !oldEl.getAttribute || !newEl.getAttribute) {
+      return
+    }
     const mark = this.getElementMark(oldEl as any)
-    if(!mark){return }
-    Object.values(this.registeredByType).forEach(v=>{
-      v.filter(e=>e.mark===mark).forEach(e=>{
-        e.fn = elLike.attrs[`on${e.type.substring(0,1).toUpperCase()}${e.type.substring(1, e.type.length)}`].bind(ec)
+    if (!mark) { return }
+    Object.values(this.registeredByType).forEach(v => {
+      v.filter(e => e.mark === mark).forEach(e => {
+        e.fn = elLike.attrs[`on${e.type.substring(0, 1).toUpperCase()}${e.type.substring(1, e.type.length)}`].bind(ec)
       })
     })
   }
 
-  removeListeners(el: HTMLElement, types?: []) {
-    const mark = this.getElementMark(el)
-    if (mark) {
-      (types || Object.keys(this.registeredByType).map(t => t.toLowerCase())).forEach(t => {
-        this.registeredByType[t] = (this.registeredByType[t] || []).filter(e => e.mark !== mark)
+  removeListeners(el: HTMLElement, andDescendants = false, types?: []) {
+    // const els = 
+    [...(this.getElementMark(el) ? [el] : []), ...(andDescendants ? this.getMarkedDescendants(el) : [])]
+      .filter(m => m)
+      // if (mark) {
+      .forEach(el => {
+        const mark = this.getElementMark(el!);
+        if (!mark) { return }
+        (types || Object.keys(this.registeredByType)
+          .map(t => t.toLowerCase()))
+          .forEach(t => {
+            this.registeredByType[t] = (this.registeredByType[t] || []).filter(e => e.mark !== mark)
+          })
+        this.removeElementMark(el)
       })
-    }
+    // }
   }
-
 
   uninstall(removeElementMarks = false, types?: []) {
     (types || Object.keys(this.registeredByType).map(t => t.toLowerCase())).forEach(t => {

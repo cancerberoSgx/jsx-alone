@@ -13,7 +13,7 @@ export abstract class Component<P={}> extends ElementClass<P> {
   protected query<T extends HTMLElement=HTMLElement>(s: string): T {
     return this.containerEl!.querySelector(s)! as any
   }
-  
+
   protected queryAll<T extends HTMLElement=HTMLElement>(s: string): T[] {
     return Array.from(this.containerEl!.querySelectorAll(s)) as any
   }
@@ -21,6 +21,7 @@ export abstract class Component<P={}> extends ElementClass<P> {
   beforeRender(containerEl: HTMLElement) {
     this.containerEl = containerEl
     if (this.updateExistingRemoveChildrenIfCountDiffer && this.containerEl) {
+      this._eventManager && this._eventManager.removeListeners(this.containerEl, true)
       emptyAllChildren(this.containerEl)
     }
   }

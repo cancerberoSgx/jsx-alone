@@ -5,7 +5,7 @@ import { css } from "../util/media";
 import { Header } from './header';
 import { Component } from './util/component';
 import { EditorExplorerMenu } from './editorExplorerMenu';
-import { EditorExplorerBody } from "./editorExplorerBody";
+import { EditorExplorerBody } from './editorExplorerBody';
 
 export interface P {
   state: State

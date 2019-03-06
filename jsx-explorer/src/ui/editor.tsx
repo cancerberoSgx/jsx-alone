@@ -20,7 +20,7 @@ export function getMonacoInstance(){
 
 export class Editor extends Component<P> {
 
-  protected updateExistingRemoveChildrenIfCountDiffer = false
+  // protected updateExistingRemoveChildrenIfCountDiffer = false
 
   render() {
     const s = {

@@ -1,24 +1,5 @@
-import { JSXAlone } from 'jsx-alone-dom';
-import { Editor, State } from '../../store/types';
-import { registerStyle } from '../../style/styles';
 import { getMonacoInstance } from '../editor';
-import { Component } from '../util/component';
-import { ElementExplorer } from './elements/elementExplorer';
-import { TsSimpleAstExplorer } from './tsAst/tsAstExplorer';
-import { ImplExplorer } from './implExplorer';
-
-registerStyle(`
-.explorer-container{
-  display:none;
-}
-.explorer-container.is-active {
-  display: block;
-}
-`)
-
-interface P {
-  state: State
-}
+import { Editor } from '../../store/types';
 
 export interface ExplorerProps {
   editor: Editor
@@ -32,25 +13,58 @@ export interface SelectCode {
   endLineNumber: number;
 }
 
-export class Explorers extends Component<P> {
-
-  protected updateExistingRemoveChildrenIfCountDiffer = true
-
-  private selectExplorer(e: 'elements' | 'jsAst' | 'implementations') {
-    this.query('.tabs li.is-active').classList.remove('is-active')
-    this.query('.tabs li.' + e).classList.add('is-active')
-    this.query('.explorer-container.is-active').classList.remove('is-active')
-    this.query('.explorer-container.' + e).classList.add('is-active')
+export function onSelectCode(sel: SelectCode): void {
+  const s = getMonacoInstance()!.getScrolledVisiblePosition({ lineNumber: sel.startLineNumber, column: sel.startColumn })
+  if (s) {
+    getMonacoInstance()!.setScrollPosition({ scrollTop: s.top, scrollLeft: s.left })
   }
+  getMonacoInstance()!.setSelection(sel)
+  getMonacoInstance()!.focus()
+}
 
-  constructor(p: P) {
-    super(p)
-    this.onSelectCode = this.onSelectCode.bind(this)
-  }
+// import { JSXAlone } from 'jsx-alone-dom';
+// import { Editor, State } from '../../store/types';
+// import { registerStyle } from '../../style/styles';
+// import { getMonacoInstance } from '../editor';
+// import { Component } from '../util/component';
+// import { ElementExplorer } from './elements/elementExplorer';
+// import { TsSimpleAstExplorer } from './tsAst/tsAstExplorer';
+// import { ImplExplorer } from './implExplorer';
 
-  render() {
-    return <div>
-      <div className="tabs is-small is-boxed is-toggle">
+// registerStyle(`
+// .explorer-container{
+//   display:none;
+// }
+// .explorer-container.is-active {
+//   display: block;
+// }
+// `)
+
+// interface P {
+//   state: State
+// }
+
+
+
+// export class Explorers extends Component<P> {
+
+  // protected updateExistingRemoveChildrenIfCountDiffer = true
+
+  // private selectExplorer(e: 'elements' | 'jsAst' | 'implementations') {
+  //   this.query('.tabs li.is-active').classList.remove('is-active')
+  //   this.query('.tabs li.' + e).classList.add('is-active')
+  //   this.query('.explorer-container.is-active').classList.remove('is-active')
+  //   this.query('.explorer-container.' + e).classList.add('is-active')
+  // }
+
+  // constructor(p: P) {
+  //   super(p)
+  //   this.onSelectCode = this.onSelectCode.bind(this)
+  // }
+
+  // render() {
+  //   return <div>
+      {/* <div className="tabs is-small is-boxed is-toggle">
         <ul>
           <li className="elements is-active">
             <a onClick={e => this.selectExplorer('elements')}>Elements</a>
@@ -62,8 +76,8 @@ export class Explorers extends Component<P> {
             <a onClick={e => this.selectExplorer('implementations')}>Implementations</a>
           </li>
         </ul>
-      </div>
-      <div className="explorer-container elements is-active">
+      </div> */}
+      {/* <div className="explorer-container elements is-active">
         <ElementExplorer editor={this.props.state.editor} onSelectCode={this.onSelectCode} />
       </div>
       <div className="explorer-container jsAst">
@@ -71,17 +85,17 @@ export class Explorers extends Component<P> {
       </div>
       <div className="explorer-container implementations">
         <ImplExplorer editor={this.props.state.editor} onSelectCode={this.onSelectCode} />
-      </div>
-    </div>
-  }
+      </div> */}
+    // </div>
+  // }
 
-  private onSelectCode(sel: SelectCode): void {
-    const s = getMonacoInstance()!.getScrolledVisiblePosition({lineNumber: sel.startLineNumber, column: sel.startColumn})
-    if(s){
-      getMonacoInstance()!.setScrollPosition({ scrollTop: s.top, scrollLeft: s.left })
-    }
-    getMonacoInstance()!.setSelection(sel)
-    getMonacoInstance()!.focus()
+  // private onSelectCode(sel: SelectCode): void {
+  //   const s = getMonacoInstance()!.getScrolledVisiblePosition({lineNumber: sel.startLineNumber, column: sel.startColumn})
+  //   if(s){
+  //     getMonacoInstance()!.setScrollPosition({ scrollTop: s.top, scrollLeft: s.left })
+  //   }
+  //   getMonacoInstance()!.setSelection(sel)
+  //   getMonacoInstance()!.focus()
 
-  }
-}
+  // }
+// }

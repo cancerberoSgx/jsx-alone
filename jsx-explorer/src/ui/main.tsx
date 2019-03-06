@@ -7,7 +7,7 @@ import { Component } from './util/component';
 export class Main extends Component<{
   state: State;
 }> {
-  protected updateExistingRemoveChildrenIfCountDiffer = false
+  // protected updateExistingRemoveChildrenIfCountDiffer = false
   render() {
     return <div>
       <App state={this.props.state} />
