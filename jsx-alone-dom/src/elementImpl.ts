@@ -62,7 +62,7 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
           updateExisting: existingChildToUpdate || undefined,
           rootHTMLElement: existingChildToUpdate || undefined,
         })
-        if (!existingChildToUpdate) {
+        if (!existingChildToUpdate && el.nodeType !== document.TEXT_NODE) {
           el.appendChild(cel)
         }
         else if (existingChildToUpdate

@@ -12,7 +12,9 @@ interface P {
 }
 
 let editor: monaco.editor.IStandaloneCodeEditor | undefined
-
+export function getMonacoInstance(){
+  return editor
+}
 export class Editor extends Component<P> {
   render() {
     const s = {

@@ -6,9 +6,9 @@ import { registerStyle } from '../../style/styles';
 import { escapeHtml, evaluate } from '../../util/util';
 import { showInModal } from '../util/showInModal';
 import { Node } from './elementExplorerNode';
+import { ExplorerProps } from './explorers';
 
-interface P {
-  editor: Editor
+interface P extends ExplorerProps{
 }
 
 registerStyle(`

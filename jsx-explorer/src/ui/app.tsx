@@ -33,7 +33,7 @@ ${css('.mainContainer', `
   width: 100%;
   max-width: 100%;
 `, `
-margin-top: 1.2em;
+margin: 1.2em;
 `)}
 
 
