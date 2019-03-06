@@ -13,17 +13,17 @@ export interface JsonImplOutputEl {
 }
 
 export interface JSONImplOutputText {
-  content?: string
+  content?: string|number|boolean|null|undefined
 }
 
 export type JsonImplOutput = JsonImplOutputEl | JSONImplOutputText
 
-export function isJsonImplOutputEl(a:any):a is JsonImplOutputEl{
-  return a && typeof a.tag==='string'
+export function isJsonImplOutputEl(a: any): a is JsonImplOutputEl {
+  return a && typeof a.tag === 'string'
 }
 
-export function isJsonImplOutputText(a:any):a is JSONImplOutputText{
-  return a && a.content
+export function isJsonImplOutputText(a: any): a is JSONImplOutputText {
+  return a && typeof a.tag === 'undefined'
 }
 
 export interface JsonImplRenderConfig extends RenderConfig<JsonImplOutput> {
@@ -32,7 +32,7 @@ export interface JsonImplRenderConfig extends RenderConfig<JsonImplOutput> {
 export class JsonImplElementLikeImpl extends AbstractElementLike<JsonImplOutput> implements ElementLike<JsonImplOutput> {
   innerHtml: string | undefined
   render(config: JsonImplRenderConfig = {}): JsonImplOutput {
-    const r= {
+    const r = {
       tag: this.tag,
       innerHtml: this.innerHtml,
       attrs: this.attrs,
@@ -55,9 +55,17 @@ export class JsonImplTextNodeLikeImpl extends AbstractTextNodeLike<JsonImplOutpu
     return { content: this.content }
   }
 }
-
-export function JsonImplOutputElAsHtml(node: JsonImplOutputEl, indentLevel=0):string{
-  return `\n${indent(indentLevel)}<${node.tag}${Object.keys(node.attrs).length?' ' : ''}${Object.keys(node.attrs).map(a=>`${a}="${node.attrs[a].toString ? node.attrs[a].toString() : node.attrs[a]}"`).join(' ')}>${node.children.map(c=>isJsonImplOutputEl(c) ? JsonImplOutputElAsHtml(c, indentLevel+1) : c.content).join('')}\n${indent(indentLevel)}</${node.tag}>`
+/**
+ * @param indentLevel if -1 no indentation will be rendered
+ */
+export function JsonImplOutputElAsHtml(node: JsonImplOutput, indentLevel = 0): string {
+  if (isJsonImplOutputText(node)) {
+    return (node.content+'')
+  }
+  return `${indentLevel === -1 ? '' : `\n${indent(indentLevel)}`}<${node.tag}${
+    Object.keys(node.attrs).length ? ' ' : ''}${
+    Object.keys(node.attrs).map(a => `${a}="${node.attrs[a].toString ? node.attrs[a].toString() : node.attrs[a]}"`).join(' ')}>${
+    node.children.map(c => isJsonImplOutputEl(c) ? JsonImplOutputElAsHtml(c, indentLevel + 1) : c.content).join('')}${indentLevel === -1 ? '' : `\n${indent(indentLevel)}`}</${node.tag}>`
 }
 
 export abstract class JsonImplElementClass<P = {}> extends AbstractElementClass<P> { }

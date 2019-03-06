@@ -16,7 +16,7 @@ function simple1() {
         <strong className="name">{p.name}</strong> is <span className="age">{p.age}</span> years old
       </li>)}
     </ul>
-    <p>Listed {people.length} persons in {Date.now()-t0} milliseconds. </p>
+    <p>Listed {people.length} persons in {(Date.now()-t0)+''} milliseconds. </p>
     <button className="button is-primary" onClick={e=>alert(\`submitted \${people.length} persons\`)}>Submit</button>
   </div>
 }
@@ -25,11 +25,12 @@ function simple1() {
 
 
   {
-    name: 'simple 2',
+    name: 'dangerouslySetInnerHTML',
     code: `
-function simple2() {
-  return <div className="simple2">
-    hello world
+function sample() {
+  const name = 'Rambo', suffix = 'Mister'
+  return <div className="simple2">Hello 
+    <span dangerouslySetInnerHTML={{__html: \`\\n<strong>\${suffix}</strong>\\n<em className="name">\${name}</em>\\n\`}}></span>!
   </div>
 }
       `.trim()
@@ -39,12 +40,6 @@ function simple2() {
   {
     name: 'conditionals',
     code: `
-interface Node {
-  getKindName(): string
-  getType(): Node|undefined
-  getText(): string
-  getChildren(): Node[]
-}
     
 function conditionals() {
     
@@ -112,6 +107,13 @@ function conditionals() {
   }
 
   return <RenderNode {...props} />
+}
+
+interface Node {
+  getKindName(): string
+  getType(): Node|undefined
+  getText(): string
+  getChildren(): Node[]
 }
 
         `.trim()

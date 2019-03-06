@@ -31,7 +31,7 @@ export class NodeComponent extends Component<P> {
       }}>{collapsed ? '+' : '-'}</button>
 
       {!collapsed && showDetailsOf === path && <div className="nodeInfo">
-        <strong>Text</strong>: <code>"{shorter(node.getText(), 20)}..."</code><br />
+        <strong>Text</strong>: <code>{shorter(node.getText())}</code><br />
         <strong>Type</strong>: <code>{node.getType().getApparentType().getText()}</code>
       </div>}
 

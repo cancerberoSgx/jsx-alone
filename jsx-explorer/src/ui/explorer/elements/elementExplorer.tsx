@@ -46,7 +46,7 @@ export class ElementExplorer extends Component<P> {
 }
 
 function getHtmlCodeModalContent(html: string) {
-  return <div id="getHtmlCodeModalContent">hello
+  return <div id="getHtmlCodeModalContent">
     <div className="tabs is-small is-boxed is-toggle">
       <ul>
         <li className="html-code is-active">

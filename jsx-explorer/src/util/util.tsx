@@ -10,14 +10,18 @@ let evaluateLastOutputDom: any
 let evaluateLastInputString: string | undefined
 let evaluateLastOutputString: any
 
-export function evaluate<T = JsonImplOutputEl>(jsx: string, impl: 'json' | 'dom' | 'string' = 'json'): T {
-  if (impl === 'json' && jsx === evaluateLastInputJson && evaluateLastOutputJson) {
+export interface EvaluateTimes{eval?: number, render?: number}
+/**
+ * @param times if an empty object is passed it will be filled with timings and the cache won't be considered
+ */
+export function evaluate<T = JsonImplOutputEl>(jsx: string, impl: 'json' | 'dom' | 'string' = 'json', times?: EvaluateTimes): T {
+  if (!times&&impl === 'json' && jsx === evaluateLastInputJson && evaluateLastOutputJson) {
     return evaluateLastOutputJson
   }
-  if (impl === 'dom' && jsx === evaluateLastInputDom && evaluateLastOutputDom) {
+  if (!times&&impl === 'dom' && jsx === evaluateLastInputDom && evaluateLastOutputDom) {
     return evaluateLastOutputDom
   }
-  if (impl === 'string' && jsx === evaluateLastInputString && evaluateLastOutputString) {
+  if (!times&&impl === 'string' && jsx === evaluateLastInputString && evaluateLastOutputString) {
     return evaluateLastOutputString
   }
   const JSXAlone = impl === 'dom' ? JSXAloneDomImpl : impl === 'string' ? JSXAloneStringImpl : JSXAloneJsonImpl
@@ -26,8 +30,12 @@ export function evaluate<T = JsonImplOutputEl>(jsx: string, impl: 'json' | 'dom'
   const s = `(${compiled})()`
   try {
     // const config = impl === 'string' ? {indent: true, indentTabSize: 2}: undefined   as any
+    const evalT0 = Date.now()
     const jsxLike = eval(s)
+    times && (times.eval = Date.now() - evalT0)
+    const renderT0 = Date.now()
     r = JSXAlone.render(jsxLike)  as T
+    times && (times.render = Date.now() - renderT0)
     impl === 'json' && removeCirclesJsonImplOutput(r)
   } catch (e) {
     e.evaluated = s
@@ -67,7 +75,9 @@ export function escapeHtml(html: string) {
 }
 
 export function shorter(s: string, l = 20) {
-  return s.trim().substring(0, Math.min(s.length, l))
+  s = typeof s !== 'string' ? (s+'') : s
+  const postFix = s.length>l ? '...': ''
+  return `"${s.trim().substring(0, Math.min(s.length, l))}${postFix}"`
 }
 
 export function emptyAllChildren(e: Element) {

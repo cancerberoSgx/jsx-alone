@@ -11,12 +11,15 @@ export class ElementLikeImpl extends AbstractElementLike<string> implements Elem
     const newLine = config.indent ? `\n` : ``
     const content =
       this.innerHtml ||
-      `${newLine}${indent({ ...config, indentLevel: (config.indentLevel || 0) + 1 })}${this.children
+      `${newLine}${indent({ ...config, indentLevel: (config.indentLevel || 0) + 1 })}${
+      this.children
         .map(c => `${(c as ElementLikeImpl).render({ ...config, indentLevel: (config.indentLevel || 0) + 1 })}`)
         .join('')}${newLine}${indent(config)}`
-    return `<${this.tag}${Object.keys(this.attrs)
-      .map(a => ` ${printHtmlAttribute(a, this.attrs[a])}`)
-      .join('')}>${content}</${this.tag}>`
+    return `<${this.tag}${
+      Object.keys(this.attrs)
+        .map(a => ` ${printHtmlAttribute(a, this.attrs[a])}`)
+        .join('')
+      }>${content}</${this.tag}>`
   }
 
   dangerouslySetInnerHTML(s: string): void {
@@ -35,6 +38,9 @@ function printHtmlAttribute(a: string, value: any) {
     // we reassign _this because typescript emitted code will change the function body "this" for "_this"
     value = `(${value.toString()}).apply(_this=this,arguments)`
   }
+  else {
+    value = value + ''
+  }
   value = value.replace(/\"/gim, '&quot;') // replace(/\"/g, '\\"')
   return `${a}="${value}"`
 }
@@ -45,4 +51,4 @@ export class TextNodeLikeImpl extends AbstractTextNodeLike<string> implements Te
   }
 }
 
-export abstract class ElementClass<P = {}> extends AbstractElementClass< P> { }
+export abstract class ElementClass<P = {}> extends AbstractElementClass<P> { }

@@ -33,17 +33,17 @@ export interface SelectCode {
 }
 
 export class Explorers extends Component<P> {
-  
+
   protected updateExistingRemoveChildrenIfCountDiffer = true
-  
-  private selectExplorer(e: 'elements' | 'jsAst'|'implementations') {
+
+  private selectExplorer(e: 'elements' | 'jsAst' | 'implementations') {
     this.query('.tabs li.is-active').classList.remove('is-active')
     this.query('.tabs li.' + e).classList.add('is-active')
     this.query('.explorer-container.is-active').classList.remove('is-active')
     this.query('.explorer-container.' + e).classList.add('is-active')
   }
 
-  constructor(p:P){
+  constructor(p: P) {
     super(p)
     this.onSelectCode = this.onSelectCode.bind(this)
   }
@@ -70,12 +70,18 @@ export class Explorers extends Component<P> {
         <TsSimpleAstExplorer editor={this.props.state.editor} onSelectCode={this.onSelectCode} />
       </div>
       <div className="explorer-container implementations">
-      <ImplExplorer editor={this.props.state.editor} onSelectCode={this.onSelectCode} />
+        <ImplExplorer editor={this.props.state.editor} onSelectCode={this.onSelectCode} />
       </div>
     </div>
   }
 
-  private onSelectCode(sel: SelectCode):void {
-    getMonacoInstance()!.setSelection(sel);
+  private onSelectCode(sel: SelectCode): void {
+    const s = getMonacoInstance()!.getScrolledVisiblePosition({lineNumber: sel.startLineNumber, column: sel.startColumn})
+    if(s){
+      getMonacoInstance()!.setScrollPosition({ scrollTop: s.top, scrollLeft: s.left })
+    }
+    getMonacoInstance()!.setSelection(sel)
+    getMonacoInstance()!.focus()
+
   }
 }

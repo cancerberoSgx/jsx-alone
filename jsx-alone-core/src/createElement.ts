@@ -56,9 +56,7 @@ export function updateElement<T, R extends ElementLike<T> = ElementLike<T>>(elem
         if (value === true) {
           element.setAttribute(name, name)
         }
-        // else {
-        //   // do nothing
-        // }
+        // Heads up: else { // do nothing for false}
       }
       else if (name === 'dangerouslySetInnerHTML' && value) {
         element.dangerouslySetInnerHTML(value.__html)
@@ -70,6 +68,7 @@ export function updateElement<T, R extends ElementLike<T> = ElementLike<T>>(elem
 
     children.forEach((child, i) => {
       if (!child) {
+        // Heads up: don't print falsy values so we can write `{list.length && <div>}` or `{error && <p>}` etc
         return
       }
       if (isNode<T>(child)) {
