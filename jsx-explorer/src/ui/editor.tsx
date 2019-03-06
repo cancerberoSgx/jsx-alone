@@ -13,10 +13,13 @@ interface P {
 }
 
 let editor: monaco.editor.IStandaloneCodeEditor | undefined
+
 export function getMonacoInstance(){
   return editor
 }
+
 export class Editor extends Component<P> {
+
   render() {
     const s = {
       editorContainer: {
@@ -28,6 +31,7 @@ export class Editor extends Component<P> {
     const { classes } = Styles(s)
     return <div id="editorContainer" className={classes.editorContainer} />
   }
+
   afterRender(e: HTMLElement) {
     super.afterRender(e)
     this.eventManager && this.eventManager.addAppendToDomListener(() => {
@@ -49,7 +53,7 @@ export class Editor extends Component<P> {
     let code = this.props.state.editor.code
     editor = monaco.editor.create(query('#editorContainer'), {
       value: code,
-      language: 'javascript',
+      language: 'typescript',
       theme: this.props.state.layout.theme.name === 'dark' ? 'vs-dark' : 'vs',
       lineNumbers: isDesktop() ? 'on' : 'off',
       glyphMargin: isDesktop(),

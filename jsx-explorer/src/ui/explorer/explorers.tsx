@@ -4,7 +4,7 @@ import { registerStyle } from '../../style/styles';
 import { getMonacoInstance } from '../editor';
 import { Component } from '../util/component';
 import { ElementExplorer } from './elements/elementExplorer';
-import { TsSimpleAstExplorer } from './tsAst/tsSimpleAstExplorer';
+import { TsSimpleAstExplorer } from './tsAst/tsAstExplorer';
 
 registerStyle(`
 .explorer-container{

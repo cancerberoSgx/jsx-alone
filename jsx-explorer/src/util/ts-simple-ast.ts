@@ -4,9 +4,9 @@ import { lib_dom_d_ts } from './lib_dom_d_ts';
 import { domDeclarations_d_ts } from './domDeclarations_d_ts';
 import { cssDeclarations_d_ts } from './cssDeclarations_d_ts';
 
-let project: Project|undefined
+let project: Project | undefined
 export function createProject(files: { fileName: string, content: string }[]): Project {
-  if(!project){
+  if (!project) {
     project = new Project({
       useVirtualFileSystem: true,
       compilerOptions: {
@@ -21,8 +21,12 @@ export function createProject(files: { fileName: string, content: string }[]): P
     project.createSourceFile('cssDeclarations.d.ts', cssDeclarations_d_ts)
     files.forEach(f => project!.createSourceFile(f.fileName, f.content))
   }
-  else {    
-    files.forEach(f => project!.getSourceFile(f.fileName)!.replaceWithText(f.content))
+  else {
+    files.forEach(f => {
+      if (project!.getSourceFile(f.fileName)!.getText() !== f.content) {
+        project!.getSourceFile(f.fileName)!.replaceWithText(f.content)
+      }
+    })
   }
   project.saveSync()
   return project

@@ -23,14 +23,14 @@ export class Header extends Component<P> {
           {'<JSX explorer/>'}
         </a>
 
-        <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample" onClick={e => this.query('#navbarBasicExample').classList.toggle('is-active')}>
+        <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="jsxExplorerNavbar" onClick={e => this.query('#jsxExplorerNavbar').classList.toggle('is-active')}>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
         </a>
       </div>
- 
-      <div id="navbarBasicExample" className="navbar-menu">
+
+      <div id="jsxExplorerNavbar" className="navbar-menu">
         <div className="navbar-start">
           <a className="navbar-item" onClick={e => showInModal(<WhatsThis />)}>What's this</a>
 
@@ -38,7 +38,11 @@ export class Header extends Component<P> {
             <a className="navbar-link">Examples</a>
 
             <div className="navbar-dropdown">
-              {examples.map(e => <a className="navbar-item">{e.name}</a>)}
+              {examples.map(example => <a className="navbar-item" onClick={e => {
+                debugger
+                dispatch({ type: 'CHANGE_CODE', code: example.code })
+              }
+              }>{example.name}</a>)}
             </div>
           </div>
         </div>

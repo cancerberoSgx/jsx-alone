@@ -2,7 +2,6 @@ import { JSXAlone } from 'jsx-alone-dom';
 import { Status } from '../../store/types';
 import { Component } from '../util/component';
 
-
 export class Logger extends Component<{status: Status}> {
   render() {
     return <div>
