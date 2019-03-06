@@ -5,12 +5,12 @@ import { escapeHtml, shorter } from '../../util/util';
 import { createProject, getChildrenForEachChild } from '../../util/ts-simple-ast';
 import { dumpAst } from '../../util/typescript';
 import { registerStyle } from '../../style/styles';
-import { Node , ts} from 'ts-simple-ast';
+import { Node, ts } from 'ts-simple-ast';
 import { unique } from 'jsx-alone-core';
 import { ExplorerProps } from './explorers';
 
 
-interface P extends ExplorerProps{
+interface P extends ExplorerProps {
   mode?: 'getChildren' | 'forEachChild'
   showDetailsOf?: string
 }
@@ -30,21 +30,22 @@ export class TsSimpleAstExplorer extends Component<P> {
     }])
     this.props.mode = this.props.mode || 'forEachChild'
     const f = project.getSourceFiles().find(s => s.getFilePath().endsWith('t1.tsx'))!
-    
+
     return <div className="tsAstExplorerContent">
-      <button className="button is-small" onClick={e=>{
-        this.updateProps({mode: this.props.mode==='forEachChild' ? 'getChildren' : 'forEachChild'})
-      }}>{this.props.mode==='forEachChild' ? 'getChildren' : 'forEachChild'} mode</button>
-      <NodeComponent mode={this.props.mode} node={f} showDetailsOf={this.props.showDetailsOf} onShowDetailsOf={(p, n)=>{
-        this.updateProps({showDetailsOf: p})
-        const sel= {
-          startColumn:ts.getLineAndCharacterOfPosition(f.compilerNode, n.compilerNode.getStart()).character+1,
-          startLineNumber:ts.getLineAndCharacterOfPosition(f.compilerNode, n.compilerNode.getStart()).line+1,
-          endColumn: ts.getLineAndCharacterOfPosition(f.compilerNode, n.compilerNode.getEnd()).character+1,
-          endLineNumber:ts.getLineAndCharacterOfPosition(f.compilerNode, n.compilerNode.getEnd()).line+1,
-        }
-        this.props.onSelectCode && this.props.onSelectCode(sel)
-        }}/>
+      <button className="button is-small" onClick={e => {
+        this.updateProps({ mode: this.props.mode === 'forEachChild' ? 'getChildren' : 'forEachChild' })
+      }}>{this.props.mode === 'forEachChild' ? 'getChildren' : 'forEachChild'} mode</button>
+      <NodeComponent mode={this.props.mode} node={f} showDetailsOf={this.props.showDetailsOf}
+        onShowDetailsOf={(p, n) => {
+          const sel = {
+            startColumn: ts.getLineAndCharacterOfPosition(f.compilerNode, n.compilerNode.getStart()).character + 1,
+            startLineNumber: ts.getLineAndCharacterOfPosition(f.compilerNode, n.compilerNode.getStart()).line + 1,
+            endColumn: ts.getLineAndCharacterOfPosition(f.compilerNode, n.compilerNode.getEnd()).character + 1,
+            endLineNumber: ts.getLineAndCharacterOfPosition(f.compilerNode, n.compilerNode.getEnd()).line + 1,
+          }
+          this.props.onSelectCode && this.props.onSelectCode(sel)
+          this.updateProps({showDetailsOf: p})
+        }} />
       <pre>
         {escapeHtml(JSON.stringify(dump(f, this.props.mode), null, 2))}
       </pre>
@@ -53,33 +54,35 @@ export class TsSimpleAstExplorer extends Component<P> {
 }
 
 interface NP {
-  node: Node 
-  path?:string
+  node: Node
+  path?: string
   mode: 'getChildren' | 'forEachChild'
+  onShowDetailsOf: (p: string, n: Node) => void
   showDetailsOf?: string
-  onShowDetailsOf: (p:string, n:Node)=>void
 }
 
 export class NodeComponent extends Component<NP> {
   render() {
-    const {node, mode, path='/'} = this.props
+    const { node, mode, path = '/', showDetailsOf, onShowDetailsOf} = this.props
     const children = mode === 'forEachChild' ? getChildrenForEachChild(node) : node.getChildren()
-    return <div className="content">
+    return <div className="content" data-key={path}>
       <span>{node.getKindName()}</span>
 
-    <button className="button is-small" onClick={e=>{
-      this.props.onShowDetailsOf(path, node)
-    }}>info</button>
+      <button className="button is-small" onClick={e => {
+        // this.updateProps({ showDetails: true })
+        onShowDetailsOf(path, node)
+      }}>info</button>
 
-      {this.props.showDetailsOf===path && <div>
-        Text: "{shorter(node.getText())}"
-        Type: {node.getType().getText()}
+      {showDetailsOf===path && <div className="nodeInfo">
+        <strong>Text</strong>: <code>"{shorter(node.getText(), 20)}..."</code><br />
+        <strong>Type</strong>: <code>{node.getType().getText()}</code>
       </div>}
 
       <ul>
-      {children.map((c, i)=><li>
-        <NodeComponent {...this.props} node={c} path={path+i}/>
-      </li>)}
+        {children.map((c, i) => <li>
+          <NodeComponent node={c} path={path + i} onShowDetailsOf={onShowDetailsOf} mode={mode} showDetailsOf={showDetailsOf}
+          />
+        </li>)}
       </ul>
 
     </div>

@@ -54,22 +54,26 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
       el.innerHTML = this._innerHtml
     }
     else {
+
+      const childrenCountDiffer = config.updateExisting && el.childNodes.length !== this.children.length
+      if (childrenCountDiffer) {
+        el.innerHTML = ''
+      }
       this.children.forEach((c, i) => {
         // Heads up: if config.updateExisting then we don't append new child, just render it and replace the existing child only if !isEqualNode
-        const existingChildToUpdate = config.updateExisting && config.updateExisting!.childNodes.item(i)
+        const existingChildToUpdate = !childrenCountDiffer && el.childNodes.item(i)
         const cel = c.render({
           ...config,
           updateExisting: existingChildToUpdate || undefined,
           rootHTMLElement: existingChildToUpdate || undefined,
         })
-        if (!existingChildToUpdate && el.nodeType !== document.TEXT_NODE) {
+
+        if (!existingChildToUpdate) {
           el.appendChild(cel)
         }
-        else if (existingChildToUpdate
-          && !existingChildToUpdate.isEqualNode(cel)
-        ) {
+        else if (existingChildToUpdate && !existingChildToUpdate.isEqualNode(cel)) {
           existingChildToUpdate.replaceWith(cel)
-          config.eventManager.updateEventListeners(this._elementClassInstance || config.rootElementLike._elementClassInstance as any, config.updateExisting as HTMLElement, el as HTMLElement, this)
+          config.eventManager.updateEventListeners(this._elementClassInstance || config.rootElementLike._elementClassInstance as ElementClass, config.updateExisting as HTMLElement, el as HTMLElement, this)
         }
       })
     }
