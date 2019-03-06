@@ -26,10 +26,6 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
 
     let el = updateExisting || rootHTMLElement || this.buildRootElement(config)
 
-    // const attrNames = Object.keys(this.attrs)
-    // const attrNamesCount = attrNames.length
-    // for (let i = 0; i < attrNamesCount; i++) {
-    //   const attribute = attrNames[i]
     Object.keys(this.attrs).forEach(attribute => {
       const value = this.attrs[attribute]
       if (attribute === 'className') {
@@ -45,7 +41,6 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
         el.setAttribute(attribute, value)
       }
     })
-    // }
 
     if (this._innerHtml) {
       el.innerHTML = this._innerHtml
@@ -56,10 +51,6 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
       if (updateExistingRemoveChildrenIfCountDiffer && updateExisting && el.childNodes.length !== this.children.length) {
         el.innerHTML = ''
       }
-      
-      // const childrenCount = this.children.length
-      // for (let i = 0; i < childrenCount; i++) {
-      //   const c = this.children[i];
       this.children.forEach((c, i) => {
 
         // Heads up: if updateExisting then we don't append new child, just render it and replace the existing child only if !isEqualNode
@@ -86,7 +77,6 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
         }
 
       })
-      // }
     }
     if (parent && !updateExisting) {
       parent.appendChild(el)

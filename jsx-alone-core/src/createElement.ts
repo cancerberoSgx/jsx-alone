@@ -39,16 +39,12 @@ export function createCreateElement<T, R extends ElementLike<T>= ElementLike<T>>
 }
 
 export function updateElement<T, R extends ElementLike<T> = ElementLike<T>>(element: R, textNodeImpl: CreateCreateElementConfig<T, R>['textNodeImpl'], tag: JSXAloneTag, attrs: JSXAloneAttrs<string>, children: any[], create = false) {
+  
   // HEADS UP non intrinsic els are responsible of rendering their own attributes and children
 
   if (typeof tag === 'string') {
 
     element.tag = tag
-
-    // const attrNames = Object.keys(attrs)
-    // const attrNamesCount = attrNames.length
-    // for (let i = 0; i < attrNamesCount; i++) {
-    //   const name = attrNames[i];
 
     Object.keys(attrs).forEach(name => {
       const value = attrs[name]
@@ -56,14 +52,7 @@ export function updateElement<T, R extends ElementLike<T> = ElementLike<T>>(elem
       if (type === 'string' || type === 'number' || type === 'function') {
         element.setAttribute(name, value)
       }
-      // else if (type === 'function') {
-      // element.setAttribute(name, value)
-      // }
       else if (type === 'boolean') {
-        // if (value === false) {
-        //   // do nothing
-        // }
-        // else 
         if (value === true) {
           element.setAttribute(name, name)
         }
@@ -78,11 +67,7 @@ export function updateElement<T, R extends ElementLike<T> = ElementLike<T>>(elem
         element.setAttribute(name, value)
       }
     })
-    // }
 
-    // const childrenCount = children.length
-    // for (let i = 0; i < childrenCount; i++) {
-    //   const child = children[i]
     children.forEach((child, i) => {
       if (!child) {
         return
@@ -97,8 +82,6 @@ export function updateElement<T, R extends ElementLike<T> = ElementLike<T>>(elem
       }
       else if (Array.isArray(child)) {
         const childChildrenCount = child.length
-        // for (let j = 0; j < childChildrenCount; j++) {
-        //   const c = child[j];
         child.forEach((c, j) => {
           const canUpdate = !create && i + j < childChildrenCount
           if (isNode<T>(c)) {
@@ -118,7 +101,6 @@ export function updateElement<T, R extends ElementLike<T> = ElementLike<T>>(elem
             }
           }
         })
-        // }
       }
       else {
         if (!create && i < element.children.length) {
@@ -129,7 +111,6 @@ export function updateElement<T, R extends ElementLike<T> = ElementLike<T>>(elem
         }
       }
     })
-    // }
   }
 }
 

@@ -1,6 +1,6 @@
 {
-  "totalTime": 22686,
-  "currentCommit": "3f354e2",
+  "totalTime": 22195,
+  "currentCommit": "0911518",
   "userConfig": {
     "_": [],
     "sample": "lotsOfPeopleDom",
@@ -14,8 +14,8 @@
     ],
     "runs": 5,
     "dontPrintRuns": true,
-    "log": "logs/7-tagNameDiffer3"
+    "log": "logs/7-tagNameDiffer1"
   },
-  "command": "--sample lotsOfPeopleDom --n 1000,2000 --m 10,20 --runs 5 --dontPrintRuns --log logs/7-tagNameDiffer3",
+  "command": "--sample lotsOfPeopleDom --n 1000,2000 --m 10,20 --runs 5 --dontPrintRuns --log logs/7-tagNameDiffer1",
   "cwd": "/home/sg/git/jsx-alone/jsx-alone-sample-project-cli-runner"
 }
