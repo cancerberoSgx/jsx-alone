@@ -19,8 +19,9 @@ export interface Editor {
 export interface Theme {
   readonly name: string,
   readonly colors: {
-    readonly bg: Color,
+    readonly bg: Color
     readonly fg: Color
+    readonly brand: Color
   }
 }
 

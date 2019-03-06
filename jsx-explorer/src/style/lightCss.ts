@@ -1,4 +1,5 @@
 export const lightCss = `
+/* https://github.com/jenil/bulmaswatch/tree/gh-pages/default */ 
 /*! bulmaswatch v0.7.2 | MIT License */
 /*! bulma.io v0.7.2 | MIT License | github.com/jgthms/bulma */
 @keyframes spinAround {

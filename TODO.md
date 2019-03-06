@@ -1,6 +1,7 @@
 # TODO
 
- * ISSUE: both impls: nptprinting number 0 : `<p>foo {1 -1} bar </p>` - make a test
+ * ISSUE : DOM : style={{backgroundColor}} doest work
+ 
  * ISSUE:  DOM : refs fail in jsx-explorer/src/ui/explorer.tsx Node collapse button
 
   // tests with lots of event listeners and lots of calls and runner

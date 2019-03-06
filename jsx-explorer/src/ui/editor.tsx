@@ -42,12 +42,16 @@ export class Editor extends Component<P> {
 
     if (editor) {
       // always set the theme - we dont know/cant getTheme to compare
-      monaco.editor.setTheme(this.props.state.layout.theme.name === 'light' ? 'vs' : 'vs-dark')
+      monaco.editor.setTheme(this.getMonacoThemeFor())
       if (editor.getModel()!.getValue() !== this.props.state.editor.code) {
         console.warn(`strange: editor.getModel()!.getValue()!==this.props.state.editor.code`)
         editor.getModel()!.setValue(this.props.state.editor.code)
       }
     }
+  }
+
+  private getMonacoThemeFor(name=this.props.state.layout.theme.name): string {
+    return name === 'dark' ? 'vs-dark' : 'vs';
   }
 
   protected installEditor() {
@@ -56,7 +60,7 @@ export class Editor extends Component<P> {
     editor = monaco.editor.create(query('#editorContainer'), {
       value: code,
       language: 'typescript',
-      theme: this.props.state.layout.theme.name === 'dark' ? 'vs-dark' : 'vs',
+      theme: this.getMonacoThemeFor(),
       lineNumbers: isDesktop() ? 'on' : 'off',
       glyphMargin: isDesktop(),
       folding: isDesktop(),
