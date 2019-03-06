@@ -1,6 +1,6 @@
-import { ElementClass, JSXAlone } from 'jsx-alone-dom';
+import { JSXAlone } from 'jsx-alone-dom';
+import { Status } from '../../store/types';
 import { Component } from '../util/component';
-import { Editor, Status } from '../../store/types';
 
 
 export class Logger extends Component<{status: Status}> {

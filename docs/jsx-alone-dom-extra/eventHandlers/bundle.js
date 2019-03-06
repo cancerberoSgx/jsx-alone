@@ -27,6 +27,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var _1 = require("./");
 var createElement_1 = require("./createElement");
 var elementClass_1 = require("./elementClass");
+var util_1 = require("./util");
+function isJsonImplOutputEl(a) {
+    return a && typeof a.tag === 'string';
+}
+exports.isJsonImplOutputEl = isJsonImplOutputEl;
+function isJsonImplOutputText(a) {
+    return a && a.content;
+}
+exports.isJsonImplOutputText = isJsonImplOutputText;
 var JsonImplElementLikeImpl = (function (_super) {
     __extends(JsonImplElementLikeImpl, _super);
     function JsonImplElementLikeImpl() {
@@ -34,7 +43,7 @@ var JsonImplElementLikeImpl = (function (_super) {
     }
     JsonImplElementLikeImpl.prototype.render = function (config) {
         if (config === void 0) { config = {}; }
-        return {
+        var r = {
             tag: this.tag,
             innerHtml: this.innerHtml,
             attrs: this.attrs,
@@ -44,6 +53,8 @@ var JsonImplElementLikeImpl = (function (_super) {
                 return r;
             })
         };
+        delete r.parentElement;
+        return r;
     };
     JsonImplElementLikeImpl.prototype.dangerouslySetInnerHTML = function (s) {
         this.innerHtml = s;
@@ -62,6 +73,11 @@ var JsonImplTextNodeLikeImpl = (function (_super) {
     return JsonImplTextNodeLikeImpl;
 }(_1.AbstractTextNodeLike));
 exports.JsonImplTextNodeLikeImpl = JsonImplTextNodeLikeImpl;
+function JsonImplOutputElAsHtml(node, indentLevel) {
+    if (indentLevel === void 0) { indentLevel = 0; }
+    return "\n" + util_1.indent(indentLevel) + "<" + node.tag + (Object.keys(node.attrs).length ? ' ' : '') + Object.keys(node.attrs).map(function (a) { return a + "=\"" + (node.attrs[a].toString ? node.attrs[a].toString() : node.attrs[a]) + "\""; }).join(' ') + ">" + node.children.map(function (c) { return isJsonImplOutputEl(c) ? JsonImplOutputElAsHtml(c, indentLevel + 1) : c.content; }).join('') + "\n" + util_1.indent(indentLevel) + "</" + node.tag + ">";
+}
+exports.JsonImplOutputElAsHtml = JsonImplOutputElAsHtml;
 var JsonImplElementClass = (function (_super) {
     __extends(JsonImplElementClass, _super);
     function JsonImplElementClass() {
@@ -79,7 +95,7 @@ exports.JSXAloneJsonImpl = {
     }
 };
 
-},{"./":5,"./createElement":2,"./elementClass":3}],2:[function(require,module,exports){
+},{"./":5,"./createElement":2,"./elementClass":3,"./util":8}],2:[function(require,module,exports){
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -134,16 +150,13 @@ function updateElement(element, textNodeImpl, tag, attrs, children, create) {
         Object.keys(attrs).forEach(function (name) {
             var value = attrs[name];
             var type = typeof value;
-            if (type === 'string' || type === 'number') {
+            if (type === 'string' || type === 'number' || type === 'function') {
                 element.setAttribute(name, value);
             }
-            else if (type === 'function') {
-                element.setAttribute(name, value);
-            }
-            else if (value === false) {
-            }
-            else if (value === true) {
-                element.setAttribute(name, name);
+            else if (type === 'boolean') {
+                if (value === true) {
+                    element.setAttribute(name, name);
+                }
             }
             else if (name === 'dangerouslySetInnerHTML' && value) {
                 element.dangerouslySetInnerHTML(value.__html);
@@ -152,8 +165,7 @@ function updateElement(element, textNodeImpl, tag, attrs, children, create) {
                 element.setAttribute(name, value);
             }
         });
-        children
-            .forEach(function (child, i) {
+        children.forEach(function (child, i) {
             if (!child) {
                 return;
             }
@@ -166,9 +178,11 @@ function updateElement(element, textNodeImpl, tag, attrs, children, create) {
                 }
             }
             else if (Array.isArray(child)) {
+                var childChildrenCount_1 = child.length;
                 child.forEach(function (c, j) {
+                    var canUpdate = !create && i + j < childChildrenCount_1;
                     if (elementImpl_1.isNode(c)) {
-                        if (!create && i + j < child.length) {
+                        if (canUpdate) {
                             element.replaceChild(i + j, c);
                         }
                         else {
@@ -176,7 +190,7 @@ function updateElement(element, textNodeImpl, tag, attrs, children, create) {
                         }
                     }
                     else {
-                        if (!create && i + j < child.length) {
+                        if (canUpdate) {
                             element.replaceChild(i, new textNodeImpl(c));
                         }
                         else {
@@ -225,9 +239,21 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var ElementClass = (function () {
-    function ElementClass(props) {
-        this.props = props;
+    function ElementClass(_props) {
+        this._props = _props;
     }
+    Object.defineProperty(ElementClass.prototype, "props", {
+        get: function () {
+            return this._props;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ElementClass.prototype.asJSXElement = function () {
+        var el = this.render();
+        el._elementClassInstance = this;
+        return el;
+    };
     return ElementClass;
 }());
 exports.ElementClass = ElementClass;
@@ -447,6 +473,14 @@ function unique(prefix) {
     return prefix + _unique++;
 }
 exports.unique = unique;
+function objectMap(o, f) {
+    var r = {};
+    Object.keys(o).forEach(function (k) {
+        r[k] = f(k, o[k]);
+    });
+    return r;
+}
+exports.objectMap = objectMap;
 
 },{}],9:[function(require,module,exports){
 var __extends = (this && this.__extends) || (function () {
@@ -723,7 +757,7 @@ function buildJSXALone() {
             var almostCompleteConfig = __assign({}, config, { rootElementLike: el });
             var updateExisting = el._elementClassInstance && el._elementClassInstance.eventManager && config && config.updateExisting;
             var rootHTMLElement = updateExisting || el.buildRootElement(almostCompleteConfig);
-            var eventManager = updateExisting ? el._elementClassInstance.eventManager : new event_1.RootEventManager(rootHTMLElement);
+            var eventManager = updateExisting ? (el._elementClassInstance.eventManager || Module.lastEventManager) : new event_1.RootEventManager(rootHTMLElement);
             var completeConfig = __assign({}, almostCompleteConfig, { eventManager: eventManager, rootHTMLElement: rootHTMLElement });
             Module.lastEventManager = eventManager;
             return el.render(completeConfig);
@@ -746,7 +780,7 @@ function getCreateCreateElementConfig() {
                     elementLike._elementClassInstance = elementClassInstance;
                 }
                 elementLike.ref = attrs.ref;
-            },
+            }
         };
     }
     return createCreateElementConfig;
@@ -787,12 +821,7 @@ var ElementClass = (function (_super) {
     };
     ElementClass.prototype.afterRender = function (containerEl) {
     };
-    ElementClass.prototype.asJSXElement = function () {
-        var el = this.render();
-        el._elementClassInstance = this;
-        return el;
-    };
-    ElementClass.prototype.update = function (props) {
+    ElementClass.prototype.update = function (containerEl, props) {
         return false;
     };
     return ElementClass;
@@ -843,7 +872,8 @@ var ElementLikeImpl = (function (_super) {
     };
     ElementLikeImpl.prototype.render = function (config) {
         var _this = this;
-        var el = config.updateExisting || config.rootHTMLElement || this.buildRootElement(config);
+        var updateExisting = config.updateExisting, updateExistingRemoveChildrenIfCountDiffer = config.updateExistingRemoveChildrenIfCountDiffer, rootHTMLElement = config.rootHTMLElement, eventManager = config.eventManager, rootElementLike = config.rootElementLike, parent = config.parent;
+        var el = updateExisting || rootHTMLElement || this.buildRootElement(config);
         Object.keys(this.attrs).forEach(function (attribute) {
             var value = _this.attrs[attribute];
             if (attribute === 'className') {
@@ -853,7 +883,7 @@ var ElementLikeImpl = (function (_super) {
                 el.setAttribute('style', jsx_alone_core_1.printStyleHtmlAttribute(value));
             }
             else if (typeof value === 'function') {
-                config.eventManager.addEventListener(el, attribute.replace(/^on/, '').toLowerCase(), value.bind(_this));
+                eventManager.addEventListener(el, attribute.replace(/^on/, '').toLowerCase(), value);
             }
             else {
                 el.setAttribute(attribute, value);
@@ -863,29 +893,37 @@ var ElementLikeImpl = (function (_super) {
             el.innerHTML = this._innerHtml;
         }
         else {
+            if (updateExistingRemoveChildrenIfCountDiffer && updateExisting && el.childNodes.length !== this.children.length) {
+                el.innerHTML = '';
+            }
             this.children.forEach(function (c, i) {
-                if (config.updateExisting && c.update && c.update()) {
-                    return;
-                }
-                var existingChildToUpdate = config.updateExisting && config.updateExisting.childNodes.item(i);
+                var existingChildToUpdateRealNode = updateExisting && updateExisting.childNodes.item(i);
+                var tagNameDiffers = existingChildToUpdateRealNode && existingChildToUpdateRealNode.tagName && existingChildToUpdateRealNode.tagName.toLowerCase() !== c.tag;
+                var existingChildToUpdate = tagNameDiffers ? undefined : existingChildToUpdateRealNode;
                 var cel = c.render(__assign({}, config, { updateExisting: existingChildToUpdate || undefined, rootHTMLElement: existingChildToUpdate || undefined }));
                 if (!existingChildToUpdate) {
-                    el.appendChild(cel);
+                    if (tagNameDiffers && existingChildToUpdateRealNode) {
+                        el.insertBefore(cel, existingChildToUpdateRealNode);
+                    }
+                    else {
+                        el.appendChild(cel);
+                    }
                 }
                 else if (!existingChildToUpdate.isEqualNode(cel)) {
                     existingChildToUpdate.replaceWith(cel);
+                    eventManager.updateEventListeners(_this._elementClassInstance || rootElementLike._elementClassInstance, updateExisting, el, _this);
                 }
             });
         }
-        if (config.parent && !config.updateExisting) {
-            config.parent.appendChild(el);
+        if (parent && !updateExisting) {
+            parent.appendChild(el);
         }
         if (this.ref) {
             refs_1.setRef({ elementLike: this, el: el, value: this.ref });
         }
-        var elementClassWithContainer = this._elementClassInstance || config.rootElementLike._elementClassInstance;
+        var elementClassWithContainer = this._elementClassInstance || rootElementLike._elementClassInstance;
         if (elementClassWithContainer) {
-            elementClassWithContainer._eventManager = config.eventManager;
+            elementClassWithContainer._eventManager = eventManager;
             if (this._elementClassInstance) {
                 this._elementClassInstance.afterRender(el);
             }
@@ -969,6 +1007,23 @@ var RootEventManager = (function () {
             entry = { mark: mark, fn: fn, type: type };
             ls.push(entry);
         }
+        else {
+            entry.fn = fn;
+        }
+    };
+    RootEventManager.prototype.updateEventListeners = function (ec, oldEl, newEl, elLike) {
+        if (!oldEl || !ec || !newEl || !oldEl.getAttribute || !newEl.getAttribute) {
+            return;
+        }
+        var mark = this.getElementMark(oldEl);
+        if (!mark) {
+            return;
+        }
+        Object.values(this.registeredByType).forEach(function (v) {
+            v.filter(function (e) { return e.mark === mark; }).forEach(function (e) {
+                e.fn = elLike.attrs["on" + e.type.substring(0, 1).toUpperCase() + e.type.substring(1, e.type.length)].bind(ec);
+            });
+        });
     };
     RootEventManager.prototype.removeListeners = function (el, types) {
         var _this = this;

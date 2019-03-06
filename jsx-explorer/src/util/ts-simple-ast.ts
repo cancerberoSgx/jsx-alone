@@ -1,4 +1,4 @@
-import { Project, SourceFile, Node } from 'ts-simple-ast'
+import { Node, Project } from 'ts-simple-ast';
 import { lib_es5_d_ts } from './lib_es5_d_ts';
 
 export function createProject(files: { fileName: string, content: string }[]): Project {

@@ -1,12 +1,10 @@
 import { JSXAlone } from 'jsx-alone-dom';
-import { Component } from '../util/component';
-import { State, Editor } from '../../store/types';
+import { Editor, State } from '../../store/types';
 import { registerStyle } from '../../style/styles';
+import { getMonacoInstance } from '../editor';
+import { Component } from '../util/component';
 import { ElementExplorer } from './elementExplorer';
 import { TsSimpleAstExplorer } from './tsSimpleAstExplorer';
-import { getMonacoInstance } from '../editor';
-import * as monaco from 'monaco-editor'
-import {ts} from 'ts-simple-ast'
 
 registerStyle(`
 .explorer-container{
@@ -20,6 +18,7 @@ registerStyle(`
 interface P {
   state: State
 }
+
 export interface ExplorerProps {
   editor: Editor
   onSelectCode?(sel: {startColumn: number,   startLineNumber:number,  endColumn:number,

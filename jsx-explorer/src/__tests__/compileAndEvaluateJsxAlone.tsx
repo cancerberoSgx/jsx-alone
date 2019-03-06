@@ -1,5 +1,3 @@
-console.log('tests')
-
 import { evaluate } from '../util/util'
 
 export function compileAndEvaluateJsxTest() {

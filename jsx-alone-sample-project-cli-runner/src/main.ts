@@ -56,7 +56,7 @@ export function main(config: Config): MainResult {
   if (config.log) {
     const logFile = `${config.log || ''}-${result.currentCommit}-${sample.name}.json`
     debug(JSON.stringify(result))
-    debug('total time' + result.totalTime)
+    debug('TOTAL TIME: ' + result.totalTime)
     writeFileSync(logFile, resultString)
     debug(`Saved log ${logFile}`)
   }

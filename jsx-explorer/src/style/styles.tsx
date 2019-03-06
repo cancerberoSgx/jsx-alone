@@ -1,13 +1,14 @@
 import { ClassRule, Style, Styles as S } from 'jsx-alone-core';
-import { ElementClass, JSXAlone } from 'jsx-alone-dom';
+import { JSXAlone } from 'jsx-alone-dom';
 import { Theme } from '../store/types';
+import { Component } from '../ui/util/component';
 import { darkCss } from './darkCss';
 import { lightCss } from './lightCss';
-import { Component } from '../ui/util/component';
 
 let _styles: { [k: string]: ClassRule} = {}
 
 let stringStyle = ``
+
 export function registerStyle(s: { [k: string]: ClassRule}|string) {
   if(typeof s === 'string'){
     stringStyle+=`\n${s

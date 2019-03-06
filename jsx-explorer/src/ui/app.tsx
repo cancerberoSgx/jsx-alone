@@ -1,12 +1,11 @@
-import { ClassRule, Styles } from 'jsx-alone-core';
 import { JSXAlone } from 'jsx-alone-dom';
-import { Component } from './util/component';
 import { State } from '../store/types';
 import { registerStyle } from '../style/styles';
+import { css, isMobile } from "../util/media";
 import { Editor } from './editor';
 import { Explorers } from './explorer/explorers';
 import { Header } from './header';
-import { isMobile, onDesktop, css } from '../util/util';
+import { Component } from './util/component';
 
 interface P {
   state: State

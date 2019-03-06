@@ -1,9 +1,8 @@
 import { JsonImplOutputEl } from 'jsx-alone-core';
 import { JSXAlone } from 'jsx-alone-dom';
-import { Component } from '../util/component';
-import { Editor } from '../../store/types';
 import { registerStyle } from '../../style/styles';
 import { escapeHtml, evaluate } from '../../util/util';
+import { Component } from '../util/component';
 import { showInModal } from '../util/showInModal';
 import { Node } from './elementExplorerNode';
 import { ExplorerProps } from './explorers';

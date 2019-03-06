@@ -25,6 +25,7 @@ export interface ElementLikeImplRenderConfigNoRoot<R extends ElementLike = Eleme
   parent?: Node
   debug?: boolean
   updateExisting?: HTMLElement
+  updateExistingRemoveChildrenIfCountDiffer?: boolean
 }
 export interface ElementLikeImplRenderConfig<R extends ElementLike = ElementLike> extends ElementLikeImplRenderConfigNoRoot< R> {
   rootElementLike: ElementLike

@@ -19,18 +19,7 @@ import * as monaco from 'monaco-editor'
   }
 }
 
-// function render() {
-//   var people = [{ name: 'Sebastián', age: 12 }, { name: 'Laura', age: 22 }]
-//   return <div>
-//     <h1>People</h1>
-//     <ul>{people.map(p =>
-//       <li>
-//         <strong>{p.name}</strong> is {p.age} years old
-//       </li>)}
-//     </ul>
-//   </div>
-// }
-const e = monaco.editor.create(document.getElementById('container')!, {
+monaco.editor.create(document.getElementById('container')!, {
   value: `
 function render() {
   var people = [{ name: 'Sebastián', age: 12 }, { name: 'Laura', age: 22 }]

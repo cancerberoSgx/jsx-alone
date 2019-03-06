@@ -16,6 +16,7 @@ export function evaluate(jsx: string) {
   }
   return r
 }
+
 function removeCircles(r: any): any {
   if (r) {
     delete r.parentElement;
@@ -29,38 +30,6 @@ export function query<T extends HTMLElement= HTMLElement>(s: string): T {
 
 export function escapeHtml(html:string){
   return html.replace(/\&/g, '&amp;').replace(/\</g, '&lt;').replace(/\>/g, '&gt;').trim()
-}
-
-export function width(){
-  return document.body.clientWidth
-}
-export function isMobile() {
-  return width()<768
-}
-export function isTablet() {
-  return width()>=768 && width()<1023 
-}
-export function isDesktop() {
-  return width()>=1023 
-}
-export function onDesktop(s:string){
-  return `
-@media (min-width: 1023px) {
-  ${s.trim()}
-}`.trim()
-}
-export function css(sel:string, s: string, ds?: string) {
-  return `
-${sel.trim()} {
-  ${s.trim()}
-}
-${ds ? `
-@media (min-width: 1023px) {
-  ${sel.trim()} {
-    ${ds.trim()}
-  }
-}`.trim() : ''} 
-  `.trim()
 }
 
 export function shorter(s:string, l=20){

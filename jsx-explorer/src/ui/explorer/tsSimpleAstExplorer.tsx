@@ -1,12 +1,9 @@
-import { ElementClass, JSXAlone } from 'jsx-alone-dom';
-import { Component } from '../util/component';
-import { Editor, Status } from '../../store/types';
-import { escapeHtml, shorter } from '../../util/util';
-import { createProject, getChildrenForEachChild } from '../../util/ts-simple-ast';
-import { dumpAst } from '../../util/typescript';
-import { registerStyle } from '../../style/styles';
+import { JSXAlone } from 'jsx-alone-dom';
 import { Node, ts } from 'ts-simple-ast';
-import { unique } from 'jsx-alone-core';
+import { registerStyle } from '../../style/styles';
+import { createProject, getChildrenForEachChild } from '../../util/ts-simple-ast';
+import { escapeHtml, shorter } from '../../util/util';
+import { Component } from '../util/component';
 import { ExplorerProps } from './explorers';
 
 
@@ -69,12 +66,11 @@ export class NodeComponent extends Component<NP> {
       <span>{node.getKindName()}</span>
 
       <button className="button is-small" onClick={e => {
-        // this.updateProps({ showDetails: true })
         onShowDetailsOf(path, node)
       }}>info</button>
 
       {showDetailsOf===path && <div className="nodeInfo">
-        <strong>Text</strong>: <code>"{shorter(node.getText(), 20)}..."</code><br />
+        <strong>Tex2t</strong>: <code>"{shorter(node.getText(), 20)}..."</code><br />
         <strong>Type</strong>: <code>{node.getType().getText()}</code>
       </div>}
 

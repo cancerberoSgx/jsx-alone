@@ -4,7 +4,8 @@ import * as monaco from 'monaco-editor';
 import { dispatch } from '../main';
 import { State } from '../store/types';
 import { registerStyle } from '../style/styles';
-import { query, isDesktop } from '../util/util';
+import { query } from '../util/util';
+import { isDesktop } from "../util/media";
 import { Component } from './util/component';
 
 interface P {

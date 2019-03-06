@@ -1,4 +1,4 @@
-import * as ts from 'typescript'
+import {ts} from 'ts-simple-ast'
 
 export function compileTs(code: string) {
   const res = ts.transpileModule(code, {

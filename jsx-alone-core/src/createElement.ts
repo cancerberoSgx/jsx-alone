@@ -28,7 +28,7 @@ export function createCreateElement<T, R extends ElementLike<T>= ElementLike<T>>
       onElementCreate({ elementLike: element, elementClassInstance, attrs })
     }
 
-    updateElement<T, R>(element, textNodeImpl, tag, attrs, children, true);
+    updateElement<T, R>(element, textNodeImpl, tag, attrs, children, true)
 
     if (onElementReady) {
       onElementReady({ elementLike: element })
@@ -42,74 +42,94 @@ export function updateElement<T, R extends ElementLike<T> = ElementLike<T>>(elem
   // HEADS UP non intrinsic els are responsible of rendering their own attributes and children
 
   if (typeof tag === 'string') {
-    
-    element.tag=tag
+
+    element.tag = tag
+
+    // const attrNames = Object.keys(attrs)
+    // const attrNamesCount = attrNames.length
+    // for (let i = 0; i < attrNamesCount; i++) {
+    //   const name = attrNames[i];
 
     Object.keys(attrs).forEach(name => {
-      const value = attrs[name];
-      const type = typeof value;
-      if (type === 'string' || type === 'number') {
-        element.setAttribute(name, value);
+      const value = attrs[name]
+      const type = typeof value
+      if (type === 'string' || type === 'number' || type === 'function') {
+        element.setAttribute(name, value)
       }
-      else if (type === 'function') {
-        element.setAttribute(name, value);
-      }
-      else if (value === false) {
-        // do nothing
-      }
-      else if (value === true) {
-        element.setAttribute(name, name);
+      // else if (type === 'function') {
+      // element.setAttribute(name, value)
+      // }
+      else if (type === 'boolean') {
+        // if (value === false) {
+        //   // do nothing
+        // }
+        // else 
+        if (value === true) {
+          element.setAttribute(name, name)
+        }
+        // else {
+        //   // do nothing
+        // }
       }
       else if (name === 'dangerouslySetInnerHTML' && value) {
-        element.dangerouslySetInnerHTML(value.__html);
+        element.dangerouslySetInnerHTML(value.__html)
       }
       else {
-        element.setAttribute(name, value);
+        element.setAttribute(name, value)
       }
-    });
-    children
-      .forEach((child, i) => {
-        if (!child) {
-          return
-        }
-        if (isNode<T>(child)) {
-          
-          if (!create && i < element.children.length) {
-            element.replaceChild(i, child)
-          }
-          else {
-            element.appendChild(child);
-          }
-        }
-        else if (Array.isArray(child)) {
-          child.forEach((c, j) => {
-            if (isNode<T>(c)) {
-              if (!create && i + j < child.length) {
-                element.replaceChild(i + j, c)
-              }
-              else {
-                element.appendChild(c);
-              }
-            }
-            else {
-              if (!create && i+j < child.length) {
-                element.replaceChild(i, new textNodeImpl(c));
-              }
-              else {
-                element.appendChild(new textNodeImpl(c));
-              }
-            }
-          });
+    })
+    // }
+
+    // const childrenCount = children.length
+    // for (let i = 0; i < childrenCount; i++) {
+    //   const child = children[i]
+    children.forEach((child, i) => {
+      if (!child) {
+        return
+      }
+      if (isNode<T>(child)) {
+        if (!create && i < element.children.length) {
+          element.replaceChild(i, child)
         }
         else {
-          if (!create && i < element.children.length) {
-            element.replaceChild(i, new textNodeImpl(child));
+          element.appendChild(child)
+        }
+      }
+      else if (Array.isArray(child)) {
+        const childChildrenCount = child.length
+        // for (let j = 0; j < childChildrenCount; j++) {
+        //   const c = child[j];
+        child.forEach((c, j) => {
+          const canUpdate = !create && i + j < childChildrenCount
+          if (isNode<T>(c)) {
+            if (canUpdate) {
+              element.replaceChild(i + j, c)
+            }
+            else {
+              element.appendChild(c)
+            }
           }
           else {
-            element.appendChild(new textNodeImpl(child));
+            if (canUpdate) {
+              element.replaceChild(i, new textNodeImpl(c))
+            }
+            else {
+              element.appendChild(new textNodeImpl(c))
+            }
           }
+        })
+        // }
+      }
+      else {
+        if (!create && i < element.children.length) {
+          element.replaceChild(i, new textNodeImpl(child))
         }
-      });
+        else {
+          element.appendChild(new textNodeImpl(child))
+        }
+      }
+    })
+    // }
   }
 }
 
