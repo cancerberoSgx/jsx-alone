@@ -9,7 +9,9 @@
   "typings": "dist/src/index.d.ts",
   "scripts": {
     "build": "rm -rf  ../docs/jsx-explorer &&  parcel build src/index.html -d ../docs/jsx-explorer",
-    "start": "parcel src/index.html",
+    "build-dev": "parcel build src/index.html -d ../docs/jsx-explorer --no-source-maps --no-minify --no-content-hash",
+    "start": "sh src-changed.sh",
+    "start2": "parcel src/index.html",
     "clean": "rm -rf build/ dist/ .cache",
     "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand --no-cache --clearMocks",
     "test": "npx jest --testRegex \"/__tests__/.*\\.*Test\\.[t]sx?$\" ",
@@ -21,6 +23,7 @@
     "jsx-alone-dom": "file:../jsx-alone-dom",
     "monaco-editor": "^0.15.6",
     "redux": "^4.0.1",
+    "ts-simple-ast": "^21.0.4",
     "vscode-languageserver-types": "^3.14.0"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 console.log('tests')
 
-import { evaluate } from '../util'
+import { evaluate } from '../util/util'
 
 export function compileAndEvaluateJsxTest() {
   let code = `

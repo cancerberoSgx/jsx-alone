@@ -1,48 +1,29 @@
 import { installJSXAloneAsGlobal } from 'jsx-alone-core';
 import { EventManager, JSXAlone } from 'jsx-alone-dom';
-import { createStore, Action } from 'redux';
-import { Component } from './component';
-import { reducers, AllActions } from './store/store';
+import { createStore } from 'redux';
+import { AllActions, reducers } from './store/store';
 import { State } from './store/types';
-import { Styles } from './style/styles';
-import { App } from './ui/app';
-
-installJSXAloneAsGlobal(JSXAlone)
-
-class Main extends Component<{ state: State }> {
-  render() {
-    return <div>
-      <App state={this.props.state} />
-      <Styles theme={this.props.state.layout.theme} />
-    </div>
-  }
-}
+import { Main } from './ui/main';
+import { initMonacoWorkers } from './util/monaco';
 
 const store = createStore(reducers)
-let eventManager: EventManager
 
 store.subscribe(() => {
   const state = store.getState()
-    main && main.updateProps({state})
+  main && main.updateProps({ state })
 })
 
-export function getState(): State{
+export function getState(): State {
   return store.getState()
 }
 
-export function dispatch(action: AllActions){
+export function dispatch(action: AllActions) {
   store.dispatch(action)
 }
 
-let main: Main
+installJSXAloneAsGlobal(JSXAlone)
+initMonacoWorkers()
+const main = new Main({ state: store.getState() })
+JSXAlone.render(main.asJSXElement(), { parent: document.body }) as HTMLElement
+JSXAlone.lastEventManager!.onAppendToDom()
 
-function start() {
-  eventManager && eventManager.uninstall()
-  main = new Main({ state: store.getState() })
-  const el = JSXAlone.render(main.asJSXElement()) as HTMLElement
-  eventManager = JSXAlone.lastEventManager!
-  document.body.appendChild(el)
-  eventManager.onAppendToDom()
-}
-
-start()

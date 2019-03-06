@@ -1,4 +1,4 @@
-import { evaluate } from '../util'
+import { evaluate } from '../util/util'
 
 describe('compileAndEvaluateJsxTest', () => {
   it('test', () => {

@@ -1,50 +1,44 @@
-import { ForkRibbon } from './forkRibbon'
-import { JSXAlone } from 'jsx-alone-dom'
-import { State, Layout, Theme } from '../store/types'
-import { darkTheme, lightTheme } from '../style/theme'
-import { Component } from '../component';
+import { JSXAlone } from 'jsx-alone-dom';
+import { Component } from './util/component';
 import { dispatch } from '../main';
+import { Theme } from '../store/types';
+import { darkTheme, lightTheme } from '../style/theme';
+import { ForkRibbon } from './content/forkRibbon';
+import { showInModal } from './util/showInModal';
+import { WhatsThis } from './content/whatsThis';
+import { examples } from '../examples';
 
 interface P {
   theme: Theme
 }
 
 export class Header extends Component<P> {
+
   render() {
 
     return <nav className="navbar" role="navigation" aria-label="main navigation">
       <ForkRibbon />
       <div className="navbar-brand">
         <a className="navbar-item" href="TODO">
-          {'<JSX>Alone</JSX>'}
+          {'<JSX explorer/>'}
         </a>
 
-        <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample" onClick={e => this.query('#navbarBasicExample').classList.toggle('is-active')}>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
         </a>
       </div>
-
+ 
       <div id="navbarBasicExample" className="navbar-menu">
         <div className="navbar-start">
-          <a className="navbar-item">Home</a>
-
-          <a className="navbar-item">Documentation</a>
+          <a className="navbar-item" onClick={e => showInModal(<WhatsThis />)}>What's this</a>
 
           <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link">More</a>
+            <a className="navbar-link">Examples</a>
 
             <div className="navbar-dropdown">
-              <a className="navbar-item">About</a>
-              <a className="navbar-item">Jobs</a>
-              <a className="navbar-item">
-                Contact
-          </a>
-              <hr className="navbar-divider"></hr>
-              <a className="navbar-item">
-                Report an issue
-          </a>
+              {examples.map(e => <a className="navbar-item">{e.name}</a>)}
             </div>
           </div>
         </div>
@@ -66,3 +60,4 @@ export class Header extends Component<P> {
     </nav>
   }
 }
+

@@ -3,13 +3,9 @@ import { ElementClass, JSXAlone } from 'jsx-alone-dom';
 import { Theme } from '../store/types';
 import { darkCss } from './darkCss';
 import { lightCss } from './lightCss';
-import { Component } from '../component';
+import { Component } from '../ui/util/component';
 
 let _styles: { [k: string]: ClassRule} = {}
-
-// export function registerStyle(s: { [k: string]: ClassRule}) {
-//   Object.keys(s).forEach(k=>_styles[k]={..._styles[k], ...s[k]})
-// }
 
 let stringStyle = ``
 export function registerStyle(s: { [k: string]: ClassRule}|string) {

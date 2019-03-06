@@ -2,7 +2,7 @@
 # cd ../..
 
 ROOT=$PWD/node_modules/monaco-editor/esm/vs
-OPTS="--no-source-maps"        # Parcel options - See: https://parceljs.org/cli.html
+OPTS="--no-source-maps -d ../docs/jsx-explorer"        # Parcel options - See: https://parceljs.org/cli.html
 
 parcel build $ROOT/language/json/json.worker.js $OPTS
 parcel build $ROOT/language/css/css.worker.js $OPTS
