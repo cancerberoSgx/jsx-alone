@@ -5,6 +5,7 @@ import { escapeHtml } from '../../util/util';
 import { createProject } from '../../util/ts-simple-ast';
 import { dumpAst } from '../../util/typescript';
 import { registerStyle } from '../../style/styles';
+import { Node } from 'ts-simple-ast';
 
 
 interface P {
@@ -28,8 +29,15 @@ export class TsSimpleAstExplorer extends Component<P> {
     const f = project.getSourceFiles().find(s => s.getFilePath().endsWith('t1.tsx'))!
     return <div>
       <pre className="tsAstExplorerContent">
-        {escapeHtml(dumpAst(f.compilerNode))}
+        {escapeHtml(JSON.stringify(dump(f), null, 2))}
       </pre>
     </div>
+  }
+}
+interface DumpNode {kind:string, children: DumpNode[]}
+function dump(n:Node): DumpNode{
+  return {
+    kind: n.getKindName(),
+    children: n.getChildren().map(c=>dump(c))
   }
 }
