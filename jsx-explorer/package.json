@@ -8,8 +8,8 @@
   "types": "dist/src/index.d.ts",
   "typings": "dist/src/index.d.ts",
   "scripts": {
-    "build": "rm -rf  ../docs/jsx-explorer && sh build-workers.sh && parcel build src/index.html -d ../docs/jsx-explorer",
-    "build-dev": "parcel build src/index.html -d ../docs/jsx-explorer --no-source-maps --no-minify --no-content-hash",
+    "build": "export NODE_ENV=production ; rm -rf  ../docs/jsx-explorer && sh build-workers.sh && parcel build src/index.html -d ../docs/jsx-explorer --no-content-hash --detailed-report",
+    "build-dev": "export NODE_ENV=development ; parcel build src/index.html -d ../docs/jsx-explorer --no-source-maps --no-minify --no-content-hash",
     "start": "sh src-changed.sh",
     "start2": "parcel src/index.html",
     "docs": "npm run build",
