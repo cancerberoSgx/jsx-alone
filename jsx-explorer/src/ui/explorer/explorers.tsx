@@ -3,8 +3,8 @@ import { Editor, State } from '../../store/types';
 import { registerStyle } from '../../style/styles';
 import { getMonacoInstance } from '../editor';
 import { Component } from '../util/component';
-import { ElementExplorer } from './elementExplorer';
-import { TsSimpleAstExplorer } from './tsSimpleAstExplorer';
+import { ElementExplorer } from './elements/elementExplorer';
+import { TsSimpleAstExplorer } from './tsAst/tsSimpleAstExplorer';
 
 registerStyle(`
 .explorer-container{
@@ -21,11 +21,20 @@ interface P {
 
 export interface ExplorerProps {
   editor: Editor
-  onSelectCode?(sel: {startColumn: number,   startLineNumber:number,  endColumn:number,
-   endLineNumber:number}):void
+  onSelectCode?(sel: SelectCode): void
+}
+
+export interface SelectCode {
+  startColumn: number;
+  startLineNumber: number;
+  endColumn: number;
+  endLineNumber: number;
 }
 
 export class Explorers extends Component<P> {
+  
+  protected updateExistingRemoveChildrenIfCountDiffer = true
+  
   private selectExplorer(e: 'elements' | 'jsAst') {
     this.query('.tabs li.is-active').classList.remove('is-active')
     this.query('.tabs li.' + e).classList.add('is-active')
@@ -46,10 +55,10 @@ export class Explorers extends Component<P> {
         </ul>
       </div>
       <div className="explorer-container elements is-active">
-        <ElementExplorer editor={this.props.state.editor} onSelectCode={sel=>getMonacoInstance()!.setSelection(sel)}/>
+        <ElementExplorer editor={this.props.state.editor} onSelectCode={sel => getMonacoInstance()!.setSelection(sel)} />
       </div>
       <div className="explorer-container jsAst">
-        <TsSimpleAstExplorer editor={this.props.state.editor} onSelectCode={sel=>getMonacoInstance()!.setSelection(sel)} />
+        <TsSimpleAstExplorer editor={this.props.state.editor} onSelectCode={sel => getMonacoInstance()!.setSelection(sel)} />
       </div>
     </div>
   }

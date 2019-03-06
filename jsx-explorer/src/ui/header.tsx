@@ -52,7 +52,6 @@ export class Header extends Component<P> {
               }}>
                 Switch to {this.props.theme.name === 'dark' ? 'light' : 'dark'} theme
               </button>
-
             </div>
           </div>
         </div>

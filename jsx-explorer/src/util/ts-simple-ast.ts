@@ -1,32 +1,31 @@
 import { Node, Project } from 'ts-simple-ast';
 import { lib_es5_d_ts } from './lib_es5_d_ts';
+import { lib_dom_d_ts } from './lib_dom_d_ts';
+import { domDeclarations_d_ts } from './domDeclarations_d_ts';
+import { cssDeclarations_d_ts } from './cssDeclarations_d_ts';
 
+let project: Project|undefined
 export function createProject(files: { fileName: string, content: string }[]): Project {
-  const project = new Project({
-    useVirtualFileSystem: true,
-    compilerOptions: {
-      strict: true,
-      "jsx": "react",
-      "jsxFactory": "JSXAlone.createElement",
-    } as any
-  })
-
-  files.forEach(f => project.createSourceFile('lib.es5.d.ts', lib_es5_d_ts))
-  
-  files.forEach(f => project.createSourceFile('declarations.ts', `
-declare global {
-  namespace JSX {
-    export interface IntrinsicElements {
-      [s:string]: HTMLElement
-    }
-    export interface HTMLElement {}
+  if(!project){
+    project = new Project({
+      useVirtualFileSystem: true,
+      compilerOptions: {
+        strict: true,
+        "jsx": "react",
+        "jsxFactory": "JSXAlone.createElement",
+      } as any
+    })
+    project.createSourceFile('lib.es5.d.ts', lib_es5_d_ts)
+    project.createSourceFile('lib.dom.d.ts', lib_dom_d_ts)
+    project.createSourceFile('domDeclarations.d.ts', domDeclarations_d_ts)
+    project.createSourceFile('cssDeclarations.d.ts', cssDeclarations_d_ts)
+    files.forEach(f => project!.createSourceFile(f.fileName, f.content))
   }
-}
-export var a = 1 
-  `))
-  files.forEach(f => project.createSourceFile(f.fileName, f.content))
-
-  return project;
+  else {    
+    files.forEach(f => project!.getSourceFile(f.fileName)!.replaceWithText(f.content))
+  }
+  project.saveSync()
+  return project
 }
 
 
@@ -39,3 +38,16 @@ export function getChildrenForEachChild(n: Node): Node[] {
   n.forEachChild(n => result.push(n))
   return result
 }
+
+const jsx_declaration = `declare namespace JSX {
+  interface IntrinsicElements {
+    children: any
+    [s:string]: HTMLElement
+  }
+  interface Element {
+    [s:string]: any
+  }
+  interface HTMLElement {
+    [s:string]: ((e:any)=>any)|string|boolean|number
+  }
+}`

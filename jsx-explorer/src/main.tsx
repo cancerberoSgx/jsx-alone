@@ -1,5 +1,5 @@
 import { installJSXAloneAsGlobal } from 'jsx-alone-core';
-import { EventManager, JSXAlone } from 'jsx-alone-dom';
+import { JSXAlone } from 'jsx-alone-dom';
 import { createStore } from 'redux';
 import { AllActions, reducers } from './store/store';
 import { State } from './store/types';

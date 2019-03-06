@@ -21,8 +21,10 @@ export abstract class Component<P={}> extends ElementClass<P> {
     const el = this.render();
     (el as any as ElementLikeImpl)._elementClassInstance = this
     JSXAlone.render(el, {
-      updateExisting: this.containerEl
+      updateExisting: this.containerEl, 
+      updateExistingRemoveChildrenIfCountDiffer: this.updateExistingRemoveChildrenIfCountDiffer
     })
   }
+  protected updateExistingRemoveChildrenIfCountDiffer=false
 }
 
