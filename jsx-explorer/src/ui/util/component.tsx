@@ -1,4 +1,5 @@
 import { ElementClass, JSXAlone, ElementLikeImpl } from 'jsx-alone-dom';
+import { emptyAllChildren } from '../../util/util';
 
 /** the abstract component that supports updating its properties and when it happens update the DOM. store.subscribe() handlers will call updateProps() on the top level component (Main) and this will trigger a recursive re-render and props propagation through all the elements */
 export abstract class Component<P={}> extends ElementClass<P> {
@@ -11,6 +12,14 @@ export abstract class Component<P={}> extends ElementClass<P> {
 
   protected query<T extends HTMLElement=HTMLElement>(s: string): T {
     return this.containerEl!.querySelector(s)! as any
+  }
+
+
+  beforeRender(containerEl: HTMLElement) {
+    this.containerEl = containerEl
+    if (this.updateExistingRemoveChildrenIfCountDiffer && this.containerEl) {
+      emptyAllChildren(this.containerEl)
+    }
   }
 
   afterRender(containerEl: HTMLElement) {
@@ -29,4 +38,3 @@ export abstract class Component<P={}> extends ElementClass<P> {
 
   protected updateExistingRemoveChildrenIfCountDiffer = false
 }
-

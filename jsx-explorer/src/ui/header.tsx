@@ -14,20 +14,20 @@ interface P {
 
 export class Header extends Component<P> {
 
-  render() {
+  render() { 
 
     return <nav className="navbar" role="navigation" aria-label="main navigation">
       <ForkRibbon />
       <div className="navbar-brand">
-        <a className="navbar-item" href="TODO">
+        <a className="navbar-item" href="https://cancerberosgx.github.io/jsx-alone/jsx-explorer">
           {'<JSX explorer/>'}
         </a>
-
-        <a role="button" className="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="jsxExplorerNavbar" onClick={e => this.query('#jsxExplorerNavbar').classList.toggle('is-active')}>
+ 
+        <a role="button" className="navbar-burger burger is-large" aria-label="menu" aria-expanded="false" data-target="jsxExplorerNavbar" onClick={e => this.query('#jsxExplorerNavbar').classList.toggle('is-active')}>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
-        </a>
+        </a> 
       </div>
 
       <div id="jsxExplorerNavbar" className="navbar-menu">
@@ -39,8 +39,7 @@ export class Header extends Component<P> {
 
             <div className="navbar-dropdown">
               {examples.map(example => <a className="navbar-item" onClick={e => {
-                debugger
-                dispatch({ type: 'CHANGE_CODE', code: example.code })
+                dispatch({ type: 'CHANGE_CODE', code: example.code }) 
               }
               }>{example.name}</a>)}
             </div>

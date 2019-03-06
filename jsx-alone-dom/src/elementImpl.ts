@@ -1,4 +1,4 @@
-import { AbstractElementLike, AbstractTextNodeLike, printStyleHtmlAttribute, RefObject } from 'jsx-alone-core'
+import { AbstractElementLike, AbstractTextNodeLike, printStyleHtmlAttribute, RefObject, isElementLike } from 'jsx-alone-core'
 import { RefObjectImpl, setRef } from './refs'
 import { ElementLike, ElementLikeImplRenderConfig, IElementClass, RenderOutput } from './types'
 import { RootEventManager } from './event'
@@ -25,6 +25,10 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
     const {updateExisting, updateExistingRemoveChildrenIfCountDiffer, rootHTMLElement, eventManager, rootElementLike, parent} = config
 
     let el = updateExisting || rootHTMLElement || this.buildRootElement(config)
+
+    if (this._elementClassInstance) {
+      this._elementClassInstance.beforeRender(el)
+    }
 
     Object.keys(this.attrs).forEach(attribute => {
       const value = this.attrs[attribute]
@@ -75,7 +79,6 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
           existingChildToUpdate.replaceWith(cel)
           eventManager.updateEventListeners(this._elementClassInstance || rootElementLike._elementClassInstance as ElementClass, updateExisting as HTMLElement, el as HTMLElement, this)
         }
-
       })
     }
     if (parent && !updateExisting) {

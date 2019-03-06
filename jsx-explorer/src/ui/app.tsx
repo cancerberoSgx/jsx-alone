@@ -12,6 +12,7 @@ interface P {
 }
 
 export class App extends Component<P> {
+  protected updateExistingRemoveChildrenIfCountDiffer=false
   render() {
 
     registerStyle(`

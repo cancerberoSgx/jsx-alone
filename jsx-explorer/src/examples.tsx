@@ -2,6 +2,7 @@ interface Example {
   name: string, code: string
 }
 export const examples: Example[] = [
+
   {
     name: 'simple 1',
     code: `
@@ -21,10 +22,54 @@ function simple1() {
 }
       `.trim()
   },
+
+
+  {
+    name: 'simple 2',
+    code: `
+function simple2() {
+  return <div className="simple2">
+    hello world
+  </div>
+}
+      `.trim()
+  },
+
+
   {
     name: 'conditionals',
     code: `
+interface Node {
+  getKindName(): string
+  getType(): Node|undefined
+  getText(): string
+  getChildren(): Node[]
+}
+    
 function conditionals() {
+    
+  function makeNode(p=0.5): Node|undefined {
+    return Math.random()<p? {
+      getKindName() { 
+        return unique('Kind') 
+      },
+      getType() { 
+        return makeNode()
+      },
+      getText() { 
+        return unique('text') 
+      },
+      getChildren() { 
+        return [makeNode()||makeNode()||makeNode()].filter(e=>e) 
+        // return new Array(2).fill(0).map(i=>makeNode(.3)).filter(e=>e) 
+      },
+    } as Node : undefined
+  }
+
+  let _unique: number = 0
+  function unique(prefix: string = '_'): string {
+    return prefix + '_' + _unique++
+  }
 
   function RenderNode(props: { node: Node, mode: string, onShowDetailsOf(p: string, node: Node): void, showDetailsOf: string, path: string, collapsed?: boolean }) {
 
@@ -44,12 +89,12 @@ function conditionals() {
       }}>{collapsed ? '+' : '-'}</button>
 
       {!collapsed && showDetailsOf === path && <div className="nodeInfo">
-        <strong>Text</strong>: <code>"{node.getText()}..."</code><br />
-        <strong>Type</strong>: <code>{node.getType().getText()}</code>
+        <strong>Text</strong>: <code>"{node && node.getText()}..."</code><br />
+        <strong>Type</strong>: <code>{node.getType() && node.getType()!.getText()}</code>
       </div>}
 
       {!collapsed && <ul>
-        {children.map((c, i) => <li>
+        {children.filter(c=>c).map((c, i) => <li>
           <RenderNode node={c} path={path + i} onShowDetailsOf={onShowDetailsOf} mode={mode} showDetailsOf={showDetailsOf} />
         </li>)}
       </ul>}
@@ -58,7 +103,7 @@ function conditionals() {
   }
 
   const props = {
-    node: makeNode(),
+    node: makeNode(11)!,
     mode: 'getChildren',
     onShowDetailsOf(p: string, node: Node) { },
     collapsed: false,
@@ -69,26 +114,6 @@ function conditionals() {
   return <RenderNode {...props} />
 }
 
-interface Node {
-  getKindName(): string
-  getType(): Node
-  getText(): string
-  getChildren(): Node[]
-}
-
-function makeNode(): Node {
-  return {
-    getKindName() { return unique('Kind') },
-    getType() { return makeNode() },
-    getText() { return unique('text') },
-    getChildren() { return [makeNode(), makeNode()] },
-  }
-}
-
-let _unique: number = 0
-function unique(prefix: string = '_'): string {
-  return prefix + '_' + _unique++
-}
         `.trim()
   }
 ]

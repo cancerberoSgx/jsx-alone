@@ -1,13 +1,17 @@
 import { JSXAlone } from 'jsx-alone-dom';
-import { isJsonImplOutputEl, isJsonImplOutputText, JsonImplOutput, JsonImplOutputElAsHtml } from 'jsx-alone-core';
+import { isJsonImplOutputEl, isJsonImplOutputText, JsonImplOutput, JsonImplOutputElAsHtml, unique } from 'jsx-alone-core';
 import { Component } from '../../util/component';
 import { registerStyle } from '../../../style/styles';
 
-export class Node extends Component<{
+interface P{
   node: JsonImplOutput;
   onShowHtml: (s: string) => void;
-}> {
+  collapsed?: boolean
+}
+export class Node extends Component<P> {
+  
   protected updateExistingRemoveChildrenIfCountDiffer = true
+
   render() {
     const { node } = this.props;
     if (isJsonImplOutputText(node)) {
@@ -22,9 +26,29 @@ export class Node extends Component<{
       </article>;
     }
     else if (isJsonImplOutputEl(node)) {
-      return <article className="media element-output">
+      return <article className={`media element-output ${this.props.collapsed ? 'collapsed' : ''}`}>
         <div className="media-content">
+
           <span className="nodeTag">{node.tag}</span>
+          <button className="button overlay is-small expand-collapse" onClick={e => {
+              this.updateProps({collapsed: !this.props.collapsed})
+            }}></button>
+  
+            <button className="button overlay is-small" title="HTML code" onClick={e => this.props.onShowHtml(JsonImplOutputElAsHtml(node))}>{`<>`}</button>
+  
+            <button className="button overlay is-small" title="Outline in Editor" onClick={e => {
+              const els = Array.from(document.querySelectorAll('.view-line'))
+                .filter(lineEl => lineEl.textContent && (lineEl.textContent.includes(`<${node.tag}`) || lineEl.textContent.includes(`</${node.tag}`)));
+              els.forEach((lineEl: HTMLElement) => {
+                lineEl.style.backgroundColor = 'pink';
+              });
+              setTimeout(() => {
+                els.forEach((lineEl: HTMLElement) => {
+                  lineEl.style.backgroundColor = '';
+                });
+              }, 3000);
+            }}>{`!`}</button>
+
           <div className="nodeContent">
             {Object.keys(node.attrs || {}).length &&
               <Attrs attrs={node.attrs}></Attrs>}
@@ -36,26 +60,7 @@ export class Node extends Component<{
                 {node.children.map(c => <Node node={c} onShowHtml={this.props.onShowHtml}></Node>)}
               </div>}
           </div>
-        </div>
-        <div className="media-right">
-          <button className="button overlay is-small expand-collapse" onClick={e => {
-            e.currentTarget.parentElement!.parentElement!.classList.toggle('collapsed');
-          }}></button>
-
-          <button className="button overlay is-small" title="HTML code" onClick={e => this.props.onShowHtml(JsonImplOutputElAsHtml(node))}>{`<>`}</button>
-
-          <button className="button overlay is-small" title="Outline in Editor" onClick={e => {
-            const els = Array.from(document.querySelectorAll('.view-line'))
-              .filter(lineEl => lineEl.textContent && (lineEl.textContent.includes(`<${node.tag}`) || lineEl.textContent.includes(`</${node.tag}`)));
-            els.forEach((lineEl: HTMLElement) => {
-              lineEl.style.backgroundColor = 'pink';
-            });
-            setTimeout(() => {
-              els.forEach((lineEl: HTMLElement) => {
-                lineEl.style.backgroundColor = '';
-              });
-            }, 3000);
-          }}>{`!`}</button>
+          
         </div>
       </article>;
     }
@@ -63,11 +68,14 @@ export class Node extends Component<{
       return <article className="media">UNKNOWN: {JSON.stringify(node)}</article>;
   }
 }
-class Attrs extends Component<{
+
+interface AP {
   attrs: {
-    [name: string]: string;
-  };
-}> {
+    [name: string]: string
+  }
+}
+class Attrs extends Component<AP> {
+  protected updateExistingRemoveChildrenIfCountDiffer = true
   render() {
     return <table><caption>Attributes:</caption>
       {Object.keys(this.props.attrs).map(a => <tr><td>{a}</td><td>{this.props.attrs[a]}</td></tr>)}
@@ -99,10 +107,10 @@ registerStyle(`
 .media.element-output .media-content {
   padding-left: 1.3em;
 }
-.media.element-output.collapsed>.media-right .expand-collapse:before {
+.media.element-output.collapsed>.media-content .expand-collapse:before {
   content: '+';
 }
-.media.element-output>.media-right .expand-collapse:before {
+.media.element-output>.media-content .expand-collapse:before {
   content: '-';
 }
 .media.element-output.collapsed .nodeContent {
@@ -119,10 +127,10 @@ registerStyle(`
 .media.element-output:hover {
   border: 1px dotted grey;
 }
-.media.element-output>.media-right button {
+.media.element-output>.media-content button {
   display:none;
 }
-.media.element-output:hover>.media-right button {
+.media.element-output:hover>.media-content button {
   display:inline;
 }
 `);
