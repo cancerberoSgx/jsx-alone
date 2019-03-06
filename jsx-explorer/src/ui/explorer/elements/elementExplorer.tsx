@@ -15,6 +15,7 @@ registerStyle(`
 .explorer {
   overflow: scroll;
   height: 700px;
+  width: 100%;
 }
 .html-code-container{
   display: none;
@@ -26,7 +27,7 @@ registerStyle(`
 
 export class ElementExplorer extends Component<P> {
 
-  protected updateExistingRemoveChildrenIfCountDiffer = true
+  protected removeChildrenOnUpdate = true
 
   render() {
     let error: Error & { evaluated: string } | undefined

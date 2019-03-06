@@ -20,7 +20,7 @@ export abstract class Component<P={}> extends ElementClass<P> {
 
   beforeRender(containerEl: HTMLElement) {
     this.containerEl = containerEl
-    if (this.updateExistingRemoveChildrenIfCountDiffer && this.containerEl) {
+    if (this.removeChildrenOnUpdate && this.containerEl) {
       this._eventManager && this._eventManager.removeListeners(this.containerEl, true)
       emptyAllChildren(this.containerEl)
     }
@@ -36,9 +36,9 @@ export abstract class Component<P={}> extends ElementClass<P> {
     (el as any as ElementLikeImpl)._elementClassInstance = this
     JSXAlone.render(el, {
       updateExisting: this.containerEl,
-      updateExistingRemoveChildrenIfCountDiffer: this.updateExistingRemoveChildrenIfCountDiffer
+      updateExistingRemoveChildrenIfCountDiffer: this.removeChildrenOnUpdate
     })
   }
 
-  protected updateExistingRemoveChildrenIfCountDiffer = false
+  protected removeChildrenOnUpdate = false
 }

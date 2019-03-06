@@ -9,7 +9,7 @@ interface P {
 }
 
 export class DiagnosticComponent extends Component<P> {
-  protected updateExistingRemoveChildrenIfCountDiffer = true
+  protected removeChildrenOnUpdate = true
   render() {
     const { d } = this.props;
     return <div>

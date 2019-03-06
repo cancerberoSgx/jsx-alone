@@ -11,7 +11,7 @@ interface P {
 }
 export class Node extends Component<P> {
 
-  protected updateExistingRemoveChildrenIfCountDiffer = true
+  protected removeChildrenOnUpdate = true
 
   render() {
     const { node } = this.props
@@ -19,11 +19,12 @@ export class Node extends Component<P> {
     if (isJsonImplOutputText(node)) {
       return <article className="media text-output">
         <div className="media-content">
-          <span className="nodeTag">Text</span>
-          <div className="nodeContent">
-            {shorter(node.content+'', 30)}
+          <span className="nodeTag">Text: </span>
+          <span className="textNodeContent">
+          {shorter(node.content+'', 30)}
             <span>({typeof node.content})</span>
-          </div>
+            
+          </span>
         </div>
       </article>;
     }
@@ -33,7 +34,7 @@ export class Node extends Component<P> {
 
         <div className="media-content">
 
-          <span className="nodeTag">{node.tag}</span>
+          <span className="nodeTag">{`<${node.tag}>`}</span>
 
           <button className="button overlay is-small expand-collapse" onClick={e => {
             this.updateProps({ collapsed: !this.props.collapsed })
@@ -81,12 +82,12 @@ interface AP {
   node: JsonImplOutputEl
 }
 class Attrs extends Component<AP> {
-  protected updateExistingRemoveChildrenIfCountDiffer = true
+  protected removeChildrenOnUpdate = true
   render() {
     return <table>
       {/* <caption>Attributes:</caption> */}
       {Object.keys(this.props.node.attrs).map(a => <tr>
-        <td><em>{a}</em></td>
+        <td><em>{a}</em><code>=</code></td>
         <td>{shorter(this.props.node.attrs[a])}</td>
       </tr>)}
       {typeof this.props.node.innerHtml === 'string' && <tr>
@@ -104,7 +105,7 @@ registerStyle(`
 .media.element-output>.media-content .expand-collapse:before {
   content: '-';
 }
-.media.element-output.collapsed .nodeContent {
+.media.element-output.collapsed .nodeContent, .media.element-output.collapsed .textNodeContent {
   display: none;
 }
 .media.element-output .nodeTag {

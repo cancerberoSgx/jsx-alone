@@ -13,6 +13,7 @@ registerStyle(`
 .editorExplorerBodyMember {
   padding-top: 2em;
   display:none;
+  width: 100%;
 }
 .editorExplorerBodyMember.is-active {
   display: flex;

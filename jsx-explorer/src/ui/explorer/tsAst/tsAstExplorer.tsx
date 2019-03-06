@@ -21,7 +21,7 @@ registerStyle(`
 `)
 
 export class TsSimpleAstExplorer extends Component<P> {
-  protected updateExistingRemoveChildrenIfCountDiffer = true
+  protected removeChildrenOnUpdate = true
   render() {
 
     const project = createProject([{

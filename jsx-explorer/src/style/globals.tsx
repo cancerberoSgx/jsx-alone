@@ -28,7 +28,7 @@ ${css('.modal .modal-card', `width: 100%;`, `width: 80%;`)}
 .media table td {
   border: 0;
   border-width: 0;
-  padding: 0 0.75em 0 0;
+  padding: 0;
 }
 .media table, .media table:not(:last-child) {
   width: 0;

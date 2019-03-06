@@ -14,7 +14,7 @@ interface P {
 }
 
 export class NodeComponent extends Component<P> {
-  protected updateExistingRemoveChildrenIfCountDiffer = true
+  protected removeChildrenOnUpdate = true
   render() {
     const { node, mode, path = '/', showDetailsOf, onShowDetailsOf, collapsed = false } = this.props;
     const children = mode === 'forEachChild' ? getChildrenForEachChild(node) : node.getChildren();
