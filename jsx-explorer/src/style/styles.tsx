@@ -25,7 +25,7 @@ export function registerStyle(s: { [k: string]: ClassRule}|string) {
 export class Styles extends Component<{theme: Theme}> {
   render() {
     const { styles, classes } = S(_styles)
-    registerStyle(globalStyles)
+    registerStyle(globalStyles(this.props.theme))
     return  <div>
       {this.props.theme.name==='dark' && <style dangerouslySetInnerHTML={{__html: darkCss}}></style>}
       {this.props.theme.name==='light' && <style dangerouslySetInnerHTML={{__html: lightCss}}></style>}

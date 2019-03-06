@@ -1,4 +1,22 @@
-export const globalStyles = `
+import { Theme } from '../store/types';
+import { css } from '../util/media';
+
+export function globalStyles(theme:Theme){
+
+  return  ` 
+body *::-webkit-scrollbar {
+  width: 0.8em;
+}
+body *::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px ${theme.colors.bg}66;
+}
+body *::-webkit-scrollbar-thumb {
+  background-color: ${theme.colors.fg}66;
+  outline: 1px solid ${theme.colors.bg}66;
+}
+
+${css('.modal .modal-card', `width: 100%;`, `width: 80%;`)}
+
 .tabs.is-small {
   margin: 0;
 }
@@ -20,4 +38,9 @@ export const globalStyles = `
   text-align: left;
   vertical-align: bottom;
 }
-`;
+.navbar .navbar-burger {
+  font-weight: bolderM
+}
+`
+
+}

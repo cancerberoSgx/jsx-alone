@@ -1,4 +1,5 @@
-import { JSXAlone } from 'jsx-alone-dom';
+import { JSXAlone } from 'jsx-alone-dom'
+
 export function Error(props: {
   error: Error & {
     evaluated: string;

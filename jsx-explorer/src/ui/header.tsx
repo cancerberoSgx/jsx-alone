@@ -1,29 +1,33 @@
 import { JSXAlone } from 'jsx-alone-dom';
 import { Component } from './util/component';
 import { dispatch } from '../main';
-import { Theme } from '../store/types';
+import { Theme, State } from '../store/types';
 import { darkTheme, lightTheme, allThemes } from '../style/theme';
 import { ForkRibbon } from './content/forkRibbon';
 import { showInModal } from './util/showInModal';
 import { WhatsThis } from './content/whatsThis';
 import { examples } from '../examples';
+import { EditorExplorerMenu } from './editorExplorerMenu';
 
 interface P {
-  theme: Theme
+  // theme: Theme
+  state: State
 }
 
 export class Header extends Component<P> {
 
   render() {
-    const nextThemeName = this.props.theme.name === 'dark' ? 'minty' : this.props.theme.name === 'minty' ? 'light' : 'dark'
-    const nextTheme= allThemes.find(t => t.name === nextThemeName)!
+    const theme = this.props.state.layout.theme
+    const nextThemeName = theme.name === 'dark' ? 'minty' : theme.name === 'minty' ? 'light' : 'dark'
+    const nextTheme = allThemes.find(t => t.name === nextThemeName)!
 
-    return <nav className="navbar" role="navigation" aria-label="main navigation">
+    return <nav className="navbar is-fixed-top" role="navigation" aria-label="main navigation">
       <ForkRibbon />
       <div className="navbar-brand">
-        <a className="navbar-item" href="https://cancerberosgx.github.io/jsx-alone/jsx-explorer">
+        {/* <a className="navbar-item" href="https://cancerberosgx.github.io/jsx-alone/jsx-explorer">
           {'<JSX explorer/>'}
-        </a>
+        </a> */}
+        <EditorExplorerMenu {...this.props}/>
 
         <a role="button" className="navbar-burger burger is-large" aria-label="menu" aria-expanded="false" data-target="jsxExplorerNavbar" onClick={e => this.query('#jsxExplorerNavbar').classList.toggle('is-active')}>
           <span aria-hidden="true"></span>
@@ -48,19 +52,21 @@ export class Header extends Component<P> {
 
           </div>
 
+
+
           <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link">Settings</a>
+            <a className="navbar-link">Themes</a>
 
             <div className="navbar-dropdown">
 
               <a className="navbar-item" style={{
-                  border: `2px solid ${nextTheme.colors.brand}`,
-                  background: `${nextTheme.colors.bg}`,
-                  color: `${nextTheme.colors.fg}`
-                }}
+                border: `2px solid ${nextTheme.colors.brand}`,
+                background: `${nextTheme.colors.bg}`,
+                color: `${nextTheme.colors.fg}`
+              }}
                 onClick={e => {
-                dispatch({ type: 'CHANGE_THEME', theme: nextTheme })
-              }}>
+                  dispatch({ type: 'CHANGE_THEME', theme: nextTheme })
+                }}>
                 Next theme: {nextThemeName}
               </a>
 
