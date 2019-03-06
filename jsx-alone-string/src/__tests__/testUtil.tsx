@@ -1,5 +1,6 @@
 import { JSXAlone } from '..'
 import { removeWhites } from 'jsx-alone-core'
+
 export function test({ e, expected, label, expectedTabSize2, asCodeEquals, asCodeContains }: {
   e: JSX.Element;
   expected: string;

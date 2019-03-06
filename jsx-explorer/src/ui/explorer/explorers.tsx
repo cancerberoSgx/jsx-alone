@@ -5,6 +5,7 @@ import { getMonacoInstance } from '../editor';
 import { Component } from '../util/component';
 import { ElementExplorer } from './elements/elementExplorer';
 import { TsSimpleAstExplorer } from './tsAst/tsAstExplorer';
+import { ImplExplorer } from './implExplorer';
 
 registerStyle(`
 .explorer-container{
@@ -35,11 +36,16 @@ export class Explorers extends Component<P> {
   
   protected updateExistingRemoveChildrenIfCountDiffer = true
   
-  private selectExplorer(e: 'elements' | 'jsAst') {
+  private selectExplorer(e: 'elements' | 'jsAst'|'implementations') {
     this.query('.tabs li.is-active').classList.remove('is-active')
     this.query('.tabs li.' + e).classList.add('is-active')
     this.query('.explorer-container.is-active').classList.remove('is-active')
     this.query('.explorer-container.' + e).classList.add('is-active')
+  }
+
+  constructor(p:P){
+    super(p)
+    this.onSelectCode = this.onSelectCode.bind(this)
   }
 
   render() {
@@ -52,20 +58,24 @@ export class Explorers extends Component<P> {
           <li className="jsAst">
             <a onClick={e => this.selectExplorer('jsAst')}>JS AST</a>
           </li>
-          {/* <li className="stringImpl">
-            <a onClick={e => this.selectExplorer('stringImpl')}>JS AST</a>
-          </li> */}
+          <li className="implementations">
+            <a onClick={e => this.selectExplorer('implementations')}>Implementations</a>
+          </li>
         </ul>
       </div>
       <div className="explorer-container elements is-active">
-        <ElementExplorer editor={this.props.state.editor} onSelectCode={sel => getMonacoInstance()!.setSelection(sel)} />
+        <ElementExplorer editor={this.props.state.editor} onSelectCode={this.onSelectCode} />
       </div>
       <div className="explorer-container jsAst">
-        <TsSimpleAstExplorer editor={this.props.state.editor} onSelectCode={sel => getMonacoInstance()!.setSelection(sel)} />
+        <TsSimpleAstExplorer editor={this.props.state.editor} onSelectCode={this.onSelectCode} />
       </div>
-      {/* <div className="explorer-container stringImpl">
-        <TsSimpleAstExplorer editor={this.props.state.editor} onSelectCode={sel => getMonacoInstance()!.setSelection(sel)} />
-      </div> */}
+      <div className="explorer-container implementations">
+      <ImplExplorer editor={this.props.state.editor} onSelectCode={this.onSelectCode} />
+      </div>
     </div>
+  }
+
+  private onSelectCode(sel: SelectCode):void {
+    getMonacoInstance()!.setSelection(sel);
   }
 }

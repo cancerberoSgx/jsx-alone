@@ -8,8 +8,8 @@
   "types": "dist/src/index.d.ts",
   "typings": "dist/src/index.d.ts",
   "scripts": {
-    "build": "export NODE_ENV=production && sh build-workers.sh && parcel build src/index.html -d ../docs/jsx-explorer --no-content-hash --detailed-report --public-url './'",
-    "build-dev": "export NODE_ENV=development ; parcel build src/index.html -d ../docs/jsx-explorer --no-source-maps --no-minify --no-content-hash",
+    "build": "export NODE_ENV=production && rm -rf ../docs/jsx-explorer && sh build-workers.sh && parcel build src/index.html -d ../docs/jsx-explorer --no-content-hash --detailed-report --public-url './'",
+    "build-dev": "export NODE_ENV=development ; parcel build src/index.html -d ../docs/jsx-explorer  --no-minify --no-content-hash --no-source-maps",
     "start": "sh src-changed.sh",
     "start2": "parcel src/index.html",
     "docs": "npm run build",
@@ -22,6 +22,7 @@
     "jsonc-parser": "^2.0.3",
     "jsx-alone-core": "file:../jsx-alone-core",
     "jsx-alone-dom": "file:../jsx-alone-dom",
+    "jsx-alone-string": "file:../jsx-alone-string",
     "monaco-editor": "^0.15.6",
     "redux": "^4.0.1",
     "ts-simple-ast": "^21.0.4",

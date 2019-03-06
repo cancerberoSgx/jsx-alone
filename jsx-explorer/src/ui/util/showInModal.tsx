@@ -1,10 +1,15 @@
 import { JSXAlone } from 'jsx-alone-dom';
+import { registerStyle } from '../../style/styles';
+import { onDesktop, css } from '../../util/media';
 
+registerStyle(`
+${css('.modal .modal-card', `width: 100%;`, `width: 80%;`)}
+`)
 export function showInModal(e: JSX.Element | string, title = 'modal') {
   if (!document.querySelector('#showInModalContainer')) {
     const d = document.createElement('div');
     d.innerHTML = `
-<div class="modal" id="showInModalContainer">
+<div class="modal is-large" id="showInModalContainer">
   <div class="modal-background" onclick="document.querySelector('#showInModalContainer').classList.remove('is-active')"></div>
   <div class="modal-card">
     <header class="modal-card-head">

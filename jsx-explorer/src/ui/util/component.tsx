@@ -13,7 +13,10 @@ export abstract class Component<P={}> extends ElementClass<P> {
   protected query<T extends HTMLElement=HTMLElement>(s: string): T {
     return this.containerEl!.querySelector(s)! as any
   }
-
+  
+  protected queryAll<T extends HTMLElement=HTMLElement>(s: string): T[] {
+    return Array.from(this.containerEl!.querySelectorAll(s)) as any
+  }
 
   beforeRender(containerEl: HTMLElement) {
     this.containerEl = containerEl

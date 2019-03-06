@@ -6,6 +6,7 @@ import { Component } from '../../util/component';
 import { showInModal } from '../../util/showInModal';
 import { Node } from './elementExplorerNode';
 import { ExplorerProps } from '../explorers';
+import { Error } from '../../util/error';
 
 interface P extends ExplorerProps {
 }
@@ -39,34 +40,25 @@ export class ElementExplorer extends Component<P> {
 
     return <div className={"explorer content "}>
       {!error && r && <Node node={r} onShowHtml={html => showInModal(getHtmlCodeModalContent(html), 'HTML')}></Node>}
-      {error && <div>ERROR:
-        Name: {error.name}<br />
-        Message: {error.message}<br />
-        Stack: <pre>
-          {(error.stack || '')}
-        </pre>
-        Evaluated: <pre>
-          {(error.evaluated || '')}
-        </pre>
-      </div>}
+      {error && <Error error={error} />}
     </div>
   }
 }
 
 function getHtmlCodeModalContent(html: string) {
-  return <div id="getHtmlCodeModalContent">
+  return <div id="getHtmlCodeModalContent">hello
     <div className="tabs is-small is-boxed is-toggle">
       <ul>
         <li className="html-code is-active">
           <a onClick={e => {
-            queryAll('#getHtmlCodeModalContent .html, #getHtmlCodeModalContent .html-code').forEach(e=>e.classList.remove('is-active'))
-            queryAll('#getHtmlCodeModalContent .html-code').forEach(e=>e.classList.add('is-active'))
+            queryAll('#getHtmlCodeModalContent .html, #getHtmlCodeModalContent .html-code').forEach(e => e.classList.remove('is-active'))
+            queryAll('#getHtmlCodeModalContent .html-code').forEach(e => e.classList.add('is-active'))
           }}>Code</a>
         </li>
         <li className="html">
           <a onClick={e => {
-            queryAll('#getHtmlCodeModalContent .html, #getHtmlCodeModalContent .html-code').forEach(e=>e.classList.remove('is-active'))
-            queryAll('#getHtmlCodeModalContent .html').forEach(e=>e.classList.add('is-active'))
+            queryAll('#getHtmlCodeModalContent .html, #getHtmlCodeModalContent .html-code').forEach(e => e.classList.remove('is-active'))
+            queryAll('#getHtmlCodeModalContent .html').forEach(e => e.classList.add('is-active'))
           }}>HTML</a>
         </li>
       </ul>
@@ -78,6 +70,4 @@ function getHtmlCodeModalContent(html: string) {
       <div className="content" dangerouslySetInnerHTML={{ __html: html }}></div>
     </div>
   </div>
-
-  return `<pre>${escapeHtml(html)}</pre>`
 }

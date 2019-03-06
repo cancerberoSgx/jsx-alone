@@ -32,7 +32,7 @@ export class Header extends Component<P> {
 
       <div id="jsxExplorerNavbar" className="navbar-menu">
         <div className="navbar-start">
-          <a className="navbar-item" onClick={e => showInModal(<WhatsThis />)}>What's this</a>
+          <a className="navbar-item" onClick={e => showInModal(<WhatsThis />, 'What\'s this?')}>What's this</a>
 
           <div className="navbar-item has-dropdown is-hoverable">
             <a className="navbar-link">Examples</a>
@@ -43,10 +43,17 @@ export class Header extends Component<P> {
               }
               }>{example.name}</a>)}
             </div>
+
           </div>
+          <a className="navbar-item" onClick={e => {
+                const newTheme = this.props.theme.name === 'dark' ? lightTheme : darkTheme
+                dispatch({ type: 'CHANGE_THEME', theme: newTheme })
+              }}>
+                Switch to {this.props.theme.name === 'dark' ? 'light' : 'dark'} theme
+              </a>
         </div>
 
-        <div className="navbar-end">
+        {/* <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
               <button className="button" onClick={e => {
@@ -57,7 +64,7 @@ export class Header extends Component<P> {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </nav>
   }
