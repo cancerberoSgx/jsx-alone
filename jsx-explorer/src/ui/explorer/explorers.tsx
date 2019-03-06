@@ -52,6 +52,9 @@ export class Explorers extends Component<P> {
           <li className="jsAst">
             <a onClick={e => this.selectExplorer('jsAst')}>JS AST</a>
           </li>
+          {/* <li className="stringImpl">
+            <a onClick={e => this.selectExplorer('stringImpl')}>JS AST</a>
+          </li> */}
         </ul>
       </div>
       <div className="explorer-container elements is-active">
@@ -60,6 +63,9 @@ export class Explorers extends Component<P> {
       <div className="explorer-container jsAst">
         <TsSimpleAstExplorer editor={this.props.state.editor} onSelectCode={sel => getMonacoInstance()!.setSelection(sel)} />
       </div>
+      {/* <div className="explorer-container stringImpl">
+        <TsSimpleAstExplorer editor={this.props.state.editor} onSelectCode={sel => getMonacoInstance()!.setSelection(sel)} />
+      </div> */}
     </div>
   }
 }
