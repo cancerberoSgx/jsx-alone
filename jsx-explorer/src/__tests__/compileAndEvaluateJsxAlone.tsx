@@ -1,4 +1,4 @@
-import { evaluate } from '../util/util'
+import { evaluate } from "../util/evaluate";
 
 export function compileAndEvaluateJsxTest() {
   let code = `

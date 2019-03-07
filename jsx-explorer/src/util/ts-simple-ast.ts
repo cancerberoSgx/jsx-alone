@@ -3,6 +3,7 @@ import { lib_es5_d_ts } from './lib_es5_d_ts';
 import { lib_dom_d_ts } from './lib_dom_d_ts';
 import { domDeclarations_d_ts } from './domDeclarations_d_ts';
 import { cssDeclarations_d_ts } from './cssDeclarations_d_ts';
+// import { jsx_alone_core_d_ts } from './jsx_alone_core_d_ts';
 
 let project: Project | undefined
 export function createProject(files: { fileName: string, content: string }[]): Project {
@@ -15,11 +16,19 @@ export function createProject(files: { fileName: string, content: string }[]): P
         "jsxFactory": "JSXAlone.createElement",
       } as any
     })
+    //console.log(' -- ts-simple-ast createProject -- Project Created');
+    
     project.createSourceFile('lib.es5.d.ts', lib_es5_d_ts)
     project.createSourceFile('lib.dom.d.ts', lib_dom_d_ts)
     project.createSourceFile('domDeclarations.d.ts', domDeclarations_d_ts)
     project.createSourceFile('cssDeclarations.d.ts', cssDeclarations_d_ts)
+
+    //console.log(' -- ts-simple-ast createProject -- Declaration files added');
+    // project.createSourceFile('jsx-alone-core.d.ts', jsx_alone_core_d_ts)
+
     files.forEach(f => project!.createSourceFile(f.fileName, f.content))
+
+    //console.log(' -- ts-simple-ast createProject -- Source files added', files);
   }
   else {
     files.forEach(f => {
@@ -27,8 +36,12 @@ export function createProject(files: { fileName: string, content: string }[]): P
         project!.getSourceFile(f.fileName)!.replaceWithText(f.content)
       }
     })
+
+    //console.log(' -- ts-simple-ast createProject -- Source files replaced', files);
   }
   project.saveSync()
+
+  //console.log(' -- ts-simple-ast createProject -- Project saved');
   return project
 }
 

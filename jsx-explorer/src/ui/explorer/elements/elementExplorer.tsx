@@ -1,7 +1,8 @@
 import { JsonImplOutputEl } from 'jsx-alone-core';
 import { JSXAlone } from 'jsx-alone-dom';
 import { registerStyle } from '../../../style/styles';
-import { escapeHtml, evaluate, query, queryAll } from '../../../util/util';
+import { escapeHtml, query, queryAll } from '../../../util/util';
+import { evaluate } from "../../../util/evaluate";
 import { Component } from '../../util/component';
 import { showInModal } from '../../util/showInModal';
 import { Node } from './elementExplorerNode';

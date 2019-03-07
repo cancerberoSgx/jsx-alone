@@ -12,6 +12,7 @@ While JSXAlone is a lightweight library, this application is not since it loads 
 
 # TODO
 
+ * move test src/__tests__/compileAndEvaluateJsxTest.tsx to a independent project since is good test  of all impls
  * lots of props in both explorers are not managed by the store.
  * another explorer that shows emitted js code with the createElements
 

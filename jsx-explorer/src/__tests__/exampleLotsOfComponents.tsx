@@ -1,8 +1,4 @@
-import { AbstractElementClass as ElementClass, AbstractJSXAlone as JSXAlone, ClassRule, ReactNode } from 'jsx-alone-core';
-
-export function exampleLotsOfComponents() {
-
-
+/*DONT CHANGE THIS FIRST LINE*/ import { AbstractElementClass as ElementClass, AbstractJSXAlone as JSXAlone, ClassRule, ReactNode } from 'jsx-alone-core'; declare var PERSON_COUNT: number; declare var CONTACT_COUNT: number; declare var ADDRESS_COUNT: number; function exampleLotsOfComponents() {
 
   // <Style> component
 
@@ -85,18 +81,18 @@ export function exampleLotsOfComponents() {
 
   // THE APP Styles
 
-  const tableButton: ClassRule = {
-    selectorPostfix: ' td',
-    border: '1px solid #aaaaaa',
-    padding: '2px',
-    backgroundColor: '#ededed'
-  }
-  const tableButtonPrimary: ClassRule = {
-    ...tableButton,
-    fontWeight: 'bold',
-    backgroundColor: 'red'
-  }
-  const { styles, classes } = Style.build({ tableButton, tableButtonPrimary })
+  // const tableButton: ClassRule = {
+  //   selectorPostfix: ' td',
+  //   border: '1px solid #aaaaaa',
+  //   padding: '2px',
+  //   backgroundColor: '#ededed'
+  // }
+  // const tableButtonPrimary: ClassRule = {
+  //   ...tableButton,
+  //   fontWeight: 'bold',
+  //   backgroundColor: 'red'
+  // }
+  // const { styles, classes } = Style.build({ tableButton, tableButtonPrimary })
 
 
   // The APP components
@@ -107,46 +103,72 @@ export function exampleLotsOfComponents() {
   const Age = (props: { age: number }) =>
     <span className="age">{props.age}</span>
 
-  const Person = (props: Person) =>
-    <div className="person">
-      <Name name={props.name}></Name>
-      <Age age={props.age}></Age>
-      {props.contacts.map(a =>
-        <Contact addresses={a.addresses} phone={a.phone}></Contact>)}
-    </div>
+  const Person = (props: Person) => <div data-test="person" className="person">
+    <Name name={props.name}></Name>
+    <Age age={props.age}></Age>
+    {props.contacts.map(a =>
+      <Contact addresses={a.addresses} phone={a.phone} />)}
+  </div>
 
-  const Address = (props: Address) => <span>
+  const Address = (props: Address) => <span data-test="address">
     {props.name} number: {props.number}
   </span>
 
-  const Contact = (a: Contact) => <div>
-    Addresses:
-{a.addresses.map(ad =>
-      <div>Street 1: <Address name={ad.name} number={ad.number}></Address></div>)}
+  const Contact = (a: Contact) => <div data-test="contact">
+    Addresses: {a.addresses.map(ad =>
+      <Address name={ad.name} number={ad.number} />)}
   </div>
 
-  class Container<P> extends ElementClass<P & { Tag?: ((props: P) => JSX.Element) | (new (props: P) => JSX.Element), children: ReactNode }> {
-    render() {
-      const { children, Tag = (props: P) => <div>{children}</div> } = this.props
-      return <Tag {...this.props}></Tag>
-    }
-  }
+  // class Container<P> extends ElementClass<P & { Tag?: ((props: P) => JSX.Element) | (new (props: P) => JSX.Element), children: ReactNode }> {
+  //   render() {
+  //     const { children, Tag = (props: P) => <div>{children}</div> } = this.props
+  //     return <Tag {...this.props.children}></Tag>
+  //   }
+  // }
 
-  class App extends ElementClass <AppProps>{
+  class App extends ElementClass<AppProps>{
     render() {
-      return <Container>
-      </Container>
+      return <div>
+        {this.props.people.map(p => <Person {...p}></Person>)}
+      </div>
 
     }
   }
 
 
   // MAIN
-  function makeModel(personCount: number = 10, contactCount = 5, addressCount = 2): Person[] {
-    return [
-      { name: 'seba', age: 18, contacts: [{ addresses: [{ name: 'foo', number: 1221 }], phone: '123123123' }] },
-      { name: 'laura', age: 15, contacts: [{ addresses: [{ name: 'bar', number: 8787 }], phone: '987987987' }] }
-    ]
+  function makeModel(personCount = PERSON_COUNT || 10, contactCount = CONTACT_COUNT || 5, addressCount = ADDRESS_COUNT || 3): Person[] {
+    // globals like PERSON_COUNT can be feeded from evaluator
+    // personCount = personCount || ((typeof PERSON_COUNT === 'number') ? PERSON_COUNT : 10)
+    // contactCount = contactCount || ((typeof CONTACT_COUNT === 'number') ? CONTACT_COUNT : 5)
+    // addressCount = addressCount || ((typeof ADDRESS_COUNT === 'number') ? ADDRESS_COUNT : 3)
+
+    return range(personCount).map(i => ({
+      name: name(),
+      age: int(0, 100),
+      contacts: range(contactCount!).map(j => ({
+        addresses: range(addressCount!).map(j => ({
+          name: name(),
+          number: int(10000, 100000)
+        })),
+        phone: int(1000000, 10000000) + ''
+      })),
+    })
+    )
+    function range(i: number) {
+      return new Array(i).fill(0);
+    }
+    function int(a: number, b: number) {
+      return Math.floor(Math.random() * b) + a
+    }
+    function item<T>(a: T[]): T {
+      return a[int(0, a.length)]
+    }
+    function name() {
+      return item(['Seba', 'Laura', 'Andres', 'Zapicán', 'Montezuma'])
+    }
+
+
   }
 
   return <App people={makeModel()}></App>
@@ -155,23 +177,23 @@ export function exampleLotsOfComponents() {
 
 
 
-  // THE APP TYPES
+// THE APP TYPES
 
-  interface Contact {
-    addresses: Address[]
-    phone: string
-  }
-  interface Address {
-    name: string,
-    number: number
-  }
-  interface Person {
-    name: string,
-    age: number
-    contacts: Contact[]
-  }
-  interface AppProps {
-    people: Person[]
-  }
+interface Contact {
+  addresses: Address[]
+  phone: string
+}
+interface Address {
+  name: string,
+  number: number
+}
+interface Person {
+  name: string,
+  age: number
+  contacts: Contact[]
+}
+interface AppProps {
+  people: Person[]
+}
 
 

@@ -1,11 +1,11 @@
-import {ts} from 'ts-simple-ast'
+import { ts } from 'ts-simple-ast'
 
 export function compileTs(code: string) {
   const res = ts.transpileModule(code, {
     compilerOptions: {
-      "target": "es2018", 
+      "target": "es2018",
       "rootDir": ".",
-      "strict": false,   
+      "strict": false,
       "lib": ["es2018"],
       module: ts.ModuleKind.None,
       jsx: 'react',
