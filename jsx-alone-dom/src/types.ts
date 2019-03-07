@@ -7,15 +7,15 @@ export interface ElementLike<T extends RenderOutput = RenderOutput >  extends  B
   _elementClassInstance?: IElementClass
   ref?: RefObject<IElementClass&Element>
   buildRootElement(config: ElementLikeImplRenderConfig<ElementLike>): HTMLElement
-  render(config?: ElementLikeImplRenderConfig):T
+  render(config?: ElementLikeImplRenderConfig): T
 }
 
 export interface TextNodeLike extends  BaseTextNodeLike<RenderOutput> {}
 
 export interface IElementClass<P = {}> extends ICoreElementClass<P> {
   destroy(): void
-  afterRender(containerEl: HTMLElement):void
-  beforeRender(containerEl: HTMLElement):void
+  afterRender(containerEl: HTMLElement): void
+  beforeRender(containerEl: HTMLElement): void
   // update(containerEl: HTMLElement, props?: P):boolean
   readonly eventManager?: RootEventManager
 }
@@ -35,7 +35,6 @@ export interface ElementLikeImplRenderConfig<R extends ElementLike = ElementLike
 export interface HandleAttributeOptions<R extends ElementLike = ElementLike> {
   config: ElementLikeImplRenderConfig<R>, el: HTMLElement, attribute: string, value: any, elementLike: R
 }
-
 
 // /** high level interface on top of DOM Event type so it's easy to declare types of currentTarget and target */
 // export interface DelegatedEvent<T extends  EventTarget =  EventTarget> extends Event {

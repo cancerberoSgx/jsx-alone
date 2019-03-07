@@ -1,16 +1,15 @@
-import { JSXAlone } from 'jsx-alone-dom';
-import { ExplorerProps } from './explorers';
-import { Component } from '../util/component';
-import { escapeHtml, query } from '../../util/util';
-import { evaluate, EvaluateTimes } from "../../util/evaluate";
-import { Error } from '../util/error';
-import { registerStyle } from '../../style/styles';
-import { printMs } from 'jsx-alone-core';
+import { JSXAlone } from 'jsx-alone-dom'
+import { ExplorerProps } from './explorers'
+import { Component } from '../util/component'
+import { escapeHtml, query } from '../../util/util'
+import { evaluate, EvaluateTimes } from '../../util/evaluate'
+import { Error } from '../util/error'
+import { registerStyle } from '../../style/styles'
+import { printMs } from 'jsx-alone-core'
 
 interface P extends ExplorerProps {
   indent?: boolean
 }
-
 
 registerStyle(`
 .impl-explorer-container{
@@ -131,4 +130,3 @@ export class ImplExplorer extends Component<P> {
     this.queryAll(`.impl-explorer-tab.${t}, .impl-explorer-container.${t}`).forEach(e => e.classList.add('is-active'))
   }
 }
-

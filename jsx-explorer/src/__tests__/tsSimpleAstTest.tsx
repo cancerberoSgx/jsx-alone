@@ -1,8 +1,8 @@
-import { createProject } from '../util/ts-simple-ast';
-import { dumpAst } from '../util/typescript';
+import { createProject } from '../util/ts-simple-ast'
+import { dumpAst } from '../util/typescript'
 
 describe('ts-simple-ast', () => {
-  
+
   it('createProgram', () => {
 
     const project = createProject([
@@ -22,7 +22,6 @@ export default <article>
 
     // console.log(dumpAst(f.compilerNode));
     expect(dumpAst(f.compilerNode)).toContain(`JsxElement : "<article> <div>{123}</div> </article>"`)
-
 
   })
 })

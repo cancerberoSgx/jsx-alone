@@ -1,11 +1,8 @@
-import { ClassRule, ReactNode } from 'jsx-alone-core';
-import { ElementClass, JSXAlone } from 'jsx-alone-dom';
-import { JsxElement } from 'ts-simple-ast';
-
+import { ClassRule, ReactNode } from 'jsx-alone-core'
+import { ElementClass, JSXAlone } from 'jsx-alone-dom'
+import { JsxElement } from 'ts-simple-ast'
 
 export function exampleLotsOfComponents() {
-
-
 
   // <Style> component
 
@@ -45,14 +42,11 @@ export function exampleLotsOfComponents() {
     }
   }
 
-
-
-
   // <If> component
 
   interface IfProps<T> { c: any, p?: T, children: (...args: NotFalsy<T>[]) => JSX.Element }
   function If<T extends any = any>(props: IfProps<T>) {
-    //const f = Array.isArray(props.children) ? props.children[0] : props.children
+    // const f = Array.isArray(props.children) ? props.children[0] : props.children
     if (isNotFalsy(props.c))
       return props.children.apply(null, [...(props.p ? [props.p] : []), props.c])
     else {
@@ -62,9 +56,6 @@ export function exampleLotsOfComponents() {
   type NotFalsy<C= any> = Exclude<C, Falsy>
   type Falsy = null | '' | undefined | false
   function isNotFalsy<T>(a: T): a is NotFalsy<T> { return !!a }
-
-
-
 
   // THE APP
 
@@ -84,8 +75,6 @@ export function exampleLotsOfComponents() {
     contacts: Contact[]
   }
 
-
-
   // THE APP Styles
 
   const tableButton: ClassRule = {
@@ -100,7 +89,6 @@ export function exampleLotsOfComponents() {
     backgroundColor: 'red'
   }
   const { styles, classes } = Style.build({ tableButton, tableButtonPrimary })
-
 
   // The APP components
 
@@ -135,14 +123,13 @@ export function exampleLotsOfComponents() {
     }
   }
 
-  class App extends ElementClass <AppProps>{
+  class App extends ElementClass <AppProps> {
     render() {
       return <Container>
       </Container>
 
     }
   }
-
 
   // MAIN
   function makeModel(personCount: number = 10, contactCount = 5, addressCount = 2): Person[] {
@@ -155,26 +142,21 @@ export function exampleLotsOfComponents() {
   return <App people={makeModel()}></App>
 }
 
-
-
-
   // THE APP TYPES
 
-  interface Contact {
+interface Contact {
     addresses: Address[]
     phone: string
   }
-  interface Address {
+interface Address {
     name: string,
     number: number
   }
-  interface Person {
+interface Person {
     name: string,
     age: number
     contacts: Contact[]
   }
-  interface AppProps {
+interface AppProps {
     people: Person[]
   }
-
-

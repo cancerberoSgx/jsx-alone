@@ -1,6 +1,6 @@
 import { lotsOfPeople, LotsOfPeopleRendererConfig, LotsOfPeopleConfig } from 'jsx-alone-sample-project-code'
-import { lotsOfPeopleRenderer } from "jsx-alone-dom-sample-project";
-import { JSXAlone } from 'jsx-alone-dom';
+import { lotsOfPeopleRenderer } from 'jsx-alone-dom-sample-project'
+import { JSXAlone } from 'jsx-alone-dom'
 
 export function lotsOfPeopleAloneTest(config: LotsOfPeopleConfig) {
 

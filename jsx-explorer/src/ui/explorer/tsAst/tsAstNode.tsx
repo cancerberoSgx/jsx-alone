@@ -1,29 +1,29 @@
-import { Node } from 'ts-simple-ast';
-import { getChildrenForEachChild } from '../../../util/ts-simple-ast';
-import { shorter } from '../../../util/util';
-import { Component } from '../../util/component';
-import { JSXAlone } from 'jsx-alone-dom';
+import { Node } from 'ts-simple-ast'
+import { getChildrenForEachChild } from '../../../util/ts-simple-ast'
+import { shorter } from '../../../util/util'
+import { Component } from '../../util/component'
+import { JSXAlone } from 'jsx-alone-dom'
 
 interface P {
-  node: Node;
-  path?: string;
-  mode: 'getChildren' | 'forEachChild';
-  onShowDetailsOf: (p: string, n: Node) => void;
-  showDetailsOf?: string;
+  node: Node
+  path?: string
+  mode: 'getChildren' | 'forEachChild'
+  onShowDetailsOf: (p: string, n: Node) => void
+  showDetailsOf?: string
   collapsed?: boolean
 }
 
 export class NodeComponent extends Component<P> {
   protected removeChildrenOnUpdate = true
   render() {
-    const { node, mode, path = '/', showDetailsOf, onShowDetailsOf, collapsed = false } = this.props;
-    const children = mode === 'forEachChild' ? getChildrenForEachChild(node) : node.getChildren();
+    const { node, mode, path = '/', showDetailsOf, onShowDetailsOf, collapsed = false } = this.props
+    const children = mode === 'forEachChild' ? getChildrenForEachChild(node) : node.getChildren()
     return <div className="content" data-key={path}>
 
       <strong>{node.getKindName()}</strong>
 
       <button className="button is-small" onClick={e => {
-        onShowDetailsOf(path, node);
+        onShowDetailsOf(path, node)
       }}>!</button>
 
       <button className="button is-small" onClick={e => {

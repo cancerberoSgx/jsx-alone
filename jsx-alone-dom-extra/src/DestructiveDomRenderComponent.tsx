@@ -48,7 +48,7 @@ export abstract class DestructiveDomRenderComponent<P = {}, S = P> extends State
       }
     }
   }
-  
+
 }
 //  TODO: move to misc
 function getXPathOfElement(el: Element | string): string | undefined {

@@ -1,9 +1,9 @@
-import { lotsOfPeopleAloneTest } from './lotsOfPeople/lotsOfPeopleAlone';
-import { Sample, Result } from "./types";
+import { lotsOfPeopleAloneTest } from './lotsOfPeople/lotsOfPeopleAlone'
+import { Sample, Result } from './types'
 export const samples: Sample[] = [
   {
     name: 'lotsOfPeopleDom', impl: 'dom', run(config) {
-      lotsOfPeopleAloneTest({ peopleCount: config.n, friendsCount: config.m });
+      lotsOfPeopleAloneTest({ peopleCount: config.n, friendsCount: config.m })
       return {} as any as Result
     }
   },
@@ -12,4 +12,4 @@ export const samples: Sample[] = [
       return {} as any as Result
     }
   }
-];
+]

@@ -1,10 +1,10 @@
-import { JSXAlone } from 'jsx-alone-dom';
+import { JSXAlone } from 'jsx-alone-dom'
 
 export const WhatsThis = (props: {}) => <article className="content">
   <h1>JSX Explorer</h1>
 
   <p>Allow to write JSX code (TypeScript or JavaScript), parse it and then show the structure of the code in different ways: </p>
-  
+
   <ul>
 
     <li><strong>Elements Explorer</strong> shows the result JSX expressions translated to <code>React.createElement()</code> or similar call. </li>
@@ -25,4 +25,4 @@ export const WhatsThis = (props: {}) => <article className="content">
       <li>redux</li>
     </ul>
 
-</article>;
+</article>

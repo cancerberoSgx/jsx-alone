@@ -16,17 +16,16 @@ export function isElementMarked(e: HTMLElement, label = '_jsxa_') {
   return !!getElementMark(e, label)
 }
 export function getDescendantsMarks(e: Element, label = '_jsxa_') {
-  return getMarkedDescendants(e, label).map(d=>getElementMark(d, label))
+  return getMarkedDescendants(e, label).map(d => getElementMark(d, label))
 }
 export function removeElementMark(e: Element, label = '_jsxa_') {
   e.removeAttribute(`data-${label}`)
 }
 
-
 export function getMarkedDescendants(e: Element, label = '_jsxa_') {
   return Array.from(e.querySelectorAll(getMarkSSelector(label)))
 }
-export function getMarkedElement<T extends Element = Element>(key: string, parent:NodeSelector = document, label = '_jsxa_') {
+export function getMarkedElement<T extends Element = Element>(key: string, parent: NodeSelector = document, label = '_jsxa_') {
   return parent.querySelector<T>(getMarkSSelector(label, key))
 }
 export function getMarkSSelector(label: string, key?: string): string {

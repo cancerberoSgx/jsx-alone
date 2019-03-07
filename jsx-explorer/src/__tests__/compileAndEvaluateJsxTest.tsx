@@ -1,11 +1,11 @@
-import { evaluate } from "../util/evaluate";
-import { readFileSync } from 'fs';
-import { JsonImplOutputEl, isJsonImplOutputEl } from 'jsx-alone-core';
+import { evaluate } from '../util/evaluate'
+import { readFileSync } from 'fs'
+import { JsonImplOutputEl, isJsonImplOutputEl } from 'jsx-alone-core'
 describe('samples', () => {
 
   describe('compileAndEvaluateJsxTest', () => {
     it('test', () => {
-      let code = `
+      const code = `
     function (){
       var a = Math.random()
       return <article>
@@ -21,18 +21,18 @@ describe('samples', () => {
   describe('exampleLotsOfComponents', () => {
 
     function render<T = JsonImplOutputEl>(file: string, globals: { [k: string]: number }, impl: 'json' | 'dom' | 'string' = 'json') {
-      const lines = readFileSync(file).toString().split('\n');
+      const lines = readFileSync(file).toString().split('\n')
       const code = [`function test() {
 ${Object.keys(globals).map(g => `
-var ${g} = ${globals[g]}; 
+var ${g} = ${globals[g]};
 `).join('\n')}
-`, ...lines.slice(1, lines.length)].join('\n');
-      const times = {};
+`, ...lines.slice(1, lines.length)].join('\n')
+      const times = {}
       const result = evaluate<T>(code, impl, times)
       if (impl === 'json') {
         expect(() => JSON.stringify(result)).not.toThrow()
       }
-      return { result, times };
+      return { result, times }
     }
 
     it('should generate correct amount of nodes', () => {
@@ -41,7 +41,7 @@ var ${g} = ${globals[g]};
         'src/__tests__/exampleLotsOfComponents.tsx',
         { PERSON_COUNT, CONTACT_COUNT, ADDRESS_COUNT },
         'json'
-      );
+      )
 
       expect(result.children).toHaveLength(PERSON_COUNT)
 
@@ -61,15 +61,14 @@ var ${g} = ${globals[g]};
         .toHaveLength(ADDRESS_COUNT)
     })
 
-
     describe('<If>', () => {
 
       function test(s: string, PERSON_COUNT: number) {
         const noS = s.replace(/\s+/g, '')
-        expect(noS).not.toContain(`data-test="name">Seba`);
-        expect(noS.includes(`data-test="name">Laura`) || noS.includes(`data-test="name">Andres`)).toBe(true);
-        expect(noS).not.toContain(`data-test="age">5`);
-        expect(noS.includes(`data-test="age">4`) || noS.includes(`data-test="age">3`) || noS.includes(`data-test="age">2`)).toBe(true);
+        expect(noS).not.toContain(`data-test="name">Seba`)
+        expect(noS.includes(`data-test="name">Laura`) || noS.includes(`data-test="name">Andres`)).toBe(true)
+        expect(noS).not.toContain(`data-test="age">5`)
+        expect(noS.includes(`data-test="age">4`) || noS.includes(`data-test="age">3`) || noS.includes(`data-test="age">2`)).toBe(true)
         expect(noS.split('data-test="name"').length).toBeGreaterThan(PERSON_COUNT / 3)
         expect(noS.split('data-test="age"').length).toBeGreaterThan(PERSON_COUNT / 3)
 
@@ -92,7 +91,7 @@ var ${g} = ${globals[g]};
           { PERSON_COUNT, CONTACT_COUNT, ADDRESS_COUNT },
           'dom'
         )
-        test(result.outerHTML, PERSON_COUNT);
+        test(result.outerHTML, PERSON_COUNT)
       })
 
     })

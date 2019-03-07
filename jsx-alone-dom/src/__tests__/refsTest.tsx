@@ -1,7 +1,7 @@
 import { JSXAlone } from '..'
 import { query, render } from './testUtil'
 import { RefObject } from 'jsx-alone-core'
-import { ElementClass } from '../elementClass';
+import { ElementClass } from '../elementClass'
 describe('refs', () => {
   abstract class DummyStatefulComponent<P = {}, S = P> extends ElementClass<P> {
     state: S
@@ -27,7 +27,7 @@ describe('refs', () => {
     }
     protected containerEl: HTMLElement | undefined
   }
-    
+
   describe('case 1', () => {
     class Box extends DummyStatefulComponent<{ text: string }> {
       render() {

@@ -1746,4 +1746,4 @@ declare global {
     }
 }
 export {};
-` 
+`

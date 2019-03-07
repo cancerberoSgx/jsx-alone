@@ -62,7 +62,7 @@ export function dummy(a: number) {
  * @param {HTMLNode} node The node to fire the event handler on.
  * @param {String} eventName The name of the event without the "on" (e.g., "focus")
  */
-export function fireEvent(node: HTMLElement&{dispatchEvent:any,fireEvent:any}, eventName: 'mousedown' | 'mouseup' | 'click' | 'focus' | 'change' | 'blur' | 'select') {
+export function fireEvent(node: HTMLElement&{dispatchEvent: any, fireEvent: any}, eventName: 'mousedown' | 'mouseup' | 'click' | 'focus' | 'change' | 'blur' | 'select') {
   // Make sure we use the ownerDocument from the provided node to avoid cross-window problems
   let doc: any
   if (node.ownerDocument) {

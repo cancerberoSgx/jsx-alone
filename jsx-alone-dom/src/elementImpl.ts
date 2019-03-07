@@ -2,7 +2,7 @@ import { AbstractElementLike, AbstractTextNodeLike, printStyleHtmlAttribute, Ref
 import { RefObjectImpl, setRef } from './refs'
 import { ElementLike, ElementLikeImplRenderConfig, IElementClass, RenderOutput } from './types'
 import { RootEventManager } from './event'
-import { ElementClass, isElementClass } from './elementClass';
+import { ElementClass, isElementClass } from './elementClass'
 
 export class ElementLikeImpl<T extends ElementClass= ElementClass> extends AbstractElementLike<RenderOutput> implements ElementLike {
 
@@ -24,7 +24,7 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
 
     const {updateExisting, updateExistingRemoveChildrenIfCountDiffer, rootHTMLElement, eventManager, rootElementLike, parent} = config
 
-    let el = updateExisting || rootHTMLElement || this.buildRootElement(config)
+    const el = updateExisting || rootHTMLElement || this.buildRootElement(config)
 
     if (this._elementClassInstance) {
       this._elementClassInstance.beforeRender(el)
@@ -65,7 +65,7 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
         const cel = c.render({
           ...config,
           updateExisting: existingChildToUpdate || undefined,
-          rootHTMLElement: existingChildToUpdate || undefined,
+          rootHTMLElement: existingChildToUpdate || undefined
         })
         if (!existingChildToUpdate) {
           if (tagNameDiffers && existingChildToUpdateRealNode) {

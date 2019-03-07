@@ -1,8 +1,8 @@
-import { ElementClass, JSXAlone, ElementLikeImpl } from 'jsx-alone-dom';
-import { emptyAllChildren } from '../../util/util';
+import { ElementClass, JSXAlone, ElementLikeImpl } from 'jsx-alone-dom'
+import { emptyAllChildren } from '../../util/util'
 
 /** the abstract component that supports updating its properties and when it happens update the DOM. store.subscribe() handlers will call updateProps() on the top level component (Main) and this will trigger a recursive re-render and props propagation through all the elements */
-export abstract class Component<P={}> extends ElementClass<P> {
+export abstract class Component<P= {}> extends ElementClass<P> {
 
   protected containerEl: HTMLElement | undefined
 
@@ -10,11 +10,11 @@ export abstract class Component<P={}> extends ElementClass<P> {
     return this.constructor.name
   }
 
-  protected query<T extends HTMLElement=HTMLElement>(s: string): T {
+  protected query<T extends HTMLElement= HTMLElement>(s: string): T {
     return this.containerEl!.querySelector(s)! as any
   }
 
-  protected queryAll<T extends HTMLElement=HTMLElement>(s: string): T[] {
+  protected queryAll<T extends HTMLElement= HTMLElement>(s: string): T[] {
     return Array.from(this.containerEl!.querySelectorAll(s)) as any
   }
 

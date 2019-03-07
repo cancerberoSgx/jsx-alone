@@ -1,9 +1,9 @@
-import { Theme } from '../store/types';
-import { css } from '../util/media';
+import { Theme } from '../store/types'
+import { css } from '../util/media'
 
-export function globalStyles(theme:Theme){
+export function globalStyles(theme: Theme) {
 
-  return  ` 
+  return  `
 body *::-webkit-scrollbar {
   width: 0.8em;
 }

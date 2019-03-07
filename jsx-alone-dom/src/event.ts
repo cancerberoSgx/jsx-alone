@@ -1,8 +1,8 @@
 import { getElementMark, markElement, getMarkedElement, getDescendantsMarks, getMarkedDescendants, removeElementMark } from './mark'
 import { unique, objectMap } from 'jsx-alone-core'
-import { ElementLikeImpl } from './elementImpl';
-import { ElementClass } from './elementClass';
-import { ElementLike } from './types';
+import { ElementLikeImpl } from './elementImpl'
+import { ElementClass } from './elementClass'
+import { ElementLike } from './types'
 // import { DelegatedEvent } from './types'
 
 export type EventListener<C extends EventTarget | HTMLElement = any, T extends EventTarget | HTMLElement = any> = (e: Event) => any
@@ -36,13 +36,12 @@ export interface EventManager {
  *    errors since the original el is expected and also Event's typings currentTarget is typed and target is not. This
  *    is done using es6 Proxy
  *
- *  * The elements are marked with a data attribute 
+ *  * The elements are marked with a data attribute
  *
  * TODO: options
  * @internal
  */
 export class RootEventManager implements EventManager {
-
 
   private registeredByType: { [type: string]: Entry[] } = {}
   private appendToDomListeners: AppendDoDomListener[] = []
@@ -53,7 +52,6 @@ export class RootEventManager implements EventManager {
     // console.log('consrttrtr');
 
   }
-
 
   private markElement(el: HTMLElement) {
     return markElement(el, this.mark)
@@ -77,7 +75,7 @@ export class RootEventManager implements EventManager {
       const mark = this.getElementMark(e.target as HTMLElement)
       const entry = mark && (this.registeredByType[e.type.toLowerCase()] || []).find(e => e.mark === mark)
       if (entry) {
-        // heads up - the user expect e.currentTarget to be the target the target element, but because of event delegation it's the root element. This is why we wrap the event object with a proxy: 
+        // heads up - the user expect e.currentTarget to be the target the target element, but because of event delegation it's the root element. This is why we wrap the event object with a proxy:
         entry.fn(new E(e) as any)
       }
     }
@@ -124,12 +122,12 @@ export class RootEventManager implements EventManager {
   }
 
   removeListeners(el: HTMLElement, andDescendants = false, types?: []) {
-    // const els = 
+    // const els =
     [...(this.getElementMark(el) ? [el] : []), ...(andDescendants ? this.getMarkedDescendants(el) : [])]
       .filter(m => m)
       // if (mark) {
       .forEach(el => {
-        const mark = this.getElementMark(el!);
+        const mark = this.getElementMark(el!)
         if (!mark) { return }
         (types || Object.keys(this.registeredByType)
           .map(t => t.toLowerCase()))
@@ -163,7 +161,7 @@ class E {
   constructor(private e: any) {
     // debugger
     // return new ProxyPolyfill(this, this);
-    return new Proxy(this, this);
+    return new Proxy(this, this)
   }
   get(target: any, prop: string) {
     if (prop === 'currentTarget') {

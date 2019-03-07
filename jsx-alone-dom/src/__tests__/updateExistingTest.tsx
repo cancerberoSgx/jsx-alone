@@ -1,10 +1,10 @@
 import { JSXAlone, ElementClass } from '..'
 import { render, prepareRenderParent, query } from './testUtil'
-import { unique } from 'jsx-alone-core';
-import { ElementLikeImpl } from '../elementImpl';
+import { unique } from 'jsx-alone-core'
+import { ElementLikeImpl } from '../elementImpl'
 describe('updateExisting', () => {
 
-  abstract class StatefulComponent<P={}> extends ElementClass<P> {
+  abstract class StatefulComponent<P= {}> extends ElementClass<P> {
     state: P
     containerEl: HTMLElement | undefined
     constructor(p: P) {
@@ -14,9 +14,9 @@ describe('updateExisting', () => {
     afterRender(containerEl: HTMLElement) {
       this.containerEl = containerEl
     }
-    protected updateUI() { 
+    protected updateUI() {
       const el = this.render()
-      //@ts-ignore
+      // @ts-ignore
       el._elementClassInstance = this
       JSXAlone.render(el, {
         updateExisting: this.containerEl
@@ -88,7 +88,7 @@ describe('updateExisting', () => {
       }
     }
 
-    const c = new C({ name: 'seba', text: "hello" })
+    const c = new C({ name: 'seba', text: 'hello' })
     const parent = prepareRenderParent()
     const el = JSXAlone.render(c.asJSXElement(), { parent }) as HTMLElement
     const shouldNotChange = parent.querySelector('.shouldNotChange')!
@@ -97,7 +97,6 @@ describe('updateExisting', () => {
     expect(el.outerHTML).toBe(`<p><i class=\"changed\">lau</i><i class=\"same\"></i><div class=\"shouldNotChange\"><p>world</p></div></p>`)
     expect(shouldNotChange).toBe(parent.querySelector('.shouldNotChange'))
   })
-
 
   it('event handlers should keep working after update', () => {
     let counter = 0
@@ -118,7 +117,7 @@ describe('updateExisting', () => {
       }
     }
 
-    const c = new C({ name: 'seba', text: "hello" })
+    const c = new C({ name: 'seba', text: 'hello' })
     const parent = prepareRenderParent()
     const el = JSXAlone.render(c.asJSXElement(), { parent }) as HTMLElement
     expect(el.outerHTML).toContain(`>hello</button></div></p>`)

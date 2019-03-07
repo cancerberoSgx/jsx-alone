@@ -4,8 +4,8 @@ export const darkTheme: Theme = {
   name: 'dark',
   colors: {
     bg: '#1e1e1e',
-    fg: '#d4d4d4', 
-    brand: '#d4d4d4',
+    fg: '#d4d4d4',
+    brand: '#d4d4d4'
   }
 }
 
@@ -14,7 +14,7 @@ export const lightTheme: Theme = {
   colors: {
     bg: '#d4d4d4',
     fg: '#1e1e1e',
-    brand: '#d4d4d4',
+    brand: '#d4d4d4'
   }
 }
 
@@ -23,7 +23,7 @@ export const mintyTheme: Theme = {
   colors: {
     bg: '#d4d4d4',
     fg: '#1e1e1e',
-    brand: '#6abfb0',
+    brand: '#6abfb0'
   }
 }
 

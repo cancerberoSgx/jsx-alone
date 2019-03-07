@@ -1,7 +1,7 @@
 import { JSXAlone } from '..'
-import { ElementClass } from "../elementClass";
+import { ElementClass } from '../elementClass'
 import { test, query, render } from './testUtil'
-import { unique } from 'jsx-alone-core';
+import { unique } from 'jsx-alone-core'
 
 describe('element class', () => {
 
@@ -20,21 +20,21 @@ describe('render', () => {
   })
 })
 
-  describe('destroy', ()=>{
+describe('destroy', () => {
 
-    it('event listeners should be removed when destroy() is call on root and non root element classes', ()=>{
+    it('event listeners should be removed when destroy() is call on root and non root element classes', () => {
       const id = unique(), id2 = unique()
       let f = 0
       // const fn1 = jest.fn(()=>{
-        
+
       // })
       class C extends ElementClass {
-        render(){
+        render() {
           return <div>
-            <button id={id} onClick={e=>{
+            <button id={id} onClick={e => {
             this.destroy()
             expect(f).toBe(0)
-            expect(this.eventManager).toBeDefined()            
+            expect(this.eventManager).toBeDefined()
             f++
           }
           }></button>
@@ -47,7 +47,7 @@ describe('render', () => {
       //     return <div>
       //       <button id={id3} onClick={e=>{
       //       this.destroy()
-      //       expect(this.eventManager).toBeDefined()            
+      //       expect(this.eventManager).toBeDefined()
       //       f++
       //     }
       //     }></button>
@@ -66,15 +66,15 @@ describe('render', () => {
       query(`#${id2}`).click()
       expect(f).toBe(1)
     })
-  
+
   })
-  it('should call afterRender', () => {
+it('should call afterRender', () => {
     const fn = jest.fn()
     class C extends ElementClass  {
       render() {
         return <div></div>
       }
-      afterRender(){
+      afterRender() {
         fn()
       }
     }

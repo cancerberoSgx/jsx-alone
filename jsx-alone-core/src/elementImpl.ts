@@ -1,4 +1,4 @@
-import { ElementLike, NodeLike, RenderConfig, TextNodeLike, ElementClass, ElementClassConstructor, ElementConstructor} from '.';
+import { ElementLike, NodeLike, RenderConfig, TextNodeLike, ElementClass, ElementClassConstructor, ElementConstructor} from '.'
 
 export function isElementClassConstructor<T>(c: any): c is ElementClassConstructor<T> {
   return c.prototype && c.prototype.render
@@ -53,9 +53,9 @@ export abstract class AbstractElementLike<T> implements ElementLike<T> {
       c.parentElement = this
     }
   }
-  
-  replaceChild(i: number, c: NodeLike<T>){
-    this.children[i]=c
+
+  replaceChild(i: number, c: NodeLike<T>) {
+    this.children[i] = c
     if (isElementLike<T>(c)) {
       c.parentElement = this
     }

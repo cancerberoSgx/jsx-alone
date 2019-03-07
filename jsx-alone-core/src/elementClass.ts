@@ -1,9 +1,9 @@
 import { NodeLike, ElementLike, ElementClassProps, isElementLike, ReactNode } from '.'
 
 export interface IElementClass<P= {}> {
-  
+
   props: ElementClassProps<P>
-  asJSXElement():JSX.Element
+  asJSXElement(): JSX.Element
   render(): JSX.Element
 }
 
@@ -11,10 +11,10 @@ export interface IElementClass<P= {}> {
  * A Class able to render() JSX. Similar to React.Component but only supporting properties, without state, context, ref, did/will methods, etc.
  */
 export abstract class ElementClass<  P= {}> implements IElementClass<P> {
-  
+
   constructor(protected _props: P) {
   }
-  
+
   get props(): P {
     return this._props
   }

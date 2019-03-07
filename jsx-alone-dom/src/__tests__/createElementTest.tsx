@@ -1,11 +1,11 @@
-import { ElementLike } from '../types';
+import { ElementLike } from '../types'
 import {JSXAlone} from '..'
-import { ElementClass } from '../elementClass';
-import { ElementLikeImpl } from '../elementImpl';
-import { objectMap } from 'jsx-alone-core';
-import { prepareRenderParent } from './testUtil';
+import { ElementClass } from '../elementClass'
+import { ElementLikeImpl } from '../elementImpl'
+import { objectMap } from 'jsx-alone-core'
+import { prepareRenderParent } from './testUtil'
 describe('createElement', () => {
-  
+
   describe('updateElement', () => {
     it('should u', () => {
       const e = <div>1</div> as any as ElementLike<any>
@@ -35,7 +35,6 @@ describe('createElement', () => {
       expect((e.children[1]as any).content).toBe('2')
 
     })
-
 
     // it('should help on updating el class', () => {
     //   interface P{name: string }
@@ -85,16 +84,15 @@ describe('createElement', () => {
     //   // const same = c.getOutput().children[0].children[1]
     //   // const notSame =  c.getOutput().children[0].children[0]
     //   c.state.name='lau'
-    //   c.updateUi()   
+    //   c.updateUi()
     //   console.log(p.outerHTML);
-              
+
     //   // expect(c.getOutput().children[0].children[0].content).toBe('lau')
     //   // expect(c.getOutput().children[0].children[1]).toBe(same)
     //   // expect(c.getOutput().children[0].children[0]).not.toBe(notSame)
     //   // console.log(JSON.stringify(c.printOutput(), null, 2));
-      
-    // })
 
+    // })
 
   })
 })

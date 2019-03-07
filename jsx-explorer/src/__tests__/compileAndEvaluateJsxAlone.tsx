@@ -1,7 +1,7 @@
-import { evaluate } from "../util/evaluate";
+import { evaluate } from '../util/evaluate'
 
 export function compileAndEvaluateJsxTest() {
-  let code = `
+  const code = `
 function (){
   var a = Math.random()
   return <article>

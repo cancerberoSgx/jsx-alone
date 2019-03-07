@@ -1,6 +1,6 @@
 import { JSXAlone } from '..'
 import { removeWhites } from 'jsx-alone-core'
-import { ElementLikeImplRenderConfig, ElementLikeImplRenderConfigNoRoot } from '../types';
+import { ElementLikeImplRenderConfig, ElementLikeImplRenderConfigNoRoot } from '../types'
 
 export function test({
   e,
@@ -33,19 +33,19 @@ export function test({
 }
 
 export function render(e: JSX.Element, config?: ElementLikeImplRenderConfigNoRoot) {
-  let parent = prepareRenderParent();
+  const parent = prepareRenderParent()
   return JSXAlone.render(e, { ...config, parent }) as HTMLElement
 }
 
 export function prepareRenderParent() {
-  let parent = document.getElementById('test-root');
+  let parent = document.getElementById('test-root')
   if (parent) {
-    parent.remove();
+    parent.remove()
   }
-  parent = document.createElement('div');
-  parent.setAttribute('id', 'test-root');
-  document.body.appendChild(parent);
-  return parent;
+  parent = document.createElement('div')
+  parent.setAttribute('id', 'test-root')
+  document.body.appendChild(parent)
+  return parent
 }
 
 export function expectTextEquals(a?: string, b?: string, debug = false) {

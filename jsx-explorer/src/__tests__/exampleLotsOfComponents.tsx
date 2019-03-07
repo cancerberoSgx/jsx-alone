@@ -38,7 +38,6 @@
     }
   }
 
-
   // type Children = ReactNode
 
   // <If> component
@@ -62,9 +61,6 @@
   type Falsy = null | '' | undefined | false
   function isNotFalsy<T>(a: T): a is NotFalsy<T> { return !!a }
 
-
-
-
   // THE APP
 
   // THE APP TyPES
@@ -83,8 +79,6 @@
     contacts: ContactModel[]
   }
 
-
-
   // THE APP Styles
 
   const value: ClassRule = {
@@ -100,7 +94,6 @@
   }
   const { styles, classes } = Style.build({ value, name, number })
 
-
   // The APP components
 
   const Name = (props: { name: string }) =>
@@ -113,8 +106,7 @@
       <span className={classes.number} data-test="age">{props.age}</span>
     }</If>
 
-
-  class Person extends ElementClass<PersonModel>{
+  class Person extends ElementClass<PersonModel> {
     render() {
       return <div data-test="person" className="person">
         <Name name={this.props.name}></Name>
@@ -139,14 +131,13 @@
     }
   }
 
-  class App extends ElementClass<AppProps>{
+  class App extends ElementClass<AppProps> {
     render() {
       return <div>
         {this.props.people.map(p => <Person {...p} />)}
       </div>
     }
   }
-
 
   // MAIN
   function makeModel(personCount = PERSON_COUNT || 10, contactCount = CONTACT_COUNT || 5, addressCount = ADDRESS_COUNT || 3): PersonModel[] {
@@ -160,11 +151,11 @@
           number: int(10000, 100000)
         })),
         phone: int(1000000, 10000000) + ''
-      })),
+      }))
     })
     )
     function range(i: number) {
-      return new Array(i).fill(0);
+      return new Array(i).fill(0)
     }
     function int(a: number, b: number) {
       return Math.floor(Math.random() * b) + a
@@ -176,32 +167,26 @@
       return item(['Seba', 'Laura', 'Andres', 'Zapicán', 'Montezuma'])
     }
 
-
   }
 
   return <App people={makeModel()}></App>
 }
 
-
-
-
 // THE APP TYPES
 
-interface Contact {
+                                interface Contact {
   addresses: Address[]
   phone: string
 }
-interface Address {
+                                interface Address {
   name: string,
   number: number
 }
-interface Person {
+                                interface Person {
   name: string,
   age: number
   contacts: Contact[]
 }
-interface AppProps {
+                                interface AppProps {
   people: Person[]
 }
-
-

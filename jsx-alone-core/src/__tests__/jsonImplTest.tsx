@@ -55,7 +55,7 @@ describe('DummyImpl', () => {
         )
     })
     it('should not have circular members', () => {
-      var a = Math.random()
+      const a = Math.random()
 
       expect(() => {
         const r = JSXAlone.render(<article>

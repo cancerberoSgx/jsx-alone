@@ -6,7 +6,7 @@ export function Error(props: {
   };
   title?: string;
 }) {
-  const { error, title = 'ERROR' } = props;
+  const { error, title = 'ERROR' } = props
   return <div>
     <h3>{title}</h3>
     Name: {error.name}<br />
@@ -17,5 +17,5 @@ export function Error(props: {
     Evaluated: <pre>
       {(error.evaluated || '')}
     </pre>
-  </div>;
+  </div>
 }

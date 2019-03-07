@@ -1,10 +1,10 @@
-import { installJSXAloneAsGlobal } from 'jsx-alone-core';
-import { JSXAlone } from 'jsx-alone-dom';
-import { createStore } from 'redux';
-import { AllActions, reducers } from './store/store';
-import { State } from './store/types';
-import { Main } from './ui/main';
-import { initMonacoWorkers } from './util/monaco';
+import { installJSXAloneAsGlobal } from 'jsx-alone-core'
+import { JSXAlone } from 'jsx-alone-dom'
+import { createStore } from 'redux'
+import { AllActions, reducers } from './store/store'
+import { State } from './store/types'
+import { Main } from './ui/main'
+import { initMonacoWorkers } from './util/monaco'
 
 const store = createStore(reducers)
 
@@ -26,4 +26,3 @@ initMonacoWorkers()
 const main = new Main({ state: store.getState() })
 JSXAlone.render(main.asJSXElement(), { parent: document.body }) as HTMLElement
 JSXAlone.lastEventManager!.onAppendToDom()
-

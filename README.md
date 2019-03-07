@@ -68,7 +68,9 @@ Both implementations have very similar API. The only difference is the call to `
 
 # Demos
 
-Generated html pages, using both implementations are available in [samples](https://cancerberosgx.github.io/jsx-alone/index.html). Some are static html pages generated server side with string implementation and other are JS programs rendering JSX in the browser with DOM implementation.
+* Generated html pages, using both implementations are available in [samples](https://cancerberosgx.github.io/jsx-alone/index.html). Some are static html pages generated server side with string implementation and other are JS programs rendering JSX in the browser with DOM implementation.
+
+ * [jsx-explorer](https://cancerberosgx.github.io/jsx-alone/jsx-explorer) (WIP). App using redux, bulma.css, as foundation and toolkits like the TypeScript compiler, monaco-editor, and others 100% client-side using the `jsx-alone-dom`. The objective but trying to play with the implementation on a real world to test DOM implementation, find bugs and limitations, etc. Although WIP I think it might be useful... 
 
 
 # Motivation / Objectives

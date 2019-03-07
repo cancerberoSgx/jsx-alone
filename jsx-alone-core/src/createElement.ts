@@ -6,7 +6,7 @@ export function createCreateElement<T, R extends ElementLike<T>= ElementLike<T>>
 
   const { impl, textNodeImpl, onElementReady, onElementCreated: onElementCreate } = config
 
-  const createElement: CreateElementFunction<T, R> = function (tag, attrs = {}, ...children: any[]) {
+  const createElement: CreateElementFunction<T, R> = function(tag, attrs = {}, ...children: any[]) {
     let element: R
     let elementClassInstance: ElementClass | undefined
     const tagIsString = typeof tag === 'string'
@@ -39,7 +39,7 @@ export function createCreateElement<T, R extends ElementLike<T>= ElementLike<T>>
 }
 
 export function updateElement<T, R extends ElementLike<T> = ElementLike<T>>(element: R, textNodeImpl: CreateCreateElementConfig<T, R>['textNodeImpl'], tag: JSXAloneTag, attrs: JSXAloneAttrs<string>, children: any[], create = false) {
-  
+
   // HEADS UP non intrinsic els are responsible of rendering their own attributes and children
 
   if (typeof tag === 'string') {

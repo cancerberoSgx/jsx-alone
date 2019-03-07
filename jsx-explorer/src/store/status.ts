@@ -1,14 +1,14 @@
-import { Action, Reducer } from 'redux';
-import { Status, State } from './types';
-const initialState : Status = {
+import { Action, Reducer } from 'redux'
+import { Status, State } from './types'
+const initialState: Status = {
   logs: []
 }
 export const status: Reducer<Status, PushLogAction> = (state= initialState, action) => {
   switch (action.type) {
     case 'PUSH_LOG':
-    console.log(' pushing log:',action.log );
-    
-      return { ...state, logs: [...state.logs, action.log] }
+    console.log(' pushing log:', action.log )
+
+    return { ...state, logs: [...state.logs, action.log] }
     default:
       return state
   }

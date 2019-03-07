@@ -61,9 +61,9 @@ export function unique(prefix: string= '_'): string {
   return prefix + _unique++
 }
 
-export function objectMap(o: {[k:string]:any}, f: (k:string, v:any)=>any){
-  var r:any = {}
-  Object.keys(o).forEach(k=>{
+export function objectMap(o: {[k: string]: any}, f: (k: string, v: any) => any) {
+  const r: any = {}
+  Object.keys(o).forEach(k => {
     r[k] = f(k, o[k])
   })
   return r

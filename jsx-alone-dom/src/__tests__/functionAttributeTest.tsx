@@ -141,7 +141,7 @@ describe('function attributes', () => {
     })
 
     fit('event object is accessible', () => {
-      const handler = jest.fn((e:  MouseEvent<HTMLButtonElement>&ChangeEvent<HTMLInputElement>) => {
+      const handler = jest.fn((e: MouseEvent<HTMLButtonElement>&ChangeEvent<HTMLInputElement>) => {
         // HEADS UP - because we use event delegation , currentTarget is not the real target, it's target!
         return e.type + e.currentTarget.id// return e.type + e.currentTarget.id
 

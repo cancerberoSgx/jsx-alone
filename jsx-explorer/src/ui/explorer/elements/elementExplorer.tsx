@@ -1,13 +1,13 @@
-import { JsonImplOutputEl } from 'jsx-alone-core';
-import { JSXAlone } from 'jsx-alone-dom';
-import { registerStyle } from '../../../style/styles';
-import { escapeHtml, query, queryAll } from '../../../util/util';
-import { evaluate } from "../../../util/evaluate";
-import { Component } from '../../util/component';
-import { showInModal } from '../../util/showInModal';
-import { Node } from './elementExplorerNode';
-import { ExplorerProps } from '../explorers';
-import { Error } from '../../util/error';
+import { JsonImplOutputEl } from 'jsx-alone-core'
+import { JSXAlone } from 'jsx-alone-dom'
+import { registerStyle } from '../../../style/styles'
+import { escapeHtml, query, queryAll } from '../../../util/util'
+import { evaluate } from '../../../util/evaluate'
+import { Component } from '../../util/component'
+import { showInModal } from '../../util/showInModal'
+import { Node } from './elementExplorerNode'
+import { ExplorerProps } from '../explorers'
+import { Error } from '../../util/error'
 
 interface P extends ExplorerProps {
 }
@@ -40,7 +40,7 @@ export class ElementExplorer extends Component<P> {
       error = ex
     }
 
-    return <div className={"explorer content "}>
+    return <div className={'explorer content '}>
       {!error && r && <Node node={r} onShowHtml={html => showInModal(getHtmlCodeModalContent(html), 'HTML')}></Node>}
       {error && <Error error={error} />}
     </div>

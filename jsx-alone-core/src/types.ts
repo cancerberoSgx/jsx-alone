@@ -1,5 +1,5 @@
 import {  ReactNode } from '.'
-import { IElementClass } from './elementClass';
+import { IElementClass } from './elementClass'
 
 export interface JSXAloneAttrs<ClassName extends string = string> {
   [k: string]: any
@@ -22,7 +22,7 @@ export type Tag<P> =  ((props: P) => JSX.Element)|( new (props: P) => JSX.Elemen
 
 export type ElementClassProps<T> = ElementLikeProps<T>
 
-export type ElementClassConstructor<T> = new(props: ElementClassProps<T>) => IElementClass 
+export type ElementClassConstructor<T> = new(props: ElementClassProps<T>) => IElementClass
 
 export interface JSXAloneComponent {
   new(props: JSXAloneProps): JSXAloneComponent
@@ -63,7 +63,7 @@ export interface ElementLike<T> extends NodeLike<T> {
 
 export interface JSXAlone<T, R extends ElementLike<T> = ElementLike<T>> {
   createElement(tag: JSXAloneTag, attrs: JSXAloneAttrs, ...children: JSXAloneChild[]): R
-   updateElement(element: R,   tag: JSXAloneTag, attrs:  JSXAloneAttrs<string>, children: any[], create?: boolean):void
+   updateElement(element: R,   tag: JSXAloneTag, attrs: JSXAloneAttrs<string>, children: any[], create?: boolean): void
   render(el: JSX.Element, config?: RenderConfig<T, R>): T
 }
 

@@ -1,12 +1,12 @@
-import { isJsonImplOutputEl, isJsonImplOutputText, JsonImplOutput, JsonImplOutputElAsHtml, JsonImplOutputEl } from 'jsx-alone-core';
-import { JSXAlone } from 'jsx-alone-dom';
-import { registerStyle } from '../../../style/styles';
-import { Component } from '../../util/component';
-import { shorter } from '../../../util/util';
+import { isJsonImplOutputEl, isJsonImplOutputText, JsonImplOutput, JsonImplOutputElAsHtml, JsonImplOutputEl } from 'jsx-alone-core'
+import { JSXAlone } from 'jsx-alone-dom'
+import { registerStyle } from '../../../style/styles'
+import { Component } from '../../util/component'
+import { shorter } from '../../../util/util'
 
 interface P {
-  node: JsonImplOutput;
-  onShowHtml: (s: string) => void;
+  node: JsonImplOutput
+  onShowHtml: (s: string) => void
   collapsed?: boolean
 }
 export class Node extends Component<P> {
@@ -21,12 +21,12 @@ export class Node extends Component<P> {
         <div className="media-content">
           <span className="nodeTag">Text: </span>
           <span className="textNodeContent">
-          {shorter(node.content+'', 30)}
+          {shorter(node.content + '', 30)}
             <span>({typeof node.content})</span>
-            
+
           </span>
         </div>
-      </article>;
+      </article>
     }
 
     else if (isJsonImplOutputEl(node)) {
@@ -44,15 +44,15 @@ export class Node extends Component<P> {
 
           <button className="button overlay is-small" title="Outline in Editor" onClick={e => {
             const els = Array.from(document.querySelectorAll('.view-line'))
-              .filter(lineEl => lineEl.textContent && (lineEl.textContent.includes(`<${node.tag}`) || lineEl.textContent.includes(`</${node.tag}`)));
+              .filter(lineEl => lineEl.textContent && (lineEl.textContent.includes(`<${node.tag}`) || lineEl.textContent.includes(`</${node.tag}`)))
             els.forEach((lineEl: HTMLElement) => {
-              lineEl.style.backgroundColor = 'pink';
-            });
+              lineEl.style.backgroundColor = 'pink'
+            })
             setTimeout(() => {
               els.forEach((lineEl: HTMLElement) => {
-                lineEl.style.backgroundColor = '';
-              });
-            }, 3000);
+                lineEl.style.backgroundColor = ''
+              })
+            }, 3000)
           }}>{`!`}</button>
 
           <div className="nodeContent">
@@ -73,7 +73,7 @@ export class Node extends Component<P> {
     }
     else {
       debugger
-      return <article className="media">UNKNOWN: {JSON.stringify(node)}</article>;
+      return <article className="media">UNKNOWN: {JSON.stringify(node)}</article>
     }
   }
 }
@@ -94,7 +94,7 @@ class Attrs extends Component<AP> {
         <td><em>innerHtml</em></td>
         <td>{shorter(this.props.node.innerHtml + '')}</td>
       </tr>}
-    </table>;
+    </table>
   }
 }
 
@@ -126,4 +126,4 @@ registerStyle(`
 .media .media-content .nodeContent{
   padding-left: 1.3em;
 }
-`);
+`)

@@ -2,7 +2,7 @@ import { ReactNode, AbstractJSXAlone as JSXAlone } from '.'
 
 export type Children = ReactNode
 
-export type P = { children: Children }
+export interface P { children: Children }
 
 // // TODO: like React.Fragment
 // export const Fragment = (props: { children: Children }) => <span>{props.children}</span>

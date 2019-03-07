@@ -12,7 +12,7 @@ const Module = {
   createElement: createCreateElement<string>(createCreateElementConfig),
 
   updateElement: (element: ElementLikeImpl, tag: JSXAloneTag, attrs: JSXAloneAttrs<string>, children: any[], create?: boolean) => updateElement(element, TextNodeLikeImpl, tag, attrs, children, create),
-  
+
   render(el: JSX.Element, config: ElementLikeImplRenderConfig = defaultRenderConfig): string {
     return `${((el as any) as NodeLike<string>).render(config)}`
   }

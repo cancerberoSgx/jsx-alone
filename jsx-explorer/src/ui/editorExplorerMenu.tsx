@@ -1,12 +1,12 @@
-import { css, isDesktop, isMobile } from "../util/media";
-import { Component } from './util/component';
-import { JSXAlone } from 'jsx-alone-dom';
-import { P } from './app';
-import { query } from '../util/util';
+import { css, isDesktop, isMobile } from '../util/media'
+import { Component } from './util/component'
+import { JSXAlone } from 'jsx-alone-dom'
+import { P } from './app'
+import { query } from '../util/util'
 
 export class EditorExplorerMenu extends Component<P> {
 
-  render() { 
+  render() {
     return <div className="tabs is-small is-boxed is-toggle editorExplorerOptions">
       <ul>
         {!isDesktop() && <li className={`editor is-active`}>
@@ -30,15 +30,9 @@ export class EditorExplorerMenu extends Component<P> {
   }
 
   private selectTab(e: 'editor' |'elements'|'jsAst'|'implementations') {
-    query('.editorExplorerOptions li.is-active').classList.remove('is-active');
-    query('.editorExplorerOptions li.' + e).classList.add('is-active');
-    query('.editorExplorerBody .editorExplorerBodyMember.is-active').classList.remove('is-active');
-    query('.editorExplorerBody .editorExplorerBodyMember.' + e).classList.add('is-active');
+    query('.editorExplorerOptions li.is-active').classList.remove('is-active')
+    query('.editorExplorerOptions li.' + e).classList.add('is-active')
+    query('.editorExplorerBody .editorExplorerBodyMember.is-active').classList.remove('is-active')
+    query('.editorExplorerBody .editorExplorerBodyMember.' + e).classList.add('is-active')
   }
 }
-
-
-
-
-
-

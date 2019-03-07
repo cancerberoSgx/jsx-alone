@@ -1,6 +1,6 @@
 import { samples } from './samples'
-import { Config, Result, MainResult } from "./types"
-import { args } from "./cli"
+import { Config, Result, MainResult } from './types'
+import { args } from './cli'
 import { array } from '../../jsx-alone-core/dist/src'
 import { exec, config, mkdir, pwd } from 'shelljs'
 import { writeFileSync } from 'fs'
@@ -9,7 +9,7 @@ config.silent = true
 
 let silent = false
 export function main(config: Config): MainResult {
-  config.n = config.n ? (config.n + "" as any as string).split(',').map(s => parseInt(s)) : [100]
+  config.n = config.n ? (config.n + '' as any as string).split(',').map(s => parseInt(s)) : [100]
   config.m = config.m ? (config.m + '' as any as string).split(',').map(s => parseInt(s)) : [100]
   config.runs = config.runs || 5
 
@@ -50,7 +50,7 @@ export function main(config: Config): MainResult {
     userConfig: config,
     command: process.argv.slice(process.argv.findIndex(c => c.startsWith('--')), process.argv.length).join(' '),
     cwd: pwd(),
-    results,
+    results
   }
   const resultString = JSON.stringify(config.dontPrintRuns ? { ...result, results: undefined } : result, null, 2)
   if (config.log) {
@@ -76,11 +76,11 @@ function getCurrentCommit() {
 }
 
 function installJSDOM() {
-  var JSDOM = require("jsdom").JSDOM
+  const JSDOM = require('jsdom').JSDOM
   const dom = new JSDOM('<html><head><head><body></body></html>', {
     url: 'http://foo.com',
-    runScripts: "dangerously",
-    resources: "usable"
+    runScripts: 'dangerously',
+    resources: 'usable'
   })
   const g = global as any
   g.document = dom.window.document

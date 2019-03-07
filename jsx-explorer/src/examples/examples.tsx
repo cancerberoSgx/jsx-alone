@@ -23,40 +23,38 @@ function simple1() {
       `.trim()
   },
 
-
   {
     name: 'dangerouslySetInnerHTML',
     code: `
 function sample() {
   const name = 'Rambo', suffix = 'Mister'
-  return <div className="simple2">Hello 
+  return <div className="simple2">Hello
     <span dangerouslySetInnerHTML={{__html: \`\\n<strong>\${suffix}</strong>\\n<em className="name">\${name}</em>\\n\`}}></span>!
   </div>
 }
       `.trim()
   },
 
-
   {
     name: 'conditionals',
     code: `
-    
+
 function conditionals() {
-    
+
   function makeNode(p=0.5): Node|undefined {
     return Math.random()<p? {
-      getKindName() { 
-        return unique('Kind') 
+      getKindName() {
+        return unique('Kind')
       },
-      getType() { 
+      getType() {
         return makeNode()
       },
-      getText() { 
-        return unique('text') 
+      getText() {
+        return unique('text')
       },
-      getChildren() { 
-        return [makeNode()||makeNode()||makeNode()].filter(e=>e) 
-        // return new Array(2).fill(0).map(i=>makeNode(.3)).filter(e=>e) 
+      getChildren() {
+        return [makeNode()||makeNode()||makeNode()].filter(e=>e)
+        // return new Array(2).fill(0).map(i=>makeNode(.3)).filter(e=>e)
       },
     } as Node : undefined
   }
@@ -119,9 +117,6 @@ interface Node {
         `.trim()
   }
 ]
-
-
-
 
 // import { JSXAlone } from 'jsx-alone-dom';
 

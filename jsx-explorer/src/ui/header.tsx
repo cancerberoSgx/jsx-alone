@@ -1,13 +1,13 @@
-import { JSXAlone } from 'jsx-alone-dom';
-import { Component } from './util/component';
-import { dispatch } from '../main';
-import { Theme, State } from '../store/types';
-import { darkTheme, lightTheme, allThemes } from '../style/theme';
-import { ForkRibbon } from './content/forkRibbon';
-import { showInModal } from './util/showInModal';
-import { WhatsThis } from './content/whatsThis';
-import { examples } from '../examples/examples';
-import { EditorExplorerMenu } from './editorExplorerMenu';
+import { JSXAlone } from 'jsx-alone-dom'
+import { Component } from './util/component'
+import { dispatch } from '../main'
+import { Theme, State } from '../store/types'
+import { darkTheme, lightTheme, allThemes } from '../style/theme'
+import { ForkRibbon } from './content/forkRibbon'
+import { showInModal } from './util/showInModal'
+import { WhatsThis } from './content/whatsThis'
+import { examples } from '../examples/examples'
+import { EditorExplorerMenu } from './editorExplorerMenu'
 
 interface P {
   // theme: Theme
@@ -52,8 +52,6 @@ export class Header extends Component<P> {
 
           </div>
 
-
-
           <div className="navbar-item has-dropdown is-hoverable">
             <a className="navbar-link">Themes</a>
 
@@ -91,4 +89,3 @@ export class Header extends Component<P> {
     </nav>
   }
 }
-

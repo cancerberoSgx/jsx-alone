@@ -1,8 +1,8 @@
 import { JSXAlone } from '..'
-import { ElementClass } from "../elementClass";
+import { ElementClass } from '../elementClass'
 import { RootEventManager } from '..'
 import { query, render } from './testUtil'
-import { MouseEvent, unique } from 'jsx-alone-core';
+import { MouseEvent, unique } from 'jsx-alone-core'
 
 describe('events', () => {
 
@@ -57,10 +57,10 @@ describe('events', () => {
       expect(fnb).toBeCalledTimes(2)
     })
 
-    it('currentTarget', ()=>{
+    it('currentTarget', () => {
       const id = unique()
-      const fnc = jest.fn((e: MouseEvent<HTMLButtonElement>) => { 
-        return e.currentTarget.id===id
+      const fnc = jest.fn((e: MouseEvent<HTMLButtonElement>) => {
+        return e.currentTarget.id === id
       })
       render(<div><button id={id} onClick={fnc}></button></div>)
 
@@ -72,7 +72,5 @@ describe('events', () => {
 
     })
   })
-
-
 
 })
