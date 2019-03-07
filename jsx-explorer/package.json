@@ -16,7 +16,8 @@
     "clean": "rm -rf build/ dist/ .cache",
     "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand --no-cache --clearMocks",
     "test": "npx jest --testRegex \"/__tests__/.*\\.*Test\\.[t]sx?$\" ",
-    "test-watch": "npm test -- --watch"
+    "test-watch": "npm test -- --watch",
+    "examples": "npx fs-to-json --input src/examples/toPack/**/* --output src/examples/examplesPacked.json"
   },
   "dependencies": {
     "jsonc-parser": "^2.0.3",
@@ -32,6 +33,7 @@
     "@types/jest": "^24.0.6",
     "@types/shelljs": "^0.8.3",
     "cssnano": "^4.1.10",
+    "embed-json-in-ts": "0.0.5",
     "fs-to-json": "^0.1.7",
     "jest": "^24.1.0",
     "node-sass": "^4.11.0",

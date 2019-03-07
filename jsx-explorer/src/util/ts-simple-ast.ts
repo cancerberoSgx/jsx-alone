@@ -55,15 +55,15 @@ export function getChildrenForEachChild(n: Node): Node[] {
   return result
 }
 
-const jsx_declaration = `declare namespace JSX {
-  interface IntrinsicElements {
-    children: any
-    [s:string]: HTMLElement
-  }
-  interface Element {
-    [s:string]: any
-  }
-  interface HTMLElement {
-    [s:string]: ((e:any)=>any)|string|boolean|number
-  }
-}`
+// const jsx_declaration = `declare namespace JSX {
+//   interface IntrinsicElements {
+//     children: any
+//     [s:string]: HTMLElement
+//   }
+//   interface Element {
+//     [s:string]: any
+//   }
+//   interface HTMLElement {
+//     [s:string]: ((e:any)=>any)|string|boolean|number
+//   }
+// }`

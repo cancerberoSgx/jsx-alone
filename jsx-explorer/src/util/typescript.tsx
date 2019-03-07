@@ -1,11 +1,15 @@
 import { ts } from 'ts-simple-ast'
 
 export function compileTs(code: string) {
+  // const fixed = fixEmitted(code)
+  // console.log({code, fixed});
+  
   const res = ts.transpileModule(code, {
     compilerOptions: {
       target: 'es2018',
       rootDir: '.',
       strict: false,
+      // noImplicitUseStrict: true,
       lib: ['es2018'],
       module: ts.ModuleKind.None,
       jsx: 'react',

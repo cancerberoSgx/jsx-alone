@@ -1,4 +1,4 @@
-import { JSXAloneJsonImpl, JsonImplOutputEl, JsonImplElementClass as ElementClassJson } from 'jsx-alone-core'
+import { JSXAloneJsonImpl, JsonImplOutputEl, JsonImplElementClass as ElementClassJson, getGlobal } from 'jsx-alone-core'
 import { compileTs } from './typescript'
 import { JSXAlone as JSXAloneStringImpl, ElementClass as ElementClassString } from 'jsx-alone-string'
 import { JSXAlone as JSXAloneDomImpl , ElementClass as ElementClassDom} from 'jsx-alone-dom'
@@ -22,15 +22,20 @@ export function evaluate<T = JsonImplOutputEl>(jsx: string, impl: 'json' | 'dom'
   if (!times && impl === 'string' && jsx === evaluateLastInputString && evaluateLastOutputString) {
     return evaluateLastOutputString
   }
-  const compiled = compileTs(jsx)
+  const emittedFixed = compileTs(jsx)
+  // const emittedFixed  = fixEmitted(emitted)
+  
+  // console.log(jsx, emitted, emittedFixed)
   // console.log(' -- evaluate -- compileTs');
 
   let r: T = null as any
-  const s = `(${compiled})()`
+  const s = `(${emittedFixed})()`
   try {
-    const JSXAlone = impl === 'dom' ? JSXAloneDomImpl : impl === 'string' ? JSXAloneStringImpl : JSXAloneJsonImpl
-    const ElementClass  = impl === 'dom' ? ElementClassDom : impl === 'string' ? ElementClassString : ElementClassJson
+    const JSXAlone = getGlobal().JSXAlone = impl === 'dom' ? JSXAloneDomImpl : impl === 'string' ? JSXAloneStringImpl : JSXAloneJsonImpl
+    const ElementClass = getGlobal().ElementClass  = impl === 'dom' ? ElementClassDom : impl === 'string' ? ElementClassString : ElementClassJson
     // const config = impl === 'string' ? {indent: true, indentTabSize: 2}: undefined   as any
+
+    
     const evalT0 = Date.now()
     const jsxLike = eval(s)
 
@@ -61,10 +66,13 @@ export function evaluate<T = JsonImplOutputEl>(jsx: string, impl: 'json' | 'dom'
   }
   return r
 }
+
+
 export interface EvaluateTimes {
   eval?: number
   render?: number
 }
+
 function removeCirclesJsonImplOutput(r: any): any {
   if (r) {
     delete r.parentElement;
