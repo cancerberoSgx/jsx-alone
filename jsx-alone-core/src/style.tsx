@@ -1,6 +1,11 @@
-import {  indent as indentImpl,  AbstractJSXAlone } from '.'
+import { indent as indentImpl, AbstractJSXAlone } from '.'
 
 declare const JSXAlone: typeof AbstractJSXAlone
+
+interface StyleProps {
+  classes: { [name: string]: ClassRule },
+  renderConfig?: { indent?: number }
+}
 
 /** Render the <style> tag with all classes and styles inside. Usage example:
 ```
@@ -29,17 +34,15 @@ export const Style = (props: StyleProps) => {
   }
   function fixProperty(s: string): string {
     let t
-    while (t =  /([A-Z])/.exec(s)) {
-        s = s.substring(0, t.index) + '-' + t[1].toLowerCase() + s.substring(t.index + 1, s.length)
+    while (t = /([A-Z])/.exec(s)) {
+      s = s.substring(0, t.index) + '-' + t[1].toLowerCase() + s.substring(t.index + 1, s.length)
     }
     return s
   }
-  // return new AbstractElementLike()
-
   return <style>{Object.keys(props.classes).map(c =>
     `${indent(1)}.${c}${(props.classes[c] && props.classes[c].selectorPostfix ? props.classes[c].selectorPostfix : '')} {${Object.keys(props.classes[c]).filter(p => p !== 'selectorPostfix').map(p => `
 ${indent(2)}${fixProperty(p)}: ${props.classes[c][p as any]};`
-).join(``)}
+    ).join(``)}
 }`).join('\n')}
   </style>
 }
@@ -56,7 +59,3 @@ export function Styles<T extends { [k: string]: ClassRule }>(styles: T): { style
 }
 
 export type ClassRule = Partial<CSSStyleDeclaration> & { selectorPostfix?: string }
-interface StyleProps {
-  classes: { [name: string]: ClassRule },
-  renderConfig?: {indent?: number}
-}

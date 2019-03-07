@@ -1,5 +1,5 @@
 import { Action, Reducer } from 'redux';
-import { examples } from '../examples';
+import { examples } from '../examples/examples';
 import { Editor } from './types';
 
 const initialState = {

@@ -1,4 +1,5 @@
-import { ElementClass } from './elementClass'
+import {  ReactNode } from '.'
+import { IElementClass } from './elementClass';
 
 export interface JSXAloneAttrs<ClassName extends string = string> {
   [k: string]: any
@@ -12,6 +13,16 @@ export type JSXAloneProps = JSXAloneAttrs & JSX.ElementChildrenAttribute
 export type JSXAloneValue = string | boolean | number
 
 export type JSXAloneElement = any
+
+export type ElementLikeProps<P> = ( Readonly<{ children?: ReactNode}>&Readonly<P> )
+
+export type ElementConstructor<T> = (props: ElementLikeProps<T>) => ElementLike<ElementLikeProps<T>>
+
+export type Tag<P> =  ((props: P) => JSX.Element)|( new (props: P) => JSX.Element)
+
+export type ElementClassProps<T> = ElementLikeProps<T>
+
+export type ElementClassConstructor<T> = new(props: ElementClassProps<T>) => IElementClass 
 
 export interface JSXAloneComponent {
   new(props: JSXAloneProps): JSXAloneComponent
@@ -60,7 +71,7 @@ export interface RenderConfig<T, R extends ElementLike<T> = ElementLike<T>> {
 
 }
 
-export interface CreateCreateElementConfig<T, R extends ElementLike<T> = ElementLike<T>, C extends ElementClass = ElementClass> extends RenderConfig<T, R> {
+export interface CreateCreateElementConfig<T, R extends ElementLike<T> = ElementLike<T>, C extends IElementClass = IElementClass> extends RenderConfig<T, R> {
 
   /** implementation of TextNodeLike */
   impl: new(tag: string) => R

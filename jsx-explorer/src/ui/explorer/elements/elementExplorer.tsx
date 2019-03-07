@@ -14,10 +14,10 @@ interface P extends ExplorerProps {
 registerStyle(`
 .explorer {
   overflow: scroll;
-  height: 700px;
+  height: 100%;
   width: 100%;
 }
-.html-code-container{
+.html-code-container {
   display: none;
 }
 .html-code-container.is-active {

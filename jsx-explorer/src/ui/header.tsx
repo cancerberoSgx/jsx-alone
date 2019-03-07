@@ -6,7 +6,7 @@ import { darkTheme, lightTheme, allThemes } from '../style/theme';
 import { ForkRibbon } from './content/forkRibbon';
 import { showInModal } from './util/showInModal';
 import { WhatsThis } from './content/whatsThis';
-import { examples } from '../examples';
+import { examples } from '../examples/examples';
 import { EditorExplorerMenu } from './editorExplorerMenu';
 
 interface P {

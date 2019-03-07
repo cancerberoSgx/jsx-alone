@@ -1,18 +1,23 @@
-import { ElementLike, NodeLike, RenderConfig, TextNodeLike } from '.';
-import { ElementClass, ElementClassProps } from './elementClass';
+import { ElementLike, NodeLike, RenderConfig, TextNodeLike, ElementClass, ElementClassConstructor, ElementConstructor} from '.';
 
-export function isElementClassConstructor(c: any): c is new(props: ElementClassProps<any>) => ElementClass {
+export function isElementClassConstructor<T>(c: any): c is ElementClassConstructor<T> {
   return c.prototype && c.prototype.render
 }
+
 export function isElementClass(c: any): c is ElementClass {
   return c.render && c.afterRender
 }
+
 export function isNode<T>(n: any): n is NodeLike<T> {
   return isTextNodeLike(n) || isElementLike(n)
 }
 
 export function isElementLike<T>(n: any): n is ElementLike<T> {
   return n && n.setAttribute
+}
+
+export function isElementConstructor<T>(c: any): c is ElementConstructor<T> {
+  return c.prototype && c.prototype.render
 }
 
 export function isTextNodeLike<T>(n: any): n is TextNodeLike<T> {

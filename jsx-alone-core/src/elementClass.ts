@@ -1,10 +1,7 @@
-import { NodeLike, ElementLike } from './types'
-import { isElementLike } from './elementImpl'
-import { ReactNode } from './declarations/domElementDeclarations'
-
-export type ElementClassProps<P> = ( Readonly<{ children?: ReactNode}>&Readonly<P> )
+import { NodeLike, ElementLike, ElementClassProps, isElementLike, ReactNode } from '.'
 
 export interface IElementClass<P= {}> {
+  
   props: ElementClassProps<P>
   asJSXElement():JSX.Element
   render(): JSX.Element

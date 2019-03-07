@@ -17,7 +17,7 @@ export function createCreateElement<T, R extends ElementLike<T>= ElementLike<T>>
       element = new impl(tag as string)
     }
     else if (isElementClassConstructor(tag)) {
-      elementClassInstance = new tag({ ...attrs, children })
+      elementClassInstance = new tag({ ...attrs, children }) as ElementClass
       element = elementClassInstance.render() as any as R
     }
     else {

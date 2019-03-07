@@ -15,7 +15,7 @@ interface P extends ExplorerProps {
 
 registerStyle(`
 .tsAstExplorerContent {
-  height: 700px;
+  height: 100%;
   overflow: scroll;
 }
 `)

@@ -26,7 +26,7 @@ export class Editor extends Component<P> {
     const s = {
       editorContainer: {
         width: '100%',
-        height: '700px',
+        height: '100%',
       } as ClassRule
     }
     registerStyle(s)

@@ -16,7 +16,7 @@ export interface SelectCode {
 
 export function onSelectCode(sel: SelectCode): void {
   getMonacoInstance()!.setSelection(sel)
-  getMonacoInstance()!.revealLine(sel.startLineNumber, monaco.editor.ScrollType.Smooth)
+  getMonacoInstance()!.revealLineInCenterIfOutsideViewport(sel.startLineNumber, monaco.editor.ScrollType.Smooth)
   // const s = getMonacoInstance()!.getScrolledVisiblePosition({ 
   //   lineNumber: sel.startLineNumber, 
   //   column: sel.startColumn ,
