@@ -33,7 +33,7 @@ function isJsonImplOutputEl(a) {
 }
 exports.isJsonImplOutputEl = isJsonImplOutputEl;
 function isJsonImplOutputText(a) {
-    return a && a.content;
+    return a && typeof a.tag === 'undefined';
 }
 exports.isJsonImplOutputText = isJsonImplOutputText;
 var JsonImplElementLikeImpl = (function (_super) {
@@ -75,7 +75,10 @@ var JsonImplTextNodeLikeImpl = (function (_super) {
 exports.JsonImplTextNodeLikeImpl = JsonImplTextNodeLikeImpl;
 function JsonImplOutputElAsHtml(node, indentLevel) {
     if (indentLevel === void 0) { indentLevel = 0; }
-    return "\n" + util_1.indent(indentLevel) + "<" + node.tag + (Object.keys(node.attrs).length ? ' ' : '') + Object.keys(node.attrs).map(function (a) { return a + "=\"" + (node.attrs[a].toString ? node.attrs[a].toString() : node.attrs[a]) + "\""; }).join(' ') + ">" + node.children.map(function (c) { return isJsonImplOutputEl(c) ? JsonImplOutputElAsHtml(c, indentLevel + 1) : c.content; }).join('') + "\n" + util_1.indent(indentLevel) + "</" + node.tag + ">";
+    if (isJsonImplOutputText(node)) {
+        return (node.content + '');
+    }
+    return (indentLevel === -1 ? '' : "\n" + util_1.indent(indentLevel)) + "<" + node.tag + (Object.keys(node.attrs).length ? ' ' : '') + Object.keys(node.attrs).map(function (a) { return a + "=\"" + (node.attrs[a].toString ? node.attrs[a].toString() : node.attrs[a]) + "\""; }).join(' ') + ">" + node.children.map(function (c) { return isJsonImplOutputEl(c) ? JsonImplOutputElAsHtml(c, indentLevel + 1) : c.content; }).join('') + (indentLevel === -1 ? '' : "\n" + util_1.indent(indentLevel)) + "</" + node.tag + ">";
 }
 exports.JsonImplOutputElAsHtml = JsonImplOutputElAsHtml;
 var JsonImplElementClass = (function (_super) {
@@ -131,11 +134,11 @@ function createCreateElement(config) {
         else {
             element = tag(__assign({}, attrs, { children: children }));
         }
-        if (onElementCreate) {
+        if (onElementCreate && onElementCreate && element) {
             onElementCreate({ elementLike: element, elementClassInstance: elementClassInstance, attrs: attrs });
         }
         updateElement(element, textNodeImpl, tag, attrs, children, true);
-        if (onElementReady) {
+        if (onElementReady && element) {
             onElementReady({ elementLike: element });
         }
         return element;
@@ -284,6 +287,10 @@ function isElementLike(n) {
     return n && n.setAttribute;
 }
 exports.isElementLike = isElementLike;
+function isElementConstructor(c) {
+    return c.prototype && c.prototype.render;
+}
+exports.isElementConstructor = isElementConstructor;
 function isTextNodeLike(n) {
     return n && n.content && !isElementLike(n);
 }
@@ -816,6 +823,9 @@ function printHtmlAttribute(a, value) {
     }
     else if (typeof value === 'function') {
         value = "(" + value.toString() + ").apply(_this=this,arguments)";
+    }
+    else {
+        value = value + '';
     }
     value = value.replace(/\"/gim, '&quot;');
     return a + "=\"" + value + "\"";

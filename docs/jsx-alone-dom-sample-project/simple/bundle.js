@@ -33,7 +33,7 @@ function isJsonImplOutputEl(a) {
 }
 exports.isJsonImplOutputEl = isJsonImplOutputEl;
 function isJsonImplOutputText(a) {
-    return a && a.content;
+    return a && typeof a.tag === 'undefined';
 }
 exports.isJsonImplOutputText = isJsonImplOutputText;
 var JsonImplElementLikeImpl = (function (_super) {
@@ -75,7 +75,10 @@ var JsonImplTextNodeLikeImpl = (function (_super) {
 exports.JsonImplTextNodeLikeImpl = JsonImplTextNodeLikeImpl;
 function JsonImplOutputElAsHtml(node, indentLevel) {
     if (indentLevel === void 0) { indentLevel = 0; }
-    return "\n" + util_1.indent(indentLevel) + "<" + node.tag + (Object.keys(node.attrs).length ? ' ' : '') + Object.keys(node.attrs).map(function (a) { return a + "=\"" + (node.attrs[a].toString ? node.attrs[a].toString() : node.attrs[a]) + "\""; }).join(' ') + ">" + node.children.map(function (c) { return isJsonImplOutputEl(c) ? JsonImplOutputElAsHtml(c, indentLevel + 1) : c.content; }).join('') + "\n" + util_1.indent(indentLevel) + "</" + node.tag + ">";
+    if (isJsonImplOutputText(node)) {
+        return (node.content + '');
+    }
+    return (indentLevel === -1 ? '' : "\n" + util_1.indent(indentLevel)) + "<" + node.tag + (Object.keys(node.attrs).length ? ' ' : '') + Object.keys(node.attrs).map(function (a) { return a + "=\"" + (node.attrs[a].toString ? node.attrs[a].toString() : node.attrs[a]) + "\""; }).join(' ') + ">" + node.children.map(function (c) { return isJsonImplOutputEl(c) ? JsonImplOutputElAsHtml(c, indentLevel + 1) : c.content; }).join('') + (indentLevel === -1 ? '' : "\n" + util_1.indent(indentLevel)) + "</" + node.tag + ">";
 }
 exports.JsonImplOutputElAsHtml = JsonImplOutputElAsHtml;
 var JsonImplElementClass = (function (_super) {
@@ -131,11 +134,11 @@ function createCreateElement(config) {
         else {
             element = tag(__assign({}, attrs, { children: children }));
         }
-        if (onElementCreate) {
+        if (onElementCreate && onElementCreate && element) {
             onElementCreate({ elementLike: element, elementClassInstance: elementClassInstance, attrs: attrs });
         }
         updateElement(element, textNodeImpl, tag, attrs, children, true);
-        if (onElementReady) {
+        if (onElementReady && element) {
             onElementReady({ elementLike: element });
         }
         return element;
@@ -284,6 +287,10 @@ function isElementLike(n) {
     return n && n.setAttribute;
 }
 exports.isElementLike = isElementLike;
+function isElementConstructor(c) {
+    return c.prototype && c.prototype.render;
+}
+exports.isElementConstructor = isElementConstructor;
 function isTextNodeLike(n) {
     return n && n.content && !isElementLike(n);
 }
@@ -630,8 +637,7 @@ var ElementClass = (function (_super) {
     };
     ElementClass.prototype.afterRender = function (containerEl) {
     };
-    ElementClass.prototype.update = function (containerEl, props) {
-        return false;
+    ElementClass.prototype.beforeRender = function (containerEl) {
     };
     return ElementClass;
 }(jsx_alone_core_1.ElementClass));
@@ -683,6 +689,9 @@ var ElementLikeImpl = (function (_super) {
         var _this = this;
         var updateExisting = config.updateExisting, updateExistingRemoveChildrenIfCountDiffer = config.updateExistingRemoveChildrenIfCountDiffer, rootHTMLElement = config.rootHTMLElement, eventManager = config.eventManager, rootElementLike = config.rootElementLike, parent = config.parent;
         var el = updateExisting || rootHTMLElement || this.buildRootElement(config);
+        if (this._elementClassInstance) {
+            this._elementClassInstance.beforeRender(el);
+        }
         Object.keys(this.attrs).forEach(function (attribute) {
             var value = _this.attrs[attribute];
             if (attribute === 'className') {
@@ -785,8 +794,14 @@ var RootEventManager = (function () {
     RootEventManager.prototype.getElementMark = function (e) {
         return mark_1.getElementMark(e, this.mark);
     };
+    RootEventManager.prototype.removeElementMark = function (e) {
+        return mark_1.removeElementMark(e, this.mark);
+    };
     RootEventManager.prototype.getMarkedElement = function (mark) {
         return mark_1.getMarkedElement(mark, this.root, this.mark);
+    };
+    RootEventManager.prototype.getMarkedDescendants = function (e) {
+        return mark_1.getMarkedDescendants(e, this.mark);
     };
     RootEventManager.prototype.rootListener = function (e) {
         if (e.target) {
@@ -834,14 +849,22 @@ var RootEventManager = (function () {
             });
         });
     };
-    RootEventManager.prototype.removeListeners = function (el, types) {
+    RootEventManager.prototype.removeListeners = function (el, andDescendants, types) {
         var _this = this;
-        var mark = this.getElementMark(el);
-        if (mark) {
-            (types || Object.keys(this.registeredByType).map(function (t) { return t.toLowerCase(); })).forEach(function (t) {
+        if (andDescendants === void 0) { andDescendants = false; }
+        (this.getElementMark(el) ? [el] : []).concat((andDescendants ? this.getMarkedDescendants(el) : [])).filter(function (m) { return m; })
+            .forEach(function (el) {
+            var mark = _this.getElementMark(el);
+            if (!mark) {
+                return;
+            }
+            (types || Object.keys(_this.registeredByType)
+                .map(function (t) { return t.toLowerCase(); }))
+                .forEach(function (t) {
                 _this.registeredByType[t] = (_this.registeredByType[t] || []).filter(function (e) { return e.mark !== mark; });
             });
-        }
+            _this.removeElementMark(el);
+        });
     };
     RootEventManager.prototype.uninstall = function (removeElementMarks, types) {
         var _this = this;
@@ -909,6 +932,21 @@ function isElementMarked(e, label) {
     return !!getElementMark(e, label);
 }
 exports.isElementMarked = isElementMarked;
+function getDescendantsMarks(e, label) {
+    if (label === void 0) { label = '_jsxa_'; }
+    return getMarkedDescendants(e, label).map(function (d) { return getElementMark(d, label); });
+}
+exports.getDescendantsMarks = getDescendantsMarks;
+function removeElementMark(e, label) {
+    if (label === void 0) { label = '_jsxa_'; }
+    e.removeAttribute("data-" + label);
+}
+exports.removeElementMark = removeElementMark;
+function getMarkedDescendants(e, label) {
+    if (label === void 0) { label = '_jsxa_'; }
+    return Array.from(e.querySelectorAll(getMarkSSelector(label)));
+}
+exports.getMarkedDescendants = getMarkedDescendants;
 function getMarkedElement(key, parent, label) {
     if (parent === void 0) { parent = document; }
     if (label === void 0) { label = '_jsxa_'; }
