@@ -3,20 +3,20 @@ import { readFileSync } from 'fs';
 import { JsonImplOutputEl, isJsonImplOutputEl } from 'jsx-alone-core';
 describe('samples', () => {
 
-describe('compileAndEvaluateJsxTest', () => {
-  it('test', () => {
-    let code = `
+  describe('compileAndEvaluateJsxTest', () => {
+    it('test', () => {
+      let code = `
     function (){
       var a = Math.random()
       return <article>
         <div>{a}</div>
       </article>
     }`
-    const result = evaluate(code)
-    expect(result.tag).toBe('article')
-    expect(() => JSON.stringify(result)).not.toThrow()
+      const result = evaluate(code)
+      expect(result.tag).toBe('article')
+      expect(() => JSON.stringify(result)).not.toThrow()
+    })
   })
-})
 
   describe('exampleLotsOfComponents', () => {
 
@@ -59,9 +59,44 @@ var ${g} = ${globals[g]};
         .filter(c => c.attrs['data-test'] === 'contact')[0].children.filter(isJsonImplOutputEl)
         .filter(c => c.attrs['data-test'] === 'address'))
         .toHaveLength(ADDRESS_COUNT)
+    })
 
+
+    describe('<If>', () => {
+
+      function test(s: string, PERSON_COUNT: number) {
+        const noS = s.replace(/\s+/g, '')
+        expect(noS).not.toContain(`data-test="name">Seba`);
+        expect(noS.includes(`data-test="name">Laura`) || noS.includes(`data-test="name">Andres`)).toBe(true);
+        expect(noS).not.toContain(`data-test="age">5`);
+        expect(noS.includes(`data-test="age">4`) || noS.includes(`data-test="age">3`) || noS.includes(`data-test="age">2`)).toBe(true);
+        expect(noS.split('data-test="name"').length).toBeGreaterThan(PERSON_COUNT / 3)
+        expect(noS.split('data-test="age"').length).toBeGreaterThan(PERSON_COUNT / 3)
+
+      }
+
+      it('<If> should work (string implementation)', () => {
+        const PERSON_COUNT = 44, CONTACT_COUNT = 1, ADDRESS_COUNT = 1
+        const { result, times } = render<string>(
+          'src/__tests__/exampleLotsOfComponents.tsx',
+          { PERSON_COUNT, CONTACT_COUNT, ADDRESS_COUNT },
+          'string'
+        )
+        test(result, PERSON_COUNT)
+      })
+
+      it('<If> should work (dom implementation)', () => {
+        const PERSON_COUNT = 44, CONTACT_COUNT = 1, ADDRESS_COUNT = 1
+        const { result, times } = render<HTMLElement>(
+          'src/__tests__/exampleLotsOfComponents.tsx',
+          { PERSON_COUNT, CONTACT_COUNT, ADDRESS_COUNT },
+          'dom'
+        )
+        test(result.outerHTML, PERSON_COUNT);
+      })
 
     })
+
   })
 
 })

@@ -24,13 +24,13 @@ export function createCreateElement<T, R extends ElementLike<T>= ElementLike<T>>
       element = (tag as any)({ ...attrs, children })
     }
 
-    if (onElementCreate) {
+    if (onElementCreate && onElementCreate && element) {
       onElementCreate({ elementLike: element, elementClassInstance, attrs })
     }
 
     updateElement<T, R>(element, textNodeImpl, tag, attrs, children, true)
 
-    if (onElementReady) {
+    if (onElementReady && element) {
       onElementReady({ elementLike: element })
     }
     return element

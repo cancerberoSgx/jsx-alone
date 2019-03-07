@@ -39,15 +39,21 @@
   }
 
 
-
+  // type Children = ReactNode
 
   // <If> component
 
-  interface IfProps<T> { c: any, p?: T, children: (...args: NotFalsy<T>[]) => JSX.Element }
+  interface IfProps<T> {
+    c: any, p?: T, children: (...args: NotFalsy<T>[]) =>
+      JSX.Element | (JSX.Element[]) | null
+  }
   function If<T extends any = any>(props: IfProps<T>) {
-    //const f = Array.isArray(props.children) ? props.children[0] : props.children
-    if (isNotFalsy(props.c))
-      return props.children.apply(null, [...(props.p ? [props.p] : []), props.c])
+    const f = Array.isArray(props.children) ? props.children[0] : props.children
+    if (isNotFalsy(props.c)) {
+      // console.log(props.children);
+
+      return f.apply(null, [...(props.p ? [props.p] : []), props.c])
+    }
     else {
       return null
     }
@@ -92,16 +98,21 @@
     ...value,
     textTransform: 'italic'
   }
-  const { styles, classes } = Style.build({ value, name,number })
+  const { styles, classes } = Style.build({ value, name, number })
 
 
   // The APP components
 
   const Name = (props: { name: string }) =>
-    <span className={classes.name}>{props.name}</span>
+    <If c={props.name !== 'Seba'}>{() =>
+      <span className={classes.name}  data-test="name">{props.name}</span>
+    }</If>
 
   const Age = (props: { age: number }) =>
-    <span className={classes.number}>{props.age}</span>
+    <If c={props.age !== 5}>{() =>
+      <span className={classes.number} data-test="age">{props.age}</span>
+    }</If>
+
 
   class Person extends ElementClass<PersonModel>{
     render() {
@@ -113,37 +124,20 @@
       </div>
     }
   }
-  // const Person = (props: Person) => <div data-test="person" className="person">
-  //   <Name name={props.name}></Name>
-  //   <Age age={props.age}></Age>
-  //   {props.contacts.map(a =>
-  //     <Contact addresses={a.addresses} phone={a.phone} />)}
-  // </div>
 
   const Address = (props: AddressModel) => <span data-test="address">
-    <span className={classes.name}>{props.name}</span> number: <span className={classes.number}>{props.number}</span>
+    <span className={classes.name} data-test="address-name">{props.name}</span> number: <span className={classes.number} data-test="address-number">{props.number}</span>
   </span>
 
   class Contact extends ElementClass<ContactModel> {
     render() {
       return <div data-test="contact">
-        Addresses: {this.props.addresses.map(ad =>
-          <Address name={ad.name} number={ad.number} />)}
+        <If c={this.props.addresses.length} p={this.props.addresses}>{addresses => addresses.map(ad =>
+          <Address name={ad.name} number={ad.number} />)
+        }</If>
       </div>
     }
   }
-  // const Contact = (a: Contact) => <div data-test="contact">
-  //   Addresses: {a.addresses.map(ad =>
-  //     <Address name={ad.name} number={ad.number} />)}
-  // </div>
-
-
-  // class Container<P> extends ElementClass<P & { Tag?: ((props: P) => JSX.Element) | (new (props: P) => JSX.Element), children: ReactNode }> {
-  //   render() {
-  //     const { children, Tag = (props: P) => <div>{children}</div> } = this.props
-  //     return <Tag {...this.props.children}></Tag>
-  //   }
-  // }
 
   class App extends ElementClass<AppProps>{
     render() {
@@ -156,14 +150,10 @@
 
   // MAIN
   function makeModel(personCount = PERSON_COUNT || 10, contactCount = CONTACT_COUNT || 5, addressCount = ADDRESS_COUNT || 3): PersonModel[] {
-    // globals like PERSON_COUNT can be feeded from evaluator
-    // personCount = personCount || ((typeof PERSON_COUNT === 'number') ? PERSON_COUNT : 10)
-    // contactCount = contactCount || ((typeof CONTACT_COUNT === 'number') ? CONTACT_COUNT : 5)
-    // addressCount = addressCount || ((typeof ADDRESS_COUNT === 'number') ? ADDRESS_COUNT : 3)
 
     return range(personCount).map(i => ({
       name: name(),
-      age: int(0, 100),
+      age: int(2, 6),
       contacts: range(contactCount!).map(j => ({
         addresses: range(addressCount!).map(j => ({
           name: name(),
