@@ -1,4 +1,4 @@
-/*DONT CHANGE THIS FIRST LINE*/ import { AbstractElementClass as ElementClass, AbstractJSXAlone as JSXAlone, ClassRule, ReactNode } from 'jsx-alone-core'; declare var PERSON_COUNT: number; declare var CONTACT_COUNT: number; declare var ADDRESS_COUNT: number; function exampleLotsOfComponents() {
+/*DONT CHANGE THIS FIRST LINE*/ import { ElementClass, AbstractJSXAlone as JSXAlone, ClassRule, ReactNode } from 'jsx-alone-core'; declare var PERSON_COUNT: number; declare var CONTACT_COUNT: number; declare var ADDRESS_COUNT: number; function exampleLotsOfComponents() {
 
   // <Style> component
 
@@ -63,61 +63,80 @@
 
   // THE APP TyPES
 
-  interface Contact {
-    addresses: Address[]
+  interface ContactModel {
+    addresses: AddressModel[]
     phone: string
   }
-  interface Address {
+  interface AddressModel {
     name: string,
     number: number
   }
-  interface Person {
+  interface PersonModel {
     name: string,
     age: number
-    contacts: Contact[]
+    contacts: ContactModel[]
   }
 
 
 
   // THE APP Styles
 
-  // const tableButton: ClassRule = {
-  //   selectorPostfix: ' td',
-  //   border: '1px solid #aaaaaa',
-  //   padding: '2px',
-  //   backgroundColor: '#ededed'
-  // }
-  // const tableButtonPrimary: ClassRule = {
-  //   ...tableButton,
-  //   fontWeight: 'bold',
-  //   backgroundColor: 'red'
-  // }
-  // const { styles, classes } = Style.build({ tableButton, tableButtonPrimary })
+  const value: ClassRule = {
+    fontWeight: 'bold'
+  }
+  const name: ClassRule = {
+    ...value,
+    border: '2px sold pink'
+  }
+  const number: ClassRule = {
+    ...value,
+    textTransform: 'italic'
+  }
+  const { styles, classes } = Style.build({ value, name,number })
 
 
   // The APP components
 
   const Name = (props: { name: string }) =>
-    <span className="name" style={{ border: '2px sold pink' }}>{props.name}</span>
+    <span className={classes.name}>{props.name}</span>
 
   const Age = (props: { age: number }) =>
-    <span className="age">{props.age}</span>
+    <span className={classes.number}>{props.age}</span>
 
-  const Person = (props: Person) => <div data-test="person" className="person">
-    <Name name={props.name}></Name>
-    <Age age={props.age}></Age>
-    {props.contacts.map(a =>
-      <Contact addresses={a.addresses} phone={a.phone} />)}
-  </div>
+  class Person extends ElementClass<PersonModel>{
+    render() {
+      return <div data-test="person" className="person">
+        <Name name={this.props.name}></Name>
+        <Age age={this.props.age}></Age>
+        {this.props.contacts.map(a =>
+          <Contact addresses={a.addresses} phone={a.phone} />)}
+      </div>
+    }
+  }
+  // const Person = (props: Person) => <div data-test="person" className="person">
+  //   <Name name={props.name}></Name>
+  //   <Age age={props.age}></Age>
+  //   {props.contacts.map(a =>
+  //     <Contact addresses={a.addresses} phone={a.phone} />)}
+  // </div>
 
-  const Address = (props: Address) => <span data-test="address">
-    {props.name} number: {props.number}
+  const Address = (props: AddressModel) => <span data-test="address">
+    <span className={classes.name}>{props.name}</span> number: <span className={classes.number}>{props.number}</span>
   </span>
 
-  const Contact = (a: Contact) => <div data-test="contact">
-    Addresses: {a.addresses.map(ad =>
-      <Address name={ad.name} number={ad.number} />)}
-  </div>
+  class Contact extends ElementClass<ContactModel> {
+    render() {
+      return <div data-test="contact">
+        Addresses: {this.props.addresses.map(ad =>
+          <Address name={ad.name} number={ad.number} />)}
+      </div>
+    }
+  }
+  // const Contact = (a: Contact) => <div data-test="contact">
+  //   Addresses: {a.addresses.map(ad =>
+  //     <Address name={ad.name} number={ad.number} />)}
+  // </div>
+
 
   // class Container<P> extends ElementClass<P & { Tag?: ((props: P) => JSX.Element) | (new (props: P) => JSX.Element), children: ReactNode }> {
   //   render() {
@@ -129,15 +148,14 @@
   class App extends ElementClass<AppProps>{
     render() {
       return <div>
-        {this.props.people.map(p => <Person {...p}></Person>)}
+        {this.props.people.map(p => <Person {...p} />)}
       </div>
-
     }
   }
 
 
   // MAIN
-  function makeModel(personCount = PERSON_COUNT || 10, contactCount = CONTACT_COUNT || 5, addressCount = ADDRESS_COUNT || 3): Person[] {
+  function makeModel(personCount = PERSON_COUNT || 10, contactCount = CONTACT_COUNT || 5, addressCount = ADDRESS_COUNT || 3): PersonModel[] {
     // globals like PERSON_COUNT can be feeded from evaluator
     // personCount = personCount || ((typeof PERSON_COUNT === 'number') ? PERSON_COUNT : 10)
     // contactCount = contactCount || ((typeof CONTACT_COUNT === 'number') ? CONTACT_COUNT : 5)

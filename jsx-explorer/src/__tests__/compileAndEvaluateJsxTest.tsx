@@ -1,6 +1,7 @@
 import { evaluate } from "../util/evaluate";
 import { readFileSync } from 'fs';
 import { JsonImplOutputEl, isJsonImplOutputEl } from 'jsx-alone-core';
+describe('samples', () => {
 
 describe('compileAndEvaluateJsxTest', () => {
   it('test', () => {
@@ -15,6 +16,7 @@ describe('compileAndEvaluateJsxTest', () => {
     expect(result.tag).toBe('article')
     expect(() => JSON.stringify(result)).not.toThrow()
   })
+})
 
   describe('exampleLotsOfComponents', () => {
 
