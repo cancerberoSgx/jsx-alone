@@ -3,6 +3,7 @@ import { RefObjectImpl, setRef } from './refs'
 import { ElementLike, ElementLikeImplRenderConfig, IElementClass, RenderOutput } from './types'
 import { RootEventManager } from './event'
 import { ElementClass, isElementClass } from './elementClass'
+import { isSvgTag } from './util';
 
 export class ElementLikeImpl<T extends ElementClass= ElementClass> extends AbstractElementLike<RenderOutput> implements ElementLike {
 
@@ -115,9 +116,3 @@ export class TextNodeLikeImpl extends AbstractTextNodeLike<RenderOutput> {
     return text
   }
 }
-
-function isSvgTag(t: string) {
-  const r = new RegExp(`^${t}$`, 'i')
-  return SvgTags.some(name => r.test(name))
-}
-const SvgTags = ['path', 'svg', 'use', 'g']

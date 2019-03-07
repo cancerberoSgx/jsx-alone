@@ -1,8 +1,10 @@
 import { ElementClass as AbstractElementClass } from 'jsx-alone-core'
-import { IElementClass } from './types'
-import { RootEventManager } from './event'
+import { IElementClass, RootEventManager} from '.'
 
-/** Base Element Class. Has support for removing event listeners thought this.eventManager which is assigned as property at render time and is responsible of event delegation. */
+/** 
+ * Base Element Class. Has support for removing event listeners thought this.eventManager which is 
+ * assigned as property at render time and is responsible of event delegation. 
+ */
 export abstract class ElementClass<P = {}> extends AbstractElementClass<P> implements IElementClass<P> {
 
   protected _eventManager?: RootEventManager
@@ -17,15 +19,13 @@ export abstract class ElementClass<P = {}> extends AbstractElementClass<P> imple
 
   afterRender(containerEl: HTMLElement) {
   }
+  
   beforeRender(containerEl: HTMLElement) {
   }
-
-  // update(containerEl: HTMLElement, props?: P) {
-  //   return false
-  // }
 
 }
 
 export function isElementClass(c: any): c is ElementClass {
   return !!((c as ElementClass).render && (c as ElementClass).afterRender)
 }
+

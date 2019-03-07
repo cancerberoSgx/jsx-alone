@@ -15,8 +15,3 @@ export function shorter(s: string, l = 20) {
   const postFix = s.length > l ? '...' : ''
   return `"${s.trim().substring(0, Math.min(s.length, l))}${postFix}"`
 }
-
-export function emptyAllChildren(e: Element) {
-  Array.from(e.children).forEach(c => { emptyAllChildren(c); e.removeChild(c) })
-  e.innerHTML = ''
-}

@@ -675,13 +675,14 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var refs_1 = require("./refs");
+var util_1 = require("./util");
 var ElementLikeImpl = (function (_super) {
     __extends(ElementLikeImpl, _super);
     function ElementLikeImpl() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     ElementLikeImpl.prototype.buildRootElement = function (config) {
-        return isSvgTag(this.tag)
+        return util_1.isSvgTag(this.tag)
             ? document.createElementNS('http://www.w3.org/2000/svg', this.tag)
             : document.createElement(this.tag);
     };
@@ -769,13 +770,8 @@ var TextNodeLikeImpl = (function (_super) {
     return TextNodeLikeImpl;
 }(jsx_alone_core_1.AbstractTextNodeLike));
 exports.TextNodeLikeImpl = TextNodeLikeImpl;
-function isSvgTag(t) {
-    var r = new RegExp("^" + t + "$", 'i');
-    return SvgTags.some(function (name) { return r.test(name); });
-}
-var SvgTags = ['path', 'svg', 'use', 'g'];
 
-},{"./refs":16,"jsx-alone-core":5}],13:[function(require,module,exports){
+},{"./refs":16,"./util":18,"jsx-alone-core":5}],13:[function(require,module,exports){
 Object.defineProperty(exports, "__esModule", { value: true });
 var mark_1 = require("./mark");
 var jsx_alone_core_1 = require("jsx-alone-core");
@@ -908,8 +904,10 @@ __export(require("./elementImpl"));
 __export(require("./createElement"));
 __export(require("./event"));
 __export(require("./elementClass"));
+__export(require("./util"));
+__export(require("./updatablePropsComponent"));
 
-},{"./createElement":10,"./elementClass":11,"./elementImpl":12,"./event":13}],15:[function(require,module,exports){
+},{"./createElement":10,"./elementClass":11,"./elementImpl":12,"./event":13,"./updatablePropsComponent":17,"./util":18}],15:[function(require,module,exports){
 Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 function markElement(e, label) {
@@ -981,4 +979,104 @@ function setRef(_a) {
 }
 exports.setRef = setRef;
 
-},{"./mark":15}]},{},[9]);
+},{"./mark":15}],17:[function(require,module,exports){
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var _1 = require(".");
+var UpdatablePropsComponent = (function (_super) {
+    __extends(UpdatablePropsComponent, _super);
+    function UpdatablePropsComponent() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.removeChildrenOnUpdate = false;
+        return _this;
+    }
+    UpdatablePropsComponent.prototype.beforeRender = function (containerElement) {
+        this.containerElement = containerElement;
+        if (this.removeChildrenOnUpdate && this.containerElement) {
+            this._eventManager && this._eventManager.removeListeners(this.containerElement, true);
+            _1.emptyAllChildren(this.containerElement);
+        }
+    };
+    UpdatablePropsComponent.prototype.afterRender = function (containerElement) {
+        this.containerElement = containerElement;
+    };
+    UpdatablePropsComponent.prototype.updateProps = function (s) {
+        this._props = __assign({}, this._props, s);
+        var el = this.render();
+        el._elementClassInstance = this;
+        _1.JSXAlone.render(el, {
+            updateExisting: this.containerElement,
+            updateExistingRemoveChildrenIfCountDiffer: this.removeChildrenOnUpdate
+        });
+    };
+    UpdatablePropsComponent.prototype.getComponentName = function () {
+        return this.constructor.name;
+    };
+    UpdatablePropsComponent.prototype.query = function (s) {
+        return this.containerElement && this.containerElement.querySelector(s);
+    };
+    UpdatablePropsComponent.prototype.queryAll = function (s) {
+        return Array.from(this.containerElement.querySelectorAll(s));
+    };
+    return UpdatablePropsComponent;
+}(_1.ElementClass));
+exports.UpdatablePropsComponent = UpdatablePropsComponent;
+var UpdatablePropsDestructiveComponent = (function (_super) {
+    __extends(UpdatablePropsDestructiveComponent, _super);
+    function UpdatablePropsDestructiveComponent() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.removeChildrenOnUpdate = true;
+        return _this;
+    }
+    return UpdatablePropsDestructiveComponent;
+}(UpdatablePropsComponent));
+exports.UpdatablePropsDestructiveComponent = UpdatablePropsDestructiveComponent;
+var UpdatablePropsNonDestructiveComponent = (function (_super) {
+    __extends(UpdatablePropsNonDestructiveComponent, _super);
+    function UpdatablePropsNonDestructiveComponent() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.removeChildrenOnUpdate = false;
+        return _this;
+    }
+    return UpdatablePropsNonDestructiveComponent;
+}(UpdatablePropsComponent));
+exports.UpdatablePropsNonDestructiveComponent = UpdatablePropsNonDestructiveComponent;
+
+},{".":14}],18:[function(require,module,exports){
+Object.defineProperty(exports, "__esModule", { value: true });
+function emptyAllChildren(e) {
+    Array.from(e.children).forEach(function (c) { emptyAllChildren(c); e.removeChild(c); });
+    e.innerHTML = '';
+}
+exports.emptyAllChildren = emptyAllChildren;
+function isSvgTag(t) {
+    var r = new RegExp("^" + t + "$", 'i');
+    return SvgTags.some(function (name) { return r.test(name); });
+}
+exports.isSvgTag = isSvgTag;
+var SvgTags = ['path', 'svg', 'use', 'g'];
+
+},{}]},{},[9]);

@@ -10,7 +10,7 @@ const store = createStore(reducers)
 
 store.subscribe(() => {
   const state = store.getState()
-  main && main.updateProps({ state })
+  main && main.onStateUpdate( state )
 })
 
 export function getState(): State {
