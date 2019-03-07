@@ -23,7 +23,7 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
     eventManager: RootEventManager, rootHTMLElement: HTMLElement
   }): RenderOutput {
 
-    const {updateExisting, updateExistingRemoveChildrenIfCountDiffer, rootHTMLElement, eventManager, rootElementLike, parent} = config
+    const { updateExisting, updateExistingRemoveChildrenIfCountDiffer, rootHTMLElement, eventManager, rootElementLike, parent } = config
 
     const el = updateExisting || rootHTMLElement || this.buildRootElement(config)
 
@@ -60,7 +60,9 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
 
         // Heads up: if updateExisting then we don't append new child, just render it and replace the existing child only if !isEqualNode
         const existingChildToUpdateRealNode = updateExisting && updateExisting.childNodes.item(i)
+
         const tagNameDiffers = existingChildToUpdateRealNode && (existingChildToUpdateRealNode as HTMLElement).tagName && (existingChildToUpdateRealNode as HTMLElement).tagName.toLowerCase() !== (c as ElementLike).tag
+
         const existingChildToUpdate = tagNameDiffers ? undefined : existingChildToUpdateRealNode
 
         const cel = c.render({
@@ -69,11 +71,16 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
           rootHTMLElement: existingChildToUpdate || undefined
         })
         if (!existingChildToUpdate) {
-          if (tagNameDiffers && existingChildToUpdateRealNode) {
-            el.insertBefore(cel, existingChildToUpdateRealNode)
+          if (el.nodeType !== Node.TEXT_NODE) {
+            if (tagNameDiffers && existingChildToUpdateRealNode) {
+              el.insertBefore(cel, existingChildToUpdateRealNode)
+            }
+            else {
+              el.appendChild(cel)
+            }
           }
           else {
-            el.appendChild(cel)
+            console.warn(`ElementLikeImpl render error, cannot append on text node ` + el.textContent);
           }
         }
         else if (!existingChildToUpdate.isEqualNode(cel)) {

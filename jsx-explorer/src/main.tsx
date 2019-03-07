@@ -3,7 +3,7 @@ import { JSXAlone } from 'jsx-alone-dom'
 import { createStore } from 'redux'
 import { AllActions, reducers } from './store/store'
 import { State } from './store/types'
-import { Main } from './ui/main'
+import { Main } from './components/main'
 import { initMonacoWorkers } from './util/monaco'
 
 const store = createStore(reducers)

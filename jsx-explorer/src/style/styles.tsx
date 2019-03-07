@@ -1,7 +1,7 @@
 import { ClassRule, Style, Styles as S } from 'jsx-alone-core'
 import { JSXAlone } from 'jsx-alone-dom'
 import { Theme } from '../store/types'
-import { Component } from '../ui/util/component'
+import { Component } from '../components/util/component'
 import { darkCss } from './darkCss'
 import { globalStyles } from './globals'
 import { lightCss } from './lightCss'
