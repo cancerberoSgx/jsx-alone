@@ -19,7 +19,7 @@
     "test-watch": "npm test -- --watch",
     "pack-all": "npm run pack-examples && npm run pack-files ",
     "pack-examples": "npx fs-to-json --input src/examples/toPack/**/* --output src/examples/examplesPacked.json",
-    "pack-files": "npx fs-to-json --input filesPacked/**/* --output src/util/filesPacked.json"
+    "pack-files": "mkdir -p ./src/util/filesPacked && npx embed-json-in-ts --mode string --input \"filesPacked/*\" --output \"./src/util/filesPacked\" --preserveExtension --debug"
   },
   "dependencies": {
     "jsonc-parser": "^2.0.3",
@@ -35,7 +35,7 @@
     "@types/jest": "^24.0.6",
     "@types/shelljs": "^0.8.3",
     "cssnano": "^4.1.10",
-    "embed-json-in-ts": "0.0.5",
+    "embed-json-in-ts": "0.0.8",
     "fs-to-json": "^0.1.7",
     "jest": "^24.1.0",
     "node-sass": "^4.11.0",

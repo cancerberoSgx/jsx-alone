@@ -2,9 +2,9 @@ import * as monaco from 'monaco-editor'
 import { isDesktop } from '../util/media';
 import { throttle } from '../util/debounce'
 import { jsxSyntaxHighlightInstall } from './jsxSyntaxHighlight';
-import { getFile } from '../util/files';
 import { dispatch, getState } from '../store/store';
 import { EDITOR_ACTION } from '../store/editor';
+import { jsx_alone_core_d_ts } from '../util/filesPacked/jsx_alone_core_d_ts';
 
 export function initMonacoWorkers() {
   if (typeof (self as any).MonacoEnvironment === 'undefined') {
@@ -62,9 +62,7 @@ export function installEditor(code: string, theme: string, containerEl: HTMLElem
     },
   })
 
-  monaco.editor.createModel(
-    getFile('jsx-alone-core.d.ts'),
-    "typescript", monaco.Uri.parse("file:///index.d.ts"))
+  monaco.editor.createModel(jsx_alone_core_d_ts, "typescript", monaco.Uri.parse("file:///index.d.ts"))
 
   editor.getModel()!.onDidChangeContent(
     throttle(

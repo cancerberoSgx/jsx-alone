@@ -38,6 +38,7 @@
   "license": "MIT",
   "homepage": "https://github.com/cancerberoSgx/jsx-alone",
   "devDependencies": {
+    "embed-json-in-ts": "0.0.8",
     "tslint": "^5.13.1",
     "typescript": "^3.3.3333",
     "yamat": "^0.1.2"
