@@ -3,7 +3,7 @@ import * as monaco from 'monaco-editor'
 
 let worker: Worker
 let listenerAdded = false
-
+let lastJsxDecorations: string[]=[]
 let jsxSyntaxHighlightEventListenerCalled = false
 export function jsxSyntaxHighlight(editor: monaco.editor.IStandaloneCodeEditor) {
   if (!listenerAdded) {
@@ -15,7 +15,7 @@ export function jsxSyntaxHighlight(editor: monaco.editor.IStandaloneCodeEditor) 
       if (model && model.getVersionId() !== data.version) {
         return;
       }
-      const decorations: any[] = data.classifications.map((classification: any) => ({
+      const decorations: monaco.editor.IModelDeltaDecoration[] = data.classifications.map((classification: any) => ({
         range: new monaco.Range(classification.startLine, classification.start, classification.endLine, classification.end),
         options: {
           // Some class names to help us add some color to the JSX code
@@ -23,23 +23,14 @@ export function jsxSyntaxHighlight(editor: monaco.editor.IStandaloneCodeEditor) 
             ? `${classification.kind} ${classification.type}-of-${classification.parentKind}`
             : classification.kind,
         },
+        
       }));
-      (model! as any)._decorations = editor.deltaDecorations((model! as any)._decorations || [], decorations || [])
-
-      // if (!jsxSyntaxHighlightEventListenerCalled) {
-
-      //   // update the model without destroying undo/redo stack
-      //   model!.pushEditOperations(
-      //     [],
-      //     [
-      //       {
-      //         range: model!.getFullModelRange(),
-      //         text: model!.getValue(),
-      //       },
-      //     ], ops => { return null }
-      //   )
-      //   jsxSyntaxHighlightEventListenerCalled = true
-      // }
+      lastJsxDecorations = editor.deltaDecorations(lastJsxDecorations, decorations)
+      
+      if (!jsxSyntaxHighlightEventListenerCalled) {
+        editor.getModel()!.setValue(editor.getModel()!.getValue())
+        jsxSyntaxHighlightEventListenerCalled = true
+      }
     });
 
 

@@ -67,16 +67,16 @@ export function installEditor(code: string, theme: string, containerEl: HTMLElem
     "typescript", monaco.Uri.parse("file:///index.d.ts"))
 
   editor.getModel()!.onDidChangeContent(
-    throttle((e: monaco.editor.IModelContentChangedEvent) => {
+    throttle(
+      (e: monaco.editor.IModelContentChangedEvent) => {
       code = editor!.getModel()!.getValue()
       dispatch({ type: 'CHANGE_CODE', code })
       jsxSyntaxHighlight(editor!)
-    }, 4000) as any
+    }
+    , 4000) as any
   )
 
   jsxSyntaxHighlight(editor!)
-  editor.getModel()!.setValue(editor.getModel()!.getValue())
-  // editor.getModel()!.pushStackElement()
 }
 
 
