@@ -1,4 +1,4 @@
-import { createProgram, dumpAst } from '../util/typescript';
+import { createProgram, dumpAst } from '../codeWorker/typescript';
 
 describe('typescript', () => {
   it('createProgram', () => {

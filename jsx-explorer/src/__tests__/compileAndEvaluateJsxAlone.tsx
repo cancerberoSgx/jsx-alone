@@ -1,4 +1,4 @@
-import { evaluate } from '../util/evaluate'
+import { evaluate } from '../codeWorker/evaluate'
 
 export function compileAndEvaluateJsxTest() {
   const code = `

@@ -1,5 +1,5 @@
 import { JSXAlone } from 'jsx-alone-dom'
-import { CodeWorkerError } from '../../codeWorkerManager';
+import { CodeWorkerError } from '../../store/types';
 
 export function Error(props: {
   error: CodeWorkerError

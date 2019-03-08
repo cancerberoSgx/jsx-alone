@@ -2,10 +2,10 @@ import { JSXAlone } from 'jsx-alone-dom'
 import { ExplorerProps } from './explorers'
 import { Component } from '../util/component'
 import { escapeHtml, query } from '../../util/util'
-import { evaluate, EvaluateTimes } from '../../util/evaluate'
 import { Error } from '../util/error'
 import { registerStyle } from '../../style/styles'
 import { printMs } from 'jsx-alone-core'
+import { EvaluateTimes } from '../../util/evaluateOnly';
 
 interface P extends ExplorerProps {
 }

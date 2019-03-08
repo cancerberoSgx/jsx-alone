@@ -3,12 +3,11 @@
 
 import { registerStyle } from '../style/styles';
 import * as monaco from 'monaco-editor'
-import { CodeWorkerResponse, registerWorkerListener, postMessage } from '../codeWorkerManager';
+import { registerWorkerListener, postMessage } from '../codeWorker/codeWorkerManager';
 import { getMonacoInstance } from './monaco';
+import { CodeWorkerResponse } from '../store/types';
 
-let listenerAdded = false
 let lastJsxDecorations: string[] = []
-let jsxSyntaxHighlightEventListenerCalled = false
 
 registerWorkerListener(dispatchSyntaxHighlight)
 function dispatchSyntaxHighlight({ data }: { data: CodeWorkerResponse }) {

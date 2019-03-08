@@ -1,4 +1,4 @@
-import { evaluate } from '../util/evaluate'
+import { evaluate } from '../codeWorker/evaluate'
 import { readFileSync } from 'fs'
 import { JsonImplOutputEl, isJsonImplOutputEl } from 'jsx-alone-core'
 describe('samples', () => {

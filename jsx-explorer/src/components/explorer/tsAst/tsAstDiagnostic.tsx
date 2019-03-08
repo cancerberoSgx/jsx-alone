@@ -1,8 +1,7 @@
-import { Diagnostic, ts } from 'ts-simple-ast'
-import { Component } from '../../util/component'
-import { JSXAlone } from 'jsx-alone-dom'
-import { SelectCode } from '../explorers'
-import { CodeWorkerResponseJsxAstDiagnostic } from '../../../codeWorkerManager';
+import { JSXAlone } from 'jsx-alone-dom';
+import { CodeWorkerResponseJsxAstDiagnostic } from '../../../store/types';
+import { Component } from '../../util/component';
+import { SelectCode } from '../explorers';
 
 interface P {
   d: CodeWorkerResponseJsxAstDiagnostic

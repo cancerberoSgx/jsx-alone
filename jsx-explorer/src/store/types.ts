@@ -1,4 +1,4 @@
-import { CodeWorkerRequest, CodeWorkerRequestJsxAst, CodeWorkerResponse } from '../codeWorkerManager';
+
 import { AllActions } from './store';
 
 export interface State {
@@ -48,3 +48,66 @@ export interface Saga<T extends AllActions['type']> {
 
 export type ActionForType<T extends AllActions['type']> = AllActions extends infer R ? R extends AllActions ? T extends R['type'] ? R : never : never : never
 
+
+
+
+
+
+import { Classification } from '../codeWorker/extractCodeDecorations';
+import { JsonImplOutputEl } from 'jsx-alone-core';
+const compileTypes = 1;
+export interface CodeWorkerResponse {
+  version: number;
+  jsxSyntaxHighLight: {
+    classifications: Classification[];
+  };
+  evaluate: {
+    result?: JsonImplOutputEl;
+    error?: CodeWorkerError;
+    evaluated: string;
+  };
+  jsxAst: CodeWorkerResponseJsxAst;
+}
+export interface CodeWorkerResponseJsxAst {
+  diagnostics: CodeWorkerResponseJsxAstDiagnostic[];
+  ast: CodeWorkerResponseJsxAsNode;
+}
+export interface CodeWorkerRequest {
+  code: string;
+  title: string;
+  version: number;
+  jsxAst?: CodeWorkerRequestJsxAst;
+}
+export interface CodeWorkerRequestJsxAst {
+  showDiagnostics?: boolean;
+  mode?: 'forEachChild' | 'getChildren';
+  nodeTextLength?: number;
+}
+export interface CodeWorkerResponseJsxAsNode {
+  type: string;
+  text: string;
+  kind: string;
+  start: number;
+  end: number;
+  startColumn: number;
+  startLineNumber: number;
+  endColumn: number;
+  endLineNumber: number;
+  children: CodeWorkerResponseJsxAsNode[];
+}
+export type CodeWorkerResponseJsxAstDiagnostic = {
+  message: string;
+  lineNumber: number | undefined;
+  start: number | undefined;
+  length: number | undefined;
+  // category: DiagnosticCategory;
+  code: number;
+};
+export type CodeWorkerError = {
+  message: string;
+  stack?: string;
+  name: string;
+};
+export type CodeWorkerListener = (e: {
+  data: CodeWorkerResponse;
+}) => void;

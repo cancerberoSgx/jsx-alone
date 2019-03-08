@@ -1,7 +1,7 @@
 import { Action, Reducer } from 'redux';
-import { CodeWorkerRequest, postMessage } from '../codeWorkerManager';
+import { postMessage } from '../codeWorker/codeWorkerManager';
 import { examples } from '../examples/examples';
-import { Editor, Saga } from './types';
+import { Editor, Saga, CodeWorkerRequest } from './types';
 import { getMonacoInstance } from '../monaco/monaco';
 
 const initialState = {

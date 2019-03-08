@@ -1,5 +1,5 @@
-import { createProject } from '../util/ts-simple-ast'
-import { dumpAst } from '../util/typescript'
+import { createProject } from '../codeWorker/ts-simple-ast'
+import { dumpAst } from '../codeWorker/typescript'
 
 describe('ts-simple-ast', () => {
 

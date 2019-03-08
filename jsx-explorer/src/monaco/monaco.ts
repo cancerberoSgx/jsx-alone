@@ -3,7 +3,6 @@ import { isDesktop } from '../util/media';
 import { throttle } from '../util/debounce'
 import { jsxSyntaxHighlightInstall } from './jsxSyntaxHighlight';
 import { getFile } from '../util/files';
-import { postMessage, CodeWorkerRequest } from '../codeWorkerManager';
 import { dispatch, getState } from '../store/store';
 import { EDITOR_ACTION } from '../store/editor';
 

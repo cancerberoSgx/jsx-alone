@@ -1,6 +1,5 @@
 import { Action, Reducer } from 'redux';
-import { CodeWorkerResponse, CodeWorkerRequest } from '../codeWorkerManager';
-import { Compiled } from './types';
+import { Compiled, CodeWorkerRequest, CodeWorkerResponse } from './types';
 
 const initialState: Compiled = {
   jsxAstOptions: {
