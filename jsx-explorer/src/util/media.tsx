@@ -3,6 +3,10 @@ export function width() {
   return document.body.clientWidth
 }
 
+export function height() {
+  return window.screen.height
+}
+
 export function isMobile() {
   return width() < 768
 }

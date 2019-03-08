@@ -3,22 +3,22 @@ import { JSXAlone } from 'jsx-alone-dom';
 import * as monaco from 'monaco-editor';
 import { State } from '../store/types';
 import { registerStyle } from '../style/styles';
-import { getMonacoInstance, installEditor } from '../util/monaco';
+import { getMonacoInstance, installEditor } from '../monaco/monaco';
 import { query } from '../util/util';
 import { Component } from './util/component';
+import { height } from '../util/media';
 
 interface P {
   state: State
 }
-const s = {
-  editorContainer: {
-    width: '100%',
-    height: '100%',
-    minHeight: '800px',
-    marginTop: '3em'
-  } as ClassRule
+
+registerStyle(`
+.editorContainer {
+  width: 100%;
+  height: ${height()}px;
+  margin-top: 3em;
 }
-registerStyle(s)
+`);
 
 export class Editor extends Component<P> {
 
@@ -26,8 +26,7 @@ export class Editor extends Component<P> {
   lastTheme: string = 'vs'
 
   render() {
-    const { classes } = Styles(s)
-    return <div id="editorContainer" className={classes.editorContainer} />
+    return <div id="editorContainer" className="editorContainer" />
   }
 
   afterRender(e: HTMLElement) {

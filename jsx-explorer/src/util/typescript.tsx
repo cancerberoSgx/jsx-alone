@@ -77,6 +77,7 @@ export function visitChildrenRecursiveDeepFirst(
     node.getChildren().forEach(child => visitChildrenRecursiveDeepFirst(child, visitor, i++, level + 1, stopOnTruthy, getChildrenMode))
   }
 }
+
 export function dumpAst(ast: ts.Node | undefined, getChildrenMode: boolean = false, printIndex: boolean = false): string {
   if (!ast) {
     return ''

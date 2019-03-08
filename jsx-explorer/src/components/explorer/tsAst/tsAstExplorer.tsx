@@ -1,12 +1,8 @@
-import { JSXAlone } from 'jsx-alone-dom'
-import { ts } from 'ts-simple-ast'
-import { registerStyle } from '../../../style/styles'
-import { createProject } from '../../../util/ts-simple-ast'
-import { Component } from '../../util/component'
-import { ExplorerProps } from '../explorers'
-import { DiagnosticComponent } from './tsAstDiagnostic'
-import { NodeComponent } from './tsAstNode'
-import { css } from '../../../util/media';
+import { JSXAlone } from 'jsx-alone-dom';
+import { registerStyle } from '../../../style/styles';
+import { css, height } from '../../../util/media';
+import { Component } from '../../util/component';
+import { ExplorerProps } from '../explorers';
 
 interface P extends ExplorerProps {
   mode?: 'getChildren' | 'forEachChild'
@@ -18,34 +14,33 @@ registerStyle(`
 .tsAstExplorerContent {
   height: 100%;
   overflow: scroll;
+  margin-top: 3em;
 }
 .tsAstExplorerContent {
   width: 100%;
-  height: 100%;
+  height: ${height()}px;
 }
 ${css('.tsAstExplorerContent li ul', `padding-left: .7em`, `padding-left 1.2em`)}
-
 .tsAstExplorerContent ul {
   list-style: none;
 }
 `)
 
 export class TsSimpleAstExplorer extends Component<P> {
-  protected removeChildrenOnUpdate = true
+  // protected removeChildrenOnUpdate = true
   render() {
+    // const project = createProject([{
+    //   fileName: 't1.tsx',
+    //   content: this.props.editor.code
+    // }])
 
-    const project = createProject([{
-      fileName: 't1.tsx',
-      content: this.props.editor.code
-    }])
-
-    this.props.mode = this.props.mode || 'forEachChild'
-    const f = project.getSourceFiles().find(s => s.getFilePath().endsWith('t1.tsx'))!
-    const diagnostics = this.props.showDiagnostics && project.getPreEmitDiagnostics()
+    // this.props.mode = this.props.mode || 'forEachChild'
+    // const f = project.getSourceFiles().find(s => s.getFilePath().endsWith('t1.tsx'))!
+    // const diagnostics = this.props.showDiagnostics && project.getPreEmitDiagnostics()
 
     return <div className="tsAstExplorerContent">
 
-      <button className="button is-small" onClick={e => {
+      {/* <button className="button is-small" onClick={e => {
         this.updateProps({ mode: this.props.mode === 'forEachChild' ? 'getChildren' : 'forEachChild' })
       }}>{this.props.mode === 'forEachChild' ? 'getChildren' : 'forEachChild'} mode</button>
 
@@ -53,14 +48,16 @@ export class TsSimpleAstExplorer extends Component<P> {
         this.updateProps({ showDiagnostics: !this.props.showDiagnostics })
       }}>{this.props.showDiagnostics ? 'Hide' : 'Show'} Diagnostics</button>
 
-      {this.props.showDiagnostics && <div>
+      {this.props.showDiagnostics && <div className="content">
         <h3>Diagnostics:</h3>
         {diagnostics && <ul>{diagnostics.map(d => <li>
           <DiagnosticComponent d={d} onSelectCode={this.props.onSelectCode} />
         </li>)}
         </ul>}
         {diagnostics && diagnostics.length === 0 && <span>No problems diagnosed, congrats!</span>}
-        <em>(WARNING: Diagnostics makes the experience very slow)</em>
+        <p>
+          <em>(WARNING: Diagnostics makes the experience very slow)</em>
+        </p>
         </div>}
 
       <NodeComponent mode={this.props.mode} node={f} showDetailsOf={this.props.showDetailsOf}
@@ -73,7 +70,7 @@ export class TsSimpleAstExplorer extends Component<P> {
           }
           this.props.onSelectCode && this.props.onSelectCode(sel)
           this.updateProps({ showDetailsOf: p as string })
-        }} />
+        }} /> */}
 
     </div>
   }

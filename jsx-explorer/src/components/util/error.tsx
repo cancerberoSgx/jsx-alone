@@ -1,9 +1,8 @@
 import { JSXAlone } from 'jsx-alone-dom'
+import { CodeWorkerError } from '../../codeWorkerManager';
 
 export function Error(props: {
-  error: Error & {
-    evaluated: string;
-  };
+  error: CodeWorkerError
   title?: string;
 }) {
   const { error, title = 'ERROR' } = props

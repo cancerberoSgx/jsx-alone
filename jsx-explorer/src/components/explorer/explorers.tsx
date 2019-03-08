@@ -1,10 +1,11 @@
-import { Editor } from '../../store/types'
+import { Editor, Compiled } from '../../store/types'
 import * as monaco from 'monaco-editor'
-import { getMonacoInstance } from '../../util/monaco';
+import { getMonacoInstance } from '../../monaco/monaco';
 
 export interface ExplorerProps {
   editor: Editor
   onSelectCode?(sel: SelectCode): void
+  compiled: Compiled
 }
 
 export interface SelectCode {

@@ -21,7 +21,7 @@ export class Node extends Component<P> {
         <div className="media-content">
           <span className="nodeTag">Text: </span>
           <span className="textNodeContent">
-          {shorter(node.content + '', 30)}
+            {shorter(node.content + '', 30)}
             <span>({typeof node.content})</span>
 
           </span>
@@ -59,13 +59,9 @@ export class Node extends Component<P> {
             {Object.keys(node.attrs).length &&
               <Attrs node={node}></Attrs>}
 
-            {node.children.length &&
-              <div>
-                {/* <div className="children-caption">
-                  Children:
-              </div> */}
-                {node.children.map(c => <Node node={c} onShowHtml={this.props.onShowHtml}></Node>)}
-              </div>}
+            {node.children.length && <div>
+              {node.children.map(c => <Node node={c} onShowHtml={this.props.onShowHtml}></Node>)}
+            </div>}
           </div>
 
         </div>
@@ -84,13 +80,12 @@ interface AP {
 class Attrs extends Component<AP> {
   protected removeChildrenOnUpdate = true
   render() {
-    return <table>
-      {/* <caption>Attributes:</caption> */}
-      {Object.keys(this.props.node.attrs).map(a => <tr>
+    return <table className="table content">
+      {Object.keys(this.props.node.attrs).map(a => <tr className="tr">
         <td><em>{a}</em><code>=</code></td>
         <td>{shorter(this.props.node.attrs[a])}</td>
       </tr>)}
-      {typeof this.props.node.innerHtml === 'string' && <tr>
+      {typeof this.props.node.innerHtml === 'string' && <tr className="tr">
         <td><em>innerHtml</em></td>
         <td>{shorter(this.props.node.innerHtml + '')}</td>
       </tr>}

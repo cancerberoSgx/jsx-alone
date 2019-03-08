@@ -1,4 +1,4 @@
-import { createProgram, visitChildrenRecursiveDeepFirst, dumpAst } from '../util/typescript'
+import { createProgram, dumpAst } from '../util/typescript';
 
 describe('typescript', () => {
   it('createProgram', () => {
@@ -19,15 +19,7 @@ describe('typescript', () => {
 
     } as any)
     const f = result.getSourceFiles().find(s => s.fileName.endsWith('t1.tsx'))!
-    // visitChildrenRecursiveDeepFirst(f, n=>{
-    //   console.log();
-
-    // })
-
-    // console.log(dumpAst(f));
     expect(dumpAst(f)).toContain(`JsxElement : "<article> <div>{123}</div> </article>"`)
-
-    // console.log(.map(s=>s.statements.map(s=>s.getText())));
 
   })
 })

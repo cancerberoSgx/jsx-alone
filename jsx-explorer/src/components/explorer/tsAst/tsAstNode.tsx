@@ -3,6 +3,7 @@ import { getChildrenForEachChild } from '../../../util/ts-simple-ast'
 import { shorter } from '../../../util/util'
 import { Component } from '../../util/component'
 import { JSXAlone } from 'jsx-alone-dom'
+import { registerStyle } from '../../../style/styles';
 
 interface P {
   node: Node
@@ -18,9 +19,9 @@ export class NodeComponent extends Component<P> {
   render() {
     const { node, mode, path = '/', showDetailsOf, onShowDetailsOf, collapsed = false } = this.props
     const children = mode === 'forEachChild' ? getChildrenForEachChild(node) : node.getChildren()
-    return <div data-key={path}>
+    return <div data-key={path} className="tsAstExplorerNode">
 
-      <strong>{node.getKindName()}</strong>
+      <span className="nodeName">{node.getKindName()}</span>
 
       <button className="button is-small" onClick={e => {
         onShowDetailsOf(path, node)
@@ -30,7 +31,7 @@ export class NodeComponent extends Component<P> {
         this.updateProps({ collapsed: !collapsed })
       }}>{collapsed ? '+' : '-'}</button>
 
-      {!collapsed && showDetailsOf === path && <div className="nodeInfo">
+      {!collapsed && showDetailsOf === path && <div className="nodeInfo content">
         <strong>Text</strong>: <code>{shorter(node.getText())}</code><br />
         <strong>Type</strong>: <code>{node.getType().getApparentType().getText()}</code>
       </div>}
@@ -44,3 +45,9 @@ export class NodeComponent extends Component<P> {
     </div>
   }
 }
+
+registerStyle(`
+.tsAstExplorerNode .nodeName {
+  font-weight: bolder;
+}
+`)

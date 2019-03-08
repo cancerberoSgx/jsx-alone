@@ -29,13 +29,13 @@ export class EditorExplorerBody extends Component<P> {
           <Editor {...this.props} />
         </div>
         <div className="editorExplorerBodyMember elements">
-          <ElementExplorer editor={this.props.state.editor} onSelectCode={onSelectCode} />
+          <ElementExplorer editor={this.props.state.editor} compiled={this.props.state.compiled} onSelectCode={onSelectCode} />
         </div>
         <div className="editorExplorerBodyMember jsAst">
-          <TsSimpleAstExplorer editor={this.props.state.editor} onSelectCode={onSelectCode} />
+          <TsSimpleAstExplorer editor={this.props.state.editor} compiled={this.props.state.compiled} onSelectCode={onSelectCode} />
         </div>
         <div className="editorExplorerBodyMember implementations">
-          <ImplExplorer editor={this.props.state.editor} onSelectCode={onSelectCode} />
+          <ImplExplorer editor={this.props.state.editor} compiled={this.props.state.compiled} onSelectCode={onSelectCode} />
         </div>
       </div>
       :
@@ -49,13 +49,13 @@ export class EditorExplorerBody extends Component<P> {
         <div className="tile is-vertical is-4">
 
           <article className="tile is-child editorExplorerBodyMember elements  is-active">
-            <ElementExplorer editor={this.props.state.editor} onSelectCode={onSelectCode} />
+            <ElementExplorer editor={this.props.state.editor} compiled={this.props.state.compiled} onSelectCode={onSelectCode} />
           </article>
           <article className="tile is-child editorExplorerBodyMember jsAst">
-            <TsSimpleAstExplorer editor={this.props.state.editor} onSelectCode={onSelectCode} />
+            <TsSimpleAstExplorer editor={this.props.state.editor} compiled={this.props.state.compiled} onSelectCode={onSelectCode} />
           </article>
           <article className="tile is-child editorExplorerBodyMember implementations">
-            <ImplExplorer editor={this.props.state.editor} onSelectCode={onSelectCode} />
+            <ImplExplorer editor={this.props.state.editor} compiled={this.props.state.compiled} onSelectCode={onSelectCode} />
           </article>
         </div>
         {/* <div className="tile is-vertical is-4">

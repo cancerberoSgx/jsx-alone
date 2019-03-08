@@ -4,7 +4,10 @@ import { createStore } from 'redux'
 import { AllActions, reducers } from './store/store'
 import { State } from './store/types'
 import { Main } from './components/main'
-import { initMonacoWorkers } from './util/monaco'
+import { initMonacoWorkers } from './monaco/monaco'
+import { installCodeWWorker } from './codeWorkerManager';
+
+installCodeWWorker()
 
 const store = createStore(reducers)
 

@@ -8,6 +8,8 @@ import { showInModal } from '../../util/showInModal'
 import { Node } from './elementExplorerNode'
 import { ExplorerProps } from '../explorers'
 import { Error } from '../../util/error'
+import { height } from '../../../util/media';
+import { isCompiledReady } from '../../../store/types';
 
 interface P extends ExplorerProps {
 }
@@ -15,8 +17,9 @@ interface P extends ExplorerProps {
 registerStyle(`
 .explorer {
   overflow: scroll;
-  height: 100%;
   width: 100%;
+  height: ${height()}px;
+  margin-top: 3em;
 }
 .html-code-container {
   display: none;
@@ -28,21 +31,43 @@ registerStyle(`
 
 export class ElementExplorer extends Component<P> {
 
-  protected removeChildrenOnUpdate = true
+  // protected removeChildrenOnUpdate = true
 
   render() {
-    let error: Error & { evaluated: string } | undefined
-    let r: JsonImplOutputEl | undefined
-    try {
-      r = evaluate(this.props.editor.code)
-      error = undefined
-    } catch (ex) {
-      error = ex
-    }
-    return <div className={'explorer content '}>
-      {!error && r && <Node node={r} onShowHtml={html => showInModal(<ElementNodeHtmlCodeModal html={html}/>, 'HTML')}></Node>}
+    // let error: Error & { evaluated: string } | undefined
+    // let r: JsonImplOutputEl | undefined
+    // try {
+    //   r = evaluate(this.props.editor.code)
+    //   error = undefined
+    // } catch (ex) {
+    //   error = ex
+    // }
+    const compiled = this.props.compiled
+    // debugger
+    if(isCompiledReady(compiled)){
+      const {error, result} =  compiled.evaluate
+      return <div className="explorer">
+      {!error && result && <Node node={result} onShowHtml={html => showInModal(<ElementNodeHtmlCodeModal html={html}/>, 'HTML')}></Node>}
       {error && <Error error={error} />}
     </div>
+    }
+    else {
+    return <div className="content">
+      <h3>
+        NOT COMPILED YET
+      </h3><h3>
+        NOT COMPILED YET
+      </h3><h3>
+        NOT COMPILED YET
+      </h3><h3>
+        NOT COMPILED YET
+      </h3><h3>
+        NOT COMPILED YET
+      </h3><h3>
+        NOT COMPILED YET
+      </h3>
+    </div>
+    }
   }
 }
 
