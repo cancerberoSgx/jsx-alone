@@ -21,18 +21,21 @@ export const examples: Example[] = Object.values(examplesPacked).filter(f => f.f
   const g = globals[name]
   return {
     name,
-    code: fixEmitted(f.content, g || {})
+    code: fixCode(f.content, g || {})
   }
 }).sort((a, b)=>a.name.localeCompare(b.name))
 
-function fixEmitted(s: string, globals: any = {}) {
+
+function fixCode(s: string, globals: any = {}) {
   const lines = s.split('\n')
   const i = lines.findIndex(l => l.includes('function'))
-  const code = [`function test() {
-  ${Object.keys(globals).map(g => `
-var ${g} = ${globals[g]};
-  `.trim()).join('\n')}
-  `, ...lines.slice(i + 1, lines.length)].join('\n')
+  const code = `
+import { JSXAlone } from '.'
+
+function test() {
+${Object.keys(globals).map(g => `  const ${g} = ${globals[g]};`).join('\n')}
+  ${lines.slice(i + 1, lines.length).join('\n').trim()}
+`.trim()
   return code
 }
 
