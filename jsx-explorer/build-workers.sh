@@ -1,5 +1,5 @@
 ROOT=$PWD/node_modules/monaco-editor/esm/vs
-OPTS="--no-source-maps -d ../docs/jsx-explorer"   
+OPTS="--no-source-maps --no-content-hash -d ../docs/jsx-explorer"   
 
 parcel build $ROOT/language/json/json.worker.js $OPTS
 parcel build $ROOT/language/css/css.worker.js $OPTS
