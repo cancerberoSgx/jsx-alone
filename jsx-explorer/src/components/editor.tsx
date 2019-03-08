@@ -17,11 +17,11 @@ let editor: monaco.editor.IStandaloneCodeEditor | undefined
 
 export function getMonacoInstance() {
   return editor
-}    
+}
 
 const s = {
   editorContainer: {
-    width: '100%', 
+    width: '100%',
     height: '100%',
     minHeight: '800px',
     marginTop: '3em'
@@ -30,6 +30,8 @@ const s = {
 registerStyle(s)
 
 export class Editor extends Component<P> {
+
+  neverUpdate = true
 
   render() {
     const { classes } = Styles(s)
@@ -57,7 +59,6 @@ export class Editor extends Component<P> {
 
   protected installEditor() {
     if (editor) { return }
-    // console.log('helelelel', files, files.find(f => f.fileName === 'jsx-alone-core.d.ts')!);
     monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
       target: monaco.languages.typescript.ScriptTarget.ES2016,
       allowNonTsExtensions: true,

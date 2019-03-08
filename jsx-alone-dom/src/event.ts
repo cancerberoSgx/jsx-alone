@@ -1,9 +1,7 @@
-import { getElementMark, markElement, getMarkedElement, getDescendantsMarks, getMarkedDescendants, removeElementMark } from './mark'
-import { unique, objectMap } from 'jsx-alone-core'
-import { ElementLikeImpl } from './elementImpl'
-import { ElementClass } from './elementClass'
-import { ElementLike } from './types'
-// import { DelegatedEvent } from './types'
+import { unique } from 'jsx-alone-core';
+import { ElementClass } from './elementClass';
+import { getElementMark, getMarkedDescendants, getMarkedElement, markElement, removeElementMark } from './mark';
+import { ElementLike, EventManager } from './types';
 
 export type EventListener<C extends EventTarget | HTMLElement = any, T extends EventTarget | HTMLElement = any> = (e: Event) => any
 
@@ -12,18 +10,6 @@ interface Entry {
   fn: EventListener
   type: string
   options?: boolean | AddEventListenerOptions
-}
-type AppendDoDomListener = () => void
-
-export interface EventManager {
-  addAppendToDomListener(l: AppendDoDomListener): void
-  onAppendToDom(): void
-  addEventListener(el: HTMLElement, type: string, fn: EventListener): void
-  /** removes event listeners for element inside root */
-  // removeListeners(el: HTMLElement, types?: []): void
-  removeListeners(el: HTMLElement, andDescendants?: boolean, types?: []): void
-  /** uninstall the event listeners in root. Reset the internal state. Optionally, remove the markings on descendant elements  */
-  uninstall(removeElementMarks?: boolean, types?: []): void
 }
 
 /**
@@ -44,27 +30,31 @@ export interface EventManager {
 export class RootEventManager implements EventManager {
 
   private registeredByType: { [type: string]: Entry[] } = {}
-  private appendToDomListeners: AppendDoDomListener[] = []
+
+  private appendToDomListeners: (()=>void)[] = []
+  
   mark = '_jsxa_e' + unique('_')
 
   constructor(private root: HTMLElement, private debug?: boolean) {
     this.rootListener = this.rootListener.bind(this)
-    // console.log('consrttrtr');
-
   }
 
   private markElement(el: HTMLElement) {
     return markElement(el, this.mark)
   }
+
   private getElementMark(e: Element) {
     return getElementMark(e, this.mark)
   }
+
   private removeElementMark(e: Element) {
     return removeElementMark(e, this.mark)
   }
+
   private getMarkedElement(mark: string) {
     return getMarkedElement(mark, this.root, this.mark)
   }
+
   private getMarkedDescendants(e: Element) {
     return getMarkedDescendants(e, this.mark)
   }
@@ -75,13 +65,14 @@ export class RootEventManager implements EventManager {
       const mark = this.getElementMark(e.target as HTMLElement)
       const entry = mark && (this.registeredByType[e.type.toLowerCase()] || []).find(e => e.mark === mark)
       if (entry) {
-        // heads up - the user expect e.currentTarget to be the target the target element, but because of event delegation it's the root element. This is why we wrap the event object with a proxy:
+        // heads up - the user expect e.currentTarget to be the target the target element, but because of event
+        // delegation it's the root element. This is why we wrap the event object with a proxy:
         entry.fn(new E(e) as any)
       }
     }
   }
 
-  addAppendToDomListener(l: AppendDoDomListener) {
+  addAppendToDomListener(l: ()=>void) {
     this.appendToDomListeners.push(l)
   }
 
@@ -122,10 +113,8 @@ export class RootEventManager implements EventManager {
   }
 
   removeListeners(el: HTMLElement, andDescendants = false, types?: []) {
-    // const els =
     [...(this.getElementMark(el) ? [el] : []), ...(andDescendants ? this.getMarkedDescendants(el) : [])]
       .filter(m => m)
-      // if (mark) {
       .forEach(el => {
         const mark = this.getElementMark(el!)
         if (!mark) { return }
@@ -136,7 +125,6 @@ export class RootEventManager implements EventManager {
           })
         this.removeElementMark(el)
       })
-    // }
   }
 
   uninstall(removeElementMarks = false, types?: []) {
@@ -156,11 +144,8 @@ export class RootEventManager implements EventManager {
 
 }
 
-// const ProxyPolyfill = require('proxy-polyfill/src/proxy')
 class E {
   constructor(private e: any) {
-    // debugger
-    // return new ProxyPolyfill(this, this);
     return new Proxy(this, this)
   }
   get(target: any, prop: string) {

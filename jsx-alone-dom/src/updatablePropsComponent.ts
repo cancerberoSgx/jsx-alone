@@ -9,19 +9,18 @@ import { ElementClass, emptyAllChildren, JSXAlone } from '.';
  *
  * Two modes of update are supported controlled by `removeChildrenOnUpdate` property which subclasses can override. 
  *
- * * if `removeChildrenOnUpdate == true` (the default value)  then all descendant nodes are removed from the node and
- *   dissociated from this instance
  *
- * * if `removeChildrenOnUpdate == false`  then `JSXAlone.render()` will update recursively the nodes that changed.
- *   Unfortunately this update process still has an issue that new nodes are never removed - only updated and appended.
- *   This mode is recommended only the component needs to maintain the same DOM Node instances. 
+ * * if `removeChildrenOnUpdate == false` (the default value) then `JSXAlone.render()` will update recursively only the
+ *   nodes that changed. A component can declare that its nodes should never be updated using `neverUpdate` property to
+ *   true
+ *
+ * * if `removeChildrenOnUpdate == true` then all descendant nodes are removed from the node and dissociated from this
+ *   instance. event listeners for all registered descendants are removed. 
  *
  * **IMPORTANT** the update mode is given by the root Component that called `updateProps()` on the first place and
- * triggered the update / re-rendering chain. 
- *
- * If they call it with `removeChildrenOnUpdate == true` then all descendant component will be updated in this manner no
- * matter their`removeChildrenOnUpdate` value. If they call it with true then descendant components can still force
- * `removeChildrenOnUpdate == true`
+ * triggered the update / re-rendering chain. If they call it with `removeChildrenOnUpdate == true` then all descendant
+ * component will be updated in this manner no matter their`removeChildrenOnUpdate` value. If they call it with true
+ * then descendant components can still force `removeChildrenOnUpdate == true`
  */
 export abstract class UpdatablePropsComponent<P = {}> extends ElementClass<P> {
 
@@ -36,30 +35,20 @@ export abstract class UpdatablePropsComponent<P = {}> extends ElementClass<P> {
    */
   protected removeChildrenOnUpdate = false
 
-  beforeRender(containerElement: HTMLElement) {
-    this.containerElement = containerElement
-    if (this.removeChildrenOnUpdate && this.containerElement) {
-      this._eventManager && this._eventManager.removeListeners(this.containerElement, true)
-      emptyAllChildren(this.containerElement)
-    }
-  }
-
   afterRender(containerElement: HTMLElement) {
     this.containerElement = containerElement
   }
 
   /** 
-   * Update `this.props` and call `JSXAlone.render` on "updateExisting" mode. It will trigger `beforeRender` and
-   * `afterRender` on all descendant components and on itself. DOM update mode is given by `removeChildrenOnUpdate`, see
-   * class docs.
+   * Update `this.props` and call `JSXAlone.render` with "`updateExisting`" mode. DOM update mode is given by
+   * `removeChildrenOnUpdate`, see class docs.
    */
   protected updateProps(s: Partial<P>) {
     this._props = { ...this._props, ...s }
     const el = this.render();
-    (el as any)._elementClassInstance = this // TODO: review this why is needed ?
+    (el as any)._elementClassInstance = this // TODO: this should be done by render() but is not!
     JSXAlone.render(el, {
       updateExisting: this.containerElement,
-      updateExistingRemoveChildrenIfCountDiffer: this.removeChildrenOnUpdate
     })
   }
 
@@ -74,6 +63,7 @@ export abstract class UpdatablePropsComponent<P = {}> extends ElementClass<P> {
   protected query<T extends Element= Element>(s: string): T {
     return this.containerElement && this.containerElement.querySelector<T>(s) as any
   }
+  
   /** 
    * Could throw in case this.containerEl is not defined. Not included in signature on purpose 
    */
@@ -87,6 +77,7 @@ export abstract class UpdatablePropsComponent<P = {}> extends ElementClass<P> {
 export abstract class UpdatablePropsDestructiveComponent<P = {}> extends UpdatablePropsComponent<P>{
   protected removeChildrenOnUpdate = true
 }
+
 export abstract class UpdatablePropsNonDestructiveComponent<P = {}> extends UpdatablePropsComponent<P>{
   protected removeChildrenOnUpdate = false
 }

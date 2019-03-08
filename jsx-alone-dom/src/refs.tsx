@@ -3,6 +3,7 @@ import { ElementClass } from '.'
 import { ElementLike } from './types'
 import { getMarkedElement, markElement } from './mark'
 
+/** @internal */
 export class RefObjectImpl<T extends Element & ElementClass> implements RefObject<T> {
   _current: T | string | null = null
   public get current(): T | null {
@@ -10,8 +11,7 @@ export class RefObjectImpl<T extends Element & ElementClass> implements RefObjec
   }
 }
 
-  // /** @internal */
+/** @internal */
 export function setRef<T extends ElementClass & Element>({ el, value, elementLike }: { el: HTMLElement, value: RefObjectImpl<T>, elementLike: ElementLike }) {
-    // console.log('__addRef', elementLike._elementClassInstance || markElement(el));
     value._current = elementLike._elementClassInstance || markElement(el) as any
   }

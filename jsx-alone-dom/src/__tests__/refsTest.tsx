@@ -16,7 +16,8 @@ describe('refs', () => {
       if (!this.containerEl) {
         throw new Error('this.containerEl=== undefined cannot do magic in DummyStatefulComponent')
       }
-      this.destroy()
+      this.eventManager && this.eventManager.removeListeners(this.containerEl, true)
+      this.containerEl.remove()
       const jsx = this.render()
       const el = JSXAlone.render(jsx)
       this.containerEl.parentElement!.replaceChild(el, this.containerEl)

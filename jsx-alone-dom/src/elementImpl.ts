@@ -1,9 +1,8 @@
-import { AbstractElementLike, AbstractTextNodeLike, printStyleHtmlAttribute, RefObject, isElementLike } from 'jsx-alone-core'
+import { AbstractElementLike, AbstractTextNodeLike, printStyleHtmlAttribute, RefObject } from 'jsx-alone-core'
 import { RefObjectImpl, setRef } from './refs'
 import { ElementLike, ElementLikeImplRenderConfig, IElementClass, RenderOutput } from './types'
 import { RootEventManager } from './event'
-import { ElementClass, isElementClass } from './elementClass'
-import { isSvgTag } from './util';
+import { ElementClass, isElementClass } from './elementClass';
 
 export class ElementLikeImpl<T extends ElementClass= ElementClass> extends AbstractElementLike<RenderOutput> implements ElementLike {
 
@@ -23,13 +22,11 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
     eventManager: RootEventManager, rootHTMLElement: HTMLElement
   }): RenderOutput {
 
-    const { updateExisting, updateExistingRemoveChildrenIfCountDiffer, rootHTMLElement, eventManager, rootElementLike, parent } = config
-
-    const el = updateExisting || rootHTMLElement || this.buildRootElement(config)
-
-    if (this._elementClassInstance) {
-      this._elementClassInstance.beforeRender(el)
+    if(config.updateExisting && this._elementClassInstance && this._elementClassInstance.neverUpdate){
+      return config.updateExisting 
     }
+    
+    const el = config.updateExisting || config.rootHTMLElement || this.buildRootElement(config)
 
     Object.keys(this.attrs).forEach(attribute => {
       const value = this.attrs[attribute]
@@ -40,66 +37,49 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
         el.setAttribute('style', printStyleHtmlAttribute(value))
       }
       else if (typeof value === 'function') {
-        eventManager.addEventListener(el, attribute.replace(/^on/, '').toLowerCase(), value)
+        config.eventManager.addEventListener(el, attribute.replace(/^on/, '').toLowerCase(), value)
       }
       else {
         el.setAttribute(attribute, value)
       }
     })
-
     if (this._innerHtml) {
       el.innerHTML = this._innerHtml
     }
-
     else {
 
-      if (updateExistingRemoveChildrenIfCountDiffer && updateExisting && el.childNodes.length !== this.children.length) {
+      const childrenCountDiffer = config.updateExisting && el.childNodes.length !== this.children.length
+      if (childrenCountDiffer) {
         el.innerHTML = ''
       }
       this.children.forEach((c, i) => {
-
-        // Heads up: if updateExisting then we don't append new child, just render it and replace the existing child only if !isEqualNode
-        const existingChildToUpdateRealNode = updateExisting && updateExisting.childNodes.item(i)
-
-        const tagNameDiffers = existingChildToUpdateRealNode && (existingChildToUpdateRealNode as HTMLElement).tagName && (existingChildToUpdateRealNode as HTMLElement).tagName.toLowerCase() !== (c as ElementLike).tag
-
-        const existingChildToUpdate = tagNameDiffers ? undefined : existingChildToUpdateRealNode
-
+        // Heads up: if config.updateExisting then we don't append new child, just render it and replace the existing child only if !isEqualNode
+        const existingChildToUpdate = !childrenCountDiffer && el.childNodes.item(i)
         const cel = c.render({
           ...config,
           updateExisting: existingChildToUpdate || undefined,
-          rootHTMLElement: existingChildToUpdate || undefined
+          rootHTMLElement: existingChildToUpdate || undefined,
         })
+
         if (!existingChildToUpdate) {
-          if (el.nodeType !== Node.TEXT_NODE) {
-            if (tagNameDiffers && existingChildToUpdateRealNode) {
-              el.insertBefore(cel, existingChildToUpdateRealNode)
-            }
-            else {
-              el.appendChild(cel)
-            }
-          }
-          else {
-            console.warn(`ElementLikeImpl render error, cannot append on text node ` + el.textContent);
-          }
+          el.appendChild(cel)
         }
-        else if (!existingChildToUpdate.isEqualNode(cel)) {
+        else if (existingChildToUpdate && !existingChildToUpdate.isEqualNode(cel)) {
           existingChildToUpdate.replaceWith(cel)
-          eventManager.updateEventListeners(this._elementClassInstance || rootElementLike._elementClassInstance as ElementClass, updateExisting as HTMLElement, el as HTMLElement, this)
+          config.eventManager.updateEventListeners(this._elementClassInstance || config.rootElementLike._elementClassInstance as ElementClass, config.updateExisting as HTMLElement, el as HTMLElement, this)
         }
       })
     }
-    if (parent && !updateExisting) {
-      parent.appendChild(el)
+    if (config.parent && !config.updateExisting) {
+      config.parent.appendChild(el)
     }
 
     if (this.ref) {
       setRef({ elementLike: this as any, el, value: this.ref as RefObjectImpl<any> })
     }
-
-    const elementClassWithContainer = this._elementClassInstance || rootElementLike._elementClassInstance
+    const elementClassWithContainer = this._elementClassInstance || config.rootElementLike._elementClassInstance
     if (elementClassWithContainer) {
-      (elementClassWithContainer as any)._eventManager = eventManager
+      (elementClassWithContainer as any)._eventManager = config.eventManager
       if (this._elementClassInstance) {
         this._elementClassInstance.afterRender(el)
       }
@@ -123,3 +103,9 @@ export class TextNodeLikeImpl extends AbstractTextNodeLike<RenderOutput> {
     return text
   }
 }
+
+function isSvgTag(t: string) {
+  const r = new RegExp(`^${t}$`, 'i')
+  return SvgTags.some(name => r.test(name))
+}
+const SvgTags = ['path', 'svg', 'use', 'g']

@@ -1,6 +1,4 @@
-/*DONT CHANGE THIS FIRST LINE*/ import { ElementClass, AbstractJSXAlone as JSXAlone, ClassRule, ReactNode } from 'jsx-alone-core'; declare var PERSON_COUNT: number; declare var CONTACT_COUNT: number; declare var ADDRESS_COUNT: number; 
-
-function exampleLotsOfComponents() {
+/*DONT CHANGE THIS FIRST LINE*/ import { ElementClass, AbstractJSXAlone as JSXAlone, ClassRule, ReactNode } from 'jsx-alone-core'; declare var PERSON_COUNT: number; declare var CONTACT_COUNT: number; declare var ADDRESS_COUNT: number; function exampleLotsOfComponents() {
 
   // <Style> component
 

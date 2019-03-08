@@ -38,7 +38,7 @@ var ${g} = ${globals[g]};
     it('should generate correct amount of nodes', () => {
       const PERSON_COUNT = 4, CONTACT_COUNT = 3, ADDRESS_COUNT = 2
       const { result, times } = render(
-        'src/__tests__/exampleLotsOfComponents.tsx',
+        'src/examples/toPack/exampleLotsOfComponents.tsx',
         { PERSON_COUNT, CONTACT_COUNT, ADDRESS_COUNT },
         'json'
       )
@@ -77,7 +77,7 @@ var ${g} = ${globals[g]};
       it('<If> should work (string implementation)', () => {
         const PERSON_COUNT = 44, CONTACT_COUNT = 1, ADDRESS_COUNT = 1
         const { result, times } = render<string>(
-          'src/__tests__/exampleLotsOfComponents.tsx',
+          'src/examples/toPack/exampleLotsOfComponents.tsx',
           { PERSON_COUNT, CONTACT_COUNT, ADDRESS_COUNT },
           'string'
         )
@@ -87,7 +87,7 @@ var ${g} = ${globals[g]};
       it('<If> should work (dom implementation)', () => {
         const PERSON_COUNT = 44, CONTACT_COUNT = 1, ADDRESS_COUNT = 1
         const { result, times } = render<HTMLElement>(
-          'src/__tests__/exampleLotsOfComponents.tsx',
+          'src/examples/toPack/exampleLotsOfComponents.tsx',
           { PERSON_COUNT, CONTACT_COUNT, ADDRESS_COUNT },
           'dom'
         )
