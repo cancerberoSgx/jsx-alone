@@ -16,6 +16,10 @@ const globals: any = {
   }
 }
 
+
+export function getExample(name: string) {
+  return examples.find(f => f.name === name)!.code
+}
 export const examples: Example[] = Object.values(examplesPacked).filter(f => f.fileName).map(f => {
   const name = f.fileName.substring('src/examples/toPack/'.length, f.fileName.length - 4)
   const g = globals[name]

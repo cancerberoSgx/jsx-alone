@@ -1,10 +1,13 @@
 {  
   "extends": "../common/tsconfig.json",
   "compilerOptions": {
+    "composite": false,
     "outDir": "./dist",
     "rootDir": ".",
     "jsx": "react",
     "jsxFactory": "JSXAlone.createElement",
+    "allowJs": true,
+    "declaration": false,
   },
   "include": [
     "src"
@@ -15,6 +18,9 @@
     },
     {
       "path": "../jsx-alone-dom"
+    },
+    {
+      "path": "../jsx-alone-string"
     }
   ],
 }

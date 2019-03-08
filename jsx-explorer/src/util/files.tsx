@@ -4,8 +4,11 @@ interface File {
   fileName: string
   content: string
 }
-const filesPacked = filesPacked_ as { [f: string]: File }
-
-export const files: File[] = Object.values(filesPacked).filter(f => f.fileName).map(f => ({...f, 
-  fileName: f.fileName.substring('src/util/toPack/'.length, f.fileName.length),
+const files: File[] = Object.values(filesPacked_ as { [f: string]: File }).filter(f => f.fileName).map(f => ({
+  ...f,
+  fileName: f.fileName.substring(f.fileName.lastIndexOf('/') + 1, f.fileName.length),
 }))
+
+export function getFile(fileName: string) {
+  return files.find(f => f.fileName === fileName)!.content
+}

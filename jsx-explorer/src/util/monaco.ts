@@ -1,7 +1,9 @@
 import * as monaco from 'monaco-editor'
-import { files } from './files';
 import { isDesktop } from './media';
 import { dispatch } from '../main';
+import { throttle } from './debounce'
+import { jsxSyntaxHighlight, installJsxSyntaxHighlight } from './monacoJsxSyntaxHighlight';
+import { getFile } from './files';
 
 export function initMonacoWorkers() {
   if (typeof (self as any).MonacoEnvironment === 'undefined') {
@@ -23,6 +25,7 @@ export function initMonacoWorkers() {
       }
     }
   }
+  installJsxSyntaxHighlight()
 }
 
 let editor: monaco.editor.IStandaloneCodeEditor | undefined
@@ -32,8 +35,8 @@ export function getMonacoInstance() {
 }
 
 export function installEditor(code: string, theme: string, containerEl: HTMLElement) {
-  if (editor) { 
-    return 
+  if (editor) {
+    return
   }
 
   monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
@@ -56,15 +59,26 @@ export function installEditor(code: string, theme: string, containerEl: HTMLElem
     folding: isDesktop(),
     minimap: isDesktop() ? undefined : {
       enabled: false
-    }
+    },
   })
 
   monaco.editor.createModel(
-    files.find(f => f.fileName === 'jsx-alone-core.d.ts')!.content,
+    getFile('jsx-alone-core.d.ts'),
     "typescript", monaco.Uri.parse("file:///index.d.ts"))
 
-  editor.getModel()!.onDidChangeContent(e => {
-    code = editor!.getModel()!.getValue()
-    dispatch({ type: 'CHANGE_CODE', code })
-  })
+  editor.getModel()!.onDidChangeContent(
+    throttle((e: monaco.editor.IModelContentChangedEvent) => {
+      code = editor!.getModel()!.getValue()
+      dispatch({ type: 'CHANGE_CODE', code })
+      jsxSyntaxHighlight(editor!)
+    }, 4000) as any
+  )
+
+  jsxSyntaxHighlight(editor!)
+  editor.getModel()!.setValue(editor.getModel()!.getValue())
+  // editor.getModel()!.pushStackElement()
 }
+
+
+
+

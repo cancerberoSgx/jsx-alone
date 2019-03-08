@@ -33,11 +33,11 @@ export class Editor extends Component<P> {
     super.afterRender(e)
     const editor = getMonacoInstance()
     this.eventManager && this.eventManager.addAppendToDomListener(() => {
-      installEditor(this.props.state.editor.code, this.getMonacoThemeFor(), query('#editorContainer'))
+      installEditor(this.props.state.editor.code, this.getMonacoTheme(), query('#editorContainer'))
     })
     if (editor) {
       // always set the theme - we dont know/cant getTheme in monaco to compare
-      monaco.editor.setTheme(this.getMonacoThemeFor())
+      monaco.editor.setTheme(this.getMonacoTheme())
       if (editor.getModel()!.getValue() !== this.props.state.editor.code) {
         console.warn(`strange: editor.getModel()!.getValue()!==this.props.state.editor.code`)
         editor.getModel()!.setValue(this.props.state.editor.code)
@@ -45,7 +45,8 @@ export class Editor extends Component<P> {
     }
   }
 
-  private getMonacoThemeFor(name = this.props.state.layout.theme.name): string {
+  private getMonacoTheme(name = this.props.state.layout.theme.name): string {
+    // return 'jsx'
     return name === 'dark' ? 'vs-dark' : 'vs'
   }
 
