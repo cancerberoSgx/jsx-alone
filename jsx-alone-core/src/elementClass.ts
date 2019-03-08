@@ -1,7 +1,6 @@
-import { NodeLike, ElementLike, ElementClassProps, isElementLike, ReactNode } from '.'
+import { ElementClassProps } from '.';
 
 export interface IElementClass<P= {}> {
-
   props: ElementClassProps<P>
   asJSXElement(): JSX.Element
   render(): JSX.Element

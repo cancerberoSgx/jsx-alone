@@ -1,6 +1,6 @@
-import { getMonacoInstance } from '../editor'
 import { Editor } from '../../store/types'
 import * as monaco from 'monaco-editor'
+import { getMonacoInstance } from '../../util/monaco';
 
 export interface ExplorerProps {
   editor: Editor

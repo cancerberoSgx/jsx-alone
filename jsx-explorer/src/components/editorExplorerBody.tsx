@@ -2,7 +2,7 @@ import { JSXAlone } from 'jsx-alone-dom'
 import { registerStyle } from '../style/styles'
 import { isMobile } from '../util/media'
 import { P } from './app'
-import { Editor, getMonacoInstance } from './editor'
+import { Editor } from './editor'
 import { ElementExplorer } from './explorer/elements/elementExplorer'
 import { ImplExplorer } from './explorer/implExplorer'
 import { TsSimpleAstExplorer } from './explorer/tsAst/tsAstExplorer'
@@ -21,14 +21,10 @@ registerStyle(`
 `)
 
 export class EditorExplorerBody extends Component<P> {
-  // protected updateExistingRemoveChildrenIfCountDiffer = false
 
   render() {
     return isMobile() ?
       <div className="editorExplorerBody">
-        {/* <div className="explorers editorExplorerBodyMember">
-          <Explorers {...this.props} />
-        </div> */}
         <div className="editor editorExplorerBodyMember is-active">
           <Editor {...this.props} />
         </div>

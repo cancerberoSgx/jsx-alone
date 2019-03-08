@@ -22,62 +22,66 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
     eventManager: RootEventManager, rootHTMLElement: HTMLElement
   }): RenderOutput {
 
-    if(config.updateExisting && this._elementClassInstance && this._elementClassInstance.neverUpdate){
-      return config.updateExisting 
-    }
-    
+    const dontUpdate = config.updateExisting && this._elementClassInstance && this._elementClassInstance.neverUpdate
+
     const el = config.updateExisting || config.rootHTMLElement || this.buildRootElement(config)
 
-    Object.keys(this.attrs).forEach(attribute => {
-      const value = this.attrs[attribute]
-      if (attribute === 'className') {
-        el.setAttribute('class', value)
-      }
-      else if (attribute === 'style') {
-        el.setAttribute('style', printStyleHtmlAttribute(value))
-      }
-      else if (typeof value === 'function') {
-        config.eventManager.addEventListener(el, attribute.replace(/^on/, '').toLowerCase(), value)
-      }
-      else {
-        el.setAttribute(attribute, value)
-      }
-    })
-    if (this._innerHtml) {
-      el.innerHTML = this._innerHtml
-    }
-    else {
+    if (!dontUpdate) {
 
-      const childrenCountDiffer = config.updateExisting && el.childNodes.length !== this.children.length
-      if (childrenCountDiffer) {
-        el.innerHTML = ''
-      }
-      this.children.forEach((c, i) => {
-        // Heads up: if config.updateExisting then we don't append new child, just render it and replace the existing child only if !isEqualNode
-        const existingChildToUpdate = !childrenCountDiffer && el.childNodes.item(i)
-        const cel = c.render({
-          ...config,
-          updateExisting: existingChildToUpdate || undefined,
-          rootHTMLElement: existingChildToUpdate || undefined,
-        })
-
-        if (!existingChildToUpdate) {
-          el.appendChild(cel)
+      Object.keys(this.attrs).forEach(attribute => {
+        const value = this.attrs[attribute]
+        if (attribute === 'className') {
+          el.setAttribute('class', value)
         }
-        else if (existingChildToUpdate && !existingChildToUpdate.isEqualNode(cel)) {
-          existingChildToUpdate.replaceWith(cel)
-          config.eventManager.updateEventListeners(this._elementClassInstance || config.rootElementLike._elementClassInstance as ElementClass, config.updateExisting as HTMLElement, el as HTMLElement, this)
+        else if (attribute === 'style') {
+          el.setAttribute('style', printStyleHtmlAttribute(value))
+        }
+        else if (typeof value === 'function') {
+          config.eventManager.addEventListener(el, attribute.replace(/^on/, '').toLowerCase(), value)
+        }
+        else {
+          el.setAttribute(attribute, value)
         }
       })
-    }
-    if (config.parent && !config.updateExisting) {
-      config.parent.appendChild(el)
+
+      if (this._innerHtml) {
+        el.innerHTML = this._innerHtml
+      }
+
+      else {
+        const childrenCountDiffer = config.updateExisting && el.childNodes.length !== this.children.length
+        if (childrenCountDiffer) {
+          el.innerHTML = ''
+        }
+        this.children.forEach((c, i) => {
+          // Heads up: if config.updateExisting then we don't append new child, just render it and replace the existing child only if !isEqualNode
+          const existingChildToUpdate = !childrenCountDiffer && el.childNodes.item(i)
+          const cel = c.render({
+            ...config,
+            updateExisting: existingChildToUpdate || undefined,
+            rootHTMLElement: existingChildToUpdate || undefined,
+          })
+
+          if (!existingChildToUpdate) {
+            el.appendChild(cel)
+          }
+          else if (existingChildToUpdate && !existingChildToUpdate.isEqualNode(cel)) {
+            existingChildToUpdate.replaceWith(cel)
+            config.eventManager.updateEventListeners(this._elementClassInstance || config.rootElementLike._elementClassInstance as ElementClass, config.updateExisting as HTMLElement, el as HTMLElement, this)
+          }
+        })
+      }
+      if (config.parent && !config.updateExisting) {
+        config.parent.appendChild(el)
+      }
+
+      if (this.ref) {
+        setRef({ elementLike: this as any, el, value: this.ref as RefObjectImpl<any> })
+      }
     }
 
-    if (this.ref) {
-      setRef({ elementLike: this as any, el, value: this.ref as RefObjectImpl<any> })
-    }
     const elementClassWithContainer = this._elementClassInstance || config.rootElementLike._elementClassInstance
+
     if (elementClassWithContainer) {
       (elementClassWithContainer as any)._eventManager = config.eventManager
       if (this._elementClassInstance) {

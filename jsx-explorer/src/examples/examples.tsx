@@ -23,7 +23,7 @@ export const examples: Example[] = Object.values(examplesPacked).filter(f => f.f
     name,
     code: fixEmitted(f.content, g || {})
   }
-}) 
+}).sort((a, b)=>a.name.localeCompare(b.name))
 
 function fixEmitted(s: string, globals: any = {}) {
   const lines = s.split('\n')

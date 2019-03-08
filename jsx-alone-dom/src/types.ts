@@ -17,11 +17,8 @@ export interface TextNodeLike extends BaseTextNodeLike<RenderOutput> { }
  * at render time and is responsible of event delegation. 
  */
 export interface IElementClass<P = {}> extends ICoreElementClass<P> {
-
   afterRender(containerEl: HTMLElement): void
-
   readonly eventManager?: RootEventManager
-
   /** 
     * If true, when rendering with `updateExisting` this component and its descendants won't be updated (they will be
     * ignored) 
