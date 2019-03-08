@@ -1,6 +1,6 @@
 import { JsonImplOutputEl } from 'jsx-alone-core';
-import Project, { Node as tsNode, ts } from 'ts-simple-ast';
-import { CodeWorkerError, CodeWorkerRequest, CodeWorkerRequestJsxAst, CodeWorkerResponse, CodeWorkerResponseJsxAst, CodeWorkerResponseJsxAstDiagnostic, Node } from './codeWorkerManager';
+import Project, { Node as tsNode, ts , TypeGuards} from 'ts-simple-ast';
+import { CodeWorkerError, CodeWorkerRequest, CodeWorkerRequestJsxAst, CodeWorkerResponse, CodeWorkerResponseJsxAst, CodeWorkerResponseJsxAstDiagnostic, CodeWorkerResponseJsxAsNode } from './codeWorkerManager';
 import { extractCodeDecorations } from './monaco/extractCodeDecorations';
 import { evaluate } from './util/evaluate';
 import { createProject, getChildrenForEachChild } from './util/ts-simple-ast';
@@ -19,16 +19,16 @@ self.addEventListener('message', ({ data }: { data: CodeWorkerRequest }) => {
 })
 
 function doEvaluate(data: CodeWorkerRequest) {
-  let error: CodeWorkerError | undefined;
-  let result: JsonImplOutputEl | undefined;
-  try {
-    result = evaluate(data.code);
-    error = undefined;
-  }
-  catch (ex) {
-    error = {message: ex.message||ex+'', stack: ex.stack, evaluated: ex.evaluated, name: ex.name||ex+''}
-  }
-  return { error, result };
+  // let error: CodeWorkerError | undefined;
+  // let result: JsonImplOutputEl | undefined;
+  // try {
+    const {result, error, evaluated} = evaluate(data.code);
+  //   error = undefined;
+  // }
+  // catch (ex) {
+  //   error = {message: ex.message||ex+'', stack: ex.stack, evaluated: ex.evaluated, name: ex.name||ex+''}
+  // }
+  return { error, result, evaluated };
 }
 
 function buildJsxAstDiagnostics(project: Project): CodeWorkerResponseJsxAstDiagnostic[] {
@@ -51,23 +51,23 @@ function doJSXAst(data: CodeWorkerRequest): CodeWorkerResponseJsxAst {
   }])
   const config = data.jsxAst || {}
   const f = project.getSourceFiles().find(s => s.getFilePath().endsWith('t1.tsx'))!
-  // const ast = buildJsxAstNode(f, config)
-  // const diagnostics = config.showDiagnostics ? buildJsxAstDiagnostics(project) : []
-
-  return {
-    ast: {type: 'asd', text: 'as', children: [], kind: 'asd'},
-    diagnostics: []
-  }
+  const ast = buildJsxAstNode(f, config)
+  const diagnostics = config.showDiagnostics ? buildJsxAstDiagnostics(project) : []
+  return {ast, diagnostics}
+  // return {
+  //   ast: {type: 'asd', text: 'as', children: [], kind: 'asd'},
+  //   diagnostics: []
+  // }
 }
 
-function buildJsxAstNode(n: tsNode, config: CodeWorkerRequestJsxAst): Node {
+function buildJsxAstNode(n: tsNode, config: CodeWorkerRequestJsxAst): CodeWorkerResponseJsxAsNode {
   let text = n.getText().trim()
   const children = config.mode === 'forEachChild' ? getChildrenForEachChild(n) : n.getChildren()
 
   text = text.substring(0, Math.max(config.nodeTextLength || 20, text.length))
-  const node: Node = {
+  const node: CodeWorkerResponseJsxAsNode = {
     kind: n.getKindName(),
-    type: n.getType().getApparentType().getText(),
+    type: 'TODO', //ypeGuards.isSourceFile(n) ? 'SourceFile' : n.getType().getApparentType().getText(),
     text,
     children: children.map(c => buildJsxAstNode(c, config))
   }

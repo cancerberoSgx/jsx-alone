@@ -10,13 +10,14 @@ export interface CodeWorkerResponse {
   evaluate: {
     result?: JsonImplOutputEl
     error?: CodeWorkerError
+    evaluated: string
   },
   jsxAst: CodeWorkerResponseJsxAst 
 }
 
 export interface CodeWorkerResponseJsxAst{
   diagnostics: CodeWorkerResponseJsxAstDiagnostic[]
-  ast: Node
+  ast: CodeWorkerResponseJsxAsNode
 }
 
 export interface CodeWorkerRequest {
@@ -32,11 +33,11 @@ export interface CodeWorkerRequestJsxAst{
   nodeTextLength?: number
 }
 
-export interface Node {
+export interface CodeWorkerResponseJsxAsNode {
   type: string
   text: string
   kind: string
-  children: Node[]
+  children: CodeWorkerResponseJsxAsNode[]
 }
 
 export type CodeWorkerResponseJsxAstDiagnostic = {
@@ -49,7 +50,11 @@ code: number;
   // source: string|undefined
 }
 
-export type CodeWorkerError= {message: string, stack?: string; evaluated: string, name: string }
+export type CodeWorkerError= {
+  message: string
+  stack?: string
+  name: string 
+}
 
 export type CodeWorkerListener = (e: { data: CodeWorkerResponse }) => void
 

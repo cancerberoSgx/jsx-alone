@@ -12,7 +12,7 @@ describe('samples', () => {
         <div>{a}</div>
       </article>
     }`
-      const result = evaluate(code)
+      const {result} = evaluate(code)
       expect(result.tag).toBe('article')
       expect(() => JSON.stringify(result)).not.toThrow()
     })
@@ -32,7 +32,7 @@ var ${g} = ${globals[g]};
       if (impl === 'json') {
         expect(() => JSON.stringify(result)).not.toThrow()
       }
-      return { result, times }
+      return {result: result.result!, times}
     }
 
     it('should generate correct amount of nodes', () => {

@@ -31,24 +31,13 @@ registerStyle(`
 
 export class ElementExplorer extends Component<P> {
 
-  // protected removeChildrenOnUpdate = true
-
   render() {
-    // let error: Error & { evaluated: string } | undefined
-    // let r: JsonImplOutputEl | undefined
-    // try {
-    //   r = evaluate(this.props.editor.code)
-    //   error = undefined
-    // } catch (ex) {
-    //   error = ex
-    // }
     const compiled = this.props.compiled
-    // debugger
     if(isCompiledReady(compiled)){
-      const {error, result} =  compiled.evaluate
+      const {error, result, evaluated} =  compiled.evaluate
       return <div className="explorer">
       {!error && result && <Node node={result} onShowHtml={html => showInModal(<ElementNodeHtmlCodeModal html={html}/>, 'HTML')}></Node>}
-      {error && <Error error={error} />}
+      {error && <Error evaluated={evaluated} error={error} />}
     </div>
     }
     else {

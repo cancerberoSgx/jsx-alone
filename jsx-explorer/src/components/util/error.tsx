@@ -4,8 +4,9 @@ import { CodeWorkerError } from '../../codeWorkerManager';
 export function Error(props: {
   error: CodeWorkerError
   title?: string;
+  evaluated: string
 }) {
-  const { error, title = 'ERROR' } = props
+  const { error, title = 'ERROR', evaluated } = props
   return <div>
     <h3>{title}</h3>
     Name: {error.name}<br />
@@ -14,7 +15,7 @@ export function Error(props: {
       {(error.stack || '')}
     </pre>
     Evaluated: <pre>
-      {(error.evaluated || '')}
+      {(evaluated || '')}
     </pre>
   </div>
 }

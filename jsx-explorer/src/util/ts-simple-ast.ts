@@ -12,7 +12,7 @@ export function createProject(files: { fileName: string, content: string }[]): P
         jsx: 'react',
         jsxFactory: 'JSXAlone.createElement'
       } as any
-    })
+    },)
     project.createSourceFile('lib.es5.d.ts', getFile('lib.es5.d.ts'))
     project.createSourceFile('lib.dom.d.ts', getFile('lib.dom.d.ts'))
     project.createSourceFile('index.d.ts', getFile('jsx-alone-core.d.ts'))

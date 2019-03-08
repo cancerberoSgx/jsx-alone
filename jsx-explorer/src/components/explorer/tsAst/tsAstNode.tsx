@@ -1,12 +1,12 @@
-import { Node } from 'ts-simple-ast'
-import { getChildrenForEachChild } from '../../../util/ts-simple-ast'
-import { shorter } from '../../../util/util'
-import { Component } from '../../util/component'
-import { JSXAlone } from 'jsx-alone-dom'
+import { JSXAlone } from 'jsx-alone-dom';
+import { Node } from 'ts-simple-ast';
+import { CodeWorkerResponseJsxAsNode } from '../../../codeWorkerManager';
 import { registerStyle } from '../../../style/styles';
+import { shorter } from '../../../util/util';
+import { Component } from '../../util/component';
 
 interface P {
-  node: Node
+  node: CodeWorkerResponseJsxAsNode
   path?: string
   mode: 'getChildren' | 'forEachChild'
   onShowDetailsOf: (p: string, n: Node) => void
@@ -18,13 +18,12 @@ export class NodeComponent extends Component<P> {
   protected removeChildrenOnUpdate = true
   render() {
     const { node, mode, path = '/', showDetailsOf, onShowDetailsOf, collapsed = false } = this.props
-    const children = mode === 'forEachChild' ? getChildrenForEachChild(node) : node.getChildren()
     return <div data-key={path} className="tsAstExplorerNode">
 
-      <span className="nodeName">{node.getKindName()}</span>
+      <span className="nodeName">{node.kind}</span>
 
       <button className="button is-small" onClick={e => {
-        onShowDetailsOf(path, node)
+        // onShowDetailsOf(path, node)
       }}>!</button>
 
       <button className="button is-small" onClick={e => {
@@ -32,12 +31,12 @@ export class NodeComponent extends Component<P> {
       }}>{collapsed ? '+' : '-'}</button>
 
       {!collapsed && showDetailsOf === path && <div className="nodeInfo content">
-        <strong>Text</strong>: <code>{shorter(node.getText())}</code><br />
-        <strong>Type</strong>: <code>{node.getType().getApparentType().getText()}</code>
+        <strong>Text</strong>: <code>{shorter(node.text)}</code><br />
+        <strong>Type</strong>: <code>{node.type}</code>
       </div>}
 
       {!collapsed && <ul>
-        {children.map((c, i) => <li>
+        {node.children.map((c, i) => <li>
           <NodeComponent node={c} path={path + i} onShowDetailsOf={onShowDetailsOf} mode={mode} showDetailsOf={showDetailsOf} />
         </li>)}
       </ul>}
