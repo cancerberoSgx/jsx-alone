@@ -23,6 +23,7 @@ registerStyle(s)
 export class Editor extends Component<P> {
 
   neverUpdate = true
+  lastTheme: string = 'vs'
 
   render() {
     const { classes } = Styles(s)
@@ -36,8 +37,9 @@ export class Editor extends Component<P> {
       installEditor(this.props.state.editor.code, this.getMonacoTheme(), query('#editorContainer'))
     })
     if (editor) {
-      // always set the theme - we dont know/cant getTheme in monaco to compare
-      monaco.editor.setTheme(this.getMonacoTheme())
+      if(this.props.state.layout.theme.name!==this.lastTheme){
+        monaco.editor.setTheme(this.getMonacoTheme())
+      }
       if (editor.getModel()!.getValue() !== this.props.state.editor.code) {
         console.warn(`strange: editor.getModel()!.getValue()!==this.props.state.editor.code`)
         editor.getModel()!.setValue(this.props.state.editor.code)
@@ -46,8 +48,8 @@ export class Editor extends Component<P> {
   }
 
   private getMonacoTheme(name = this.props.state.layout.theme.name): string {
-    // return 'jsx'
-    return name === 'dark' ? 'vs-dark' : 'vs'
+    this.lastTheme= name === 'dark' ? 'vs-dark' : 'vs'
+    return this.lastTheme
   }
 
 }
