@@ -1,6 +1,7 @@
 import { Classification } from './monaco/extractCodeDecorations';
 import { JsonImplOutputEl } from 'jsx-alone-core';
-import { dispatch } from './main';
+import { dispatch } from './store/store';
+import { COMPILED_ACTION } from './store/compiled';
 
 export interface CodeWorkerResponse {
   version: number
@@ -37,6 +38,12 @@ export interface CodeWorkerResponseJsxAsNode {
   type: string
   text: string
   kind: string
+  start: number,
+  end: number,
+  startColumn: number,
+  startLineNumber: number,
+  endColumn: number,
+  endLineNumber: number,
   children: CodeWorkerResponseJsxAsNode[]
 }
 
@@ -81,7 +88,7 @@ export function postMessage(m: CodeWorkerRequest){
 }
 
 function codeWorkerListener({ data }: { data: CodeWorkerResponse }) {
-  dispatch({type: 'CHANGE_COMPILED', compiled: data})
+  dispatch({type: COMPILED_ACTION.RENDER_COMPILED, payload: {response: data}})
 }
 
 registerWorkerListener(codeWorkerListener)

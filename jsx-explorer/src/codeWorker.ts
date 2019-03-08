@@ -69,6 +69,13 @@ function buildJsxAstNode(n: tsNode, config: CodeWorkerRequestJsxAst): CodeWorker
     kind: n.getKindName(),
     type: 'TODO', //ypeGuards.isSourceFile(n) ? 'SourceFile' : n.getType().getApparentType().getText(),
     text,
+    start: n.getStart(),
+    end: n.getEnd(),
+    startColumn: ts.getLineAndCharacterOfPosition(n.getSourceFile().compilerNode, n.compilerNode.getStart()).character+1,
+    startLineNumber: ts.getLineAndCharacterOfPosition(n.getSourceFile().compilerNode, n.compilerNode.getStart()).line +1,
+    endColumn: ts.getLineAndCharacterOfPosition(n.getSourceFile().compilerNode, n.compilerNode.getEnd()).character + 1,
+    endLineNumber: ts.getLineAndCharacterOfPosition(n.getSourceFile().compilerNode, n.compilerNode.getEnd()).line + 1,
+
     children: children.map(c => buildJsxAstNode(c, config))
   }
   return node

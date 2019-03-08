@@ -1,4 +1,5 @@
-import { CodeWorkerResponse } from '../codeWorkerManager';
+import { CodeWorkerRequest, CodeWorkerRequestJsxAst, CodeWorkerResponse } from '../codeWorkerManager';
+import { AllActions } from './store';
 
 export interface State {
   readonly layout: Layout
@@ -17,6 +18,7 @@ export interface Layout {
 
 export interface Editor {
   readonly code: string
+  readonly version: number
 }
 
 export interface Theme {
@@ -30,7 +32,19 @@ export interface Theme {
 
 type Color = string
 
-export type Compiled =CodeWorkerResponse|{}
-export function isCompiledReady(c: Compiled|undefined): c is CodeWorkerResponse {
-  return !!c && !!Object.keys(c).length
+export interface Compiled{
+  response?: CodeWorkerResponse
+  request?: CodeWorkerRequest
+
+  jsxAstOptions: CodeWorkerRequestJsxAst
 }
+
+
+export interface Saga<T extends AllActions['type']> {
+  type: T
+  /** if an action is returned then it will be dispatched */
+  actionDispatched(action: ActionForType<T>, state: State): AllActions | void
+}
+
+export type ActionForType<T extends AllActions['type']> = AllActions extends infer R ? R extends AllActions ? T extends R['type'] ? R : never : never : never
+

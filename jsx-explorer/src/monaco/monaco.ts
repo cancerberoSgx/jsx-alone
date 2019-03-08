@@ -1,10 +1,11 @@
 import * as monaco from 'monaco-editor'
 import { isDesktop } from '../util/media';
-import { dispatch } from '../main';
 import { throttle } from '../util/debounce'
 import { jsxSyntaxHighlightInstall } from './jsxSyntaxHighlight';
 import { getFile } from '../util/files';
-import { postMessage } from '../codeWorkerManager';
+import { postMessage, CodeWorkerRequest } from '../codeWorkerManager';
+import { dispatch, getState } from '../store/store';
+import { EDITOR_ACTION } from '../store/editor';
 
 export function initMonacoWorkers() {
   if (typeof (self as any).MonacoEnvironment === 'undefined') {
@@ -69,16 +70,15 @@ export function installEditor(code: string, theme: string, containerEl: HTMLElem
   editor.getModel()!.onDidChangeContent(
     throttle(
       (e: monaco.editor.IModelContentChangedEvent) => {
-        code = editor!.getModel()!.getValue()
 
-        postMessage({
-          title: 'main.tsx',
-          code: editor!.getModel()!.getValue(),
-          // Unique identifier to avoid displaying outdated validation
-          version: editor!.getModel()!.getVersionId(),
+        dispatch({
+          type: EDITOR_ACTION.EDITOR_MODEL_CHANGED,
+          payload: {
+            code: editor!.getModel()!.getValue(),
+            version: editor!.getModel()!.getVersionId()
+          }
         })
 
-        dispatch({ type: 'CHANGE_CODE', code })
       }
       , 4000) as any
   )

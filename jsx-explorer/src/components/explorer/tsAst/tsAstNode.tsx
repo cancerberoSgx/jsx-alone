@@ -1,5 +1,4 @@
 import { JSXAlone } from 'jsx-alone-dom';
-import { Node } from 'ts-simple-ast';
 import { CodeWorkerResponseJsxAsNode } from '../../../codeWorkerManager';
 import { registerStyle } from '../../../style/styles';
 import { shorter } from '../../../util/util';
@@ -9,7 +8,7 @@ interface P {
   node: CodeWorkerResponseJsxAsNode
   path?: string
   mode: 'getChildren' | 'forEachChild'
-  onShowDetailsOf: (p: string, n: Node) => void
+  onShowDetailsOf: (p: string, n: CodeWorkerResponseJsxAsNode) => void
   showDetailsOf?: string
   collapsed?: boolean
 }
@@ -23,7 +22,7 @@ export class NodeComponent extends Component<P> {
       <span className="nodeName">{node.kind}</span>
 
       <button className="button is-small" onClick={e => {
-        // onShowDetailsOf(path, node)
+        onShowDetailsOf(path, node)
       }}>!</button>
 
       <button className="button is-small" onClick={e => {

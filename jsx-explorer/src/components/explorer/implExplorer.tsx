@@ -6,7 +6,6 @@ import { evaluate, EvaluateTimes } from '../../util/evaluate'
 import { Error } from '../util/error'
 import { registerStyle } from '../../style/styles'
 import { printMs } from 'jsx-alone-core'
-import { isCompiledReady } from '../../store/types';
 
 interface P extends ExplorerProps {
 }
@@ -35,8 +34,8 @@ export class ImplExplorer extends Component<P> {
   }
 
   render() {
-    const compiled = this.props.compiled
-    if(isCompiledReady(compiled)){
+    const compiled = this.props.compiled.response
+    if(compiled){
       const {result, error, evaluated} = compiled.evaluate
       return <div className="implExplorerContent">
   

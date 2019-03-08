@@ -34,10 +34,10 @@ function dispatchSyntaxHighlight({ data }: { data: CodeWorkerResponse }) {
 
   lastJsxDecorations = editor.deltaDecorations(lastJsxDecorations, decorations)
 
-  if (!jsxSyntaxHighlightEventListenerCalled) {
-    editor.getModel()!.setValue(editor.getModel()!.getValue())
-    jsxSyntaxHighlightEventListenerCalled = true
-  }
+  // if (!jsxSyntaxHighlightEventListenerCalled) {
+  //   editor.getModel()!.setValue(editor.getModel()!.getValue())
+  //   jsxSyntaxHighlightEventListenerCalled = true
+  // }
 }
 
 

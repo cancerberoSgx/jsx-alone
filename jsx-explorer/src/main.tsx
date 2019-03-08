@@ -1,31 +1,20 @@
 import { installJSXAloneAsGlobal } from 'jsx-alone-core'
 import { JSXAlone } from 'jsx-alone-dom'
-import { createStore } from 'redux'
-import { AllActions, reducers } from './store/store'
-import { State } from './store/types'
 import { Main } from './components/main'
 import { initMonacoWorkers } from './monaco/monaco'
-import { installCodeWWorker } from './codeWorkerManager';
+import { installCodeWWorker as installCodeWorker } from './codeWorkerManager';
+import { registerSingleStoreSubscriber } from './store/store';
 
-installCodeWWorker()
+installCodeWorker()
+installJSXAloneAsGlobal(JSXAlone)
+initMonacoWorkers()
 
-const store = createStore(reducers)
 
-store.subscribe(() => {
-  const state = store.getState()
+
+const initialState = registerSingleStoreSubscriber(state => {
   main && main.onStateUpdate( state )
 })
 
-export function getState(): State {
-  return store.getState()
-}
-
-export function dispatch(action: AllActions) {
-  store.dispatch(action)
-}
-
-installJSXAloneAsGlobal(JSXAlone)
-initMonacoWorkers()
-const main = new Main({ state: store.getState() })
+const main = new Main({ state: initialState})
 JSXAlone.render(main.asJSXElement(), { parent: document.body }) as HTMLElement
 JSXAlone.lastEventManager!.onAppendToDom()

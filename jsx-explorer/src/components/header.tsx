@@ -1,6 +1,5 @@
 import { JSXAlone } from 'jsx-alone-dom'
 import { Component } from './util/component'
-import { dispatch } from '../main'
 import { Theme, State } from '../store/types'
 import { darkTheme, lightTheme, allThemes } from '../style/theme'
 import { ForkRibbon } from './content/forkRibbon'
@@ -8,6 +7,8 @@ import { showInModal } from './util/showInModal'
 import { WhatsThis } from './content/whatsThis'
 import { examples } from '../examples/examples'
 import { EditorExplorerMenu } from './editorExplorerMenu'
+import { dispatch } from '../store/store';
+import { EDITOR_ACTION } from '../store/editor';
 
 interface P {
   state: State
@@ -42,7 +43,7 @@ export class Header extends Component<P> {
             <a className="navbar-link">Examples</a>
             <div className="navbar-dropdown">
               {examples.map(example => <a className="navbar-item" onClick={e => {
-                dispatch({ type: 'CHANGE_CODE', code: example.code })
+                dispatch({ type: EDITOR_ACTION.REQUEST_CODE_CHANGE, payload: {code: example.code} })
               }
               }>{example.name}</a>)}
             </div>

@@ -1,15 +1,12 @@
-import { JsonImplOutputEl } from 'jsx-alone-core'
-import { JSXAlone } from 'jsx-alone-dom'
-import { registerStyle } from '../../../style/styles'
-import { escapeHtml, query, queryAll } from '../../../util/util'
-import { evaluate } from '../../../util/evaluate'
-import { Component } from '../../util/component'
-import { showInModal } from '../../util/showInModal'
-import { Node } from './elementExplorerNode'
-import { ExplorerProps } from '../explorers'
-import { Error } from '../../util/error'
+import { JSXAlone } from 'jsx-alone-dom';
+import { registerStyle } from '../../../style/styles';
 import { height } from '../../../util/media';
-import { isCompiledReady } from '../../../store/types';
+import { escapeHtml, queryAll } from '../../../util/util';
+import { Component } from '../../util/component';
+import { Error } from '../../util/error';
+import { showInModal } from '../../util/showInModal';
+import { ExplorerProps } from '../explorers';
+import { Node } from './elementExplorerNode';
 
 interface P extends ExplorerProps {
 }
@@ -32,8 +29,8 @@ registerStyle(`
 export class ElementExplorer extends Component<P> {
 
   render() {
-    const compiled = this.props.compiled
-    if(isCompiledReady(compiled)){
+    const compiled = this.props.compiled.response
+    if(compiled){
       const {error, result, evaluated} =  compiled.evaluate
       return <div className="explorer">
       {!error && result && <Node node={result} onShowHtml={html => showInModal(<ElementNodeHtmlCodeModal html={html}/>, 'HTML')}></Node>}
