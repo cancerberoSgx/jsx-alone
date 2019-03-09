@@ -3,7 +3,14 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": ".", 
-    "lib": ["es5"]
+    "lib": ["es5", "dom"],
+    "jsx": "react",
+    "jsxFactory": "JSXAlone.createElement",
   },
   "include":["src"],
+  "references": [
+    {
+      "path": "../jsx-alone-dom"
+    },
+  ]
 }

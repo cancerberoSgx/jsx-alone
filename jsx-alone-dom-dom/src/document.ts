@@ -12,14 +12,26 @@ export class Document extends Node {
   createElement(t: string) {
     return new Element(t);
   }
+  createTextNode(content: string) {
+    return new TextNode(content)
+  }
 }
+
 class HeadElement extends Element {
   constructor(public readonly tagName: string) {
     super(tagName);
   }
 }
+
 class BodyElement extends Element {
   constructor(public readonly tagName: string) {
     super(tagName);
+  }
+}
+
+
+class TextNode extends Node {
+  constructor(protected readonly content: string) {
+    super(Node.TEXT_NODE)
   }
 }

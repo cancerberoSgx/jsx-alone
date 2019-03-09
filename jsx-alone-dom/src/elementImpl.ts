@@ -25,6 +25,7 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
     const dontUpdate = config.updateExisting && this._elementClassInstance && this._elementClassInstance.neverUpdate
 
     const el = config.updateExisting || config.rootHTMLElement || this.buildRootElement(config)
+    console.log('log1');
 
     if (!dontUpdate) {
 
@@ -72,23 +73,24 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
         })
       }
       if (config.parent && !config.updateExisting) {
+        
         config.parent.appendChild(el)
       }
-
+      
       if (this.ref) {
         setRef({ elementLike: this as any, el, value: this.ref as RefObjectImpl<any> })
       }
     }
-
+    
     const elementClassWithContainer = this._elementClassInstance || config.rootElementLike._elementClassInstance
-
+    
     if (elementClassWithContainer) {
       (elementClassWithContainer as any)._eventManager = config.eventManager
       if (this._elementClassInstance) {
         this._elementClassInstance.afterRender(el)
       }
     }
-
+    
     return el
   }
 

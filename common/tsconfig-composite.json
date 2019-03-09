@@ -30,6 +30,9 @@
     },
     {
       "path": "../strip-typescript-output"
+    },
+    {
+      "path": "../jsx-alone-dom-dom"
     }
   ],
 }
