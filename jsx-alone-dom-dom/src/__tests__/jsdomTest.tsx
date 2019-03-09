@@ -5,7 +5,7 @@
  import { fromHtml } from './testUtil';
 import { MDocument } from '../document';
 import { MNode } from '../node';
-import { nodeTypes } from '../util';
+import { nodeTypes, nodeTexts } from '../util';
 
 test('use jsdom in this test file', () => {
   const element = document.createElement('div');
@@ -33,4 +33,10 @@ test('should be able to use jsdom innerHtml to create MNodes', () => {
   expect(nodeTypes(document.body)).toEqual([1, 1, 3, 1, 3])
   const n = fromHtml(html, doc)
   expect(nodeTypes(n)).toEqual([1, 1, 3, 1, 3])
+
+  const jsdom = nodeTexts(document.body)
+  const ours = nodeTexts(n)
+  expect(jsdom).toEqual(ours)
+
+
 });

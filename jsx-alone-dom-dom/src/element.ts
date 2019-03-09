@@ -1,5 +1,5 @@
 import { MNode } from './node';
-import { visitChildNodes } from './util';
+import { visitChildNodes, mapChildNodes } from './util';
 
 export class MElement extends MNode {
 
@@ -11,9 +11,9 @@ export class MElement extends MNode {
   }
 
   get textContent(): string|null{
-    return this._textContent
-    // return visitChildNodes
+    return !this.childNodes || this.childNodes.length===0 ? '' : Array.from(this.childNodes||[]).map( c=>c.textContent).join('')
   }
+  
   set textContent(c:string|null){
   this._textContent=c
   }
