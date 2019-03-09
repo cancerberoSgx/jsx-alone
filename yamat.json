@@ -42,5 +42,9 @@
     {
         "name": "jsx-explorer",
         "path": "./jsx-explorer"
-    }
+    },
+    {
+        "name": "jsx-alone-dom-dom",
+        "path": "./jsx-alone-dom-dom"
+    },
 ]

@@ -1,13 +1,17 @@
-import {Document} from '../document'
-import { checkNoDom } from './testUtil';
+import { MDocument } from '../document'
+import { install } from '../install';
+import { testNoDom, expectNoDom } from './testUtil';
 
 describe('jsx-alone-dom', () => {
-  checkNoDom()
+  beforeAll(() => {
+    expectNoDom()
+    install()
+  })
   it('watermark', () => {
-    expect(Document._WATERMARK).toBe('jsx-alone-dom-dom')
+    expect(MDocument._WATERMARK).toBe('jsx-alone-dom-dom')
   })
   it('should render', () => {
-    const d = new Document()
+    const d = new MDocument()
     expect(d.head.tagName).toBe('head')
   })
 })

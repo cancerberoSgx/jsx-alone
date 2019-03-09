@@ -1,4 +1,4 @@
-interface EventTarget {
+interface MIEventTarget {
   addEventListener(type: string, listener: EventListener | null, options?: boolean | AddEventListenerOptions): void;
   removeEventListener(type: string, callback: EventListener | null, options?: EventListenerOptions | boolean): void;
 }
@@ -13,11 +13,11 @@ interface EventListener {
   (evt: Event): void;
 }
 interface Event {
-  readonly currentTarget: EventTarget | null;
-  readonly target: EventTarget | null;
+  readonly currentTarget: MIEventTarget | null;
+  readonly target: MIEventTarget | null;
   readonly type: string;
 }
-export class EventTargetImpl implements EventTarget {
+export class MEventTarget implements MIEventTarget {
   addEventListener(type: string, listener: EventListener | null, options?: boolean | AddEventListenerOptions): void {
     throw 'not implemented';
   }

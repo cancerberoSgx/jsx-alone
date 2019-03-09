@@ -1,12 +1,12 @@
-import { getGlobal } from './__tests__/util';
-import { Document } from './document';
-import { Node } from './node';
+import { getGlobal } from './util';
+import { MDocument } from './document';
+import { MNode } from './node';
 
 export function install() {
   const g = getGlobal()
-  const document = new Document()
+  const document = new MDocument()
   g.document = document
-  g.Node = Node
+  g.Node = MNode
 }
 
 export function uninstall() {

@@ -1,37 +1,32 @@
-import { Node } from './node';
-import { Element } from './element';
+import { MNode } from './node';
+import { MElement } from './element';
+import { MTextNode } from './text';
 
-export class Document extends Node {
+export class MDocument extends MNode {
   constructor() {
-    super(Node.DOCUMENT_TYPE_NODE);
-    this.head = new HeadElement('head');
-    this.body = new BodyElement('body');
+    super(MNode.DOCUMENT_TYPE_NODE);
+    this.head = new MHeadElement('head');
+    this.body = new MBodyElement('body');
   }
-  head: HeadElement;
-  body: BodyElement;
+  head: MHeadElement;
+  body: MBodyElement;
   createElement(t: string) {
-    return new Element(t);
+    return new MElement(t);
   }
   createTextNode(content: string) {
-    return new TextNode(content)
+    return new MTextNode(content)
   }
 }
 
-class HeadElement extends Element {
+class MHeadElement extends MElement {
   constructor(public readonly tagName: string) {
     super(tagName);
   }
 }
 
-class BodyElement extends Element {
+class MBodyElement extends MElement {
   constructor(public readonly tagName: string) {
     super(tagName);
   }
 }
 
-
-class TextNode extends Node {
-  constructor(protected readonly content: string) {
-    super(Node.TEXT_NODE)
-  }
-}

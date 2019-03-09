@@ -25,7 +25,6 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
     const dontUpdate = config.updateExisting && this._elementClassInstance && this._elementClassInstance.neverUpdate
 
     const el = config.updateExisting || config.rootHTMLElement || this.buildRootElement(config)
-    console.log('log1');
 
     if (!dontUpdate) {
 
