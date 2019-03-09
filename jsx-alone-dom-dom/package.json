@@ -1,0 +1,52 @@
+{
+  "name": "jsx-alone-dom-dom",
+  "version": "0.0.1",
+  "description": "A minimal DOM implementation that jsx-alone-dom supports",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "typings": "dist/src/index.d.ts",
+  "source": true,
+  "scripts": {
+    "build": "npx tsc",
+    "build-watch": "npx tsc -w",
+    "test": "npx jest --testRegex \"/__tests__/.*\\.*Test\\.[t]sx?$\" ",
+    "test-js": "npx tsc && npx jest --passWithNoTests --testMatch \"**/dist/**/__tests__/**/*.js\"",
+    "test-clean": "npx jest --clearMocks",
+    "test-debug": "node --inspect-brk node_modules/.bin/jest --runInBand --no-cache --clearMocks",
+    "test-watch": "npm test -- --watch",
+    "clean": "rm -rf build/ dist/  ",
+    "all": "npm run clean && npm run build",
+    "prepare": "npm run build && npx shx rm -rf dist/**/__tests__",
+    "docs": "exit 0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/jest": "^24.0.6",
+    "@types/node": "^10.12.18",
+    "jest": "^24.1.0",
+    "jsx-alone-dom": "file:../jsx-alone-dom",
+    "shx": "^0.3.2",
+    "ts-jest": "^24.0.0",
+    "tslint": "^5.13.1",
+    "typescript": "^3.2.2"
+  },
+  "author": "Sebastian Gurin",
+  "license": "MIT",
+  "homepage": "https://github.com/cancerberoSgx/jsx-alone",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cancerberoSgx/jsx-alone.git"
+  },
+  "keywords": [
+    "without react",
+    "TypeScript",
+    "JavaScript",
+    "JSX",
+    "TSX",
+    "React"
+  ],
+  "jest": {
+    "preset": "ts-jest",  
+    "testEnvironment": "node"
+  }
+}
