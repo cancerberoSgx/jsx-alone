@@ -5,11 +5,13 @@ export interface State {
   readonly layout: Layout
   readonly editor: Editor
   readonly compiled: Compiled
-  status: Status
+  readonly options: Options
 }
 
-export interface Status {
-  logs: string[]
+export interface Options {
+  readonly logs: string[]
+  readonly autoApply: boolean
+  
 }
 
 export interface Layout {
@@ -55,7 +57,7 @@ export type ActionForType<T extends AllActions['type']> = AllActions extends inf
 
 import { Classification } from '../codeWorker/extractCodeDecorations';
 import { JsonImplOutputEl } from 'jsx-alone-core';
-const compileTypes = 1;
+
 export interface CodeWorkerResponse {
   version: number;
   jsxSyntaxHighLight: {
@@ -67,6 +69,11 @@ export interface CodeWorkerResponse {
     evaluated: string;
   };
   jsxAst: CodeWorkerResponseJsxAst;
+  totalTime: number
+}
+export interface EvaluateTimes {
+  eval?: number
+  render?: number
 }
 export interface CodeWorkerResponseJsxAst {
   diagnostics: CodeWorkerResponseJsxAstDiagnostic[];

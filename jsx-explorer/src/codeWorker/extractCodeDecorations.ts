@@ -11,6 +11,7 @@ export interface Classification {
   startLine: number
   endLine: number
 }
+
 export function extractCodeDecorations(code: string, title='main.tsx' ) {
   const classifications: Classification[] = [];
   const sourceFile = ts.createSourceFile(title, code, ts.ScriptTarget.ES2016, true);
@@ -35,7 +36,8 @@ function nodeToRange(node: ts.Node) {
     typeof node.getEnd === 'function'
   ) {
     return [node.getStart(), node.getEnd()]
-  } else if (
+  } 
+  else if (
     typeof node.pos !== 'undefined' &&
     typeof node.end !== 'undefined'
   ) {

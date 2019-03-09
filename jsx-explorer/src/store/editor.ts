@@ -14,7 +14,7 @@ export enum EDITOR_ACTION {
   EDITOR_MODEL_CHANGED = 'EDITOR_MODEL_CHANGED',
 }
 
-export const changeCode: Reducer<Editor, RequestCodeChangeAction|EditorModelChangedAction> = (state = initialState, action) => {
+export const changeCode: Reducer<Editor, RequestCodeChangeAction | EditorModelChangedAction> = (state = initialState, action) => {
   switch (action.type) {
     case EDITOR_ACTION.REQUEST_CODE_CHANGE:
       return { ...state, ...action.payload }
@@ -44,15 +44,17 @@ export const editorModelChangedSaga: Saga<EDITOR_ACTION.EDITOR_MODEL_CHANGED> = 
   // after EDITOR_MODEL_CHANGED we request the codeWorker to compile (when it's done a codeWorker listener will dispatch  RENDER_COMPILED)
   type: EDITOR_ACTION.EDITOR_MODEL_CHANGED,
   actionDispatched(action, state) {
-    const m: CodeWorkerRequest = {
-      title: 'main.tsx',
-      ...action.payload,
-      jsxAst: {
-        mode: state.compiled.jsxAstOptions.mode,
-        showDiagnostics: state.compiled.jsxAstOptions.showDiagnostics
+    if (state.options.autoApply) {
+      const m: CodeWorkerRequest = {
+        title: 'main.tsx',
+        ...action.payload,
+        jsxAst: {
+          mode: state.compiled.jsxAstOptions.mode,
+          showDiagnostics: state.compiled.jsxAstOptions.showDiagnostics
+        }
       }
+      postMessage(m)
     }
-    postMessage(m)
   }
 }
 

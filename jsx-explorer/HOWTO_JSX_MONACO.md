@@ -50,66 +50,19 @@ See it working: https://cancerberosgx.github.io/jsx-alone/jsx-explorer/
 
 ## Syntax Highlight
 
-Implemented in [monacoJsxSyntaxHighlight.ts](src/util/monacoJsxSyntaxHighlight.ts) and [monacoJsxSyntaxHighlightWorker.js](src/util/monacoJsxSyntaxHighlightWorker.js)
+Implemented in [jsxSyntaxHighlight.ts](src/monaco/jsxSyntaxHighlight.ts) and [extractCodeDecorations.js](src/codeWorker/extractCodeDecorations.ts)
 
 Mostly followed description in https://blog.expo.io/building-a-code-editor-with-monaco-f84b3a06deaf
 
-Implemented in files: 
-
-### [monacoJsxSyntaxHighlight.ts](src/util/monacoJsxSyntaxHighlight.ts)
+### [jsxSyntaxHighlight.ts](src/monaco/jsxSyntaxHighlight.ts)
 
  * Installs the worker (see below)
  * calls the worker each time the editor model's changes
  * Parses worker information and calls `monaco.editor.deltaDecorations()` to install decorations. This will end up adding HTML classes in DOM for each token
  * Adds some CSS styles for each token class, for both kind of monaco themes : vs and vs-dark
  
-### [monacoJsxSyntaxHighlightWorker.js](src/util/monacoJsxSyntaxHighlightWorker.js)
+### [extractCodeDecorations.js](src/codeWorker/extractCodeDecorations.ts)
 
- * parses TypeScript code using TypeScript compiler, search for JSX-related Nodes and returns information regarding each node found in given code and its location in the source
-
-
+ * web worker that parses JSX code using TypeScript compiler, search for JSX-related Nodes and returns information regarding each node found in given code and its location in the source
 
 
-
-
-
-<!-- 
-monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
-    target: monaco.languages.typescript.ScriptTarget.ES2016,
-    allowNonTsExtensions: true,
-    moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
-    module: monaco.languages.typescript.ModuleKind.CommonJS,
-    noEmit: true,
-    typeRoots: ["node_modules/@types"],
-    jsx: monaco.languages.typescript.JsxEmit.React,
-    jsxFactory: 'React.createElement',
-    lib: ['dom']
-})
-
-
-monaco.editor.createModel(`declare var React:{createElement(...args: any[]): Element}`, "typescript", monaco.Uri.parse("file:///declarations.d.ts"))
-
-monaco.editor.defineTheme('myCoolTheme', {
-	base: 'vs',
-	inherit: true,
-	rules: [
-		{ token: 'identifier', foreground: '999999' },
-		{ token: 'string', foreground: '999999' },
-		{ token: 'delimiter', foreground: 'ff0000', fontStyle: 'bold' },
-	]
-});
-const code =  `
-const foo = 1 
-const ffp = <p id="sdfsdfsdf"> hello world</p> 
-`
-monaco.editor.create(document.getElementById("container"), {
-    model: monaco.editor.createModel(code, "typescript", monaco.Uri.parse("file:///main.tsx")),
-	theme: 'myCoolTheme',
-	language: 'typescript'
-});
-
-
-async function main(){
-      let fetchedSourceImage = await fetch(url)
-  let arrayBuffer = await fetchedSourceImage.arrayBuffer()
-}  -->

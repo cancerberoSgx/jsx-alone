@@ -16,10 +16,10 @@ const globals: any = {
   }
 }
 
-
 export function getExample(name: string) {
   return examples.find(f => f.name === name)!.code
 }
+
 export const examples: Example[] = Object.values(examplesPacked).filter(f => f.fileName).map(f => {
   const name = f.fileName.substring('src/examples/toPack/'.length, f.fileName.length - 4)
   const g = globals[name]
@@ -34,7 +34,11 @@ function fixCode(s: string, globals: any = {}) {
   const lines = s.split('\n')
   const i = lines.findIndex(l => l.includes('function'))
   const code = `
-import { JSXAlone } from '.'
+// Although you can import types from '.', only the the following implementations 
+// are available in this examples:
+
+import {JSXAlone, JSXAloneDom, JSXAloneString, JSXAloneJson, 
+  ElementClassDom, ElementClassJson, ElementClassString } from '.'
 
 function test() {
 ${Object.keys(globals).map(g => `  const ${g} = ${globals[g]};`).join('\n')}
@@ -42,4 +46,3 @@ ${Object.keys(globals).map(g => `  const ${g} = ${globals[g]};`).join('\n')}
 `.trim()
   return code
 }
-

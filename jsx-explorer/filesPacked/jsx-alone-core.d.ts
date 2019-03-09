@@ -1,3 +1,221 @@
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved. 
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0  
+ 
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE, 
+MERCHANTABLITY OR NON-INFRINGEMENT. 
+ 
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+
+
+interface CSSRuleList {
+    [Symbol.iterator](): IterableIterator<CSSRule>;
+}
+
+interface CSSStyleDeclaration {
+    [Symbol.iterator](): IterableIterator<string>;
+}
+
+interface ClientRectList {
+    [Symbol.iterator](): IterableIterator<ClientRect>;
+}
+
+interface DOMRectList {
+    [Symbol.iterator](): IterableIterator<DOMRect>;
+}
+
+interface DOMStringList {
+    [Symbol.iterator](): IterableIterator<string>;
+}
+
+interface DOMTokenList {
+    [Symbol.iterator](): IterableIterator<string>;
+    entries(): IterableIterator<[number, string]>;
+    keys(): IterableIterator<number>;
+    values(): IterableIterator<string>;
+}
+
+interface DataTransferItemList {
+    [Symbol.iterator](): IterableIterator<DataTransferItem>;
+}
+
+interface FileList {
+    [Symbol.iterator](): IterableIterator<File>;
+}
+
+interface FormData {
+    [Symbol.iterator](): IterableIterator<[string, FormDataEntryValue]>;
+    /**
+     * Returns an array of key, value pairs for every entry in the list.
+     */
+    entries(): IterableIterator<[string, FormDataEntryValue]>;
+    /**
+     * Returns a list of keys in the list.
+     */
+    keys(): IterableIterator<string>;
+    /**
+     * Returns a list of values in the list.
+     */
+    values(): IterableIterator<FormDataEntryValue>;
+}
+
+interface HTMLAllCollection {
+    [Symbol.iterator](): IterableIterator<Element>;
+}
+
+interface HTMLCollectionBase {
+    [Symbol.iterator](): IterableIterator<Element>;
+}
+
+interface HTMLCollectionOf<T extends Element> {
+    [Symbol.iterator](): IterableIterator<T>;
+}
+
+interface Headers {
+    [Symbol.iterator](): IterableIterator<[string, string]>;
+    /**
+     * Returns an iterator allowing to go through all key/value pairs contained in this object.
+     */
+    entries(): IterableIterator<[string, string]>;
+    /**
+     * Returns an iterator allowing to go through all keys of the key/value pairs contained in this object.
+     */
+    keys(): IterableIterator<string>;
+    /**
+     * Returns an iterator allowing to go through all values of the key/value pairs contained in this object.
+     */
+    values(): IterableIterator<string>;
+}
+
+interface MediaList {
+    [Symbol.iterator](): IterableIterator<string>;
+}
+
+interface MimeTypeArray {
+    [Symbol.iterator](): IterableIterator<Plugin>;
+}
+
+interface NamedNodeMap {
+    [Symbol.iterator](): IterableIterator<Attr>;
+}
+
+interface NodeList {
+    [Symbol.iterator](): IterableIterator<Node>;
+    /**
+     * Returns an array of key, value pairs for every entry in the list.
+     */
+    entries(): IterableIterator<[number, Node]>;
+    /**
+     * Returns an list of keys in the list.
+     */
+    keys(): IterableIterator<number>;
+    /**
+     * Returns an list of values in the list.
+     */
+    values(): IterableIterator<Node>;
+}
+
+interface NodeListOf<TNode extends Node> {
+    [Symbol.iterator](): IterableIterator<TNode>;
+    /**
+     * Returns an array of key, value pairs for every entry in the list.
+     */
+    entries(): IterableIterator<[number, TNode]>;
+    /**
+     * Returns an list of keys in the list.
+     */
+    keys(): IterableIterator<number>;
+    /**
+     * Returns an list of values in the list.
+     */
+    values(): IterableIterator<TNode>;
+}
+
+interface Plugin {
+    [Symbol.iterator](): IterableIterator<MimeType>;
+}
+
+interface PluginArray {
+    [Symbol.iterator](): IterableIterator<Plugin>;
+}
+
+interface RTCStatsReport extends ReadonlyMap<string, any> {
+}
+
+interface SVGLengthList {
+    [Symbol.iterator](): IterableIterator<SVGLength>;
+}
+
+interface SVGNumberList {
+    [Symbol.iterator](): IterableIterator<SVGNumber>;
+}
+
+interface SVGStringList {
+    [Symbol.iterator](): IterableIterator<string>;
+}
+
+interface SourceBufferList {
+    [Symbol.iterator](): IterableIterator<SourceBuffer>;
+}
+
+interface SpeechGrammarList {
+    [Symbol.iterator](): IterableIterator<SpeechGrammar>;
+}
+
+interface SpeechRecognitionResult {
+    [Symbol.iterator](): IterableIterator<SpeechRecognitionAlternative>;
+}
+
+interface SpeechRecognitionResultList {
+    [Symbol.iterator](): IterableIterator<SpeechRecognitionResult>;
+}
+
+interface StyleSheetList {
+    [Symbol.iterator](): IterableIterator<StyleSheet>;
+}
+
+interface TextTrackCueList {
+    [Symbol.iterator](): IterableIterator<TextTrackCue>;
+}
+
+interface TextTrackList {
+    [Symbol.iterator](): IterableIterator<TextTrack>;
+}
+
+interface TouchList {
+    [Symbol.iterator](): IterableIterator<Touch>;
+}
+
+interface URLSearchParams {
+    [Symbol.iterator](): IterableIterator<[string, string]>;
+    /**
+     * Returns an array of key, value pairs for every entry in the search params.
+     */
+    entries(): IterableIterator<[string, string]>;
+    /**
+     * Returns a list of keys in the search params.
+     */
+    keys(): IterableIterator<string>;
+    /**
+     * Returns a list of values in the search params.
+     */
+    values(): IterableIterator<string>;
+}
+
+interface VideoTrackList {
+    [Symbol.iterator](): IterableIterator<VideoTrack>;
+}
+
+
+
+
+
 export interface StandardLonghandProperties<TLength = string | 0> {
   alignContent?: AlignContentProperty;
   alignItems?: AlignItemsProperty;
@@ -5568,7 +5786,7 @@ export interface JSXAloneAttrs<ClassName extends string = string> {
   className?: ClassName | ClassName[]
 }
 
-export interface IElementClass<P= {}> {
+export interface IElementClassCore<P= {}> {
   props: ElementClassProps<P>
   asJSXElement(): JSX.Element
   render(): JSX.Element
@@ -5584,13 +5802,13 @@ export type JSXAloneElement = any
 
 export type ElementLikeProps<P> = ( Readonly<{ children?: ReactNode}>&Readonly<P> )
 
-export type ElementConstructor<T> = (props: ElementLikeProps<T>) => ElementLike<ElementLikeProps<T>>
+export type ElementConstructor<T> = (props: ElementLikeProps<T>) => ElementLikeDom<ElementLikeProps<T>>
 
 export type Tag<P> =  ((props: P) => JSX.Element)|( new (props: P) => JSX.Element)
 
 export type ElementClassProps<T> = ElementLikeProps<T>
 
-export type ElementClassConstructor<T> = new(props: ElementClassProps<T>) => IElementClass
+export type ElementClassConstructor<T> = new(props: ElementClassProps<T>) => IElementClassCore
 
 export interface JSXAloneComponent {
   new(props: JSXAloneProps): JSXAloneComponent
@@ -5601,8 +5819,8 @@ export type JSXAloneFunction = (props: JSXAloneProps) => JSXAloneElement
 
 export type JSXAloneTag = string | JSXAloneComponent | JSXAloneFunction
 
-export interface NodeLike<T, R extends ElementLike<T> = ElementLike<T>> {
-  render(config?: RenderConfig<T, R>): T
+export interface NodeLike<T, R extends ElementLikeDom<T> = ElementLikeDom<T>> {
+  render(config?: RenderConfigDom): T
 }
 
 export interface TextNodeLike<T> extends NodeLike<T> {
@@ -5618,7 +5836,7 @@ export interface BaseElementLike<T> extends NodeLike<T> {
   dangerouslySetInnerHTML(s: string): void
   appendChild(c: NodeLike<T>): void
   replaceChild(i: number, c: NodeLike<T>): void
-  parentElement?: ElementLike<T>
+  parentElement?: ElementLikeDom<T>
   // destroy: ()=>void
   // findDescendant(p: Predicate<T>): ElementLike<T> | undefined
   // findAscendant(p: Predicate<T>): ElementLike<T> | undefined
@@ -5629,42 +5847,7 @@ export interface BaseElementLike<T> extends NodeLike<T> {
   // find(p: Predicate<T>): NodeLike<T> | undefined
 }
 
-export interface JSXAlone<T, R extends ElementLike<T> = ElementLike<T>> {
-  createElement(tag: JSXAloneTag, attrs: JSXAloneAttrs, ...children: JSXAloneChild[]): R
-  updateElement(element: R,   tag: JSXAloneTag, attrs: JSXAloneAttrs<string>, children: any[], create?: boolean): void
-  render(el: JSX.Element, config?: RenderConfig<T, R>): T
-}
-
-export interface RenderConfig<T, R extends ElementLike<T> = ElementLike<T>> {
-
-}
-
-
-// export interface NodeLike<T extends RenderOutput = RenderOutput> extends BaseNodeLike<T> {
-// }
-export interface ElementLike<T extends RenderOutput = RenderOutput> extends BaseElementLike<T>, NodeLike<T> {
-    _elementClassInstance?: IElementClass;
-    ref?: RefObject<IElementClass & Element>;
-    buildRootElement(config: ElementLikeImplRenderConfig<ElementLike>): HTMLElement;
-    render(config?: ElementLikeImplRenderConfig): T;
-}
-// export interface TextNodeLike extends BaseTextNodeLike<RenderOutput> {
-// }
-// export interface IElementClass<P = {}> extends ICoreElementClass<P> {
-//     afterRender(containerEl: HTMLElement): void;
-//     readonly eventManager?: RootEventManager;
-//     neverUpdate: boolean;
-// }
-export declare type RenderOutput = HTMLElement | Text;
-export interface ElementLikeImplRenderConfigNoRoot<R extends ElementLike = ElementLike> extends RenderConfig<RenderOutput, R> {
-    parent?: Node;
-    debug?: boolean;
-    updateExisting?: HTMLElement;
-}
-export interface ElementLikeImplRenderConfig<R extends ElementLike = ElementLike> extends ElementLikeImplRenderConfigNoRoot<R> {
-    rootElementLike: ElementLike;
-}
-export interface HandleAttributeOptions<R extends ElementLike = ElementLike> {
+export interface HandleAttributeOptions<R extends ElementLikeDom = ElementLikeDom> {
     config: ElementLikeImplRenderConfig<R>;
     el: HTMLElement;
     attribute: string;
@@ -5681,21 +5864,147 @@ export interface EventManager {
 
 
 
-export declare type CreateElementFunction<T, R= ElementLike<T>> = (
+export declare type CreateElementFunction<T, R= ElementLikeDom<T>> = (
   tag: JSXAloneTag,
   attrs?: JSXAloneAttrs<string> | undefined,
   ...children: any[]
 ) => R
 
-// export declare type RenderOutput = HTMLElement | Text;
-
-declare type RenderFunction<OO extends RenderOutput = RenderOutput, R extends ElementLike = ElementLike> = (el: JSX.Element, config?: ElementLikeImplRenderConfigNoRoot<R>) => OO;
-interface JSXAloneType<T extends RenderOutput = RenderOutput, R extends ElementLike = ElementLike> {
+declare type RenderFunction<OO extends RenderOutputDom = RenderOutputDom, R extends ElementLikeDom = ElementLikeDom> = (el: JSX.Element, config?: ElementLikeImplRenderConfigNoRoot<R>) => OO;
+interface JSXAloneType<T extends RenderOutputDom = RenderOutputDom, R extends ElementLikeDom = ElementLikeDom> {
     render: RenderFunction<T, R>;
     createElement: CreateElementFunction<T, R>;
     updateElement<T, R>(element: R, tag: JSXAloneTag, attrs: JSXAloneAttrs<string>, children: any[], create?: boolean): void;
     createRef<T>(): RefObject<T>;
     lastEventManager?: EventManager;
 }
-// export declare function getCreateCreateElementConfig(): CreateCreateElementConfig<RenderOutput, ElementLike<RenderOutput>, ElementClass<{}>>;
-export declare const JSXAlone: JSXAloneType<RenderOutput, ElementLike>
+
+
+// CORE
+
+
+export interface RenderConfigCore<T, R extends ElementLikeCore<T> = ElementLikeCore<T>> {
+}
+export interface NodeLikeCore<T, R extends ElementLikeCore<T> = ElementLikeCore<T>> {
+    render(config?: RenderConfigCore<T, R>): T;
+}
+export interface ElementLikeCore<T> extends NodeLikeCore<T> {
+    tag: string;
+    attrs: {
+        [name: string]: any;
+    };
+    children: NodeLike<T>[];
+    setAttribute(name: string, value: string): void;
+    dangerouslySetInnerHTML(s: string): void;
+    appendChild(c: NodeLike<T>): void;
+    replaceChild(i: number, c: NodeLike<T>): void;
+    parentElement?: ElementLikeDom<T>;
+}
+export declare const JSXAloneCore: JSXAloneType<RenderOutputDom, ElementLikeDom>
+
+export const JSXAlone: JSXAloneType<RenderOutputDom, ElementLikeDom>
+
+export interface IElementClassCore<P = {}> {
+    props: ElementClassProps<P>;
+    asJSXElement(): JSX.Element;
+    render(): JSX.Element;
+}
+export declare abstract class ElementClassCore<P = {}> implements IElementClassCore<P> {
+    protected _props: P;
+    constructor(_props: P);
+    readonly props: P;
+    abstract render(): JSX.Element;
+    asJSXElement(): JSX.Element;
+}
+
+
+// DOM 
+
+
+export interface ElementLikeImplRenderConfigNoRoot<R extends ElementLikeDom = ElementLikeDom> extends RenderConfigCore<RenderOutputDom, R> {
+    parent?: Node
+    debug?: boolean
+    updateExisting?: HTMLElement
+  }
+  
+  export interface ElementLikeImplRenderConfig<R extends ElementLikeDom = ElementLikeDom> extends ElementLikeImplRenderConfigNoRoot<R> {
+    rootElementLike: ElementLikeDom
+  }
+
+export declare abstract class ElementClassDom<P = {}> extends ElementClassCore<P> implements IElementClassCore<P> {
+    protected _eventManager?: EventManager;
+    neverUpdate: boolean;
+    readonly eventManager: EventManager | undefined;
+    afterRender(containerEl: HTMLElement): void
+}
+export interface JSXAloneDom<T, R extends ElementLikeDom<T> = ElementLikeDom<T>> {
+  createElement(tag: JSXAloneTag, attrs: JSXAloneAttrs, ...children: JSXAloneChild[]): R
+  updateElement(element: R,   tag: JSXAloneTag, attrs: JSXAloneAttrs<string>, children: any[], create?: boolean): void
+  render(el: JSX.Element, config?: RenderConfigDom): T
+}
+interface RenderConfigDom extends ElementLikeImplRenderConfigNoRoot<ElementLikeDom> {}
+
+
+export interface ElementLikeDom<T extends RenderOutputDom = RenderOutputDom> extends BaseElementLike<T>, NodeLike<T> {
+    _elementClassInstance?: IElementClassCore;
+    ref?: RefObject<IElementClassCore & Element>;
+    buildRootElement(config: ElementLikeImplRenderConfig<ElementLikeDom>): HTMLElement;
+    render(config?: ElementLikeImplRenderConfig): T;
+}
+export declare type RenderOutputDom = HTMLElement | Text;
+
+
+export interface ElementLikeImplRenderConfigDom<R extends ElementLikeDom = ElementLikeDom> extends ElementLikeImplRenderConfigNoRoot<R> {
+    debug?: boolean;
+    updateExisting?: HTMLElement;
+    rootElementLike: ElementLikeDom;
+}
+
+
+
+// STRING
+
+export declare abstract class ElementClassString<P = {}> extends ElementClassCore<P> {
+}
+
+export interface ElementLikeString extends ElementLikeCore<string> {
+}
+export interface JSXAloneStringConfig extends RenderConfigCore<string, ElementLikeString> {
+    indent?: boolean;
+    indentLevel?: number;
+    indentTabSize?: number;
+}
+export declare const JSXAloneString: JSXAloneType<string> & {
+    render(el: JSX.Element, config?: JSXAloneStringConfig): string;
+};
+
+
+
+
+// JSON impl
+
+export interface JsonImplOutputEl {
+    tag: string;
+    attrs: {
+        [name: string]: any;
+    };
+    children: JsonImplOutput[];
+    innerHtml: string | undefined;
+}
+export interface JSONImplOutputText {
+    content?: string | number | boolean | null | undefined;
+}
+export declare type JsonImplOutput = JsonImplOutputEl | JSONImplOutputText;
+export interface JsonImplRenderConfig extends RenderConfigCore<JsonImplOutput> {
+}
+export declare interface ElementLikeJson  extends BaseElementLike<JsonImplOutput> {
+//     innerHtml: string | undefined;
+//     render(config?: JsonImplRenderConfig): JsonImplOutput;
+//     dangerouslySetInnerHTML(s: string): void;
+}
+export declare abstract class ElementClassJson<P = {}> extends ElementClassCore<P> {
+}
+
+export declare const JSXAloneJson: JSXAloneType<any>;
+
+export declare function renderWithImpl<T>(fn: ()=> JSX.Element, impl: 'json' | 'dom' | 'string', config?: any): T 

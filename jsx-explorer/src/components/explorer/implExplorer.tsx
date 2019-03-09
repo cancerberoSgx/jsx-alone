@@ -5,7 +5,7 @@ import { escapeHtml, query } from '../../util/util'
 import { Error } from '../util/error'
 import { registerStyle } from '../../style/styles'
 import { printMs } from 'jsx-alone-core'
-import { EvaluateTimes } from '../../util/evaluateOnly';
+import { EvaluateTimes } from '../../store/types';
 
 interface P extends ExplorerProps {
 }

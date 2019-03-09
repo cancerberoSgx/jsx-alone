@@ -78,6 +78,8 @@ export const JSXAloneJsonImpl: JSXAloneType<JsonImplOutput, ElementLike<JsonImpl
 
   render(el, config = {}) {
     return (el as any as JsonImplElementLikeImpl).render(config)
-  }
+  },
+
+  _Impl: 'Json'
 
 }

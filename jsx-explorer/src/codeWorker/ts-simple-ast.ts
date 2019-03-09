@@ -2,7 +2,6 @@ import { Node, Project } from 'ts-simple-ast'
 import { lib_es5_d_ts } from '../util/filesPacked/lib_es5_d_ts';
 import { lib_dom_d_ts } from '../util/filesPacked/lib_dom_d_ts';
 import { jsx_alone_core_d_ts } from '../util/filesPacked/jsx_alone_core_d_ts';
-// import {  getFile} from '../util/files'
 
 let project: Project | undefined
 

@@ -1,6 +1,6 @@
-/*DONT CHANGE THIS FIRST LINE*/ import { ElementClass, AbstractJSXAlone as JSXAlone, ClassRule, ReactNode } from 'jsx-alone-core'; declare var PERSON_COUNT: number; declare var CONTACT_COUNT: number; declare var ADDRESS_COUNT: number; function exampleLotsOfComponents() {
+/*DONT CHANGE THIS FIRST LINE*/ import { ElementClass, AbstractJSXAlone as JSXAlone } from 'jsx-alone-core'; declare var PERSON_COUNT: number; declare var CONTACT_COUNT: number; declare var ADDRESS_COUNT: number; function exampleLotsOfComponents() {
 
-  // <Style> component
+  // Auxiliary Style component
 
   interface StyleProps {
     classes: { [name: string]: ClassRule },
@@ -37,10 +37,11 @@
       }
     }
   }
+  type ClassRule = Partial<CSSStyleDeclaration> & { selectorPostfix?: string }
 
-  // type Children = ReactNode
 
-  // <If> component
+
+  // Auxiliary <If> component
 
   interface IfProps<T> {
     c: any, p?: T, children: (...args: NotFalsy<T>[]) =>
@@ -49,8 +50,6 @@
   function If<T extends any = any>(props: IfProps<T>) {
     const f = Array.isArray(props.children) ? props.children[0] : props.children
     if (isNotFalsy(props.c)) {
-      // console.log(props.children);
-
       return f.apply(null, [...(props.p ? [props.p] : []), props.c])
     }
     else {
@@ -60,6 +59,7 @@
   type NotFalsy<C= any> = Exclude<C, Falsy>
   type Falsy = null | '' | undefined | false
   function isNotFalsy<T>(a: T): a is NotFalsy<T> { return !!a }
+
 
   // THE APP
 
@@ -79,6 +79,7 @@
     contacts: ContactModel[]
   }
 
+
   // THE APP Styles
 
   const value: ClassRule = {
@@ -94,18 +95,17 @@
   }
   const { styles, classes } = Style.build({ value, name, number })
 
+
   // The APP components
 
   const Name = (props: { name: string }) =>
     <If c={props.name !== 'Seba'}>{() =>
-      <span className={classes.name}  data-test="name">{props.name}</span>
+      <span className={classes.name} data-test="name">{props.name}</span>
     }</If>
-
   const Age = (props: { age: number }) =>
     <If c={props.age !== 5}>{() =>
       <span className={classes.number} data-test="age">{props.age}</span>
     }</If>
-
   class Person extends ElementClass<PersonModel> {
     render() {
       return <div data-test="person" className="person">
@@ -140,6 +140,7 @@
   }
 
   // MAIN
+
   function makeModel(personCount = PERSON_COUNT || 10, contactCount = CONTACT_COUNT || 5, addressCount = ADDRESS_COUNT || 3): PersonModel[] {
 
     return range(personCount).map(i => ({
@@ -172,21 +173,22 @@
   return <App people={makeModel()}></App>
 }
 
+
 // THE APP TYPES
 
-                                interface Contact {
+interface Contact {
   addresses: Address[]
   phone: string
 }
-                                interface Address {
+interface Address {
   name: string,
   number: number
 }
-                                interface Person {
+interface Person {
   name: string,
   age: number
   contacts: Contact[]
 }
-                                interface AppProps {
+interface AppProps {
   people: Person[]
 }

@@ -9,6 +9,7 @@ import { examples } from '../examples/examples'
 import { EditorExplorerMenu } from './editorExplorerMenu'
 import { dispatch } from '../store/store';
 import { EDITOR_ACTION } from '../store/editor';
+import { OPTIONS_ACTIONS } from '../store/options';
 
 interface P {
   state: State
@@ -24,7 +25,7 @@ export class Header extends Component<P> {
     return <nav className="navbar is-fixed-top" role="navigation" aria-label="main navigation">
       <ForkRibbon />
       <div className="navbar-brand">
-        <EditorExplorerMenu {...this.props}/>
+        <EditorExplorerMenu {...this.props} />
 
         <a role="button" className="navbar-burger burger is-large" aria-label="menu" aria-expanded="false" data-target="jsxExplorerNavbar" onClick={e => this.query('#jsxExplorerNavbar').classList.toggle('is-active')}>
           <span aria-hidden="true"></span>
@@ -36,16 +37,29 @@ export class Header extends Component<P> {
       <div id="jsxExplorerNavbar" className="navbar-menu">
 
         <div className="navbar-start">
-        
-          <a className="navbar-item" onClick={e => showInModal(<WhatsThis />, 'What\'s this?')}>What's this</a>
+
 
           <div className="navbar-item has-dropdown is-hoverable">
             <a className="navbar-link">Examples</a>
             <div className="navbar-dropdown">
               {examples.map(example => <a className="navbar-item" onClick={e => {
-                dispatch({ type: EDITOR_ACTION.REQUEST_CODE_CHANGE, payload: {code: example.code} })
+                dispatch({ type: EDITOR_ACTION.REQUEST_CODE_CHANGE, payload: { code: example.code } })
               }
               }>{example.name}</a>)}
+            </div>
+          </div>
+
+          <div className="navbar-item has-dropdown is-hoverable">
+            <a className="navbar-link">Options</a>
+            <div className="navbar-dropdown">
+              <a className="navbar-item">
+                <label className="content">
+                  <input checked={this.props.state.options.autoApply} type="checkbox" onChange={e =>
+                    dispatch({ type: OPTIONS_ACTIONS.CHANGE_AUTO_APPLY, payload: { autoApply: e.currentTarget.checked } })
+                  }
+                  /> Auto apply
+            </label></a>
+              <a className="navbar-item" onClick={e => showInModal(<WhatsThis />, 'What\'s this?')}>What's this</a>
             </div>
           </div>
 
@@ -57,9 +71,9 @@ export class Header extends Component<P> {
                 background: `${nextTheme.colors.bg}`,
                 color: `${nextTheme.colors.fg}`
               }}
-                onClick={e => {
+                onClick={e =>
                   dispatch({ type: 'CHANGE_THEME', theme: nextTheme })
-                }}>
+                }>
                 Next theme: {nextThemeName}
               </a>
               {allThemes.map(t => <a className="navbar-item"

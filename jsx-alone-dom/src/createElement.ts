@@ -20,6 +20,8 @@ interface JSXAloneType<T extends RenderOutput = RenderOutput, R extends ElementL
 
   /** so render() users have a way of removing event listeners when unattaching rendered html element */
   lastEventManager?: EventManager
+
+  _Impl: string
 }
 
 
@@ -49,8 +51,9 @@ function buildJSXALone(): JSXAloneType<RenderOutput, ElementLike> {
 
     createRef<T extends Element & ElementClass>(): RefObject<T> {
       return new RefObjectImpl<T>()
-    }
+    },
 
+    _Impl: 'DOM'
   }
   return Module
 }

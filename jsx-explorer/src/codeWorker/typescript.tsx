@@ -1,7 +1,7 @@
 import { ts } from 'ts-simple-ast'
 
 export function compileTs(code: string) {
-  code = code.split('\n').filter(l=>!l.startsWith('import ')).join('\n')
+  
   const res = ts.transpileModule(code, {
     compilerOptions: {
       target: 'es2018',

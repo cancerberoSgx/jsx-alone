@@ -12,9 +12,6 @@ export class EditorExplorerMenu extends Component<P> {
         {!isDesktop() && <li className={`editor is-active`}>
           <a onClick={e => this.selectTab('editor')}>Editor</a>
         </li>}
-        {/* <li className="explorers">
-          <a onClick={e => this.selectTab('explorers')}>Explorers</a>
-        </li> */}
         <li className={`elements ${isDesktop() ? 'is-active' : ''}`}>
             <a onClick={e => this.selectTab('elements')}>Elements</a>
           </li>
@@ -24,7 +21,6 @@ export class EditorExplorerMenu extends Component<P> {
           <li className="implementations">
             <a onClick={e => this.selectTab('implementations')}>Implementations</a>
           </li>
-
       </ul>
     </div>
   }

@@ -1,6 +1,6 @@
-import { Action, Reducer, compose } from 'redux'
-import { State, Theme, Layout } from './types'
-import { lightTheme } from '../style/theme'
+import { Action, Reducer } from 'redux';
+import { lightTheme } from '../style/theme';
+import { Layout, Theme } from './types';
 
 const initialState = {
   theme: lightTheme

@@ -65,6 +65,7 @@ export interface JSXAlone<T, R extends ElementLike<T> = ElementLike<T>> {
   createElement(tag: JSXAloneTag, attrs: JSXAloneAttrs, ...children: JSXAloneChild[]): R
   updateElement(element: R,   tag: JSXAloneTag, attrs: JSXAloneAttrs<string>, children: any[], create?: boolean): void
   render(el: JSX.Element, config?: RenderConfig<T, R>): T
+  _Impl: string
 }
 
 export interface RenderConfig<T, R extends ElementLike<T> = ElementLike<T>> {
