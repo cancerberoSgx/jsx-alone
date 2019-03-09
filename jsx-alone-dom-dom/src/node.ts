@@ -16,9 +16,15 @@ export abstract class MNode extends MEventTarget {
   protected _children: MNode[] = [];
 
   childNodes: NodeList<MNode>
-
-  _textContent: string | null = null 
-
+  // abstract textContent: string | null
+  get textContent(){
+    return this._textContent
+  }
+  set textContent(c:string|null){
+    this._textContent=c
+  }
+  protected   _textContent: string | null = null
+  
   constructor(readonly nodeType: NodeType) {
     super();
     this._children = []
