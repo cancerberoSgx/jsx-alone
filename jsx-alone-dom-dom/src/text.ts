@@ -5,10 +5,4 @@ export class MTextNode extends MNode {
     this._textContent=_textContent
   }
 
-  get textContent(){
-    return this._textContent
-  }
-  set textContent(c:string|null){
-    this._textContent=c
-  }
 }

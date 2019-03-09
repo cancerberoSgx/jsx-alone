@@ -2,10 +2,10 @@
  * @jest-environment jsdom
  */
 
- import { fromHtml } from './testUtil';
+ import { fromHtml, nodeAttributesPretty } from './testUtil';
 import { MDocument } from '../document';
 import { MNode } from '../node';
-import { nodeTypes, nodeTexts } from '../util';
+import { nodeTypes, nodeTexts, nodeAttributes } from "../util/nodeUtil";
 
 test('use jsdom in this test file', () => {
   const element = document.createElement('div');
@@ -37,6 +37,35 @@ test('should be able to use jsdom innerHtml to create MNodes', () => {
   const jsdom = nodeTexts(document.body)
   const ours = nodeTexts(n)
   expect(jsdom).toEqual(ours)
-
-
 });
+
+
+it('attributes', () => {
+  const doc = new MDocument()
+  const h = `
+<p id="idkkkkkw"> gre eti ngs 
+  <span data-foo="33as3"> hello 
+    <input type="checkbox" checked/>
+      <i>
+        <strong id="d"> good bye</strong>
+      </i>
+    </span>
+  </p>`
+  document.body.innerHTML=h
+  console.log(JSON.stringify(nodeAttributes(document.body), null, 2));
+  console.log(JSON.stringify(nodeAttributesPretty(document.body), null, 2));
+
+  // const n = fromHtml(h, doc)
+  // console.log(JSON.stringify(nodeAttributes(n), null, 2));
+
+  // console.log(JSON.stringify(nodeAttributesPretty(n), null, 2));
+  // expect(nodeAttributes(document.body)).toEqual([[]])
+  // console.log(document.body.outerHTML)
+  
+  // // expect(J.toEqual('')
+  // expect(r.nodeType).toBe(Node.ELEMENT_NODE)
+  // // expect(r.childNodes.item(0).nodeType).toBe(Node.TEXT_NODE)
+  // // expect(r.childNodes).toHaveLength(1)
+
+  // checkDomIsImplementation(r as HTMLElement)
+})

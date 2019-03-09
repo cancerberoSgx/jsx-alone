@@ -1,5 +1,5 @@
 import { MNode } from './node';
-import { visitChildNodes, mapChildNodes } from './util';
+import { visitChildNodes, mapChildNodes } from "./util/nodeUtil";
 
 export class MElement extends MNode {
 

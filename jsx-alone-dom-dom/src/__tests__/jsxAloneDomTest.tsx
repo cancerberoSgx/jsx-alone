@@ -1,7 +1,7 @@
 import { JSXAlone } from 'jsx-alone-dom';
 import { install } from '../install';
 import { checkDomIsImplementation, testNoDom, expectNoDom } from './testUtil';
-import { nodeTypes, nodeTexts } from '../util';
+import { nodeTypes, nodeTexts, nodeAttributes } from "../util/nodeUtil";
 
 describe('jsx-alone-dom', () => {
   beforeAll(() => {
@@ -37,9 +37,14 @@ describe('jsx-alone-dom', () => {
     install()
     checkDomIsImplementation(document.body)
     const id = "2"
-    const c = <p id={id}><span data-foo={1}>>hello <input type="checkbox" checked={true}/>></span> ></p>
+    const c = <p id={id}><span data-foo={1}>>hello <input type="checkbox" checked={true}/><i><strong id="d">good</strong>bye </i></span></p>
     const r = JSXAlone.render(c, document.body as any)!
+    
     // console.log(JSON.stringify(document.body));
+    // expect(nodeAttributes(document.body)).toEqual([[]])
+    // console.log(JSON.stringify(nodeAttributes(r), null, 2))
+    
+    // expect(J.toEqual('')
     expect(r.nodeType).toBe(Node.ELEMENT_NODE)
     // expect(r.childNodes.item(0).nodeType).toBe(Node.TEXT_NODE)
     // expect(r.childNodes).toHaveLength(1)

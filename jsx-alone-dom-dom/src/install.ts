@@ -1,4 +1,4 @@
-import { getGlobal } from './util';
+import { getGlobal } from './util/util';
 import { MDocument } from './document';
 import { MNode } from './node';
 

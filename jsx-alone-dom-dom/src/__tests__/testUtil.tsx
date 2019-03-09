@@ -1,8 +1,10 @@
 import { install, uninstall } from '../install';
 import { MDocument } from '../document';
 import { MElement } from '../element';
-import { MNode } from '../node';
-import { isElement } from '../util';
+import { cloneNode } from '../util/cloneNode';
+import { MNode, MAttr } from '../node';
+import { nodeAttributes } from '../util/nodeUtil';
+import { isArray } from 'util';
 
 export function testNoDom(el?: Element) {
   it('should run in clean environment', () => {
@@ -38,20 +40,16 @@ export function fromHtml(s: string, doc: MDocument) {
   return cloneNode(d, doc)
 }
 
-function cloneNode(d: Node, doc: MDocument): MNode {
-  if (d.nodeType === Node.TEXT_NODE && d.textContent) {
-    return doc.createTextNode(d.textContent)
-  }
-  else if (isElement(d)) {
-    const o = doc.createElement(d.tagName)
-    Array.from(d.attributes).forEach(a => o.getAttribute(a.name) && o.setAttribute(a.name, o.getAttribute(a.name)!))
-    Array.from(d.childNodes).forEach(c => {
-      o.appendChild(cloneNode(c, doc))
-    })
-    return o
-  }
-  else {
-    throw 'node type not supported ' + d.nodeType
+
+type T = string|null
+type Q = T|T[]
+export function nodeAttributesPretty(n: MNode | Node): Q {
+
+  function print(a: MAttr[]|MAttr|null): any {
+    return a==null?null: !isArray(a) ? 
+    `${a.name}=${a.value}` : 
+    a.map(b=> print(b))
   }
 
+ return  nodeAttributes(n).map(a=>print(a))  
 }
