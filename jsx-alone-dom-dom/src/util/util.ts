@@ -1,6 +1,6 @@
 
 export function getGlobal(): any {
-  return typeof self !== 'undefined' && typeof self.onmessage === 'object' ? self : global
+  return (typeof self !== 'undefined' && typeof self.onmessage === 'object') ? self : (typeof document!=='undefined' && typeof window !== 'undefined') ? window : global
 }
 
 // export function array<T = number>(n: number, sample?: T): T[] {
