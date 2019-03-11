@@ -76,7 +76,7 @@ exports.JsonImplTextNodeLikeImpl = JsonImplTextNodeLikeImpl;
 function JsonImplOutputElAsHtml(node, indentLevel) {
     if (indentLevel === void 0) { indentLevel = 0; }
     if (isJsonImplOutputText(node)) {
-        return (node.content + '');
+        return node.content + '';
     }
     return (indentLevel === -1 ? '' : "\n" + util_1.indent(indentLevel)) + "<" + node.tag + (Object.keys(node.attrs).length ? ' ' : '') + Object.keys(node.attrs).map(function (a) { return a + "=\"" + (node.attrs[a].toString ? node.attrs[a].toString() : node.attrs[a]) + "\""; }).join(' ') + ">" + node.children.map(function (c) { return isJsonImplOutputEl(c) ? JsonImplOutputElAsHtml(c, indentLevel + 1) : c.content; }).join('') + (indentLevel === -1 ? '' : "\n" + util_1.indent(indentLevel)) + "</" + node.tag + ">";
 }
@@ -95,7 +95,8 @@ exports.JSXAloneJsonImpl = {
     render: function (el, config) {
         if (config === void 0) { config = {}; }
         return el.render(config);
-    }
+    },
+    _Impl: 'Json'
 };
 
 },{"./":5,"./createElement":2,"./elementClass":3,"./util":8}],2:[function(require,module,exports){
@@ -365,7 +366,7 @@ function If(props) {
 exports.If = If;
 function isNotFalsy(a) { return !!a; }
 function getGlobal() {
-    return (typeof window === 'undefined' && typeof document === 'undefined') ? global : window;
+    return typeof self.onmessage === 'object' ? self : global;
 }
 exports.getGlobal = getGlobal;
 function installJSXAloneAsGlobal(i) {
@@ -758,7 +759,8 @@ var Module = {
     render: function (el, config) {
         if (config === void 0) { config = config_1.defaultRenderConfig; }
         return "" + el.render(config);
-    }
+    },
+    _Impl: 'string'
 };
 exports.JSXAlone = Module;
 

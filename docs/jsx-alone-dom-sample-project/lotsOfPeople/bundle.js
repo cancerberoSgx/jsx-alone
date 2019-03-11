@@ -76,7 +76,7 @@ exports.JsonImplTextNodeLikeImpl = JsonImplTextNodeLikeImpl;
 function JsonImplOutputElAsHtml(node, indentLevel) {
     if (indentLevel === void 0) { indentLevel = 0; }
     if (isJsonImplOutputText(node)) {
-        return (node.content + '');
+        return node.content + '';
     }
     return (indentLevel === -1 ? '' : "\n" + util_1.indent(indentLevel)) + "<" + node.tag + (Object.keys(node.attrs).length ? ' ' : '') + Object.keys(node.attrs).map(function (a) { return a + "=\"" + (node.attrs[a].toString ? node.attrs[a].toString() : node.attrs[a]) + "\""; }).join(' ') + ">" + node.children.map(function (c) { return isJsonImplOutputEl(c) ? JsonImplOutputElAsHtml(c, indentLevel + 1) : c.content; }).join('') + (indentLevel === -1 ? '' : "\n" + util_1.indent(indentLevel)) + "</" + node.tag + ">";
 }
@@ -95,7 +95,8 @@ exports.JSXAloneJsonImpl = {
     render: function (el, config) {
         if (config === void 0) { config = {}; }
         return el.render(config);
-    }
+    },
+    _Impl: 'Json'
 };
 
 },{"./":5,"./createElement":2,"./elementClass":3,"./util":8}],2:[function(require,module,exports){
@@ -365,7 +366,7 @@ function If(props) {
 exports.If = If;
 function isNotFalsy(a) { return !!a; }
 function getGlobal() {
-    return (typeof window === 'undefined' && typeof document === 'undefined') ? global : window;
+    return typeof self.onmessage === 'object' ? self : global;
 }
 exports.getGlobal = getGlobal;
 function installJSXAloneAsGlobal(i) {
@@ -560,7 +561,8 @@ function buildJSXALone() {
         },
         createRef: function () {
             return new refs_1.RefObjectImpl();
-        }
+        },
+        _Impl: 'DOM'
     };
     return Module;
 }
@@ -603,7 +605,9 @@ var jsx_alone_core_1 = require("jsx-alone-core");
 var ElementClass = (function (_super) {
     __extends(ElementClass, _super);
     function ElementClass() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.neverUpdate = false;
+        return _this;
     }
     Object.defineProperty(ElementClass.prototype, "eventManager", {
         get: function () {
@@ -612,12 +616,7 @@ var ElementClass = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    ElementClass.prototype.destroy = function () {
-        this.eventManager && this.eventManager.uninstall();
-    };
     ElementClass.prototype.afterRender = function (containerEl) {
-    };
-    ElementClass.prototype.beforeRender = function (containerEl) {
     };
     return ElementClass;
 }(jsx_alone_core_1.ElementClass));
@@ -655,74 +654,66 @@ var __assign = (this && this.__assign) || function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var jsx_alone_core_1 = require("jsx-alone-core");
 var refs_1 = require("./refs");
-var util_1 = require("./util");
 var ElementLikeImpl = (function (_super) {
     __extends(ElementLikeImpl, _super);
     function ElementLikeImpl() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     ElementLikeImpl.prototype.buildRootElement = function (config) {
-        return util_1.isSvgTag(this.tag)
+        return isSvgTag(this.tag)
             ? document.createElementNS('http://www.w3.org/2000/svg', this.tag)
             : document.createElement(this.tag);
     };
     ElementLikeImpl.prototype.render = function (config) {
         var _this = this;
-        var updateExisting = config.updateExisting, updateExistingRemoveChildrenIfCountDiffer = config.updateExistingRemoveChildrenIfCountDiffer, rootHTMLElement = config.rootHTMLElement, eventManager = config.eventManager, rootElementLike = config.rootElementLike, parent = config.parent;
-        var el = updateExisting || rootHTMLElement || this.buildRootElement(config);
-        if (this._elementClassInstance) {
-            this._elementClassInstance.beforeRender(el);
-        }
-        Object.keys(this.attrs).forEach(function (attribute) {
-            var value = _this.attrs[attribute];
-            if (attribute === 'className') {
-                el.setAttribute('class', value);
-            }
-            else if (attribute === 'style') {
-                el.setAttribute('style', jsx_alone_core_1.printStyleHtmlAttribute(value));
-            }
-            else if (typeof value === 'function') {
-                eventManager.addEventListener(el, attribute.replace(/^on/, '').toLowerCase(), value);
-            }
-            else {
-                el.setAttribute(attribute, value);
-            }
-        });
-        if (this._innerHtml) {
-            el.innerHTML = this._innerHtml;
-        }
-        else {
-            if (updateExistingRemoveChildrenIfCountDiffer && updateExisting && el.childNodes.length !== this.children.length) {
-                el.innerHTML = '';
-            }
-            this.children.forEach(function (c, i) {
-                var existingChildToUpdateRealNode = updateExisting && updateExisting.childNodes.item(i);
-                var tagNameDiffers = existingChildToUpdateRealNode && existingChildToUpdateRealNode.tagName && existingChildToUpdateRealNode.tagName.toLowerCase() !== c.tag;
-                var existingChildToUpdate = tagNameDiffers ? undefined : existingChildToUpdateRealNode;
-                var cel = c.render(__assign({}, config, { updateExisting: existingChildToUpdate || undefined, rootHTMLElement: existingChildToUpdate || undefined }));
-                if (!existingChildToUpdate) {
-                    if (tagNameDiffers && existingChildToUpdateRealNode) {
-                        el.insertBefore(cel, existingChildToUpdateRealNode);
-                    }
-                    else {
-                        el.appendChild(cel);
-                    }
+        var dontUpdate = config.updateExisting && this._elementClassInstance && this._elementClassInstance.neverUpdate;
+        var el = config.updateExisting || config.rootHTMLElement || this.buildRootElement(config);
+        if (!dontUpdate) {
+            Object.keys(this.attrs).forEach(function (attribute) {
+                var value = _this.attrs[attribute];
+                if (attribute === 'className') {
+                    el.setAttribute('class', value);
                 }
-                else if (!existingChildToUpdate.isEqualNode(cel)) {
-                    existingChildToUpdate.replaceWith(cel);
-                    eventManager.updateEventListeners(_this._elementClassInstance || rootElementLike._elementClassInstance, updateExisting, el, _this);
+                else if (attribute === 'style') {
+                    el.setAttribute('style', jsx_alone_core_1.printStyleHtmlAttribute(value));
+                }
+                else if (typeof value === 'function') {
+                    config.eventManager.addEventListener(el, attribute.replace(/^on/, '').toLowerCase(), value);
+                }
+                else {
+                    el.setAttribute(attribute, value);
                 }
             });
+            if (this._innerHtml) {
+                el.innerHTML = this._innerHtml;
+            }
+            else {
+                var childrenCountDiffer_1 = config.updateExisting && el.childNodes.length !== this.children.length;
+                if (childrenCountDiffer_1) {
+                    el.innerHTML = '';
+                }
+                this.children.forEach(function (c, i) {
+                    var existingChildToUpdate = !childrenCountDiffer_1 && el.childNodes.item(i);
+                    var cel = c.render(__assign({}, config, { updateExisting: existingChildToUpdate || undefined, rootHTMLElement: existingChildToUpdate || undefined }));
+                    if (!existingChildToUpdate) {
+                        el.appendChild(cel);
+                    }
+                    else if (existingChildToUpdate && !existingChildToUpdate.isEqualNode(cel)) {
+                        existingChildToUpdate.replaceWith(cel);
+                        config.eventManager.updateEventListeners(_this._elementClassInstance || config.rootElementLike._elementClassInstance, config.updateExisting, el, _this);
+                    }
+                });
+            }
+            if (config.parent && !config.updateExisting) {
+                config.parent.appendChild(el);
+            }
+            if (this.ref) {
+                refs_1.setRef({ elementLike: this, el: el, value: this.ref });
+            }
         }
-        if (parent && !updateExisting) {
-            parent.appendChild(el);
-        }
-        if (this.ref) {
-            refs_1.setRef({ elementLike: this, el: el, value: this.ref });
-        }
-        var elementClassWithContainer = this._elementClassInstance || rootElementLike._elementClassInstance;
+        var elementClassWithContainer = this._elementClassInstance || config.rootElementLike._elementClassInstance;
         if (elementClassWithContainer) {
-            elementClassWithContainer._eventManager = eventManager;
+            elementClassWithContainer._eventManager = config.eventManager;
             if (this._elementClassInstance) {
                 this._elementClassInstance.afterRender(el);
             }
@@ -750,11 +741,16 @@ var TextNodeLikeImpl = (function (_super) {
     return TextNodeLikeImpl;
 }(jsx_alone_core_1.AbstractTextNodeLike));
 exports.TextNodeLikeImpl = TextNodeLikeImpl;
+function isSvgTag(t) {
+    var r = new RegExp("^" + t + "$", 'i');
+    return SvgTags.some(function (name) { return r.test(name); });
+}
+var SvgTags = ['path', 'svg', 'use', 'g'];
 
-},{"./refs":17,"./util":19,"jsx-alone-core":5}],14:[function(require,module,exports){
+},{"./refs":17,"jsx-alone-core":5}],14:[function(require,module,exports){
 Object.defineProperty(exports, "__esModule", { value: true });
-var mark_1 = require("./mark");
 var jsx_alone_core_1 = require("jsx-alone-core");
+var mark_1 = require("./mark");
 var RootEventManager = (function () {
     function RootEventManager(root, debug) {
         this.root = root;
@@ -993,13 +989,6 @@ var UpdatablePropsComponent = (function (_super) {
         _this.removeChildrenOnUpdate = false;
         return _this;
     }
-    UpdatablePropsComponent.prototype.beforeRender = function (containerElement) {
-        this.containerElement = containerElement;
-        if (this.removeChildrenOnUpdate && this.containerElement) {
-            this._eventManager && this._eventManager.removeListeners(this.containerElement, true);
-            _1.emptyAllChildren(this.containerElement);
-        }
-    };
     UpdatablePropsComponent.prototype.afterRender = function (containerElement) {
         this.containerElement = containerElement;
     };
@@ -1008,8 +997,7 @@ var UpdatablePropsComponent = (function (_super) {
         var el = this.render();
         el._elementClassInstance = this;
         _1.JSXAlone.render(el, {
-            updateExisting: this.containerElement,
-            updateExistingRemoveChildrenIfCountDiffer: this.removeChildrenOnUpdate
+            updateExisting: this.containerElement
         });
     };
     UpdatablePropsComponent.prototype.getComponentName = function () {
