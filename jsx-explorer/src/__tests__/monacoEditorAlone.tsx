@@ -36,5 +36,3 @@ function render() {
   language: 'javascript'
 
 })
-
-

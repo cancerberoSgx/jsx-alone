@@ -1,10 +1,10 @@
-import { JSXAlone } from 'jsx-alone-dom';
-import { registerStyle } from '../../../style/styles';
-import { css, height } from '../../../util/media';
-import { Component } from '../../util/component';
-import { ExplorerProps } from '../explorers';
-import { NodeComponent } from './tsAstNode';
-import { DiagnosticComponent } from './tsAstDiagnostic';
+import { JSXAlone } from 'jsx-alone-dom'
+import { registerStyle } from '../../../style/styles'
+import { css, height } from '../../../util/media'
+import { Component } from '../../util/component'
+import { ExplorerProps } from '../explorers'
+import { NodeComponent } from './tsAstNode'
+import { DiagnosticComponent } from './tsAstDiagnostic'
 
 interface P extends ExplorerProps {
   mode?: 'getChildren' | 'forEachChild'
@@ -63,7 +63,7 @@ export class TsSimpleAstExplorer extends Component<P> {
 
       </div>
     }
-    
+
     else {
       return <div className="content">
         <h3>

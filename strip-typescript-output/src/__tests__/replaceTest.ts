@@ -10,14 +10,12 @@ describe('replace', () => {
     expect(replace(`ototype&&e.prototype.render}Object.defineProperty(e,"__esModule",{value:!0});var w=G;functio`)).toBe(`ototype&&e.prototype.render};var w=G;functio`)
   })
 
-
   describe('parcel no experimental build', () => {
   it('parcel build prefix semicolon postfix comma', () => {
     expect(replace(`[function(require,module,exports) {"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.language=exports.conf=void 0;var`))
       .toBe(`[function(require,module,exports) {"use strict";1,exports.language=exports.conf=void 0;var`)
   })
 })
-
 
   describe('use strict', () => {
   it('should remove use strict if explicit in config', () => {
@@ -27,36 +25,33 @@ describe('replace', () => {
   it('should not remove use strict if not explicit in config', () => {
     expect(replace(`[function(require,module,exports) {"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.language=exports.conf=void 0;var`, {useStrict: false}))
     .toBe(`[function(require,module,exports) {"use strict";1,exports.language=exports.conf=void 0;var`)
-    
-  })
 
+  })
 
   it('should not remove use strict if it\'s not follosed by semicolon and not preceding by {', () => {
 
-    function test(s:string){
+    function test(s: string) {
       expect(replace(s, {useStrict: true}))    .toBe(s)
     }
     test(`|(o|=1536),o&&e.setEmitFlags(a,o),a}function p(t){return e.isStringLiteral(t.expression)&&"use strict"===t.expression.text}function f(t,r,n){e.Debug.assert(0===t.length,"Prologue directives should be a`)
-    
+
     test(`e.createStatement(e.createLiteral("use strict")))),a}function m`)
 
     test(`(e.createLiteral("use strict")))].concat(t)),t)},`)
 
     test(`"Parse_in_strict_mode_and_emit_use_strict_for_each_source_file_6141",'Parse in strict mode and emit "use strict" for each source file.'),`)
   })
-  
 
   it('should SUPPORT SINGLE and double quotes', () => {
     expect(replace(`exports) {"use strict";var a`, {useStrict: true}))
       .toBe(`exports) {var a`)
-      expect(replace(`exports) {'use strict';var a`, {useStrict: true}))
+    expect(replace(`exports) {'use strict';var a`, {useStrict: true}))
       .toBe(`exports) {var a`)
   })
-  
+
 })
 
-
-it('error (0,o.default) is not a function', ()=>{
+  it('error (0,o.default) is not a function', () => {
   const s = `[function(require,module,exports) {
     "use strict";function e(e){var o,r=e.Symbol;return"function"==typeof r?r.observable?o=r.observable:(o=r("observable"),r.observable=o):o="@@observable",o}Object.defineProperty(exports,"__esModule",{value:!0}),exports.default=e;
     },{}],"LkZ7":[function(require,module,exports) {

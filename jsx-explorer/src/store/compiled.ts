@@ -1,5 +1,5 @@
-import { Action, Reducer } from 'redux';
-import { Compiled, CodeWorkerRequest, CodeWorkerResponse } from './types';
+import { Action, Reducer } from 'redux'
+import { Compiled, CodeWorkerRequest, CodeWorkerResponse } from './types'
 
 const initialState: Compiled = {
   jsxAstOptions: {
@@ -13,13 +13,12 @@ export enum COMPILED_ACTION {
 }
 // export type COMPILED_ACTION = 'RENDER_COMPILED' | 'FETCH_COMPILED'
 
-
 export const compiled: Reducer<Compiled, FetchCompiledAction | RenderCompiledAction> = (state = initialState, action) => {
   switch (action.type) {
     case COMPILED_ACTION.FETCH_COMPILED:
       return { ...state, ...action.payload }
     case COMPILED_ACTION.RENDER_COMPILED:
-      return { ...state,...action.payload }
+      return { ...state, ...action.payload }
     default:
       return state
   }

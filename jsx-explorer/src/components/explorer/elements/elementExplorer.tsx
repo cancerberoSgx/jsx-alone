@@ -1,12 +1,12 @@
-import { JSXAlone } from 'jsx-alone-dom';
-import { registerStyle } from '../../../style/styles';
-import { height } from '../../../util/media';
-import { escapeHtml, queryAll } from '../../../util/util';
-import { Component } from '../../util/component';
-import { Error } from '../../util/error';
-import { showInModal } from '../../util/showInModal';
-import { ExplorerProps } from '../explorers';
-import { Node } from './elementExplorerNode';
+import { JSXAlone } from 'jsx-alone-dom'
+import { registerStyle } from '../../../style/styles'
+import { height } from '../../../util/media'
+import { escapeHtml, queryAll } from '../../../util/util'
+import { Component } from '../../util/component'
+import { Error } from '../../util/error'
+import { showInModal } from '../../util/showInModal'
+import { ExplorerProps } from '../explorers'
+import { Node } from './elementExplorerNode'
 
 interface P extends ExplorerProps {
 }
@@ -30,7 +30,7 @@ export class ElementExplorer extends Component<P> {
 
   render() {
     const compiled = this.props.compiled.response
-    if(compiled){
+    if (compiled) {
       const {error, result, evaluated} =  compiled.evaluate
       return <div className="explorer">
       {!error && result && <Node node={result} onShowHtml={html => showInModal(<ElementNodeHtmlCodeModal html={html}/>, 'HTML')}></Node>}

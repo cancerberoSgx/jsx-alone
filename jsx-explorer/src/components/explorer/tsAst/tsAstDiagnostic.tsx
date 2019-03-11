@@ -1,7 +1,7 @@
-import { JSXAlone } from 'jsx-alone-dom';
-import { CodeWorkerResponseJsxAstDiagnostic } from '../../../store/types';
-import { Component } from '../../util/component';
-import { SelectCode } from '../explorers';
+import { JSXAlone } from 'jsx-alone-dom'
+import { CodeWorkerResponseJsxAstDiagnostic } from '../../../store/types'
+import { Component } from '../../util/component'
+import { SelectCode } from '../explorers'
 
 interface P {
   d: CodeWorkerResponseJsxAstDiagnostic

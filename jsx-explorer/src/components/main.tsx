@@ -13,7 +13,7 @@ export class Main extends Component<{
       <Styles theme={this.props.state.layout.theme} />
     </div>
   }
-  onStateUpdate(state:State){
+  onStateUpdate(state: State) {
    this.updateProps({state})
   }
 }

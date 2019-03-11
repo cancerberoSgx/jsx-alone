@@ -1,9 +1,9 @@
-import { AbstractJSXAlone as JSXAlone } from 'jsx-alone-core';
+import { AbstractJSXAlone as JSXAlone } from 'jsx-alone-core'
 
 function conditionals() {
 
-  function makeNode(p=0.5): Node|undefined {
-    return Math.random()<p? {
+  function makeNode(p= 0.5): Node|undefined {
+    return Math.random() < p ? {
       getKindName() {
         return unique('Kind')
       },
@@ -14,9 +14,9 @@ function conditionals() {
         return unique('text')
       },
       getChildren() {
-        return [makeNode()||makeNode()||makeNode()].filter(e=>e)
+        return [makeNode() || makeNode() || makeNode()].filter(e => e)
         // return new Array(2).fill(0).map(i=>makeNode(.3)).filter(e=>e)
-      },
+      }
     } as Node : undefined
   }
 
@@ -35,11 +35,11 @@ function conditionals() {
       <strong>{node.getKindName()}</strong>
 
       <button className="button is-small" onClick={e => {
-        onShowDetailsOf(path, node);
+        onShowDetailsOf(path, node)
       }}>!</button>
 
       <button className="button is-small" onClick={e => {
-        //this.updateProps({ collapsed: !collapsed })
+        // this.updateProps({ collapsed: !collapsed })
       }}>{collapsed ? '+' : '-'}</button>
 
       {!collapsed && showDetailsOf === path && <div className="nodeInfo">
@@ -48,7 +48,7 @@ function conditionals() {
       </div>}
 
       {!collapsed && <ul>
-        {children.filter(c=>c).map((c, i) => <li>
+        {children.filter(c => c).map((c, i) => <li>
           <RenderNode node={c} path={path + i} onShowDetailsOf={onShowDetailsOf} mode={mode} showDetailsOf={showDetailsOf} />
         </li>)}
       </ul>}

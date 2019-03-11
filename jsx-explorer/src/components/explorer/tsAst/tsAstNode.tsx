@@ -1,8 +1,8 @@
-import { JSXAlone } from 'jsx-alone-dom';
-import { registerStyle } from '../../../style/styles';
-import { shorter } from '../../../util/util';
-import { Component } from '../../util/component';
-import { CodeWorkerResponseJsxAsNode } from '../../../store/types';
+import { JSXAlone } from 'jsx-alone-dom'
+import { registerStyle } from '../../../style/styles'
+import { shorter } from '../../../util/util'
+import { Component } from '../../util/component'
+import { CodeWorkerResponseJsxAsNode } from '../../../store/types'
 
 interface P {
   node: CodeWorkerResponseJsxAsNode

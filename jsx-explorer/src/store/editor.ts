@@ -1,8 +1,8 @@
-import { Action, Reducer } from 'redux';
-import { postMessage } from '../codeWorker/codeWorkerManager';
-import { examples } from '../examples/examples';
-import { Editor, Saga, CodeWorkerRequest } from './types';
-import { getMonacoInstance } from '../monaco/monaco';
+import { Action, Reducer } from 'redux'
+import { postMessage } from '../codeWorker/codeWorkerManager'
+import { examples } from '../examples/examples'
+import { Editor, Saga, CodeWorkerRequest } from './types'
+import { getMonacoInstance } from '../monaco/monaco'
 
 const initialState = {
   code: examples[0].code,
@@ -11,7 +11,7 @@ const initialState = {
 
 export enum EDITOR_ACTION {
   REQUEST_CODE_CHANGE = 'REQUEST_CODE_CHANGE',
-  EDITOR_MODEL_CHANGED = 'EDITOR_MODEL_CHANGED',
+  EDITOR_MODEL_CHANGED = 'EDITOR_MODEL_CHANGED'
 }
 
 export const changeCode: Reducer<Editor, RequestCodeChangeAction | EditorModelChangedAction> = (state = initialState, action) => {
@@ -58,11 +58,10 @@ export const editorModelChangedSaga: Saga<EDITOR_ACTION.EDITOR_MODEL_CHANGED> = 
   }
 }
 
-
 export const requestEditorChangeSaga: Saga<EDITOR_ACTION.REQUEST_CODE_CHANGE> = {
   // when REQUEST_CODE_CHANGE we set monaco editor value (when selecting an example)
   type: EDITOR_ACTION.REQUEST_CODE_CHANGE,
   actionDispatched(action, state) {
     getMonacoInstance()!.getModel()!.setValue(action.payload.code)
   }
-} 
+}

@@ -7,7 +7,7 @@
 // @ts-c heck
 
 /** Error message constants. */
-var FUNC_ERROR_TEXT = 'Expected a function';
+var FUNC_ERROR_TEXT = "Expected a function";
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeMax = Math.max,
@@ -67,7 +67,7 @@ var nativeMax = Math.max,
  * // Cancel the trailing debounced invocation.
  * jQuery(window).on('popstate', debounced.cancel);
  */
-export function debounce(func, wait, options={}) {
+export function debounce(func, wait, options= {}) {
   var lastArgs,
       lastThis,
       maxWait,
@@ -79,17 +79,17 @@ export function debounce(func, wait, options={}) {
       maxing = false,
       trailing = true;
 
-  if (typeof func != 'function') {
+  if (typeof func != "function") {
     throw new TypeError(FUNC_ERROR_TEXT);
   }
-  function toNumber(a){return a}
-  function now(){return Date.now()}
+  function toNumber(a) {return a; }
+  function now() {return Date.now(); }
   // wait = toNumber(wait) || 0;
   // if (isObject(options)) {
-    leading = !!options.leading;
-    maxing = 'maxWait' in options;
-    maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
-    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  leading = !!options.leading;
+  maxing = "maxWait" in options;
+  maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+  trailing = "trailing" in options ? !!options.trailing : trailing;
   // }
 
   function invokeFunc(time) {
@@ -239,20 +239,20 @@ export function debounce(func, wait, options={}) {
  * // Cancel the trailing throttled invocation.
  * jQuery(window).on('popstate', throttled.cancel);
  */
-export function throttle(func, wait, options={}) {
+export function throttle(func, wait, options= {}) {
   var leading = true,
       trailing = true;
 
-  if (typeof func != 'function') {
+  if (typeof func != "function") {
     throw new TypeError(FUNC_ERROR_TEXT);
   }
   // if (isObject(options)) {
-    leading = 'leading' in options ? !!options.leading : leading;
-    trailing = 'trailing' in options ? !!options.trailing : trailing;
+  leading = "leading" in options ? !!options.leading : leading;
+  trailing = "trailing" in options ? !!options.trailing : trailing;
   // }
   return debounce(func, wait, {
-    'leading': leading,
-    'maxWait': wait,
-    'trailing': trailing
+    "leading": leading,
+    "maxWait": wait,
+    "trailing": trailing,
   });
 }

@@ -1,20 +1,19 @@
 // adapted from https://github.com/CompuIves/codesandbox-client/blob/196301c919dd032dccc08cbeb48cf8722eadd36b/packages/app/src/app/components/CodeEditor/Monaco/workers/syntax-highlighter.js
 
-
-import { registerStyle } from '../style/styles';
+import { registerStyle } from '../style/styles'
 import * as monaco from 'monaco-editor'
-import { registerWorkerListener, postMessage } from '../codeWorker/codeWorkerManager';
-import { getMonacoInstance } from './monaco';
-import { CodeWorkerResponse } from '../store/types';
+import { registerWorkerListener, postMessage } from '../codeWorker/codeWorkerManager'
+import { getMonacoInstance } from './monaco'
+import { CodeWorkerResponse } from '../store/types'
 
 let lastJsxDecorations: string[] = []
 
 registerWorkerListener(dispatchSyntaxHighlight)
 function dispatchSyntaxHighlight({ data }: { data: CodeWorkerResponse }) {
-  const editor = getMonacoInstance()! //TODO
-  const model = editor.getModel();
+  const editor = getMonacoInstance()! // TODO
+  const model = editor.getModel()
   if (model && model.getVersionId() !== data.version) {
-    return;
+    return
   }
   const decorations: monaco.editor.IModelDeltaDecoration[] = data.jsxSyntaxHighLight.classifications.map((classification: any) => {
     const inlineClassName = classification.type
@@ -38,7 +37,6 @@ function dispatchSyntaxHighlight({ data }: { data: CodeWorkerResponse }) {
   //   jsxSyntaxHighlightEventListenerCalled = true
   // }
 }
-
 
 export function jsxSyntaxHighlightInstall(editor: monaco.editor.IStandaloneCodeEditor) {
 
@@ -97,4 +95,3 @@ export function jsxSyntaxHighlightInstall(editor: monaco.editor.IStandaloneCodeE
     registerStyle(darkStyles.split('\n').map(l => l.trim().startsWith('.') ? '.vs-dark ' + l : l).join('\n'))
 
   }
-

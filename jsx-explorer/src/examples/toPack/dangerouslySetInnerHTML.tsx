@@ -1,4 +1,4 @@
-import { AbstractJSXAlone as JSXAlone } from 'jsx-alone-core';
+import { AbstractJSXAlone as JSXAlone } from 'jsx-alone-core'
 
 function sample() {
   const name = 'Rambo', suffix = 'Mister'

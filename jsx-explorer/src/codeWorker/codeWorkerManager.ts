@@ -1,6 +1,6 @@
-import { dispatch } from '../store/store';
-import { COMPILED_ACTION } from '../store/compiled';
-import { CodeWorkerListener, CodeWorkerRequest, CodeWorkerResponse } from '../store/types';
+import { dispatch } from '../store/store'
+import { COMPILED_ACTION } from '../store/compiled'
+import { CodeWorkerListener, CodeWorkerRequest, CodeWorkerResponse } from '../store/types'
 
 const listeners: CodeWorkerListener[] = []
 
@@ -19,7 +19,7 @@ export function installCodeWWorker() {
   getWorkerListeners().forEach(l => codeWorker.addEventListener('message', l))
 }
 
-export function postMessage(m: CodeWorkerRequest){
+export function postMessage(m: CodeWorkerRequest) {
   codeWorker.postMessage(m)
 }
 

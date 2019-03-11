@@ -1,49 +1,49 @@
-import { MEventTarget } from './event';
+import { MEventTarget } from './event'
 
 export abstract class MNode extends MEventTarget {
 
-  static DOCUMENT_TYPE_NODE: NodeType = 10;
-  static TEXT_NODE: NodeType = 3;
-  static ELEMENT_NODE: NodeType = 1;
+  static DOCUMENT_TYPE_NODE: NodeType = 10
+  static TEXT_NODE: NodeType = 3
+  static ELEMENT_NODE: NodeType = 1
   static _WATERMARK = 'jsx-alone-dom-dom'
 
-  readonly attributes: NamedNodeMap<MAttr>;
+  readonly attributes: NamedNodeMap<MAttr>
 
   protected _attributes: {
     [k: string]: MAttr;
-  } = {};
+  } = {}
 
-  protected _children: MNode[] = [];
+  protected _children: MNode[] = []
 
   childNodes: NodeList<MNode>
-  
-  get textContent(){
+
+  get textContent() {
     return this._textContent
   }
-  set textContent(c:string|null){
-    this._textContent=c
+  set textContent(c: string|null) {
+    this._textContent = c
   }
   protected   _textContent: string | null = null
-  
+
   constructor(readonly nodeType: NodeType) {
-    super();
+    super()
     this._children = []
     this.childNodes = new NodeList(this._children)
     this.attributes = new NamedNodeMap(this._attributes)
   }
 
   getAttribute(a: string) {
-    return this._attributes[a] ?  this._attributes[a].value :null;
+    return this._attributes[a] ?  this._attributes[a].value : null
   }
   setAttribute(a: string, v: string) {
-    return this._attributes[a] = {value: v, name: a};
+    return this._attributes[a] = {value: v, name: a}
   }
   appendChild(c: MNode) {
-    this._children.push(c);
+    this._children.push(c)
   }
 }
 
-type NodeType = 10 | 3 | 1;
+type NodeType = 10 | 3 | 1
 
 class NodeList<T  > {
   [index: number]: T;
@@ -51,7 +51,7 @@ class NodeList<T  > {
   constructor(protected list: T[]) {
 
   }
-  [Symbol.iterator](){
+  [Symbol.iterator]() {
     return this.list[Symbol.iterator]()
   }
   item(i: number): T | null {
@@ -61,8 +61,6 @@ class NodeList<T  > {
     return this.list.length
   }
 }
-
-
 
 // interface NamedNodeMap {
 //   readonly length: number;
@@ -85,23 +83,23 @@ class NodeList<T  > {
 //   value: string;
 // }
 
-// type 
+// type
 export interface MAttr {
-  name:string, 
-  value:string
+  name: string,
+  value: string
 }
 
-//TODO: performance - we focus on the map, and not in the array/iteration
+// TODO: performance - we focus on the map, and not in the array/iteration
 class NamedNodeMap<T> {
   [index: number]: T;
-  constructor(protected map: {[n:string]:T}) {
+  constructor(protected map: {[n: string]: T}) {
 
   }
-  [Symbol.iterator](){
+  [Symbol.iterator]() {
     return Object.values(this.map)[Symbol.iterator]()
   }
   item(i: number): T | null {
-    return Object.values(this.map)[i]||null
+    return Object.values(this.map)[i] || null
   }
   get length() {
     return Object.keys(this.map).length

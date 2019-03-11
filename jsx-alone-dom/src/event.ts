@@ -1,7 +1,7 @@
-import { unique } from 'jsx-alone-core';
-import { ElementClass } from './elementClass';
-import { getElementMark, getMarkedDescendants, getMarkedElement, markElement, removeElementMark } from './mark';
-import { ElementLike, EventManager } from './types';
+import { unique } from 'jsx-alone-core'
+import { ElementClass } from './elementClass'
+import { getElementMark, getMarkedDescendants, getMarkedElement, markElement, removeElementMark } from './mark'
+import { ElementLike, EventManager } from './types'
 
 export type EventListener<C extends EventTarget | HTMLElement = any, T extends EventTarget | HTMLElement = any> = (e: Event) => any
 
@@ -31,8 +31,8 @@ export class RootEventManager implements EventManager {
 
   private registeredByType: { [type: string]: Entry[] } = {}
 
-  private appendToDomListeners: (()=>void)[] = []
-  
+  private appendToDomListeners: (() => void)[] = []
+
   mark = '_jsxa_e' + unique('_')
 
   constructor(private root: HTMLElement, private debug?: boolean) {
@@ -72,7 +72,7 @@ export class RootEventManager implements EventManager {
     }
   }
 
-  addAppendToDomListener(l: ()=>void) {
+  addAppendToDomListener(l: () => void) {
     this.appendToDomListeners.push(l)
   }
 

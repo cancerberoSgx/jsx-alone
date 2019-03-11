@@ -12,12 +12,12 @@ export interface Classification {
   endLine: number
 }
 
-export function extractCodeDecorations(code: string, title='main.tsx' ) {
-  const classifications: Classification[] = [];
-  const sourceFile = ts.createSourceFile(title, code, ts.ScriptTarget.ES2016, true);
-  const lines = code.split('\n').map(line => line.length);
-  addChildNodes(sourceFile, lines, classifications);
-  return classifications;
+export function extractCodeDecorations(code: string, title= 'main.tsx' ) {
+  const classifications: Classification[] = []
+  const sourceFile = ts.createSourceFile(title, code, ts.ScriptTarget.ES2016, true)
+  const lines = code.split('\n').map(line => line.length)
+  addChildNodes(sourceFile, lines, classifications)
+  return classifications
 }
 
 function getLineNumberAndOffset(start: number, lines: number[]) {
@@ -36,7 +36,7 @@ function nodeToRange(node: ts.Node) {
     typeof node.getEnd === 'function'
   ) {
     return [node.getStart(), node.getEnd()]
-  } 
+  }
   else if (
     typeof node.pos !== 'undefined' &&
     typeof node.end !== 'undefined'
@@ -58,19 +58,18 @@ function getParentRanges(node: ts.Node) {
     const [start, end] = nodeToRange(child)
     ranges.push({
       start: lastEnd,
-      end: start,
+      end: start
     })
     lastEnd = end
   })
   if (lastEnd !== end) {
     ranges.push({
       start: lastEnd,
-      end,
+      end
     })
   }
   return ranges
 }
-
 
 function addChildNodes(node: ts.Node, lines: number[], classifications: Classification[]) {
   const parentKind = ts.SyntaxKind[node.kind]
@@ -90,7 +89,7 @@ function addChildNodes(node: ts.Node, lines: number[], classifications: Classifi
           parentKind,
           type,
           startLine,
-          endLine,
+          endLine
         }
       })
     )

@@ -1,10 +1,9 @@
-import { createCreateElement, CreateCreateElementConfig, CreateElementFunction, JSXAloneAttrs, JSXAloneTag, RefObject, updateElement } from 'jsx-alone-core';
-import { ElementLike, ElementLikeImpl, TextNodeLikeImpl } from '.';
-import { ElementClass } from './elementClass';
-import { RootEventManager } from './event';
-import { RefObjectImpl } from './refs';
-import { ElementLikeImplRenderConfigNoRoot, EventManager, RenderOutput } from './types';
-
+import { createCreateElement, CreateCreateElementConfig, CreateElementFunction, JSXAloneAttrs, JSXAloneTag, RefObject, updateElement } from 'jsx-alone-core'
+import { ElementLike, ElementLikeImpl, TextNodeLikeImpl } from '.'
+import { ElementClass } from './elementClass'
+import { RootEventManager } from './event'
+import { RefObjectImpl } from './refs'
+import { ElementLikeImplRenderConfigNoRoot, EventManager, RenderOutput } from './types'
 
 type RenderFunction<OO extends RenderOutput= RenderOutput, R extends ElementLike= ElementLike> = (el: JSX.Element, config?: ElementLikeImplRenderConfigNoRoot<R>) => OO
 
@@ -23,7 +22,6 @@ interface JSXAloneType<T extends RenderOutput = RenderOutput, R extends ElementL
 
   _Impl: string
 }
-
 
 function buildJSXALone(): JSXAloneType<RenderOutput, ElementLike> {
 

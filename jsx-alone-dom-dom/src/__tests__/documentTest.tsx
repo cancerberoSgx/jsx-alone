@@ -1,6 +1,6 @@
 import { MDocument } from '../document'
-import { install } from '../install';
-import { testNoDom, expectNoDom } from './testUtil';
+import { install } from '../install'
+import { testNoDom, expectNoDom } from './testUtil'
 
 describe('jsx-alone-dom', () => {
   beforeAll(() => {

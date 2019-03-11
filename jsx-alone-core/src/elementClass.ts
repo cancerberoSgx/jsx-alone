@@ -1,4 +1,4 @@
-import { ElementClassProps } from '.';
+import { ElementClassProps } from '.'
 
 export interface IElementClass<P= {}> {
   props: ElementClassProps<P>

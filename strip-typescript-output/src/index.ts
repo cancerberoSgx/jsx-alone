@@ -4,24 +4,24 @@ import { readFileSync, writeFileSync, statSync } from 'fs'
 export function main(config: Config) {
   const files = ls(config.input)
 
-  !config.silent && console.log('stripping from ' + files.length + ' files using config: ', config);
+  !config.silent && console.log('stripping from ' + files.length + ' files using config: ', config)
 
   const stats: { reduction: number, finalSize: number, originalSize: number, f: string }[] = []
 
   files.forEach(f => {
-    const originalSize = getFileSizeInBytes(f, "kilo-bytes")
+    const originalSize = getFileSizeInBytes(f, 'kilo-bytes')
     const s = readFileSync(f).toString()
-    const result = replace(s, config);
+    const result = replace(s, config)
     if (s.length !== result.length) {
 
     }
     writeFileSync(f, result)
 
     stats.push({
-      reduction: s.length - result.length,//,
+      reduction: s.length - result.length, // ,
       f,
       originalSize,
-      finalSize: getFileSizeInBytes(f, "kilo-bytes")
+      finalSize: getFileSizeInBytes(f, 'kilo-bytes')
     })
 
   })
@@ -33,9 +33,8 @@ export function main(config: Config) {
   )
 
   let totalReduction = 0
-  stats.forEach(s=>totalReduction+=s.reduction)
-  !config.silent && console.log(`Total Reduction size: ${bytesToKiloBytes(totalReduction)}Kb`);
-  
+  stats.forEach(s => totalReduction += s.reduction)
+  !config.silent && console.log(`Total Reduction size: ${bytesToKiloBytes(totalReduction)}Kb`)
 
 }
 export interface Config extends ReplaceConfig {
@@ -58,16 +57,15 @@ function bytesToKiloBytes(fileSizeInBytes: number) {
 }
 export function replace(s: string, config: ReplaceConfig = {}) {
 
-  s = s.replace(/;\s*Object\.defineProperty\s*\(\s*[a-zA-Z0-9]+\s*\,\s*["']__esModule["']\s*\,\s*\{\s*value\s*\:\s*[^\}]+\}\s*\)\,/gm, ()=>';1,')
-  
-  s = s.replace(/,\s*Object\.defineProperty\s*\(\s*exports\s*\,\s*["']__esModule["']\s*\,\s*\{\s*value\s*\:\s*[^\}]+\}\s*\);/gm, ()=>',1;')
+  s = s.replace(/;\s*Object\.defineProperty\s*\(\s*[a-zA-Z0-9]+\s*\,\s*["']__esModule["']\s*\,\s*\{\s*value\s*\:\s*[^\}]+\}\s*\)\,/gm, () => ';1,')
 
-  s = s.replace(/;\s*Object\.defineProperty\s*\(\s*[a-zA-Z0-9]+\s*\,\s*["']__esModule["']\s*\,\s*\{\s*value\s*\:\s*[^\}]+\}\s*\)\;/gm, ()=>';')
+  s = s.replace(/,\s*Object\.defineProperty\s*\(\s*exports\s*\,\s*["']__esModule["']\s*\,\s*\{\s*value\s*\:\s*[^\}]+\}\s*\);/gm, () => ',1;')
 
-  s = s.replace(/,\s*Object\.defineProperty\s*\(\s*[a-zA-Z0-9]+\s*\,\s*["']__esModule["']\s*\,\s*\{\s*value\s*\:\s*[^\}]+\}\s*\)\,/gm, ()=>',1,')
+  s = s.replace(/;\s*Object\.defineProperty\s*\(\s*[a-zA-Z0-9]+\s*\,\s*["']__esModule["']\s*\,\s*\{\s*value\s*\:\s*[^\}]+\}\s*\)\;/gm, () => ';')
+
+  s = s.replace(/,\s*Object\.defineProperty\s*\(\s*[a-zA-Z0-9]+\s*\,\s*["']__esModule["']\s*\,\s*\{\s*value\s*\:\s*[^\}]+\}\s*\)\,/gm, () => ',1,')
   // ;Object.defineProperty(exports,"__esModule",{value:!0}),
-  //TODO: the rest
-
+  // TODO: the rest
 
   if (config.useStrict) {
 
@@ -77,11 +75,7 @@ export function replace(s: string, config: ReplaceConfig = {}) {
 
     s = s.replace(/\{\s*['"]use strict['"]\s*;/gm, (match) => '{')
 
-
-
   }
-
-
 
   return s
 
@@ -92,7 +86,7 @@ export function replace(s: string, config: ReplaceConfig = {}) {
 
     // const nothingComma = /['"]use strict['"],/gm
 
-    //TODO: the rest
+    // TODO: the rest
     // s = s.replace(nothingComma, '1,')
   // should strip these:
   // `Object.defineProperty(exports, "__esModule", { value: true });

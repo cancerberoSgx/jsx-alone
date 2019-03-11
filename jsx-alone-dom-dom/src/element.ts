@@ -1,5 +1,5 @@
-import { MNode } from './node';
-import { visitChildNodes, mapChildNodes } from "./util/nodeUtil";
+import { MNode } from './node'
+import { visitChildNodes, mapChildNodes } from './util/nodeUtil'
 
 export class MElement extends MNode {
 
@@ -7,28 +7,27 @@ export class MElement extends MNode {
 
   constructor(public readonly tagName: string) {
     super(MNode.ELEMENT_NODE)
-    this.children=new ElementList(this._children)
+    this.children = new ElementList(this._children)
   }
 
-  get textContent(): string|null{
-    return !this.childNodes || this.childNodes.length===0 ? '' : Array.from(this.childNodes||[]).map( c=>c.textContent).join('')
+  get textContent(): string|null {
+    return !this.childNodes || this.childNodes.length === 0 ? '' : Array.from(this.childNodes || []).map( c => c.textContent).join('')
   }
-  
-  set textContent(c:string|null){
-  this._textContent=c
+
+  set textContent(c: string|null) {
+  this._textContent = c
   }
 
   // outerHTML: string;
-  
+
   // id: string; // get/set
-  // innerHTML: string;    
+  // innerHTML: string;
   // readonly classList: DOMTokenList;
   // className: string;  // get/set
 
-  // HTMLELEMENT : 
+  // HTMLELEMENT :
   // click(): void;
   // innerText: string;
-
 
 }
 

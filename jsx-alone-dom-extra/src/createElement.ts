@@ -15,7 +15,7 @@ export const JSXAlone: typeof JSXAloneBase = {
   updateElement: JSXAloneBase.updateElement,
   render : JSXAloneBase.render,
   createRef: JSXAloneBase.createRef,
-  _Impl:'domExtra'
+  _Impl: 'domExtra'
 
 }
 

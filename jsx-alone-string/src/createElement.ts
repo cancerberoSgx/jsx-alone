@@ -16,7 +16,7 @@ const Module = {
   render(el: JSX.Element, config: ElementLikeImplRenderConfig = defaultRenderConfig): string {
     return `${((el as any) as NodeLike<string>).render(config)}`
   },
-  
+
   _Impl: 'string'
 
 }

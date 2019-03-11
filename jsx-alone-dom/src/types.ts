@@ -1,5 +1,5 @@
-import { ElementLike as BaseElementLike, IElementClass as ICoreElementClass, NodeLike as BaseNodeLike, RefObject, RenderConfig, TextNodeLike as BaseTextNodeLike } from 'jsx-alone-core';
-import { RootEventManager } from './event';
+import { ElementLike as BaseElementLike, IElementClass as ICoreElementClass, NodeLike as BaseNodeLike, RefObject, RenderConfig, TextNodeLike as BaseTextNodeLike } from 'jsx-alone-core'
+import { RootEventManager } from './event'
 
 export interface NodeLike<T extends RenderOutput= RenderOutput> extends BaseNodeLike<T> { }
 
@@ -12,16 +12,16 @@ export interface ElementLike<T extends RenderOutput = RenderOutput> extends Base
 
 export interface TextNodeLike extends BaseTextNodeLike<RenderOutput> { }
 
-/** 
+/**
  * Base Element Class. Has support for removing event listeners thought this.eventManager which is assigned as property
- * at render time and is responsible of event delegation. 
+ * at render time and is responsible of event delegation.
  */
 export interface IElementClass<P = {}> extends ICoreElementClass<P> {
   afterRender(containerEl: HTMLElement): void
   readonly eventManager?: RootEventManager
-  /** 
+  /**
     * If true, when rendering with `updateExisting` this component and its descendants won't be updated (they will be
-    * ignored) 
+    * ignored)
     */
   neverUpdate: boolean
 }
@@ -61,13 +61,13 @@ export interface EventManager {
    * Has the same result of calling `el.addEventListener(type, fn, options)`
    */
   addEventListener(el: HTMLElement, type: string, fn: EventListener, options?: any): void
-  /** 
-   * Removes event listeners for element inside root 
+  /**
+   * Removes event listeners for element inside root
    */
   removeListeners(el: HTMLElement, andDescendants?: boolean, types?: []): void
-  /** 
+  /**
    * Uninstall the event listeners in root. Reset the internal state. Optionally, remove the markings on descendant
-   * elements  
+   * elements
    */
   uninstall(removeElementMarks?: boolean, types?: []): void
 }

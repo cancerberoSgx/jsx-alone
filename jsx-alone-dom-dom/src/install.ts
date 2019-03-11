@@ -1,6 +1,6 @@
-import { getGlobal } from './util/util';
-import { MDocument } from './document';
-import { MNode } from './node';
+import { getGlobal } from './util/util'
+import { MDocument } from './document'
+import { MNode } from './node'
 
 export function install() {
   const g = getGlobal()

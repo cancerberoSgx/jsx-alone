@@ -2,7 +2,7 @@ import { AbstractElementLike, AbstractTextNodeLike, printStyleHtmlAttribute, Ref
 import { RefObjectImpl, setRef } from './refs'
 import { ElementLike, ElementLikeImplRenderConfig, IElementClass, RenderOutput } from './types'
 import { RootEventManager } from './event'
-import { ElementClass, isElementClass } from './elementClass';
+import { ElementClass, isElementClass } from './elementClass'
 
 export class ElementLikeImpl<T extends ElementClass= ElementClass> extends AbstractElementLike<RenderOutput> implements ElementLike {
 
@@ -59,7 +59,7 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
           const cel = c.render({
             ...config,
             updateExisting: existingChildToUpdate || undefined,
-            rootHTMLElement: existingChildToUpdate || undefined,
+            rootHTMLElement: existingChildToUpdate || undefined
           })
 
           if (!existingChildToUpdate) {
@@ -72,24 +72,24 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
         })
       }
       if (config.parent && !config.updateExisting) {
-        
+
         config.parent.appendChild(el)
       }
-      
+
       if (this.ref) {
         setRef({ elementLike: this as any, el, value: this.ref as RefObjectImpl<any> })
       }
     }
-    
+
     const elementClassWithContainer = this._elementClassInstance || config.rootElementLike._elementClassInstance
-    
+
     if (elementClassWithContainer) {
       (elementClassWithContainer as any)._eventManager = config.eventManager
       if (this._elementClassInstance) {
         this._elementClassInstance.afterRender(el)
       }
     }
-    
+
     return el
   }
 

@@ -2,10 +2,10 @@
 // import { emptyAllChildren } from '../../util/util'
 
 export {UpdatablePropsNonDestructiveComponent as Component} from 'jsx-alone-dom'
-// /** 
+// /**
 //  * the abstract component that supports updating its properties and when it happens update the DOM. store.subscribe()
 //  * handlers will call updateProps() on the top level component (Main) and this will trigger a recursive re-render and
-//  * props propagation through all the elements 
+//  * props propagation through all the elements
 //  */
 // export abstract class Component<P= {}> extends UpdatablePropsComponent<P> {
 

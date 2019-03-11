@@ -39,8 +39,6 @@
   }
   type ClassRule = Partial<CSSStyleDeclaration> & { selectorPostfix?: string }
 
-
-
   // Auxiliary <If> component
 
   interface IfProps<T> {
@@ -60,7 +58,6 @@
   type Falsy = null | '' | undefined | false
   function isNotFalsy<T>(a: T): a is NotFalsy<T> { return !!a }
 
-
   // THE APP
 
   // THE APP TyPES
@@ -79,7 +76,6 @@
     contacts: ContactModel[]
   }
 
-
   // THE APP Styles
 
   const value: ClassRule = {
@@ -94,7 +90,6 @@
     textTransform: 'italic'
   }
   const { styles, classes } = Style.build({ value, name, number })
-
 
   // The APP components
 
@@ -173,22 +168,21 @@
   return <App people={makeModel()}></App>
 }
 
-
 // THE APP TYPES
 
-interface Contact {
+                                interface Contact {
   addresses: Address[]
   phone: string
 }
-interface Address {
+                                interface Address {
   name: string,
   number: number
 }
-interface Person {
+                                interface Person {
   name: string,
   age: number
   contacts: Contact[]
 }
-interface AppProps {
+                                interface AppProps {
   people: Person[]
 }

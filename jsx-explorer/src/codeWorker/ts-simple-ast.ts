@@ -1,7 +1,7 @@
 import { Node, Project } from 'ts-simple-ast'
-import { lib_es5_d_ts } from '../util/filesPacked/lib_es5_d_ts';
-import { lib_dom_d_ts } from '../util/filesPacked/lib_dom_d_ts';
-import { jsx_alone_core_d_ts } from '../util/filesPacked/jsx_alone_core_d_ts';
+import { lib_es5_d_ts } from '../util/filesPacked/lib_es5_d_ts'
+import { lib_dom_d_ts } from '../util/filesPacked/lib_dom_d_ts'
+import { jsx_alone_core_d_ts } from '../util/filesPacked/jsx_alone_core_d_ts'
 
 let project: Project | undefined
 
@@ -14,7 +14,7 @@ export function createProject(files: { fileName: string, content: string }[]): P
         jsx: 'react',
         jsxFactory: 'JSXAlone.createElement'
       } as any
-    },)
+    })
     project.createSourceFile('lib.es5.d.ts', lib_es5_d_ts)
     project.createSourceFile('lib.dom.d.ts', lib_dom_d_ts)
     project.createSourceFile('index.d.ts', jsx_alone_core_d_ts)

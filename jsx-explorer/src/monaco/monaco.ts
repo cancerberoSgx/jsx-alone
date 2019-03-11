@@ -1,10 +1,10 @@
 import * as monaco from 'monaco-editor'
-import { isDesktop } from '../util/media';
+import { isDesktop } from '../util/media'
 import { throttle } from '../util/debounce'
-import { jsxSyntaxHighlightInstall } from './jsxSyntaxHighlight';
-import { dispatch, getState } from '../store/store';
-import { EDITOR_ACTION } from '../store/editor';
-import { jsx_alone_core_d_ts } from '../util/filesPacked/jsx_alone_core_d_ts';
+import { jsxSyntaxHighlightInstall } from './jsxSyntaxHighlight'
+import { dispatch, getState } from '../store/store'
+import { EDITOR_ACTION } from '../store/editor'
+import { jsx_alone_core_d_ts } from '../util/filesPacked/jsx_alone_core_d_ts'
 
 export function initMonacoWorkers() {
   if (typeof (self as any).MonacoEnvironment === 'undefined') {
@@ -45,13 +45,13 @@ export function installEditor(code: string, theme: string, containerEl: HTMLElem
     moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
     module: monaco.languages.typescript.ModuleKind.CommonJS,
     noEmit: true,
-    typeRoots: ["node_modules/@types"],
+    typeRoots: ['node_modules/@types'],
     jsx: monaco.languages.typescript.JsxEmit.React,
-    jsxFactory: 'JSXAlone.createElement',
+    jsxFactory: 'JSXAlone.createElement'
   })
 
   editor = monaco.editor.create(containerEl, {
-    model: monaco.editor.createModel(code, "typescript", monaco.Uri.parse("file:///main.tsx")),
+    model: monaco.editor.createModel(code, 'typescript', monaco.Uri.parse('file:///main.tsx')),
     language: 'typescript',
     theme,
     lineNumbers: isDesktop() ? 'on' : 'off',
@@ -59,10 +59,10 @@ export function installEditor(code: string, theme: string, containerEl: HTMLElem
     folding: isDesktop(),
     minimap: isDesktop() ? undefined : {
       enabled: false
-    },
+    }
   })
 
-  monaco.editor.createModel(jsx_alone_core_d_ts, "typescript", monaco.Uri.parse("file:///index.d.ts"))
+  monaco.editor.createModel(jsx_alone_core_d_ts, 'typescript', monaco.Uri.parse('file:///index.d.ts'))
 
   editor.getModel()!.onDidChangeContent(
     throttle(
@@ -82,7 +82,3 @@ export function installEditor(code: string, theme: string, containerEl: HTMLElem
 
   jsxSyntaxHighlightInstall(editor!)
 }
-
-
-
-

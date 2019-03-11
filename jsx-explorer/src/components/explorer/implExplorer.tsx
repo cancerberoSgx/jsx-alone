@@ -5,7 +5,7 @@ import { escapeHtml, query } from '../../util/util'
 import { Error } from '../util/error'
 import { registerStyle } from '../../style/styles'
 import { printMs } from 'jsx-alone-core'
-import { EvaluateTimes } from '../../store/types';
+import { EvaluateTimes } from '../../store/types'
 
 interface P extends ExplorerProps {
 }
@@ -35,20 +35,20 @@ export class ImplExplorer extends Component<P> {
 
   render() {
     const compiled = this.props.compiled.response
-    if(compiled){
+    if (compiled) {
       const {result, error, evaluated} = compiled.evaluate
       return <div className="implExplorerContent">
-  
+
         <div className="content">
-  
+
           <p>Here, you can see the output of JSX-Alone using JSX-Alone implementations independently. </p>
-  
+
           <ul>
-  
+
             <li><p>The <strong>string implementation</strong> renders JSX elements as string so it can be used in the server.</p>
               <p> Notice that in this implementation event handlers referencing external names won't work.</p>
             </li>
-  
+
             <li><p>
               The <strong>DOM implementation</strong> renders JSX elements directly in the DOM, creating HTMLElements on the fly. This is the implementation used by this program.
             </p>
@@ -56,9 +56,9 @@ export class ImplExplorer extends Component<P> {
             </li>
           </ul>
         </div>
-  
+
          <h3 className="h3">Output</h3>
-  
+
          <div className="tabs is-small is-boxed is-toggle">
            <ul>
              <li className="impl-explorer-tab string is-active">
@@ -75,7 +75,7 @@ export class ImplExplorer extends Component<P> {
              </li>
            </ul>
          </div>
-  
+
          <div className="impl-explorer-container string is-active">
            <div>
              Evaluate time: {printMs(this.stringTimes.eval || 0) || '0 ms'}.
@@ -92,7 +92,7 @@ export class ImplExplorer extends Component<P> {
            {this.stringError && <Error evaluated={evaluated} error={this.stringError} title="Error in string implementation" />}
            {!this.stringError && this.stringOutput && <pre dangerouslySetInnerHTML={{ __html: escapeHtml(this.stringOutput) }}></pre>}
          </div>
-  
+
          <div className="impl-explorer-container dom" dangerouslySetInnerHTML={{ __html: '' }}>
            <div>
              Evaluate time: {printMs(this.domTimes.eval || 0) || '0 ms'}.
@@ -108,7 +108,7 @@ export class ImplExplorer extends Component<P> {
            {this.domError && <Error evaluated={evaluated} error={this.domError} title="Error in DOM implementation" />}
            {!this.domError && this.domOutput && <pre dangerouslySetInnerHTML={{ __html: escapeHtml(this.domOutput.outerHTML) }}></pre>}
         </div>
-  
+
       </div>
     }
     else {
@@ -128,7 +128,7 @@ export class ImplExplorer extends Component<P> {
       </h3>
     </div>
     }
-    
+
     // try {
     //   this.stringOutput = evaluate(this.props.editor.code, 'string', this.stringTimes)
     //   this.stringError = undefined

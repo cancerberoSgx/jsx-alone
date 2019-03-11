@@ -1,4 +1,4 @@
-import { AbstractJSXAlone as JSXAlone } from 'jsx-alone-core';
+import { AbstractJSXAlone as JSXAlone } from 'jsx-alone-core'
 
 function simple1() {
   const people = [{ name: 'Sebastián', age: 12 }, { name: 'Laura', age: 22 }]
@@ -10,7 +10,7 @@ function simple1() {
         <strong className="name">{p.name}</strong> is <span className="age">{p.age}</span> years old
       </li>)}
     </ul>
-    <p>Listed {people.length} persons in {(Date.now()-t0)+''} milliseconds. </p>
-    <button className="button is-primary" onClick={e=>alert(`submitted \${people.length} persons`)}>Submit</button>
+    <p>Listed {people.length} persons in {(Date.now() - t0) + ''} milliseconds. </p>
+    <button className="button is-primary" onClick={e => alert(`submitted \${people.length} persons`)}>Submit</button>
   </div>
 }

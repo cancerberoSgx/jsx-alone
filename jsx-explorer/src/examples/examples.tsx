@@ -27,17 +27,16 @@ export const examples: Example[] = Object.values(examplesPacked).filter(f => f.f
     name,
     code: fixCode(f.content, g || {})
   }
-}).sort((a, b)=>a.name.localeCompare(b.name))
-
+}).sort((a, b) => a.name.localeCompare(b.name))
 
 function fixCode(s: string, globals: any = {}) {
   const lines = s.split('\n')
   const i = lines.findIndex(l => l.includes('function'))
   const code = `
-// Although you can import types from '.', only the the following implementations 
+// Although you can import types from '.', only the the following implementations
 // are available in this examples:
 
-import {JSXAlone, JSXAloneDom, JSXAloneString, JSXAloneJson, 
+import {JSXAlone, JSXAloneDom, JSXAloneString, JSXAloneJson,
   ElementClassDom, ElementClassJson, ElementClassString } from '.'
 
 function test() {

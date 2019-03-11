@@ -1,27 +1,26 @@
-import { install, uninstall } from '../install';
-import { MDocument } from '../document';
-import { MElement } from '../element';
-import { cloneNode } from '../util/cloneNode';
-import { MNode, MAttr } from '../node';
-import { nodeAttributes } from '../util/nodeUtil';
-import { isArray } from 'util';
+import { install, uninstall } from '../install'
+import { MDocument } from '../document'
+import { MElement } from '../element'
+import { cloneNode } from '../util/cloneNode'
+import { MNode, MAttr } from '../node'
+import { nodeAttributes } from '../util/nodeUtil'
+import { isArray } from 'util'
 
 export function testNoDom(el?: Element) {
   it('should run in clean environment', () => {
-    //@ts-ig nore
-    expectNoDom(el);
+    // @ts-ig nore
+    expectNoDom(el)
   })
 }
 
-
 export function expectNoDom(el?: Element) {
-  expect(typeof document).toBe('undefined');
-  //@ts-ign ore
-  expect(typeof Node).toBe('undefined');
+  expect(typeof document).toBe('undefined')
+  // @ts-ign ore
+  expect(typeof Node).toBe('undefined')
 }
 
 export function checkDomIsImplementation(el: Element) {
-  expect(typeof document.querySelectorAll).toBe('undefined');
+  expect(typeof document.querySelectorAll).toBe('undefined')
   expect(() => el.querySelectorAll('p')).toThrow()
 }
 export function expectJsdomIsInstalled(el?: Element) {
@@ -40,16 +39,13 @@ export function fromHtml(s: string, doc: MDocument) {
   return cloneNode(d, doc)
 }
 
-
 type T = string|null
 type Q = T|T[]
 export function nodeAttributesPretty(n: MNode | Node): Q {
-
   function print(a: MAttr[]|MAttr|null): any {
-    return a==null?null: !isArray(a) ? 
-    `${a.name}=${a.value}` : 
-    a.map(b=> print(b))
+    return a == null ? null : !isArray(a) ?
+    `${a.name}=${a.value}` :
+    a.map(b => print(b))
   }
-
- return  nodeAttributes(n).map(a=>print(a))  
+  return nodeAttributes(n).map(a => print(a))
 }

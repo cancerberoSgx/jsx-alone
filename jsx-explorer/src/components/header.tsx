@@ -7,9 +7,9 @@ import { showInModal } from './util/showInModal'
 import { WhatsThis } from './content/whatsThis'
 import { examples } from '../examples/examples'
 import { EditorExplorerMenu } from './editorExplorerMenu'
-import { dispatch } from '../store/store';
-import { EDITOR_ACTION } from '../store/editor';
-import { OPTIONS_ACTIONS } from '../store/options';
+import { dispatch } from '../store/store'
+import { EDITOR_ACTION } from '../store/editor'
+import { OPTIONS_ACTIONS } from '../store/options'
 
 interface P {
   state: State
@@ -37,7 +37,6 @@ export class Header extends Component<P> {
       <div id="jsxExplorerNavbar" className="navbar-menu">
 
         <div className="navbar-start">
-
 
           <div className="navbar-item has-dropdown is-hoverable">
             <a className="navbar-link">Examples</a>
