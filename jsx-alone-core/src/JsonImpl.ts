@@ -60,7 +60,7 @@ export class JsonImplTextNodeLikeImpl extends AbstractTextNodeLike<JsonImplOutpu
  */
 export function JsonImplOutputElAsHtml(node: JsonImplOutput, indentLevel = 0): string {
   if (isJsonImplOutputText(node)) {
-    return (node.content + '')
+    return node.content + ''
   }
   return `${indentLevel === -1 ? '' : `\n${indent(indentLevel)}`}<${node.tag}${
     Object.keys(node.attrs).length ? ' ' : ''}${

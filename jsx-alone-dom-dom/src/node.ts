@@ -1,4 +1,6 @@
 import { MEventTarget } from './event'
+import { MDocument } from './document';
+import { getNodeHtml } from './util/nodeUtil';
 
 export abstract class MNode extends MEventTarget {
 
@@ -15,15 +17,11 @@ export abstract class MNode extends MEventTarget {
 
   protected _children: MNode[] = []
 
-  childNodes: NodeList<MNode>
+  readonly childNodes: NodeList<MNode>
 
-  get textContent() {
-    return this._textContent
-  }
-  set textContent(c: string|null) {
-    this._textContent = c
-  }
-  protected   _textContent: string | null = null
+  protected _textContent: string | null = null
+  protected _parentNode: Node | null = null
+  protected _ownerDocument: MDocument | null = null
 
   constructor(readonly nodeType: NodeType) {
     super()
@@ -31,21 +29,57 @@ export abstract class MNode extends MEventTarget {
     this.childNodes = new NodeList(this._children)
     this.attributes = new NamedNodeMap(this._attributes)
   }
-
-  getAttribute(a: string) {
-    return this._attributes[a] ?  this._attributes[a].value : null
+  get ownerDocument() {
+    return this._ownerDocument
   }
-  setAttribute(a: string, v: string) {
-    return this._attributes[a] = {value: v, name: a}
+  get textContent() {
+    return this._textContent
+  }
+  set textContent(c: string | null) {
+    this._textContent = c
+  }
+  get parentNode() {
+    return this._parentNode
+  }
+
+  get innerHTML() {
+    return getNodeHtml(this)
+  }
+  set innerHTML(id: string | null) {
+    throw 'not implemented'
+  }
+  
+  
+  getAttribute(a: string) {
+    return this._attributes[a] ? this._attributes[a].value : null
+  }
+  setAttribute(a: string, v: string | null) {
+    return this._attributes[a] = { value: v, name: a }
   }
   appendChild(c: MNode) {
     this._children.push(c)
+  }
+  /**
+   * Returns whether node and otherNode have the same properties.
+   */
+  isEqualNode(otherNode: MNode | null): boolean {
+    return false // TODO
+  }
+  /**
+   * Replaces node with nodes, while replacing strings in nodes with equivalent Text nodes. Throws a "HierarchyRequestError" DOMException if the constraints of the node tree are violated.
+   */
+  replaceWith(...nodes: (MNode | string)[]): void {
+    if (this._parentNode) {
+      const children = (this._parentNode as any)._children as MNode[]
+      children.splice(children.indexOf(this), 1, 
+        ...nodes.map(n => typeof n === 'string' ? this.ownerDocument!.createTextNode(n) : n))
+    }
   }
 }
 
 type NodeType = 10 | 3 | 1
 
-class NodeList<T  > {
+class NodeList<T> {
   [index: number]: T;
 
   constructor(protected list: T[]) {
@@ -54,54 +88,32 @@ class NodeList<T  > {
   [Symbol.iterator]() {
     return this.list[Symbol.iterator]()
   }
-  item(i: number): T | null {
-    return this.list[i] || null
-  }
   get length() {
     return this.list.length
   }
+  item(i: number): T | null {
+    return this.list[i] || null
+  }
 }
 
-// interface NamedNodeMap {
-//   readonly length: number;
-//   getNamedItem(qualifiedName: string): Attr | null;
-//   getNamedItemNS(namespace: string | null, localName: string): Attr | null;
-//   item(index: number): Attr | null;
-//   removeNamedItem(qualifiedName: string): Attr;
-//   removeNamedItemNS(namespace: string | null, localName: string): Attr;
-//   setNamedItem(attr: Attr): Attr | null;
-//   setNamedItemNS(attr: Attr): Attr | null;
-//   [index: number]: Attr;
-// }
-// interface Attr extends Node {
-//   readonly localName: string;
-//   readonly name: string;
-//   readonly namespaceURI: string | null;
-//   readonly ownerElement: Element | null;
-//   readonly prefix: string | null;
-//   readonly specified: boolean;
-//   value: string;
-// }
-
-// type
 export interface MAttr {
-  name: string,
-  value: string
+  name: string
+  value: string | null
 }
 
 // TODO: performance - we focus on the map, and not in the array/iteration
-class NamedNodeMap<T> {
+class NamedNodeMap<T extends MAttr> {
   [index: number]: T;
-  constructor(protected map: {[n: string]: T}) {
+  constructor(protected map: { [n: string]: T }) {
 
   }
   [Symbol.iterator]() {
     return Object.values(this.map)[Symbol.iterator]()
   }
-  item(i: number): T | null {
-    return Object.values(this.map)[i] || null
-  }
   get length() {
     return Object.keys(this.map).length
+  }
+  item(i: number): T | null {
+    return Object.values(this.map)[i] || null
   }
 }

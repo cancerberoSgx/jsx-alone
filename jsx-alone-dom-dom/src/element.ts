@@ -1,26 +1,33 @@
 import { MNode } from './node'
-import { visitChildNodes, mapChildNodes } from './util/nodeUtil'
+import { visitChildNodes, mapChildNodes, isText, isElement, getNodeHtml } from './util/nodeUtil'
+import { MDocument } from './document';
 
 export class MElement extends MNode {
 
   children: ElementList
 
-  constructor(public readonly tagName: string) {
+  constructor(public readonly tagName: string, ownerDocument: MDocument) {
     super(MNode.ELEMENT_NODE)
     this.children = new ElementList(this._children)
+    this._ownerDocument = ownerDocument
   }
 
-  get textContent(): string|null {
-    return !this.childNodes || this.childNodes.length === 0 ? '' : Array.from(this.childNodes || []).map( c => c.textContent).join('')
+  get textContent(): string | null {
+    return !this.childNodes || this.childNodes.length === 0 ? '' : Array.from(this.childNodes || []).map(c => c.textContent).join('')
   }
 
-  set textContent(c: string|null) {
-  this._textContent = c
+  set textContent(c: string | null) {
+    this._textContent = c
   }
 
   // outerHTML: string;
 
-  // id: string; // get/set
+  get id() {
+    return this.getAttribute('id')
+  }
+  set id(id: string | null) {
+    this.setAttribute('id', id)
+  }
   // innerHTML: string;
   // readonly classList: DOMTokenList;
   // className: string;  // get/set

@@ -36,7 +36,7 @@ export function fromHtml(s: string, doc: MDocument) {
   expectJsdomIsInstalled()
   const d = document.createElement('div')
   d.innerHTML = s
-  return cloneNode(d, doc)
+  return cloneNode(d.childNodes[0], doc)
 }
 
 type T = string|null

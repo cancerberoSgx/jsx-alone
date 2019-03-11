@@ -4,10 +4,12 @@ import { checkDomIsImplementation, testNoDom, expectNoDom, nodeAttributesPretty 
 import { nodeTypes, nodeTexts, nodeAttributes } from '../util/nodeUtil'
 
 describe('jsx-alone-dom', () => {
+
   beforeAll(() => {
     expectNoDom()
     install()
   })
+
   it('should render single text child', () => {
     install()
     checkDomIsImplementation(document.body)
@@ -42,18 +44,18 @@ describe('jsx-alone-dom', () => {
 
     checkDomIsImplementation(r as HTMLElement)
     expect(r.nodeType).toBe(Node.ELEMENT_NODE)
-    expect(nodeAttributesPretty(r)).toEqual([[
-      "id=2"
-    ],
-    ["data-foo=1"],
-      null,
-    ["type=checkbox",
-      "checked=checked"],
-    [],
-    ["id=d"],
-      null,
-      null
+    expect(nodeAttributesPretty(r)).toEqual([
+      ["id=2"], ["data-foo=1"], null, ["type=checkbox", "checked=checked"], [], ["id=d"], null, null
     ])
+  })
 
+  it('should render updateExisting', () => {
+    install()
+    checkDomIsImplementation(document.body)
+    const id = '2'
+    const c = <p id={id}><span data-foo={1}>>hello <input type="checkbox" checked={true} /><i><strong id="d">good</strong>bye </i></span></p>
+    const r = JSXAlone.render(c, document.body as any)!
+    checkDomIsImplementation(r as HTMLElement)
+    JSXAlone.render(c, {updateExisting: r as any})
   })
 })
