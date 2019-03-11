@@ -20,11 +20,27 @@ xtest('isEqualNode', () => {
   expect(e1.isEqualNode(e2)).toBe(true)
 })
 
+test('replaceWith', () => {
+  const doc = new MDocument()
+  const n = fromHtml(`<div class="c1"><p id="foo">hello</p>world</div>`, doc)
+  n.childNodes.item(0)!.replaceWith(fromHtml(`<a href="foo">link</a>`, doc))
+  expect(n.outerHTML).toBe('<div class="c1"><a href="foo">link</a>world</div>')
+}) 
+
 test('innerHTML', () => {
   const doc = new MDocument()
   const html = `<div class="c1"><p id="foo">hello</p>world</div>`
   const n = fromHtml(html, doc)
-  expect(n.innerHTML).toBe('<div class="c1"><p id="foo">hello</p>world</div>')
+  expect(n.innerHTML).toBe('<p id="foo">hello</p>world')
   document.body.innerHTML = html
-  expect(n.innerHTML).toBe(document.body.innerHTML)
+  expect(n.innerHTML).toBe(document.body.children[0].innerHTML)
+})
+
+test('outerHtml', () => {
+  const doc = new MDocument() 
+  const html = `<div class="c1"><p id="foo">hello</p>world</div>`
+  const n = fromHtml(html, doc)
+  expect(n.outerHTML).toBe('<div class="c1"><p id="foo">hello</p>world</div>')
+  document.body.innerHTML = html
+  expect(n.outerHTML).toBe(document.body.children[0].outerHTML)
 })

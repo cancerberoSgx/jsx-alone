@@ -1,5 +1,6 @@
 import { MNode } from './node'
-import { visitChildNodes, mapChildNodes, isText, isElement, getNodeHtml } from './util/nodeUtil'
+import { visitChildNodes, mapChildNodes, isText, isElement } from './util/nodeUtil'
+import { nodeHtml } from "./util/nodeHtml";
 import { MDocument } from './document';
 
 export class MElement extends MNode {
