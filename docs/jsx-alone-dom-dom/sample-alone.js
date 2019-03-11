@@ -1,217 +1,343 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 Object.defineProperty(exports, "__esModule", { value: true });
-const document_1 = require("../document");
-const doc = new document_1.MDocument();
-const d = doc.createElement('div');
+var document_1 = require("../document");
+var doc = new document_1.MDocument();
+var d = doc.createElement('div');
 d.setAttribute('id', 'i1');
 doc.body.appendChild(d);
-const c = doc.createElement('span');
-d.setAttribute('class', 'ccc');
+var c = doc.createElement('span');
+c.setAttribute('class', 'ccc');
 d.appendChild(c);
 c.appendChild(doc.createTextNode('This was generated using jsx-alone-dom-dom little DOM  implementation'));
 window.document.getElementById('output').innerText = d.outerHTML;
 
 },{"../document":2}],2:[function(require,module,exports){
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-const node_1 = require("./node");
-const element_1 = require("./element");
-const text_1 = require("./text");
-class MDocument extends node_1.MNode {
-    constructor() {
-        super(node_1.MNode.DOCUMENT_TYPE_NODE);
-        this.head = new MHeadElement('head', this);
-        this.body = new MBodyElement('body', this);
+var node_1 = require("./node");
+var element_1 = require("./element");
+var text_1 = require("./text");
+var MDocument = (function (_super) {
+    __extends(MDocument, _super);
+    function MDocument() {
+        var _this = _super.call(this, node_1.MNode.DOCUMENT_TYPE_NODE) || this;
+        _this.head = new MHeadElement('head', _this);
+        _this.body = new MBodyElement('body', _this);
+        return _this;
     }
-    createElement(t) {
+    MDocument.prototype.createElement = function (t) {
         return new element_1.MElement(t, this);
-    }
-    createTextNode(content) {
+    };
+    MDocument.prototype.createTextNode = function (content) {
         return new text_1.MTextNode(content, this);
-    }
-}
+    };
+    return MDocument;
+}(node_1.MNode));
 exports.MDocument = MDocument;
-class MHeadElement extends element_1.MElement {
-}
-class MBodyElement extends element_1.MElement {
-}
+var MHeadElement = (function (_super) {
+    __extends(MHeadElement, _super);
+    function MHeadElement() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return MHeadElement;
+}(element_1.MElement));
+var MBodyElement = (function (_super) {
+    __extends(MBodyElement, _super);
+    function MBodyElement() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return MBodyElement;
+}(element_1.MElement));
 
 },{"./element":3,"./node":5,"./text":6}],3:[function(require,module,exports){
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-const node_1 = require("./node");
-class MElement extends node_1.MNode {
-    constructor(tagName, ownerDocument) {
-        super(node_1.MNode.ELEMENT_NODE);
-        this.tagName = tagName;
-        this.children = new ElementList(this._children);
-        this._ownerDocument = ownerDocument;
+var node_1 = require("./node");
+var MElement = (function (_super) {
+    __extends(MElement, _super);
+    function MElement(tagName, ownerDocument) {
+        var _this = _super.call(this, node_1.MNode.ELEMENT_NODE) || this;
+        _this.tagName = tagName;
+        _this.children = new ElementList(_this._children);
+        _this._ownerDocument = ownerDocument;
+        return _this;
     }
-    get textContent() {
-        return !this.childNodes || this.childNodes.length === 0 ? '' : Array.from(this.childNodes || []).map(c => c.textContent).join('');
-    }
-    set textContent(c) {
-        this._textContent = c;
-    }
-    get id() {
-        return this.getAttribute('id');
-    }
-    set id(id) {
-        this.setAttribute('id', id);
-    }
-}
+    Object.defineProperty(MElement.prototype, "textContent", {
+        get: function () {
+            return !this.childNodes || this.childNodes.length === 0 ? '' : Array.from(this.childNodes || []).map(function (c) { return c.textContent; }).join('');
+        },
+        set: function (c) {
+            this._textContent = c;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MElement.prototype, "id", {
+        get: function () {
+            return this.getAttribute('id');
+        },
+        set: function (id) {
+            this.setAttribute('id', id);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return MElement;
+}(node_1.MNode));
 exports.MElement = MElement;
-class ElementList {
-    constructor(list) {
+var ElementList = (function () {
+    function ElementList(list) {
         this.list = list;
     }
-    item(i) {
+    ElementList.prototype.item = function (i) {
         return this.list[i] || undefined;
-    }
-    get length() {
-        return this.list.length;
-    }
-}
+    };
+    Object.defineProperty(ElementList.prototype, "length", {
+        get: function () {
+            return this.list.length;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return ElementList;
+}());
 
 },{"./node":5}],4:[function(require,module,exports){
 Object.defineProperty(exports, "__esModule", { value: true });
-class MEventTarget {
-    addEventListener(type, listener, options) {
-        throw new Error('not implemented');
+var MEventTarget = (function () {
+    function MEventTarget() {
     }
-    removeEventListener(type, callback, options) {
+    MEventTarget.prototype.addEventListener = function (type, listener, options) {
         throw new Error('not implemented');
-    }
-}
+    };
+    MEventTarget.prototype.removeEventListener = function (type, callback, options) {
+        throw new Error('not implemented');
+    };
+    return MEventTarget;
+}());
 exports.MEventTarget = MEventTarget;
 
 },{}],5:[function(require,module,exports){
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-const event_1 = require("./event");
-const nodeHtml_1 = require("./util/nodeHtml");
-class MNode extends event_1.MEventTarget {
-    constructor(nodeType) {
-        super();
-        this.nodeType = nodeType;
-        this._attributes = {};
-        this._children = [];
-        this._ownerDocument = null;
-        this._textContent = null;
-        this._parentNode = null;
-        this._children = [];
-        this.childNodes = new NodeList(this._children);
-        this.attributes = new NamedNodeMap(this._attributes);
+var event_1 = require("./event");
+var nodeHtml_1 = require("./util/nodeHtml");
+var MNode = (function (_super) {
+    __extends(MNode, _super);
+    function MNode(nodeType) {
+        var _this = _super.call(this) || this;
+        _this.nodeType = nodeType;
+        _this._attributes = {};
+        _this._children = [];
+        _this._ownerDocument = null;
+        _this._textContent = null;
+        _this._parentNode = null;
+        _this._children = [];
+        _this.childNodes = new NodeList(_this._children);
+        _this.attributes = new NamedNodeMap(_this._attributes);
+        return _this;
     }
-    get ownerDocument() {
-        return this._ownerDocument;
-    }
-    get textContent() {
-        return this._textContent;
-    }
-    set textContent(c) {
-        this._textContent = c;
-    }
-    get parentNode() {
-        return this._parentNode;
-    }
-    get innerHTML() {
-        return nodeHtml_1.nodeHtml(this, false);
-    }
-    set innerHTML(id) {
-        throw 'not implemented';
-    }
-    get outerHTML() {
-        return nodeHtml_1.nodeHtml(this, true);
-    }
-    set outerHTML(id) {
-        throw 'not implemented';
-    }
-    getAttribute(a) {
+    Object.defineProperty(MNode.prototype, "ownerDocument", {
+        get: function () {
+            return this._ownerDocument;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MNode.prototype, "textContent", {
+        get: function () {
+            return this._textContent;
+        },
+        set: function (c) {
+            this._textContent = c;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MNode.prototype, "parentNode", {
+        get: function () {
+            return this._parentNode;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MNode.prototype, "innerHTML", {
+        get: function () {
+            return nodeHtml_1.nodeHtml(this, false);
+        },
+        set: function (id) {
+            throw 'not implemented';
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MNode.prototype, "outerHTML", {
+        get: function () {
+            return nodeHtml_1.nodeHtml(this, true);
+        },
+        set: function (id) {
+            throw 'not implemented';
+        },
+        enumerable: true,
+        configurable: true
+    });
+    MNode.prototype.getAttribute = function (a) {
         return this._attributes[a] ? this._attributes[a].value : null;
-    }
-    setAttribute(a, v) {
+    };
+    MNode.prototype.setAttribute = function (a, v) {
         return this._attributes[a] = { value: v, name: a };
-    }
-    appendChild(c) {
+    };
+    MNode.prototype.appendChild = function (c) {
         this._children.push(c);
         c._parentNode = this;
-    }
-    isEqualNode(otherNode) {
+    };
+    MNode.prototype.isEqualNode = function (otherNode) {
         return false;
-    }
-    replaceWith(...nodes) {
-        const children = this._parentNode._children;
-        children.splice(children.indexOf(this), 1, ...nodes.map(n => typeof n === 'string' ? this.ownerDocument.createTextNode(n) : n));
-    }
-}
-MNode.DOCUMENT_TYPE_NODE = 10;
-MNode.TEXT_NODE = 3;
-MNode.ELEMENT_NODE = 1;
-MNode._WATERMARK = 'jsx-alone-dom-dom';
+    };
+    MNode.prototype.replaceWith = function () {
+        var _this = this;
+        var nodes = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            nodes[_i] = arguments[_i];
+        }
+        var children = this._parentNode._children;
+        children.splice.apply(children, [children.indexOf(this), 1].concat(nodes.map(function (n) { return typeof n === 'string' ? _this.ownerDocument.createTextNode(n) : n; })));
+    };
+    MNode.DOCUMENT_TYPE_NODE = 10;
+    MNode.TEXT_NODE = 3;
+    MNode.ELEMENT_NODE = 1;
+    MNode._WATERMARK = 'jsx-alone-dom-dom';
+    return MNode;
+}(event_1.MEventTarget));
 exports.MNode = MNode;
-class NodeList {
-    constructor(list) {
+var NodeList = (function () {
+    function NodeList(list) {
         this.list = list;
     }
-    [Symbol.iterator]() {
+    NodeList.prototype[Symbol.iterator] = function () {
         return this.list[Symbol.iterator]();
-    }
-    get length() {
-        return this.list.length;
-    }
-    item(i) {
+    };
+    Object.defineProperty(NodeList.prototype, "length", {
+        get: function () {
+            return this.list.length;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    NodeList.prototype.item = function (i) {
         return this.list[i] || null;
-    }
-}
-class NamedNodeMap {
-    constructor(map) {
+    };
+    return NodeList;
+}());
+var NamedNodeMap = (function () {
+    function NamedNodeMap(map) {
         this.map = map;
     }
-    [Symbol.iterator]() {
+    NamedNodeMap.prototype[Symbol.iterator] = function () {
         return Object.values(this.map)[Symbol.iterator]();
-    }
-    get length() {
-        return Object.keys(this.map).length;
-    }
-    item(i) {
+    };
+    Object.defineProperty(NamedNodeMap.prototype, "length", {
+        get: function () {
+            return Object.keys(this.map).length;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    NamedNodeMap.prototype.item = function (i) {
         return Object.values(this.map)[i] || null;
-    }
-}
+    };
+    return NamedNodeMap;
+}());
 
 },{"./event":4,"./util/nodeHtml":7}],6:[function(require,module,exports){
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-const node_1 = require("./node");
-class MTextNode extends node_1.MNode {
-    constructor(_textContent, ownerDocument) {
-        super(node_1.MNode.TEXT_NODE);
-        this._textContent = _textContent;
-        this._ownerDocument = ownerDocument;
+var node_1 = require("./node");
+var MTextNode = (function (_super) {
+    __extends(MTextNode, _super);
+    function MTextNode(_textContent, ownerDocument) {
+        var _this = _super.call(this, node_1.MNode.TEXT_NODE) || this;
+        _this._textContent = _textContent;
+        _this._ownerDocument = ownerDocument;
+        return _this;
     }
-}
+    return MTextNode;
+}(node_1.MNode));
 exports.MTextNode = MTextNode;
 
 },{"./node":5}],7:[function(require,module,exports){
 Object.defineProperty(exports, "__esModule", { value: true });
-const nodeUtil_1 = require("./nodeUtil");
-function nodeHtml(node, outer = true) {
+var nodeUtil_1 = require("./nodeUtil");
+function nodeHtml(node, outer) {
+    if (outer === void 0) { outer = true; }
     if (!nodeUtil_1.isElement(node)) {
         return node.textContent + '';
     }
-    const attrs = Array.from(node.attributes);
-    return `${outer ? `<${node.tagName.toLowerCase()}${attrs.length ? ' ' : ''}${attrs.map(a => a.value && `${a.name}="${a.value.toString ? a.value.toString() : a.value}"`)
-        .filter(a => a)
-        .join(' ')}>` : ``}${Array.from(node.childNodes).map(c => nodeHtml(c)).join('')}${outer ? `</${node.tagName.toLowerCase()}>` : ``}`;
+    var attrs = Array.from(node.attributes);
+    return "" + (outer ? "<" + node.tagName.toLowerCase() + (attrs.length ? ' ' : '') + attrs.map(function (a) { return a.value && a.name + "=\"" + (a.value.toString ? a.value.toString() : a.value) + "\""; })
+        .filter(function (a) { return a; })
+        .join(' ') + ">" : "") + Array.from(node.childNodes).map(function (c) { return nodeHtml(c); }).join('') + (outer ? "</" + node.tagName.toLowerCase() + ">" : "");
 }
 exports.nodeHtml = nodeHtml;
 
 },{"./nodeUtil":8}],8:[function(require,module,exports){
 Object.defineProperty(exports, "__esModule", { value: true });
 function nodeTypes(n) {
-    const o = [];
-    visitChildNodes(n, c => o.push(c.nodeType));
+    var o = [];
+    visitChildNodes(n, function (c) { return o.push(c.nodeType); });
     return o;
 }
 exports.nodeTypes = nodeTypes;
 function nodeTexts(n) {
-    return mapChildNodes(n, c => c.textContent);
+    return mapChildNodes(n, function (c) { return c.textContent; });
 }
 exports.nodeTexts = nodeTexts;
 function isElement(n) {
@@ -223,11 +349,11 @@ function isText(n) {
 }
 exports.isText = isText;
 function nodeAttributes(n) {
-    return mapChildNodes(n, c => {
+    return mapChildNodes(n, function (c) {
         if (isElement(c)) {
-            const attrs = [];
-            Array.from(c.attributes).forEach(a => attrs.push({ name: a.name, value: a.value }));
-            return attrs;
+            var attrs_1 = [];
+            Array.from(c.attributes).forEach(function (a) { return attrs_1.push({ name: a.name, value: a.value }); });
+            return attrs_1;
         }
         else {
             return null;
@@ -237,12 +363,12 @@ function nodeAttributes(n) {
 exports.nodeAttributes = nodeAttributes;
 function visitChildNodes(n, v) {
     v(n);
-    Array.from(n.childNodes).forEach(c => visitChildNodes(c, v));
+    Array.from(n.childNodes).forEach(function (c) { return visitChildNodes(c, v); });
 }
 exports.visitChildNodes = visitChildNodes;
 function mapChildNodes(n, v) {
-    const o = [];
-    visitChildNodes(n, c => o.push(v(c)));
+    var o = [];
+    visitChildNodes(n, function (c) { return o.push(v(c)); });
     return o;
 }
 exports.mapChildNodes = mapChildNodes;
