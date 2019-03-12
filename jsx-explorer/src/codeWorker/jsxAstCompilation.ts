@@ -5,7 +5,8 @@ import { CodeWorkerRequest, CodeWorkerRequestJsxAst, CodeWorkerResponseJsxAsNode
 import { createProject, getChildrenForEachChild } from './ts-simple-ast'
 
 function buildJsxAstDiagnostics(project: Project): CodeWorkerResponseJsxAstDiagnostic[] {
-  return project.getPreEmitDiagnostics().map(tsd => {
+  const f = project.getSourceFiles().find(s => s.getFilePath().endsWith('t1.tsx'))!
+  return f.getPreEmitDiagnostics().map(tsd => {
     const d: CodeWorkerResponseJsxAstDiagnostic = {
       message: ts.flattenDiagnosticMessageText(tsd.compilerObject.messageText, '\n'),
       code: tsd.getCode(),

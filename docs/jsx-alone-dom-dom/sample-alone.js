@@ -200,7 +200,7 @@ var MNode = (function (_super) {
             return nodeHtml_1.nodeHtml(this, false);
         },
         set: function (id) {
-            throw 'not implemented';
+            throw new Error('not implemented');
         },
         enumerable: true,
         configurable: true
@@ -210,7 +210,7 @@ var MNode = (function (_super) {
             return nodeHtml_1.nodeHtml(this, true);
         },
         set: function (id) {
-            throw 'not implemented';
+            throw new Error('not implemented');
         },
         enumerable: true,
         configurable: true
