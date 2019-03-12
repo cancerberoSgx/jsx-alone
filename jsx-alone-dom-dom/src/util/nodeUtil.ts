@@ -42,6 +42,3 @@ export function mapChildNodes<T>(n: MNode | Node, v: (c: MNode | Node) => T): T[
   visitChildNodes(n, c => o.push(v(c)))
   return o
 }
-
-
-

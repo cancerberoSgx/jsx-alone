@@ -53,8 +53,7 @@
   expect(nodeAttributes(document.body.childNodes[0])).toEqual(nodeAttributes(el))
 })
 
-
-describe('isEqualNode', ()=>{
+ describe('isEqualNode', () => {
   it('equals', () => {
     document.body.innerHTML =  `<p class="foo">hello</p><p class="foo">hello</p>`
     // console.log(document.body.children[0].outerHTML);
@@ -81,7 +80,6 @@ describe('isEqualNode', ()=>{
   })
 })
 
-
 // describe('replaceChild', ()=>{
 //   it('simple', () => {
 //     const html = `<p class="foo">hello</p><p class="foo">hello</p>`
@@ -91,7 +89,6 @@ describe('isEqualNode', ()=>{
 //     p1.childNodes[1].replaceWith(c1)
 //     // document.body.innerHTML
 //     console.log(p1);
-    
+
 //   })
 // })
-

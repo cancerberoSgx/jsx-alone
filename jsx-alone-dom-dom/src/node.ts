@@ -1,6 +1,6 @@
 import { MEventTarget } from './event'
-import { MDocument } from './document';
-import { nodeHtml } from "./util/nodeHtml";
+import { MDocument } from './document'
+import { nodeHtml } from './util/nodeHtml'
 
 export abstract class MNode extends MEventTarget {
 
@@ -16,7 +16,6 @@ export abstract class MNode extends MEventTarget {
 
   protected _children: MNode[] = []
   readonly childNodes: NodeList<MNode>
-
 
   constructor(readonly nodeType: NodeType) {
     super()
@@ -37,7 +36,7 @@ export abstract class MNode extends MEventTarget {
   set textContent(c: string | null) {
     this._textContent = c
   }
-  
+
   protected _parentNode: MNode | null = null
   get parentNode() {
     return this._parentNode
@@ -47,16 +46,16 @@ export abstract class MNode extends MEventTarget {
     return nodeHtml(this, false)
   }
   set innerHTML(id: string | null) {
-    throw 'not implemented'
+    throw new Error('not implemented')
   }
 
   get outerHTML() {
     return nodeHtml(this, true)
   }
   set outerHTML(id: string | null) {
-    throw 'not implemented'
+    throw new Error('not implemented')
   }
-  
+
   getAttribute(a: string) {
     return this._attributes[a] ? this._attributes[a].value : null
   }
@@ -66,7 +65,7 @@ export abstract class MNode extends MEventTarget {
 
   appendChild(c: MNode) {
     this._children.push(c)
-    c._parentNode=this
+    c._parentNode = this
   }
 
   /**
@@ -82,7 +81,7 @@ export abstract class MNode extends MEventTarget {
   replaceWith(...nodes: (MNode | string)[]): void {
     // if (this._parentNode) {
       const children = (this._parentNode as any)._children as MNode[]
-      children.splice(children.indexOf(this), 1, 
+      children.splice(children.indexOf(this), 1,
         ...nodes.map(n => typeof n === 'string' ? this.ownerDocument!.createTextNode(n) : n))
     // }
   }

@@ -45,7 +45,7 @@ describe('jsx-alone-dom', () => {
     checkDomIsImplementation(r as HTMLElement)
     expect(r.nodeType).toBe(Node.ELEMENT_NODE)
     expect(nodeAttributesPretty(r)).toEqual([
-      ["id=2"], ["data-foo=1"], null, ["type=checkbox", "checked=checked"], [], ["id=d"], null, null
+      ['id=2'], ['data-foo=1'], null, ['type=checkbox', 'checked=checked'], [], ['id=d'], null, null
     ])
   })
 
@@ -53,7 +53,7 @@ describe('jsx-alone-dom', () => {
     install()
     checkDomIsImplementation(document.body)
     const id = '2'
-    const c = <p id={id}><span data-foo={1}>hello <input type="checkbox" checked={true} onChange={e=>console.log('hello')}/><i><strong id="d">good</strong>bye </i></span></p>
+    const c = <p id={id}><span data-foo={1}>hello <input type="checkbox" checked={true} onChange={e => console.log('hello')}/><i><strong id="d">good</strong>bye </i></span></p>
     const r = JSXAlone.render(c, document.body as any)! as any as HTMLElement
     checkDomIsImplementation(r)
     expect(r.outerHTML).toMatch(/^<p id="2"><span data\-foo="1">hello <input type="checkbox" checked="checked" [^=]+="[^"]+"><\/input><i><strong id="d">good<\/strong>bye <\/i><\/span><\/p>$/)

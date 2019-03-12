@@ -1,4 +1,4 @@
-import { MDocument } from '../document';
+import { MDocument } from '../document'
 
 const doc = new MDocument()
 
@@ -11,4 +11,4 @@ c.setAttribute('class', 'ccc')
 d.appendChild(c)
 c.appendChild(doc.createTextNode('This was generated using jsx-alone-dom-dom little DOM  implementation'))
 
-window.document.getElementById('output')!.innerText=d.outerHTML!
+window.document.getElementById('output')!.innerText = d.outerHTML!

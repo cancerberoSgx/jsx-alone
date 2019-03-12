@@ -3,3 +3,4 @@ dist
 *.log
 .cache
 *.tgz
+report.*.json

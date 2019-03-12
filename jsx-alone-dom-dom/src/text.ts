@@ -1,5 +1,5 @@
 import { MNode } from './node'
-import { MDocument } from './document';
+import { MDocument } from './document'
 export class MTextNode extends MNode {
   constructor( _textContent: string | null, ownerDocument: MDocument) {
     super(MNode.TEXT_NODE)

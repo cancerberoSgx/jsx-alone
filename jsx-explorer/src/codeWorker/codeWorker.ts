@@ -2,6 +2,9 @@ import { CodeWorkerRequest, CodeWorkerResponse } from '../store/types'
 import { evaluate } from './evaluate'
 import { extractCodeDecorations } from './extractCodeDecorations'
 import { doJSXAst } from './jsxAstCompilation'
+import {install} from 'jsx-alone-dom-dom'
+
+install()
 
 self.addEventListener('message', ({ data }: { data: CodeWorkerRequest }) => {
   const t0 = Date.now()

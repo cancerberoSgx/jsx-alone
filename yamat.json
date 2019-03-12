@@ -32,10 +32,6 @@
         "path": "./jsx-alone-string-browser-sample-project"
     },
     {
-        "name": "strip-typescript-output",
-        "path": "./strip-typescript-output"
-    },
-    {
         "name": "jsx-alone-sample-project-cli-runner",
         "path": "./jsx-alone-sample-project-cli-runner"
     },
