@@ -17,13 +17,13 @@ let codeWorker: Worker
 export function installCodeWWorker() {
   codeWorker = new Worker('./codeWorker.ts')
   codeWorker.addEventListener('message', ev => codeWorkerListener(ev))
-
-
   codeWorker.addEventListener('error', ev => codeWorkerErrorListener(ev))
 }
 
 export function requestCodeCompile(m: CodeWorkerRequest) {
   // setTimeout(() => {
+    // console.log('requestCodeCompile', m.jsxAst.mode);
+    
     codeWorker.postMessage(m)
   // }, 0);
 }
@@ -34,11 +34,12 @@ export function requestCodeCompile(m: CodeWorkerRequest) {
 //   }
 // ) 
 function codeWorkerListener({ data }: { data: CodeWorkerResponse }) {
-  dispatch({ type: COMPILED_ACTION.RENDER_COMPILED, payload: { response: data } })
+    // console.log('codeWorkerListener', (data.jsxAst as any).config );
+    dispatch({ type: COMPILED_ACTION.RENDER_COMPILED, payload: { response: data } })
   // dispatch({ type: COMPILED_ACTION.ERROR_COMPILED, payload: { response: data } })
 }
 function codeWorkerErrorListener(ev: ErrorEvent) {
-  debugger
+  // debugger
   dispatch({ 
     type: COMPILED_ACTION.ERROR_COMPILED, 
     payload: {

@@ -3,6 +3,7 @@ import { registerStyle } from '../../../style/styles'
 import { shorter } from '../../../util/util'
 import { Component } from '../../util/component'
 import { CodeWorkerResponseJsxAsNode } from '../../../store/types'
+import { Virtual } from '../../util/Virtual';
 
 interface P {
   node: CodeWorkerResponseJsxAsNode
@@ -36,7 +37,9 @@ export class NodeComponent extends Component<P> {
 
       {!collapsed && <ul>
         {node.children.map((c, i) => <li>
+          {/* <Virtual amount={10} id="NodeComponentChild"> */}
           <NodeComponent node={c} path={path + i} onShowDetailsOf={onShowDetailsOf} mode={mode} showDetailsOf={showDetailsOf} />
+          {/* </Virtual> */}
         </li>)}
       </ul>}
 

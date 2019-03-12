@@ -4,12 +4,16 @@ import { Main } from './components/main'
 import { initMonacoWorkers } from './monaco/monaco'
 import { installCodeWWorker as installCodeWorker } from './codeWorker/codeWorkerManager'
 import { State, } from './store/types';
-import { AnyAction, combineReducers, createStore, Store, ReducersMapObject } from 'redux';
+import { AnyAction, combineReducers, createStore, Store, ReducersMapObject, applyMiddleware } from 'redux';
 import { changeTheme } from './store/theme';
-import { changeCode } from './store/editor';
+import { changeCode, editorSagas, watchEditorModelChanged, watchRequestEditorChange } from './store/editor';
 import { optionsReducer } from './store/options';
-import { compiled } from './store/compiled';
+import { compiled, compiledSagas, watchRenderCompile, watchFetchCompiled } from './store/compiled';
 import { setStore, AllActions } from './store/store';
+import { put, takeEvery, all, select, call } from 'redux-saga/effects'
+import { all as merge } from 'deepmerge';
+
+import createSagaMiddleware from 'redux-saga'
 
 const reducerStateMap: ReducersMapObject<State, AllActions> = {
   layout: changeTheme,
@@ -19,9 +23,21 @@ const reducerStateMap: ReducersMapObject<State, AllActions> = {
 };
 
 const reducers = combineReducers<State>(reducerStateMap);
-
-const store = createStore(reducers);
+const sagaMiddleware = createSagaMiddleware()
+const store = createStore(
+  reducers,
+  applyMiddleware(sagaMiddleware)
+)
 setStore(store)
+
+
+function* rootSaga() {
+  yield all([
+    // watchFetchCompiled(), watchRenderCompile(),   watchRequestEditorChange(), watchEditorModelChanged()
+    editorSagas(), compiledSagas()
+  ])
+}
+sagaMiddleware.run(rootSaga)
 
 installCodeWorker()
 installJSXAloneAsGlobal(JSXAlone)
@@ -39,18 +55,19 @@ store.subscribe(() => {
     }, 0)
   }
   else {
-    console.log('where equals');
+    console.log('THE SAME');
   }
 });
 
 
-let lastState: string|undefined
+let lastState: State
 function stateChanged(state: State) {
-  const stateS = JSON.stringify({ ...state, compiled: { ...state.compiled, response: undefined } })
-  const r = (stateS !== lastState)
-  if (r) {
-    lastState = stateS
+  if (lastState && lastState === state) {
+    return false
   }
-  return r
+  else {
+    lastState = state
+    return true
+  }
 }
 

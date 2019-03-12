@@ -9,6 +9,7 @@ export let jsxAstLastSourceFile: SourceFile
 
 export function doJSXAst(data: CodeWorkerRequest): CodeWorkerResponseJsxAst {
   if (lastRequest && data.code === lastRequest.code && JSON.stringify(data.jsxAst || {}) === JSON.stringify(lastRequest.jsxAst || {})) {
+    // console.log('doJSXAst', 'caching!'!);
     return jsxAstLastResult
   }
   const project = createProject([{
@@ -19,7 +20,7 @@ export function doJSXAst(data: CodeWorkerRequest): CodeWorkerResponseJsxAst {
   const sourceFile = project.getSourceFiles().find(s => s.getFilePath().endsWith('t1.tsx'))!
   const ast = buildJsxAstNode(sourceFile, config)
   const diagnostics = config.showDiagnostics ? buildJsxAstDiagnostics(project) : []
-  jsxAstLastResult = { ast, diagnostics }
+  jsxAstLastResult = { ast, diagnostics, config: data.jsxAst } as any
   jsxAstLastSourceFile = sourceFile
   return jsxAstLastResult
 }

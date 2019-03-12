@@ -26,9 +26,11 @@ self.addEventListener('message', ({ data }: { data: CodeWorkerRequest }) => {
       evaluate: evaluate(data.code),
       jsxAst
     },
-    totalTime: Date.now() - t0
+    totalTime: Date.now() - t0,
   }
   lastRequest = data
+  // console.log('addEvesntListener' , data.jsxAst.mode);
+
   // @ts-ignore
   self.postMessage(m)
 })
