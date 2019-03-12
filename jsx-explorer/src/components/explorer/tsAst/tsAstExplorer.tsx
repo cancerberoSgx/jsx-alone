@@ -7,12 +7,9 @@ import { NodeComponent } from './tsAstNode'
 import { DiagnosticComponent } from './tsAstDiagnostic'
 import { dispatch } from '../../../store/store';
 import { COMPILED_ACTION } from '../../../store/compiled';
-import { throttle } from '../../../util/debounce';
 
 interface P extends ExplorerProps {
-  // mode?: 'getChildren' | 'forEachChild'
   showDetailsOf?: string
-  // showDiagnostics?: boolean
 }
 
 registerStyle(`

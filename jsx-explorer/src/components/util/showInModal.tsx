@@ -1,6 +1,4 @@
 import { JSXAlone } from 'jsx-alone-dom'
-import { registerStyle } from '../../style/styles'
-import { onDesktop, css } from '../../util/media'
 
 export function showInModal(e: JSX.Element | string, title = 'modal') {
   if (!document.querySelector('#showInModalContainer')) {

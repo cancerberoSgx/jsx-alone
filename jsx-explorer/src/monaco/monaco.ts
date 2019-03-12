@@ -1,10 +1,7 @@
-import * as monaco from 'monaco-editor'
-import { isDesktop } from '../util/media'
-import { throttle } from '../util/debounce'
-import { jsxSyntaxHighlightInstall } from './jsxSyntaxHighlight'
-import { dispatch, getState } from '../store/store'
-import { EDITOR_ACTION } from '../store/editor'
-import { jsx_alone_core_d_ts } from '../util/filesPacked/jsx_alone_core_d_ts'
+import * as monaco from 'monaco-editor';
+import { jsx_alone_core_d_ts } from '../util/filesPacked/jsx_alone_core_d_ts';
+import { isDesktop } from '../util/media';
+import { jsxSyntaxHighlightInstall } from './jsxSyntaxHighlight';
 
 export function initMonacoWorkers() {
   if (typeof (self as any).MonacoEnvironment === 'undefined') {
@@ -65,27 +62,5 @@ export function installEditor(code: string, theme: string, containerEl: HTMLElem
 
   monaco.editor.createModel(jsx_alone_core_d_ts, 'typescript', monaco.Uri.parse('file:///index.d.ts'))
 
-  editor.getModel()!.onDidChangeContent(
-    throttle(
-      (e: monaco.editor.IModelContentChangedEvent) => {
-        dispatch({
-          type: EDITOR_ACTION.EDITOR_MODEL_CHANGED,
-          payload: {
-            code: editor!.getModel()!.getValue(),
-            version: editor!.getModel()!.getVersionId()
-          }
-        })
-      }, 3000, { trailing: true }) as any
-  )
-
-  jsxSyntaxHighlightInstall(editor!)
-
-  dispatch({
-    type: EDITOR_ACTION.EDITOR_MODEL_CHANGED,
-    payload: {
-      code: editor!.getModel()!.getValue(),
-      version: editor!.getModel()!.getVersionId()
-    }
-  })
-  
+  // jsxSyntaxHighlightInstall(editor!)
 }

@@ -22,20 +22,22 @@ const reducerStateMap: ReducersMapObject<State, AllActions> = {
 };
 
 const reducers = combineReducers<State>(reducerStateMap);
+
 const sagaMiddleware = createSagaMiddleware()
+
 const store = createStore(
   reducers,
   applyMiddleware(sagaMiddleware)
 )
-setStore(store)
 
+setStore(store)
 
 function* rootSaga() {
   yield all([
-    // watchFetchCompiled(), watchRenderCompile(),   watchRequestEditorChange(), watchEditorModelChanged()
     editorSagas(), compiledSagas()
   ])
 }
+
 sagaMiddleware.run(rootSaga)
 
 installCodeWorker()
@@ -50,7 +52,7 @@ store.subscribe(() => {
   const state = store.getState()
   if (stateChanged(state)) {
     setTimeout(() => {
-      stateUpdateId++
+      // stateUpdateId++
       main.onStateUpdate(state)
     }, 0)
   }
@@ -59,8 +61,10 @@ store.subscribe(() => {
   }
 });
 
-export let stateUpdateId=0
+// export let stateUpdateId=0
+
 let lastState: State
+
 function stateChanged(state: State) {
   if (lastState && lastState === state) {
     return false

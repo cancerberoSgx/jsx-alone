@@ -33,8 +33,6 @@ export const compiled: Reducer<Compiled, FetchCompiledAction | RenderCompiledAct
       }
       return s
     case COMPILED_ACTION.RENDER_COMPILED:
-    // const s2 = { ...state, ...action.payload }
-    // debugger
       return  { ...state, ...action.payload }
     case COMPILED_ACTION.ERROR_COMPILED:
       return { ...state, ...action.payload }
@@ -58,84 +56,37 @@ export interface ErrorCompiledAction extends Action<COMPILED_ACTION.ERROR_COMPIL
   payload: { error: CodeWorkerError }
 }
 
-
-
 function* fetchCompiled(action: FetchCompiledAction) {
   yield put({ type: OPTIONS_ACTIONS.SET_WORKING, payload: { working: true } })
   const state = yield select()
   const m: CodeWorkerRequest = {
     ...state.compiled.request,
-    // ...action.payload.request,
-
       code: state.editor.code,
       version: state.editor.version
-//       code: state.editor.code,
-//       version: state.editor.version
   }
-// debugger
-// console.log('fetchCompiled' , m.jsxAst.mode);
-
   requestCodeCompile(m)
 }
 
-export function* watchFetchCompiled() {
+function* watchFetchCompiled() {
   yield takeEvery(COMPILED_ACTION.FETCH_COMPILED, fetchCompiled)
 }
-
-
-// export const fetchCompiledSaga: Saga<COMPILED_ACTION.FETCH_COMPILED> = {
-//   type: COMPILED_ACTION.FETCH_COMPILED,
-//   beforeActionDispatch(a, s){
-//     dispatch({ type: OPTIONS_ACTIONS.SET_WORKING, payload: { working: true } })
-//   },
-//   afterActionDispatch(action, state) {
-//     dispatch({ type: OPTIONS_ACTIONS.SET_WORKING, payload: { working: true } })
-//     const m: CodeWorkerRequest = {
-//       ...state.compiled.request,
-//       code: state.editor.code,
-//       version: state.editor.version
-//     }
-//     // debugger
-//     requestCodeCompile(m)
-//   }
-// }
 
 function* renderCompile(action: RenderCompiledAction) {
   yield call(() => dispatchSyntaxHighlight(action.payload.response))
   yield dispatch({ type: OPTIONS_ACTIONS.SET_WORKING, payload: { working: false } })
 }
 
-export function* watchRenderCompile() {
+function* watchRenderCompile() {
   yield takeEvery(COMPILED_ACTION.RENDER_COMPILED, renderCompile)
 }
 
-// export const renderCompiledSaga: Saga<COMPILED_ACTION.RENDER_COMPILED> = {
-//   type: COMPILED_ACTION.RENDER_COMPILED,
-//   beforeActionDispatch(a, s){
-//     dispatch({ type: OPTIONS_ACTIONS.SET_WORKING, payload: { working: true } })
-//   },
-//   afterActionDispatch(action, state) {
-//     dispatchSyntaxHighlight(action.payload.response)
-//     dispatch({ type: OPTIONS_ACTIONS.SET_WORKING, payload: { working: false } })
-//   }
-// }
-
-// export const errorCompiledSaga: Saga<COMPILED_ACTION.ERROR_COMPILED> = {
-//   type: COMPILED_ACTION.ERROR_COMPILED,
-//   afterActionDispatch(action, state) {
-//     dispatch({ type: OPTIONS_ACTIONS.SET_WORKING, payload: { working: false } })
-//   }
-// }
-
-function* errorCompiled(action: ErrorCompiledAction) {
-  yield dispatch({ type: OPTIONS_ACTIONS.SET_WORKING, payload: { working: false } })
-}
-
 function* watchErrorCompiled() {
-  // dispatch({ type: OPTIONS_ACTIONS.SET_WORKING, payload: { working: false } })
-  yield takeEvery(COMPILED_ACTION.ERROR_COMPILED, errorCompiled)
+  yield takeEvery(COMPILED_ACTION.ERROR_COMPILED, 
+    function* errorCompiled(action: ErrorCompiledAction) {
+      yield dispatch({ type: OPTIONS_ACTIONS.SET_WORKING, payload: { working: false } })
+    }
+    )
 }
-// registerSaga(errorCompiledSaga, fetchCompiledSaga, renderCompiledSaga)
 
 export function* compiledSagas() {
   yield all([
