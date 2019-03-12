@@ -9,6 +9,7 @@ interface P {
   onShowHtml: (s: string) => void
   collapsed?: boolean
 }
+
 export class Node extends Component<P> {
 
   protected removeChildrenOnUpdate = true
@@ -68,7 +69,6 @@ export class Node extends Component<P> {
       </article>
     }
     else {
-      debugger
       return <article className="media">UNKNOWN: {JSON.stringify(node)}</article>
     }
   }

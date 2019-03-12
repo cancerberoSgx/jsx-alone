@@ -1,9 +1,11 @@
 import * as examplesPacked_ from './examplesPacked.json'
+
 interface File {
   isBinary: false
   fileName: string
   content: string
 }
+
 interface Example {
   name: string, code: string
 }
@@ -36,11 +38,9 @@ function fixCode(s: string, globals: any = {}) {
   const lines = s.split('\n')
   let i = lines.findIndex(l => l.includes('function'))
   const code = `
-// Although you can import types from './index', only the following implementations
-// are available in this example:
+// Although you can import types from './index', only the following implementations are available in this example:
 
-import {JSXAlone, JSXAloneDom, JSXAloneString, JSXAloneJson, ElementClassDom, ElementClassJson,
-  ElementClassJson as ElementClass, ElementClassString } from './index'
+import {JSXAlone, JSXAloneDom, JSXAloneString, JSXAloneJson, ElementClassDom, ElementClassJson, ElementClassJson as ElementClass, ElementClassString } from './index'
 
 function test() {
   ${Object.keys(globals).map(g => `  const ${g} = ${globals[g]};`).join('\n').trim()}

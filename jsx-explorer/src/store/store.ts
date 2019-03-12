@@ -6,15 +6,14 @@ import { ChangeThemeAction } from './theme';
 import { State } from './types';
 
 
-export interface Saga<T extends AllActions['type']> {
-  type: T
-  /** if an action is returned then it will be dispatched */
-  afterActionDispatch?(action: ActionForType<T>, state: State): void
-  beforeActionDispatch?(action: ActionForType<T>, state: State): void
-}
+// export interface Saga<T extends AllActions['type']> {
+//   type: T
+//   /** if an action is returned then it will be dispatched */
+//   afterActionDispatch?(action: ActionForType<T>, state: State): void
+//   beforeActionDispatch?(action: ActionForType<T>, state: State): void
+// }
 
 export type ActionForType<T extends AllActions['type']> = AllActions extends infer R ? R extends AllActions ? T extends R['type'] ? R : never : never : never
-
 
 
 let store: Store<State, AnyAction>
@@ -25,17 +24,17 @@ export function setStore(s: Store) {
   onStoreStartedListeners.forEach(l => l(state))
 }
 
-export function registerSaga<T extends AllActions['type']>(...saga: Saga<T>[]) {
-  saga.forEach(s =>
-    onStoreStarted(state => {
-      s.afterActionDispatch && onAfterActionDispatch(s.type, (action, state) => s.afterActionDispatch && s.afterActionDispatch(action, state))
+// export function registerSaga<T extends AllActions['type']>(...saga: Saga<T>[]) {
+//   saga.forEach(s =>
+//     onStoreStarted(state => {
+//       s.afterActionDispatch && onAfterActionDispatch(s.type, (action, state) => s.afterActionDispatch && s.afterActionDispatch(action, state))
 
-      s.beforeActionDispatch && onBeforeActionDispatch(s.type, (action, state) => s.beforeActionDispatch && s.beforeActionDispatch(action, state))
+//       s.beforeActionDispatch && onBeforeActionDispatch(s.type, (action, state) => s.beforeActionDispatch && s.beforeActionDispatch(action, state))
 
-    }
-    )
-  )
-}
+//     }
+//     )
+//   )
+// }
 
 export function onStoreStarted(l: (s: State) => void) {
   onStoreStartedListeners.push(l)

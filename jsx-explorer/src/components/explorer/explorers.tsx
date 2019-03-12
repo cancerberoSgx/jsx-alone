@@ -5,7 +5,6 @@ import { getMonacoInstance } from '../../monaco/monaco'
 export interface ExplorerProps {
   editor: Editor
   onSelectCode?(sel: SelectCode): void
-  // focused?: boolean
   compiled: Compiled
 }
 

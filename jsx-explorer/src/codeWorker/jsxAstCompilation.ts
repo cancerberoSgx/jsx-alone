@@ -9,7 +9,6 @@ export let jsxAstLastSourceFile: SourceFile
 
 export function doJSXAst(data: CodeWorkerRequest): CodeWorkerResponseJsxAst {
   if (lastRequest && data.code === lastRequest.code && JSON.stringify(data.jsxAst || {}) === JSON.stringify(lastRequest.jsxAst || {})) {
-    // console.log('doJSXAst', 'caching!'!);
     return jsxAstLastResult
   }
   const project = createProject([{

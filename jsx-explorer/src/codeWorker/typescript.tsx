@@ -94,7 +94,7 @@ export function printNode(node: ts.Node, index: number = -1, level: number = 0, 
   const indent = new Array(level).map(i => '').join('  ')
   const name = node.kind === ts.SyntaxKind.Identifier ? ((node as ts.Identifier).text + ' ') : ''
   const indexStr = printIndex ? (index != -1 ? ('#' + index + ' ') : '') : ''
-  let shortText = node.getText().replace(/[\s\n]+/g, ' ')// .split(//).join('\\n')
+  let shortText = node.getText().replace(/[\s\n]+/g, ' ')
   shortText = shortText.substr(0, Math.min(shortText.length, 60))
   return `${indent}${indexStr}${name}${getKindName(node.kind)} : "${shortText}"`
 }

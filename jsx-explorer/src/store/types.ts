@@ -93,7 +93,6 @@ export interface CodeWorkerResponseJsxAstDiagnostic extends SelectableInMonaco {
   lineNumber: number | undefined
   start: number | undefined
   length: number | undefined
-  // category: DiagnosticCategory;
   code: number
 }
 export interface CodeWorkerError {

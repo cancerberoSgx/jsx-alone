@@ -1,11 +1,11 @@
 import { Action, Reducer } from 'redux';
+import { all, call, put, select, takeEvery } from 'redux-saga/effects';
 import { examples } from '../examples/examples';
 import { getMonacoInstance } from '../monaco/monaco';
 import { COMPILED_ACTION, FetchCompiledAction } from './compiled';
 import { OPTIONS_ACTIONS } from './options';
-import { dispatch, registerSaga, Saga } from './store';
+import { dispatch } from './store';
 import { Editor, State } from './types';
-import { put, takeEvery, all, select, call } from 'redux-saga/effects'
 
 const initialState = {
   code: examples[0].code,
@@ -43,34 +43,34 @@ export interface EditorModelChangedAction extends Action<EDITOR_ACTION.EDITOR_MO
   }
 }
 
-function* editorModelChanged(action: RequestCodeChangeAction) {
-  const state:State = yield select() 
-  if (state.options.autoApply) {
-    const a: FetchCompiledAction = {
-      type: COMPILED_ACTION.FETCH_COMPILED,
-      payload: {
-        request:
-        {
-          ...action.payload
+function* watchEditorModelChanged() {
+  yield takeEvery(EDITOR_ACTION.EDITOR_MODEL_CHANGED,
+    function* editorModelChanged(action: RequestCodeChangeAction) {
+      const state: State = yield select()
+      if (state.options.autoApply) {
+        const a: FetchCompiledAction = {
+          type: COMPILED_ACTION.FETCH_COMPILED,
+          payload: {
+            request:
+            {
+              ...action.payload
+            }
+          }
         }
+        // dispatch(a)
+        yield put(a)
       }
+    })
+}
+
+function* watchRequestEditorChange() {
+  yield takeEvery(EDITOR_ACTION.REQUEST_CODE_CHANGE,
+    function* requestEditorChange(action: RequestCodeChangeAction) {
+      yield put({ type: OPTIONS_ACTIONS.SET_WORKING, payload: { working: true } })
+      yield call(() => getMonacoInstance()!.getModel()!.setValue(action.payload.code))
     }
-    dispatch(a)
-  }
+  )
 }
- function* watchEditorModelChanged() {
-  yield takeEvery(EDITOR_ACTION.EDITOR_MODEL_CHANGED, editorModelChanged)
-}
-
-function* requestEditorChange(action: RequestCodeChangeAction) {
-  yield put({ type: OPTIONS_ACTIONS.SET_WORKING, payload: { working: true } })
-  yield call(() => getMonacoInstance()!.getModel()!.setValue(action.payload.code))
-}
-
- function* watchRequestEditorChange() {
-  yield takeEvery(EDITOR_ACTION.REQUEST_CODE_CHANGE, requestEditorChange)
-}
-
 
 export function* editorSagas() {
   yield all([

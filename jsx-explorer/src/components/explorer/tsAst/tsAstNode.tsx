@@ -3,7 +3,6 @@ import { registerStyle } from '../../../style/styles'
 import { shorter } from '../../../util/util'
 import { Component } from '../../util/component'
 import { CodeWorkerResponseJsxAsNode } from '../../../store/types'
-// import { Virtual } from '../../util/Virtual';
 
 interface P {
   node: CodeWorkerResponseJsxAsNode
@@ -12,7 +11,6 @@ interface P {
   onShowDetailsOf: (p: string, n: CodeWorkerResponseJsxAsNode) => void
   showDetailsOf?: string
   collapsed?: boolean
-  // focused?: boolean
 }
 
 export class NodeComponent extends Component<P> {
@@ -22,7 +20,6 @@ export class NodeComponent extends Component<P> {
     return <div data-key={path} className="tsAstExplorerNode"  >
 
       <span className="nodeName" 
-      // onClick={e=>!this.props.focused &&  this.updateProps({focused: true}) }
       >{node.kind}</span>
 
       <button className="button is-small" onClick={e => {
@@ -40,11 +37,8 @@ export class NodeComponent extends Component<P> {
 
       {!collapsed && <ul>
         {node.children.map((c, i) => <li>
-          {/* <Virtual amount={this.props.focused ? -1 : 200} id="NodeComponentChild">{()=> */}
           <NodeComponent node={c} path={path + i} 
-          // focused={this.props.focused} 
           onShowDetailsOf={onShowDetailsOf} mode={mode} showDetailsOf={showDetailsOf} />
-           {/* }</Virtual> */}
         </li>)}
       </ul>}
 

@@ -52,9 +52,7 @@ export class EditorExplorerBody extends Component<P> {
     return isMobile() ?
 
       <div className={`editorExplorerBody`}>
-        <div className={`editorExplorerBodyOverlay`}>WORKING</div>
-        {/* <div className={`editorExplorerBodyOverlay ${this.props.state.options.working ? 'working' : ''}`}>WORKING</div> */}
-
+        <div className={`editorExplorerBodyOverlay`}>Working...</div>
         <div className={`editor editorExplorerBodyMember ${this.props.state.options.selectedExplorer === 'editor' ? 'is-active' : ''}`}>
           <Editor {...this.props} />
         </div>
@@ -73,9 +71,7 @@ export class EditorExplorerBody extends Component<P> {
 
       <div className="tile is-ancestor editorExplorerBody">
 
-        <div className={`editorExplorerBodyOverlay`}>WORKING</div>
-        {/* <div className={`editorExplorerBodyOverlay ${this.props.state.options.working ? 'working' : ''}`}>WORKING</div> */}
-
+        <div className={`editorExplorerBodyOverlay`}>Working...</div>
         <div className="tile is-vertical is-4">
           <article className={`editorExplorerBodyMember elements ${this.props.state.options.selectedExplorer === 'elements' ? 'is-active' : ''}`}>
             <ElementExplorer editor={this.props.state.editor} compiled={this.props.state.compiled} onSelectCode={onSelectCode} />

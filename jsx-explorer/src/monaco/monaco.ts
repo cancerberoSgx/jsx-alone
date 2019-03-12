@@ -1,7 +1,6 @@
 import * as monaco from 'monaco-editor';
 import { jsx_alone_core_d_ts } from '../util/filesPacked/jsx_alone_core_d_ts';
 import { isDesktop } from '../util/media';
-import { jsxSyntaxHighlightInstall } from './jsxSyntaxHighlight';
 
 export function initMonacoWorkers() {
   if (typeof (self as any).MonacoEnvironment === 'undefined') {
@@ -61,6 +60,4 @@ export function installEditor(code: string, theme: string, containerEl: HTMLElem
   })
 
   monaco.editor.createModel(jsx_alone_core_d_ts, 'typescript', monaco.Uri.parse('file:///index.d.ts'))
-
-  // jsxSyntaxHighlightInstall(editor!)
 }

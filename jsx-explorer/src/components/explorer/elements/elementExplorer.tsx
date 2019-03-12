@@ -44,9 +44,6 @@ export class ElementExplorer extends Component<P> {
     }
     else {
       return <div className="content">
-        {/* <h3>
-          NOT COMPILED YET
-      </h3> */}
       </div>
     }
   }

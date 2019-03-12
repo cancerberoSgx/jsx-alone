@@ -41,11 +41,9 @@ export class Editor extends Component<P> {
     this.eventManager && this.eventManager.addAppendToDomListener(() => {
       installEditor(this.props.state.editor.code, this.getMonacoTheme(), query('#editorContainer'))
       const editor = getMonacoInstance()
-      // if (editor) {
-        jsxSyntaxHighlightInstall(editor!)
-        editor!.getModel()!.onDidChangeContent(throttle(this.dispatchModelChanged, 3000))
-        this.dispatchModelChanged(false);
-      // }
+      jsxSyntaxHighlightInstall(editor!)
+      editor!.getModel()!.onDidChangeContent(throttle(this.dispatchModelChanged, 3000))
+      this.dispatchModelChanged(false);
     })
     if (this.props.state.layout.theme.name !== this.lastTheme) {
       monaco.editor.setTheme(this.getMonacoTheme())

@@ -13,7 +13,6 @@ import { AllActions, setStore } from './store/store';
 import { changeTheme } from './store/theme';
 import { State } from './store/types';
 
-
 const reducerStateMap: ReducersMapObject<State, AllActions> = {
   layout: changeTheme,
   editor: changeCode,
@@ -52,7 +51,6 @@ store.subscribe(() => {
   const state = store.getState()
   if (stateChanged(state)) {
     setTimeout(() => {
-      // stateUpdateId++
       main.onStateUpdate(state)
     }, 0)
   }
@@ -60,8 +58,6 @@ store.subscribe(() => {
     console.log('THE SAME');
   }
 });
-
-// export let stateUpdateId=0
 
 let lastState: State
 
