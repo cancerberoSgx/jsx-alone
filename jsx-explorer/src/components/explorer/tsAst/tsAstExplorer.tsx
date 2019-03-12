@@ -7,6 +7,7 @@ import { NodeComponent } from './tsAstNode'
 import { DiagnosticComponent } from './tsAstDiagnostic'
 import { dispatch } from '../../../store/store';
 import { COMPILED_ACTION } from '../../../store/compiled';
+import { throttle } from '../../../util/debounce';
 
 interface P extends ExplorerProps {
   // mode?: 'getChildren' | 'forEachChild'
@@ -36,7 +37,11 @@ export class TsSimpleAstExplorer extends Component<P> {
     if (compiled) {
       const { diagnostics, ast } = compiled.jsxAst
       const { mode, showDiagnostics } = this.props.compiled.request.jsxAst
-      return <div className="tsAstExplorerContent">
+      return <div className="tsAstExplorerContent" 
+      // onScroll={throttle((e:any)=>
+            // !this.props.focused &&  this.updateProps({focused: true}) 
+      // , 2000) as any}
+      >
 
         <button className="button is-small" onClick={e => {
           dispatch({ type: COMPILED_ACTION.FETCH_COMPILED, payload: { request: { jsxAst: { mode: mode === 'forEachChild' ? 'getChildren' : 'forEachChild' } } } })
@@ -61,7 +66,9 @@ export class TsSimpleAstExplorer extends Component<P> {
           {diagnostics && diagnostics.length === 0 && <span>No problems diagnosed, congrats!</span>}
         </div>}
 
-        <NodeComponent mode={mode || 'forEachChild'} node={ast} showDetailsOf={this.props.showDetailsOf}
+        <NodeComponent mode={mode || 'forEachChild'} 
+        // focused={this.props.focused} 
+        node={ast} showDetailsOf={this.props.showDetailsOf}
           onShowDetailsOf={(p, n) => {
             this.props.onSelectCode && this.props.onSelectCode(n)
             this.updateProps({ showDetailsOf: p as string })

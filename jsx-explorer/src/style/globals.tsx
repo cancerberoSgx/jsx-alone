@@ -44,6 +44,16 @@ ${css('.modal .modal-card', `width: 100%;`, `width: 80%;`)}
 }
 ${css('.section', `padding: 0; margin: 0;`, `padding: 3rem 1.5rem;`)}
 
+.navbar-dropdown.collapsed{
+  height: 10px;
+  overflow: hidden;
+  transition: height 600ms ease-out;
+}
+.tile.is-ancestor:last-child , .tile.is-ancestor {
+  margin: 0; 
+  padding: 0;
+  margin-top: -2em;
+}
 `
 
 }

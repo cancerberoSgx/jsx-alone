@@ -37,7 +37,7 @@ export function registerSaga<T extends AllActions['type']>(...saga: Saga<T>[]) {
   )
 }
 
-function onStoreStarted(l: (s: State) => void) {
+export function onStoreStarted(l: (s: State) => void) {
   onStoreStartedListeners.push(l)
 }
 

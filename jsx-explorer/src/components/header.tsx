@@ -1,16 +1,15 @@
-import { JSXAlone } from 'jsx-alone-dom'
-import { Component } from './util/component'
-import { Theme, State } from '../store/types'
-import { darkTheme, lightTheme, allThemes } from '../style/theme'
-import { ForkRibbon } from './content/forkRibbon'
-import { showInModal } from './util/showInModal'
-import { WhatsThis } from './content/whatsThis'
-import { examples } from '../examples/examples'
-import { EditorExplorerMenu } from './editorExplorerMenu'
-import { dispatch } from '../store/store'
-import { EDITOR_ACTION } from '../store/editor'
-import { OPTIONS_ACTIONS } from '../store/options'
-import { isTablet } from '../util/media';
+import { JSXAlone } from 'jsx-alone-dom';
+import { examples } from '../examples/examples';
+import { EDITOR_ACTION } from '../store/editor';
+import { OPTIONS_ACTIONS } from '../store/options';
+import { dispatch } from '../store/store';
+import { State } from '../store/types';
+import { allThemes } from '../style/theme';
+import { ForkRibbon } from './content/forkRibbon';
+import { WhatsThis } from './content/whatsThis';
+import { EditorExplorerMenu } from './editorExplorerMenu';
+import { Component } from './util/component';
+import { showInModal } from './util/showInModal';
 
 interface P {
   state: State
@@ -29,9 +28,9 @@ export class Header extends Component<P> {
         <EditorExplorerMenu {...this.props} />
 
         <a role="button" className="navbar-burger burger is-large" aria-label="menu" aria-expanded="false" data-target="jsxExplorerNavbar" onClick={e => this.query('#jsxExplorerNavbar').classList.toggle('is-active')}>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
+          <span aria-hidden="true" onClick={e => this.query('#jsxExplorerNavbar').classList.toggle('is-active')}></span>
+          <span aria-hidden="true" onClick={e => this.query('#jsxExplorerNavbar').classList.toggle('is-active')}></span>
+          <span aria-hidden="true" onClick={e => this.query('#jsxExplorerNavbar').classList.toggle('is-active')}></span>
         </a>
       </div>
 
@@ -40,7 +39,7 @@ export class Header extends Component<P> {
         <div className="navbar-start">
 
           <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link">Examples</a>
+            <a className="navbar-link" onClick={e=>e.currentTarget.nextElementSibling!.classList.toggle('collapsed')}>Examples</a>
             <div className="navbar-dropdown">
               {examples.map(example => <a className="navbar-item" onClick={e => {
                 dispatch({ type: EDITOR_ACTION.REQUEST_CODE_CHANGE, payload: { code: example.code } })
@@ -50,7 +49,7 @@ export class Header extends Component<P> {
           </div>
 
           <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link">Options</a>
+            <a className="navbar-link" onClick={e=>e.currentTarget.nextElementSibling!.classList.toggle('collapsed')}>Options</a>
             <div className="navbar-dropdown">
               <a className="navbar-item">
                 <label className="content">
@@ -59,12 +58,13 @@ export class Header extends Component<P> {
                   }
                   /> Auto apply
             </label></a>
+              <hr className="dropdown-divider"></hr>
               <a className="navbar-item" onClick={e => showInModal(<WhatsThis />, 'What\'s this?')}>What's this</a>
             </div>
           </div>
 
           <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link">Themes</a>
+            <a className="navbar-link" onClick={e=>e.currentTarget.nextElementSibling!.classList.toggle('collapsed')}>Themes</a>
             <div className="navbar-dropdown">
               <a className="navbar-item" style={{
                 border: `2px solid ${nextTheme.colors.brand}`,
@@ -76,6 +76,7 @@ export class Header extends Component<P> {
                 }>
                 Next theme: {nextThemeName}
               </a>
+              <hr className="dropdown-divider"></hr>
               {allThemes.map(t => <a className="navbar-item"
                 style={{
                   border: `2px solid ${t.colors.brand}`,

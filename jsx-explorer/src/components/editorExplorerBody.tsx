@@ -9,18 +9,29 @@ import { ImplExplorer } from './explorer/implExplorer';
 import { TsSimpleAstExplorer } from './explorer/tsAst/tsAstExplorer';
 import { Component } from './util/component';
 
-registerStyle(`
+registerStyle(theme=>`
 .editorExplorerBodyOverlay{
   visibility: hidden;
   display: block;
-  background-color: #ff0000;
-  width: 100%;
-  height: 20px;
-  color: #ffffff;
+  background-color: ${theme.colors.brand};
+  width: 70%;
+  height: 2em;
+  color: ${theme.colors.fg};
   font-weight: bolder;
+  margin: 2.5em auto .5em auto;  
+  z-index: 3;
+  padding-top: .3em;
+  opacity: 0.0;
+  text-align: center;
+  border-radius: 1em;
+  transition: opacity 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: absolute;
 }
 body.working .editorExplorerBodyOverlay {
   visibility: visible;
+  opacity: .98;
+  transition: opacity 600ms easy-out;
+
 }
 .editorExplorerBody {
   padding-top: 2em;
@@ -44,7 +55,7 @@ export class EditorExplorerBody extends Component<P> {
         <div className={`editorExplorerBodyOverlay`}>WORKING</div>
         {/* <div className={`editorExplorerBodyOverlay ${this.props.state.options.working ? 'working' : ''}`}>WORKING</div> */}
 
-        <div className={`editor editorExplorerBodyMember ${this.props.state.options.selectedExplorer === 'jsAst' ? 'is-active' : ''}`}>
+        <div className={`editor editorExplorerBodyMember ${this.props.state.options.selectedExplorer === 'editor' ? 'is-active' : ''}`}>
           <Editor {...this.props} />
         </div>
         <div className={`editorExplorerBodyMember elements ${this.props.state.options.selectedExplorer === 'elements' ? 'is-active' : ''}`}>

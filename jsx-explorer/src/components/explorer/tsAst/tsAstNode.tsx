@@ -3,7 +3,7 @@ import { registerStyle } from '../../../style/styles'
 import { shorter } from '../../../util/util'
 import { Component } from '../../util/component'
 import { CodeWorkerResponseJsxAsNode } from '../../../store/types'
-import { Virtual } from '../../util/Virtual';
+// import { Virtual } from '../../util/Virtual';
 
 interface P {
   node: CodeWorkerResponseJsxAsNode
@@ -12,15 +12,18 @@ interface P {
   onShowDetailsOf: (p: string, n: CodeWorkerResponseJsxAsNode) => void
   showDetailsOf?: string
   collapsed?: boolean
+  // focused?: boolean
 }
 
 export class NodeComponent extends Component<P> {
   protected removeChildrenOnUpdate = true
   render() {
     const { node, mode, path = '/', showDetailsOf, onShowDetailsOf, collapsed = false } = this.props
-    return <div data-key={path} className="tsAstExplorerNode">
+    return <div data-key={path} className="tsAstExplorerNode"  >
 
-      <span className="nodeName">{node.kind}</span>
+      <span className="nodeName" 
+      // onClick={e=>!this.props.focused &&  this.updateProps({focused: true}) }
+      >{node.kind}</span>
 
       <button className="button is-small" onClick={e => {
         onShowDetailsOf(path, node)
@@ -37,9 +40,11 @@ export class NodeComponent extends Component<P> {
 
       {!collapsed && <ul>
         {node.children.map((c, i) => <li>
-          {/* <Virtual amount={10} id="NodeComponentChild"> */}
-          <NodeComponent node={c} path={path + i} onShowDetailsOf={onShowDetailsOf} mode={mode} showDetailsOf={showDetailsOf} />
-          {/* </Virtual> */}
+          {/* <Virtual amount={this.props.focused ? -1 : 200} id="NodeComponentChild">{()=> */}
+          <NodeComponent node={c} path={path + i} 
+          // focused={this.props.focused} 
+          onShowDetailsOf={onShowDetailsOf} mode={mode} showDetailsOf={showDetailsOf} />
+           {/* }</Virtual> */}
         </li>)}
       </ul>}
 

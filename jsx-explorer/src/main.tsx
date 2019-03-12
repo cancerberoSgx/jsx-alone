@@ -1,19 +1,18 @@
-import { installJSXAloneAsGlobal } from 'jsx-alone-core'
-import { JSXAlone } from 'jsx-alone-dom'
-import { Main } from './components/main'
-import { initMonacoWorkers } from './monaco/monaco'
-import { installCodeWWorker as installCodeWorker } from './codeWorker/codeWorkerManager'
-import { State, } from './store/types';
-import { AnyAction, combineReducers, createStore, Store, ReducersMapObject, applyMiddleware } from 'redux';
-import { changeTheme } from './store/theme';
-import { changeCode, editorSagas, watchEditorModelChanged, watchRequestEditorChange } from './store/editor';
+import { installJSXAloneAsGlobal } from 'jsx-alone-core';
+import { JSXAlone } from 'jsx-alone-dom';
+import { applyMiddleware, combineReducers, createStore, ReducersMapObject } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import { all } from 'redux-saga/effects';
+import { installCodeWWorker as installCodeWorker } from './codeWorker/codeWorkerManager';
+import { Main } from './components/main';
+import { initMonacoWorkers } from './monaco/monaco';
+import { compiled, compiledSagas } from './store/compiled';
+import { changeCode, editorSagas } from './store/editor';
 import { optionsReducer } from './store/options';
-import { compiled, compiledSagas, watchRenderCompile, watchFetchCompiled } from './store/compiled';
-import { setStore, AllActions } from './store/store';
-import { put, takeEvery, all, select, call } from 'redux-saga/effects'
-import { all as merge } from 'deepmerge';
+import { AllActions, setStore } from './store/store';
+import { changeTheme } from './store/theme';
+import { State } from './store/types';
 
-import createSagaMiddleware from 'redux-saga'
 
 const reducerStateMap: ReducersMapObject<State, AllActions> = {
   layout: changeTheme,
@@ -51,7 +50,8 @@ store.subscribe(() => {
   const state = store.getState()
   if (stateChanged(state)) {
     setTimeout(() => {
-      main && main.onStateUpdate(state)
+      stateUpdateId++
+      main.onStateUpdate(state)
     }, 0)
   }
   else {
@@ -59,7 +59,7 @@ store.subscribe(() => {
   }
 });
 
-
+export let stateUpdateId=0
 let lastState: State
 function stateChanged(state: State) {
   if (lastState && lastState === state) {
