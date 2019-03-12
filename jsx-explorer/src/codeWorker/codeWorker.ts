@@ -6,7 +6,7 @@ import {install} from 'jsx-alone-dom-dom'
 
 install()
 
-export let lastRequest : CodeWorkerRequest
+export let lastRequest : CodeWorkerRequest|undefined
 
 self.addEventListener('message', ({ data }: { data: CodeWorkerRequest }) => {
 

@@ -22,7 +22,7 @@ interface Result<T = JsonImplOutputEl> {
 let results: Result
 
 export function evaluate<T = JsonImplOutputEl>(jsx: string, impl: 'json' | 'dom' | 'string' = 'json', times?: EvaluateTimes): Result<T> {
-  if (jsx === lastRequest.code) {
+  if (lastRequest && jsx === lastRequest.code) {
     return results as any
   }
   // if (!times && impl === 'json' && jsx === evaluateLastInputJson && evaluateLastOutputJson) {

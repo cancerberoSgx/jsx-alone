@@ -8,7 +8,7 @@ export let jsxAstLastResult: CodeWorkerResponseJsxAst
 export let jsxAstLastSourceFile :  SourceFile
 
 export function doJSXAst(data: CodeWorkerRequest): CodeWorkerResponseJsxAst  {
-  if (data.code === lastRequest.code && JSON.stringify(data.jsxAst || {}) === JSON.stringify(lastRequest.jsxAst || {})) {
+  if (lastRequest && data.code === lastRequest.code && JSON.stringify(data.jsxAst || {}) === JSON.stringify(lastRequest.jsxAst || {})) {
     return jsxAstLastResult
   }
   const project = createProject([{

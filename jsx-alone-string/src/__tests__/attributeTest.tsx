@@ -5,7 +5,7 @@ describe('attributes', () => {
   test({
     label: 'style',
     e: <p style={{border: '1 px solid pink'}}>hs you</p>,
-    expected: '<p style="border: 1 px solid pink">hs you</p>'
+    expected: '<p style="border: 1 px solid pink;">hs you</p>'
   })
 
   test({

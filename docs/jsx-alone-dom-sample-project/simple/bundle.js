@@ -12,17 +12,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var _1 = require("./");
 var createElement_1 = require("./createElement");
@@ -48,7 +37,7 @@ var JsonImplElementLikeImpl = (function (_super) {
             innerHtml: this.innerHtml,
             attrs: this.attrs,
             children: this.children.map(function (c) {
-                var r = __assign({}, c);
+                var r = c.render(config);
                 delete r.parentElement;
                 return r;
             })
@@ -73,14 +62,14 @@ var JsonImplTextNodeLikeImpl = (function (_super) {
     return JsonImplTextNodeLikeImpl;
 }(_1.AbstractTextNodeLike));
 exports.JsonImplTextNodeLikeImpl = JsonImplTextNodeLikeImpl;
-function JsonImplOutputElAsHtml(node, indentLevel) {
+function jsonImplOutputElAsHtml(node, indentLevel) {
     if (indentLevel === void 0) { indentLevel = 0; }
     if (isJsonImplOutputText(node)) {
         return node.content + '';
     }
-    return (indentLevel === -1 ? '' : "\n" + util_1.indent(indentLevel)) + "<" + node.tag + (Object.keys(node.attrs).length ? ' ' : '') + Object.keys(node.attrs).map(function (a) { return a + "=\"" + (node.attrs[a].toString ? node.attrs[a].toString() : node.attrs[a]) + "\""; }).join(' ') + ">" + node.children.map(function (c) { return isJsonImplOutputEl(c) ? JsonImplOutputElAsHtml(c, indentLevel + 1) : c.content; }).join('') + (indentLevel === -1 ? '' : "\n" + util_1.indent(indentLevel)) + "</" + node.tag + ">";
+    return (indentLevel === -1 ? '' : "\n" + util_1.indent(indentLevel)) + "<" + node.tag + (Object.keys(node.attrs).length ? ' ' : '') + Object.keys(node.attrs).map(function (a) { return a + "=\"" + attributeValue(a, node.attrs[a]) + "\""; }).join(' ') + ">" + node.children.map(function (c) { return isJsonImplOutputEl(c) ? jsonImplOutputElAsHtml(c, indentLevel + 1) : c.content; }).join('') + (indentLevel === -1 ? '' : "\n" + util_1.indent(indentLevel)) + "</" + node.tag + ">";
 }
-exports.JsonImplOutputElAsHtml = JsonImplOutputElAsHtml;
+exports.jsonImplOutputElAsHtml = jsonImplOutputElAsHtml;
 var JsonImplElementClass = (function (_super) {
     __extends(JsonImplElementClass, _super);
     function JsonImplElementClass() {
@@ -98,6 +87,14 @@ exports.JSXAloneJsonImpl = {
     },
     _Impl: 'Json'
 };
+function attributeValue(a, v) {
+    if (a === 'style') {
+        return util_1.styleObjectToCss(v);
+    }
+    else {
+        return v.toString ? v.toString() : v + '';
+    }
+}
 
 },{"./":5,"./createElement":2,"./elementClass":3,"./util":8}],2:[function(require,module,exports){
 var __assign = (this && this.__assign) || function () {
@@ -378,19 +375,13 @@ exports.installJSXAloneAsGlobal = installJSXAloneAsGlobal;
 },{".":5}],7:[function(require,module,exports){
 Object.defineProperty(exports, "__esModule", { value: true });
 var _1 = require(".");
+var util_1 = require("./util");
 exports.Style = function (props) {
     function indent(n) {
         return props.renderConfig && props.renderConfig.indent ? _1.indent(n) : '';
     }
-    function fixProperty(s) {
-        var t;
-        while (t = /([A-Z])/.exec(s)) {
-            s = s.substring(0, t.index) + '-' + t[1].toLowerCase() + s.substring(t.index + 1, s.length);
-        }
-        return s;
-    }
     return JSXAlone.createElement("style", null, Object.keys(props.classes).map(function (c) {
-        return indent(1) + "." + c + (props.classes[c] && props.classes[c].selectorPostfix ? props.classes[c].selectorPostfix : '') + " {" + Object.keys(props.classes[c]).filter(function (p) { return p !== 'selectorPostfix'; }).map(function (p) { return "\n" + indent(2) + fixProperty(p) + ": " + props.classes[c][p] + ";"; }).join("") + "\n}";
+        return indent(1) + "." + c + (props.classes[c] && props.classes[c].selectorPostfix ? props.classes[c].selectorPostfix : '') + " {" + Object.keys(props.classes[c]).filter(function (p) { return p !== 'selectorPostfix'; }).map(function (p) { return "\n" + indent(2) + util_1.stylePropertyNameToCssSyntax(p) + ": " + props.classes[c][p] + ";"; }).join("") + "\n}";
     }).join('\n'));
 };
 function Styles(styles) {
@@ -404,7 +395,7 @@ function Styles(styles) {
 }
 exports.Styles = Styles;
 
-},{".":5}],8:[function(require,module,exports){
+},{".":5,"./util":8}],8:[function(require,module,exports){
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -469,12 +460,6 @@ function printMs(ms, config) {
     return "" + (minutes ? minutes + " minutes " : '') + (seconds ? seconds + " seconds " : '') + (milliseconds ? milliseconds + " ms " : '');
 }
 exports.printMs = printMs;
-function printStyleHtmlAttribute(value) {
-    return "" + Object.keys(value)
-        .map(function (p) { return p + ": " + value[p]; })
-        .join('; ');
-}
-exports.printStyleHtmlAttribute = printStyleHtmlAttribute;
 var _unique = 0;
 function unique(prefix) {
     if (prefix === void 0) { prefix = '_'; }
@@ -489,6 +474,23 @@ function objectMap(o, f) {
     return r;
 }
 exports.objectMap = objectMap;
+function styleObjectToCss(o, propertiesSeparator) {
+    if (propertiesSeparator === void 0) { propertiesSeparator = ''; }
+    return Object.keys(o)
+        .map(function (p) {
+        return stylePropertyNameToCssSyntax(p) + ": " + o[p] + ";";
+    })
+        .join(propertiesSeparator);
+}
+exports.styleObjectToCss = styleObjectToCss;
+function stylePropertyNameToCssSyntax(s) {
+    var t;
+    while (t = /([A-Z])/.exec(s)) {
+        s = s.substring(0, t.index) + '-' + t[1].toLowerCase() + s.substring(t.index + 1, s.length);
+    }
+    return s;
+}
+exports.stylePropertyNameToCssSyntax = stylePropertyNameToCssSyntax;
 
 },{}],9:[function(require,module,exports){
 var __extends = (this && this.__extends) || (function () {
@@ -695,7 +697,7 @@ var ElementLikeImpl = (function (_super) {
                     el.setAttribute('class', value);
                 }
                 else if (attribute === 'style') {
-                    el.setAttribute('style', jsx_alone_core_1.printStyleHtmlAttribute(value));
+                    el.setAttribute('style', jsx_alone_core_1.styleObjectToCss(value || {}));
                 }
                 else if (typeof value === 'function') {
                     config.eventManager.addEventListener(el, attribute.replace(/^on/, '').toLowerCase(), value);
@@ -1066,5 +1068,11 @@ function isSvgTag(t) {
 }
 exports.isSvgTag = isSvgTag;
 var SvgTags = ['path', 'svg', 'use', 'g'];
+function printStyleHtmlAttribute(value) {
+    return "" + Object.keys(value)
+        .map(function (p) { return p + ": " + value[p]; })
+        .join('; ');
+}
+exports.printStyleHtmlAttribute = printStyleHtmlAttribute;
 
 },{}]},{},[9]);
