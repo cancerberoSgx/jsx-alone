@@ -1,5 +1,3 @@
-// adapted from https://github.com/CompuIves/codesandbox-client/blob/196301c919dd032dccc08cbeb48cf8722eadd36b/packages/app/src/app/components/CodeEditor/Monaco/workers/syntax-highlighter.js
-
 import { registerStyle } from '../style/styles'
 import * as monaco from 'monaco-editor'
 import { registerWorkerListener, postMessage } from '../codeWorker/codeWorkerManager'
@@ -28,19 +26,13 @@ function dispatchSyntaxHighlight({ data }: { data: CodeWorkerResponse }) {
     }
   })
 
-  // console.log(decorations.map(d=>d.options.inlineClassName).filter((d,i,a)=>i===a.indexOf(d)));
-
   lastJsxDecorations = editor.deltaDecorations(lastJsxDecorations, decorations)
 
-  // if (!jsxSyntaxHighlightEventListenerCalled) {
-  //   editor.getModel()!.setValue(editor.getModel()!.getValue())
-  //   jsxSyntaxHighlightEventListenerCalled = true
-  // }
 }
 
 export function jsxSyntaxHighlightInstall(editor: monaco.editor.IStandaloneCodeEditor) {
 
-    const lightStyles = `
+  const lightStyles = `
 .JsxText {
   color: #5c6773;
 }
@@ -63,9 +55,9 @@ export function jsxSyntaxHighlightInstall(editor: monaco.editor.IStandaloneCodeE
 .name-of-JsxAttribute {
   color: #f08c36;
 }
-    `
+`
 
-    const darkStyles = `
+  const darkStyles = `
 .JsxText {
   color: #8a97b3;
 }
@@ -88,10 +80,9 @@ export function jsxSyntaxHighlightInstall(editor: monaco.editor.IStandaloneCodeE
 .name-of-JsxAttribute {
   color: #f08c36;
 }
-    `
+`
+  registerStyle(lightStyles.split('\n').map(l => l.trim().startsWith('.') ? '.vs ' + l : l).join('\n'))
 
-    registerStyle(lightStyles.split('\n').map(l => l.trim().startsWith('.') ? '.vs ' + l : l).join('\n'))
+  registerStyle(darkStyles.split('\n').map(l => l.trim().startsWith('.') ? '.vs-dark ' + l : l).join('\n'))
 
-    registerStyle(darkStyles.split('\n').map(l => l.trim().startsWith('.') ? '.vs-dark ' + l : l).join('\n'))
-
-  }
+}

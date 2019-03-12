@@ -1,3 +1,5 @@
+// adapted from https://github.com/CompuIves/codesandbox-client/blob/196301c919dd032dccc08cbeb48cf8722eadd36b/packages/app/src/app/components/CodeEditor/Monaco/workers/syntax-highlighter.js
+
 import Project, { Node as tsNode, ts } from 'ts-simple-ast'
 import { CodeWorkerRequest, CodeWorkerRequestJsxAst, CodeWorkerResponseJsxAsNode, CodeWorkerResponseJsxAst, CodeWorkerResponseJsxAstDiagnostic } from '../store/types'
 import { createProject, getChildrenForEachChild } from './ts-simple-ast'

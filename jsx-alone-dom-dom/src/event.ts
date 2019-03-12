@@ -17,9 +17,9 @@ interface Event {
 }
 export class MEventTarget implements MIEventTarget {
   addEventListener(type: string, listener: EventListener | null, options?: boolean | AddEventListenerOptions): void {
-    throw new Error('not implemented')
+    // throw new Error('not implemented')
   }
   removeEventListener(type: string, callback: EventListener | null, options?: EventListenerOptions | boolean): void {
-    throw new Error('not implemented')
+    // throw new Error('not implemented')
   }
 }

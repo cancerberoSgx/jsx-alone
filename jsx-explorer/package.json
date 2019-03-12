@@ -25,6 +25,7 @@
     "jsonc-parser": "^2.0.3",
     "jsx-alone-core": "file:../jsx-alone-core",
     "jsx-alone-dom": "file:../jsx-alone-dom",
+    "jsx-alone-dom-dom": "file:../jsx-alone-dom-dom",
     "jsx-alone-string": "file:../jsx-alone-string",
     "monaco-editor": "^0.15.6",
     "redux": "^4.0.1",

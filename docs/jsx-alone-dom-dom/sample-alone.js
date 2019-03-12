@@ -132,10 +132,8 @@ var MEventTarget = (function () {
     function MEventTarget() {
     }
     MEventTarget.prototype.addEventListener = function (type, listener, options) {
-        throw new Error('not implemented');
     };
     MEventTarget.prototype.removeEventListener = function (type, callback, options) {
-        throw new Error('not implemented');
     };
     return MEventTarget;
 }());

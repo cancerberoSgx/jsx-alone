@@ -49,6 +49,16 @@ describe('jsx-alone-dom', () => {
     ])
   })
 
+  it('should render function attributes', () => {
+    install()
+    checkDomIsImplementation(document.body)
+    const id = '2'
+    const c = <p id={id}><span data-foo={1}>hello <input type="checkbox" checked={true} onChange={e=>console.log('hello')}/><i><strong id="d">good</strong>bye </i></span></p>
+    const r = JSXAlone.render(c, document.body as any)! as any as HTMLElement
+    checkDomIsImplementation(r)
+    expect(r.outerHTML).toMatch(/^<p id="2"><span data\-foo="1">hello <input type="checkbox" checked="checked" [^=]+="[^"]+"><\/input><i><strong id="d">good<\/strong>bye <\/i><\/span><\/p>$/)
+  })
+
   it('should render updateExisting', () => {
     install()
     checkDomIsImplementation(document.body)
