@@ -63,12 +63,12 @@ export function objectMap(o: {[k: string]: any}, f: (k: string, v: any) => any) 
   return r
 }
 
-export function styleObjectToCss(o:Partial<{[k:string]:string|null|undefined}>, propertiesSeparator=''){
+export function styleObjectToCss(o: Partial<{[k: string]: string|null|undefined}>, propertiesSeparator= '') {
   return Object.keys(o)
   .map(p =>
     `${stylePropertyNameToCssSyntax(p)}: ${o[p]};`
     )
-    // 
+    //
     .join(propertiesSeparator)
 }
 export function stylePropertyNameToCssSyntax(s: string): string {

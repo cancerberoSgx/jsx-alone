@@ -1,35 +1,35 @@
-export function throttle<F extends (...args: any[]) => any>(func: F, 
-	wait: number, 
-	options: { leading?: boolean, trailing?: boolean } = {}) {
-		
-	var context: any, args: any, result: any;
-	var timeout: any = null;
-	var previous = 0;
-	options || (options = {});
+export function throttle<F extends (...args: any[]) => any>(func: F,
+  wait: number,
+  options: { leading?: boolean, trailing?: boolean } = {}) {
 
-	var later = function () {
-		previous = options.leading === false ? 0 : Date.now();
-		timeout = null;
-		result = func.apply(context, args);
-		context = args = null;
-	};
+  let context: any, args: any, result: any
+  let timeout: any = null
+  let previous = 0
+  options || (options = {})
 
-	return function (this: any) {
-		var now = Date.now();
-		if (!previous && options.leading === false) previous = now;
+  let later = function() {
+    previous = options.leading === false ? 0 : Date.now()
+    timeout = null
+    result = func.apply(context, args)
+    context = args = null
+  }
 
-		var remaining = wait - (now - previous);
-		context = this;
-		args = arguments;
-		if (remaining <= 0) {
-			clearTimeout(timeout);
-			timeout = null;
-			previous = now;
-			result = func.apply(context, args);
-			context = args = null;
-		} else if (!timeout && options.trailing !== false) {
-			timeout = setTimeout(later, remaining);
-		}
-		return result;
-	};
-};
+  return function(this: any) {
+    let now = Date.now()
+    if (!previous && options.leading === false) previous = now
+
+    let remaining = wait - (now - previous)
+    context = this
+    args = arguments
+    if (remaining <= 0) {
+      clearTimeout(timeout)
+      timeout = null
+      previous = now
+      result = func.apply(context, args)
+      context = args = null
+    } else if (!timeout && options.trailing !== false) {
+      timeout = setTimeout(later, remaining)
+    }
+    return result
+  }
+}

@@ -4,7 +4,7 @@ import { CodeWorkerError, EvaluateTimes } from '../store/types'
 import { JSXAloneJsonImpl, JsonImplElementClass as ElementClassJson, getGlobal } from 'jsx-alone-core'
 import { JSXAlone as JSXAloneStringImpl, ElementClass as ElementClassString } from 'jsx-alone-string'
 import { JSXAlone as JSXAloneDomImpl, ElementClass as ElementClassDom } from 'jsx-alone-dom'
-import { lastRequest } from './codeWorker';
+import { lastRequest } from './codeWorker'
 
 // let evaluateLastInputJson: string | undefined
 // let evaluateLastOutputJson: any
@@ -58,7 +58,6 @@ export function evaluate<T = JsonImplOutputEl>(jsx: string, impl: 'json' | 'dom'
   results = { result, error, evaluated: s }
   return results as any
 }
-
 
 function renderWithImpl<T>(fn: () => JSX.Element, impl: 'json' | 'dom' | 'string', config?: any): T {
   const JSXAlone = getGlobal().JSXAlone = impl === 'dom' ? JSXAloneDomImpl : impl === 'string' ? JSXAloneStringImpl : JSXAloneJsonImpl

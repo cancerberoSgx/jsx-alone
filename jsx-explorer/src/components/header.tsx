@@ -1,15 +1,15 @@
-import { JSXAlone } from 'jsx-alone-dom';
-import { examples } from '../examples/examples';
-import { EDITOR_ACTION } from '../store/editor';
-import { OPTIONS_ACTIONS } from '../store/options';
-import { dispatch } from '../store/store';
-import { State } from '../store/types';
-import { allThemes } from '../style/theme';
-import { ForkRibbon } from './content/forkRibbon';
-import { WhatsThis } from './content/whatsThis';
-import { EditorExplorerMenu } from './editorExplorerMenu';
-import { Component } from './util/component';
-import { showInModal } from './util/showInModal';
+import { JSXAlone } from 'jsx-alone-dom'
+import { examples } from '../examples/examples'
+import { EDITOR_ACTION } from '../store/editor'
+import { OPTIONS_ACTIONS } from '../store/options'
+import { dispatch } from '../store/store'
+import { State } from '../store/types'
+import { allThemes } from '../style/theme'
+import { ForkRibbon } from './content/forkRibbon'
+import { WhatsThis } from './content/whatsThis'
+import { EditorExplorerMenu } from './editorExplorerMenu'
+import { Component } from './util/component'
+import { showInModal } from './util/showInModal'
 
 interface P {
   state: State
@@ -39,7 +39,7 @@ export class Header extends Component<P> {
         <div className="navbar-start">
 
           <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link" onClick={e=>e.currentTarget.nextElementSibling!.classList.toggle('collapsed')}>Examples</a>
+            <a className="navbar-link" onClick={e => e.currentTarget.nextElementSibling!.classList.toggle('collapsed')}>Examples</a>
             <div className="navbar-dropdown">
               {examples.map(example => <a className="navbar-item" onClick={e => {
                 dispatch({ type: EDITOR_ACTION.REQUEST_CODE_CHANGE, payload: { code: example.code } })
@@ -49,7 +49,7 @@ export class Header extends Component<P> {
           </div>
 
           <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link" onClick={e=>e.currentTarget.nextElementSibling!.classList.toggle('collapsed')}>Options</a>
+            <a className="navbar-link" onClick={e => e.currentTarget.nextElementSibling!.classList.toggle('collapsed')}>Options</a>
             <div className="navbar-dropdown">
               <a className="navbar-item">
                 <label className="content">
@@ -64,7 +64,7 @@ export class Header extends Component<P> {
           </div>
 
           <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link" onClick={e=>e.currentTarget.nextElementSibling!.classList.toggle('collapsed')}>Themes</a>
+            <a className="navbar-link" onClick={e => e.currentTarget.nextElementSibling!.classList.toggle('collapsed')}>Themes</a>
             <div className="navbar-dropdown">
               <a className="navbar-item" style={{
                 border: `2px solid ${nextTheme.colors.brand}`,

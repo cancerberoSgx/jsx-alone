@@ -19,7 +19,7 @@ export class NodeComponent extends Component<P> {
     const { node, mode, path = '/', showDetailsOf, onShowDetailsOf, collapsed = false } = this.props
     return <div data-key={path} className="tsAstExplorerNode"  >
 
-      <span className="nodeName" 
+      <span className="nodeName"
       >{node.kind}</span>
 
       <button className="button is-small" onClick={e => {
@@ -37,7 +37,7 @@ export class NodeComponent extends Component<P> {
 
       {!collapsed && <ul>
         {node.children.map((c, i) => <li>
-          <NodeComponent node={c} path={path + i} 
+          <NodeComponent node={c} path={path + i}
           onShowDetailsOf={onShowDetailsOf} mode={mode} showDetailsOf={showDetailsOf} />
         </li>)}
       </ul>}

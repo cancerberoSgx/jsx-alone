@@ -2,7 +2,7 @@ import { Node, Project, ts } from 'ts-simple-ast'
 import { lib_es5_d_ts } from '../util/filesPacked/lib_es5_d_ts'
 import { lib_dom_d_ts } from '../util/filesPacked/lib_dom_d_ts'
 import { jsx_alone_core_d_ts } from '../util/filesPacked/jsx_alone_core_d_ts'
-import { lib_es2015_core_d_ts } from '../util/filesPacked/lib_es2015_core_d_ts';
+import { lib_es2015_core_d_ts } from '../util/filesPacked/lib_es2015_core_d_ts'
 
 let project: Project | undefined
 
@@ -14,7 +14,7 @@ export function createProject(files: { fileName: string, content: string }[]): P
         target: ts.ScriptTarget.ES2016,
         strict: true,
         jsx: 'react',
-        jsxFactory: 'JSXAlone.createElement',
+        jsxFactory: 'JSXAlone.createElement'
         // libs: ["es2015", "dom"]
       } as any
     })
@@ -23,7 +23,7 @@ export function createProject(files: { fileName: string, content: string }[]): P
     project.createSourceFile('lib.dom.d.ts', lib_dom_d_ts)
     project.createSourceFile('index.d.ts', jsx_alone_core_d_ts)
 
-    files.forEach(f => project!.createSourceFile(f.fileName, f.content, {overwrite: true, }))
+    files.forEach(f => project!.createSourceFile(f.fileName, f.content, {overwrite: true }))
   }
   else {
     files.forEach(f => {

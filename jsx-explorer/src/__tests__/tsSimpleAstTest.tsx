@@ -37,9 +37,9 @@ export default <article>
       expect(project.getProgram().getGlobalDiagnostics()).toHaveLength(0)
 
       // The following fails, probably because files packed is too large
-      
+
       // expect(project.getProgram().getSemanticDiagnostics()).toHaveLength(0)
-      // expect(project.getPreEmitDiagnostics()).toHaveLength(0) 
+      // expect(project.getPreEmitDiagnostics()).toHaveLength(0)
       // expect(project.getProgram().compilerObject.getDeclarationDiagnostics()).toHaveLength(0)
       // expect(project.getProgram().compilerObject.getSyntacticDiagnostics()).toHaveLength(0)
     })

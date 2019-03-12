@@ -1,6 +1,6 @@
-import { COMPILED_ACTION } from '../store/compiled';
-import { dispatch } from '../store/store';
-import { CodeWorkerRequest, CodeWorkerResponse } from '../store/types';
+import { COMPILED_ACTION } from '../store/compiled'
+import { dispatch } from '../store/store'
+import { CodeWorkerRequest, CodeWorkerResponse } from '../store/types'
 
 let codeWorker: Worker
 

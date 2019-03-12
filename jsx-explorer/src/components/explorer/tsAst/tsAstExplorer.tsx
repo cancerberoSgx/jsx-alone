@@ -5,8 +5,8 @@ import { Component } from '../../util/component'
 import { ExplorerProps } from '../explorers'
 import { NodeComponent } from './tsAstNode'
 import { DiagnosticComponent } from './tsAstDiagnostic'
-import { dispatch } from '../../../store/store';
-import { COMPILED_ACTION } from '../../../store/compiled';
+import { dispatch } from '../../../store/store'
+import { COMPILED_ACTION } from '../../../store/compiled'
 
 interface P extends ExplorerProps {
   showDetailsOf?: string
@@ -34,7 +34,7 @@ export class TsSimpleAstExplorer extends Component<P> {
     if (compiled) {
       const { diagnostics, ast } = compiled.jsxAst
       const { mode, showDiagnostics } = this.props.compiled.request.jsxAst
-      return <div className="tsAstExplorerContent" 
+      return <div className="tsAstExplorerContent"
       >
         <button className="button is-small" onClick={e => {
           dispatch({ type: COMPILED_ACTION.FETCH_COMPILED, payload: { request: { jsxAst: { mode: mode === 'forEachChild' ? 'getChildren' : 'forEachChild' } } } })
@@ -59,7 +59,7 @@ export class TsSimpleAstExplorer extends Component<P> {
           {diagnostics && diagnostics.length === 0 && <span>No problems diagnosed, congrats!</span>}
         </div>}
 
-        <NodeComponent mode={mode || 'forEachChild'} 
+        <NodeComponent mode={mode || 'forEachChild'}
         node={ast} showDetailsOf={this.props.showDetailsOf}
           onShowDetailsOf={(p, n) => {
             this.props.onSelectCode && this.props.onSelectCode(n)

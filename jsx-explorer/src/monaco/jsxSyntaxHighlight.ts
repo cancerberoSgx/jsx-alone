@@ -1,7 +1,7 @@
-import * as monaco from 'monaco-editor';
-import { CodeWorkerResponse } from '../store/types';
-import { registerStyle } from '../style/styles';
-import { getMonacoInstance } from './monaco';
+import * as monaco from 'monaco-editor'
+import { CodeWorkerResponse } from '../store/types'
+import { registerStyle } from '../style/styles'
+import { getMonacoInstance } from './monaco'
 
 let lastJsxDecorations: string[] = []
 

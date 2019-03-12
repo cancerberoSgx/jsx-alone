@@ -1,11 +1,10 @@
-import { Action, Reducer } from 'redux';
-import { all, call, put, select, takeEvery } from 'redux-saga/effects';
-import { examples } from '../examples/examples';
-import { getMonacoInstance } from '../monaco/monaco';
-import { COMPILED_ACTION, FetchCompiledAction } from './compiled';
-import { OPTIONS_ACTIONS } from './options';
-import { dispatch } from './store';
-import { Editor, State } from './types';
+import { Action, Reducer } from 'redux'
+import { all, call, put, select, takeEvery } from 'redux-saga/effects'
+import { examples } from '../examples/examples'
+import { getMonacoInstance } from '../monaco/monaco'
+import { COMPILED_ACTION, FetchCompiledAction } from './compiled'
+import { OPTIONS_ACTIONS } from './options'
+import { Editor, State } from './types'
 
 const initialState = {
   code: examples[0].code,

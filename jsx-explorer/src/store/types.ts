@@ -52,7 +52,7 @@ export interface CodeWorkerResponse {
     evaluated: string;
   }
   jsxAst: CodeWorkerResponseJsxAst
-  error?: CodeWorkerError;
+  error?: CodeWorkerError
   totalTime: number
 }
 export interface EvaluateTimes {

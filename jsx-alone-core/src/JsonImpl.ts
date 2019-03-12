@@ -92,7 +92,6 @@ export const JSXAloneJsonImpl: JSXAloneType<JsonImplOutput, ElementLike<JsonImpl
 
 }
 
-
 function attributeValue(a: string, v: any) {
   if (a === 'style') {
     return styleObjectToCss(v)

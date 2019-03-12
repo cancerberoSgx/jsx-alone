@@ -1,13 +1,13 @@
-import { jsonImplOutputElAsHtml } from 'jsx-alone-core';
-import { JSXAlone } from 'jsx-alone-dom';
-import { registerStyle } from '../../../style/styles';
-import { height } from '../../../util/media';
-import { escapeHtml, queryAll } from '../../../util/util';
-import { Component } from '../../util/component';
-import { Error } from '../../util/error';
-import { showInModal } from '../../util/showInModal';
-import { ExplorerProps } from '../explorers';
-import { Node } from './elementExplorerNode';
+import { jsonImplOutputElAsHtml } from 'jsx-alone-core'
+import { JSXAlone } from 'jsx-alone-dom'
+import { registerStyle } from '../../../style/styles'
+import { height } from '../../../util/media'
+import { escapeHtml, queryAll } from '../../../util/util'
+import { Component } from '../../util/component'
+import { Error } from '../../util/error'
+import { showInModal } from '../../util/showInModal'
+import { ExplorerProps } from '../explorers'
+import { Node } from './elementExplorerNode'
 
 interface P extends ExplorerProps {
 }

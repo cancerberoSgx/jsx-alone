@@ -1,19 +1,19 @@
-import { Action, Reducer } from 'redux';
-import { isMobile } from '../util/media';
-import { ExplorerName, Options } from './types';
+import { Action, Reducer } from 'redux'
+import { isMobile } from '../util/media'
+import { ExplorerName, Options } from './types'
 
 const initialState: Options = {
   logs: [],
   autoApply: true,
   selectedExplorer: isMobile() ? 'editor' : 'elements',
-  working: false,
+  working: false
 }
 
 export enum OPTIONS_ACTIONS {
   PUSH_LOG = 'PUSH_LOG',
   CHANGE_AUTO_APPLY = 'CHANGE_AUTO_APPLY',
   SELECT_EXPLORER = 'SELECT_EXPLORER',
-  SET_WORKING='SET_WORKING',
+  SET_WORKING= 'SET_WORKING'
 }
 
 export const optionsReducer: Reducer<Options, PushLogAction | ChangeAutoApply | SelectExplorer|SetWorking> = (state = initialState, action) => {
@@ -31,8 +31,8 @@ export const optionsReducer: Reducer<Options, PushLogAction | ChangeAutoApply | 
 
     case OPTIONS_ACTIONS.SET_WORKING:
 
-    //TODO: to be faster we do this hack:
-    if(action.payload.working){
+    // TODO: to be faster we do this hack:
+    if (action.payload.working) {
       document.body.classList.add('working')
     }
     else {

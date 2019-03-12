@@ -1,8 +1,8 @@
-import { AbstractElementLike, AbstractTextNodeLike, RefObject, styleObjectToCss } from 'jsx-alone-core';
-import { ElementClass } from './elementClass';
-import { RootEventManager } from './event';
-import { RefObjectImpl, setRef } from './refs';
-import { ElementLike, ElementLikeImplRenderConfig, IElementClass, RenderOutput } from './types';
+import { AbstractElementLike, AbstractTextNodeLike, RefObject, styleObjectToCss } from 'jsx-alone-core'
+import { ElementClass } from './elementClass'
+import { RootEventManager } from './event'
+import { RefObjectImpl, setRef } from './refs'
+import { ElementLike, ElementLikeImplRenderConfig, IElementClass, RenderOutput } from './types'
 
 export class ElementLikeImpl<T extends ElementClass= ElementClass> extends AbstractElementLike<RenderOutput> implements ElementLike {
 
@@ -17,7 +17,7 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
       ? document.createElementNS('http://www.w3.org/2000/svg', this.tag)
       : document.createElement(this.tag) as any
   }
- 
+
   render(config: ElementLikeImplRenderConfig<ElementLikeImpl> & {
     eventManager: RootEventManager, rootHTMLElement: HTMLElement
   }): RenderOutput {
@@ -34,7 +34,7 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
           el.setAttribute('class', value)
         }
         else if (attribute === 'style') {
-          el.setAttribute('style', styleObjectToCss(value as any||{}))
+          el.setAttribute('style', styleObjectToCss(value as any || {}))
         }
         else if (typeof value === 'function') {
           config.eventManager.addEventListener(el, attribute.replace(/^on/, '').toLowerCase(), value)
@@ -98,7 +98,6 @@ export class ElementLikeImpl<T extends ElementClass= ElementClass> extends Abstr
   }
 
 }
-
 
 export class TextNodeLikeImpl extends AbstractTextNodeLike<RenderOutput> {
   render(config: ElementLikeImplRenderConfig): RenderOutput {

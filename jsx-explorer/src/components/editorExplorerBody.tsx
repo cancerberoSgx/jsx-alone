@@ -1,15 +1,15 @@
-import { JSXAlone } from 'jsx-alone-dom';
-import { registerStyle } from '../style/styles';
-import { isMobile } from '../util/media';
-import { P } from './app';
-import { Editor } from './editor';
-import { ElementExplorer } from './explorer/elements/elementExplorer';
-import { onSelectCode } from './explorer/explorers';
-import { ImplExplorer } from './explorer/implExplorer';
-import { TsSimpleAstExplorer } from './explorer/tsAst/tsAstExplorer';
-import { Component } from './util/component';
+import { JSXAlone } from 'jsx-alone-dom'
+import { registerStyle } from '../style/styles'
+import { isMobile } from '../util/media'
+import { P } from './app'
+import { Editor } from './editor'
+import { ElementExplorer } from './explorer/elements/elementExplorer'
+import { onSelectCode } from './explorer/explorers'
+import { ImplExplorer } from './explorer/implExplorer'
+import { TsSimpleAstExplorer } from './explorer/tsAst/tsAstExplorer'
+import { Component } from './util/component'
 
-registerStyle(theme=>`
+registerStyle(theme => `
 .editorExplorerBodyOverlay{
   visibility: hidden;
   display: block;
@@ -18,7 +18,7 @@ registerStyle(theme=>`
   height: 2em;
   color: ${theme.colors.fg};
   font-weight: bolder;
-  margin: 2.5em auto .5em auto;  
+  margin: 2.5em auto .5em auto;
   z-index: 3;
   padding-top: .3em;
   opacity: 0.0;

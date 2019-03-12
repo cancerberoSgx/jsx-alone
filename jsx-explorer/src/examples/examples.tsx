@@ -36,7 +36,7 @@ export const examples: Example[] = Object.values(examplesPacked).filter(f => f.f
 
 function fixCode(s: string, globals: any = {}) {
   const lines = s.split('\n')
-  let i = lines.findIndex(l => l.includes('function'))
+  const i = lines.findIndex(l => l.includes('function'))
   const code = `
 // Although you can import types from './index', only the following implementations are available in this example:
 

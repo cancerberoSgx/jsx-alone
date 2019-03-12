@@ -1,7 +1,7 @@
-import { AbstractElementLike, AbstractTextNodeLike, ElementClass as AbstractElementClass, styleObjectToCss } from 'jsx-alone-core';
-import { defaultRenderConfig, ElementLikeImplRenderConfig } from './config';
-import { ElementLike, TextNodeLike } from './types';
-import { indent } from './util';
+import { AbstractElementLike, AbstractTextNodeLike, ElementClass as AbstractElementClass, styleObjectToCss } from 'jsx-alone-core'
+import { defaultRenderConfig, ElementLikeImplRenderConfig } from './config'
+import { ElementLike, TextNodeLike } from './types'
+import { indent } from './util'
 
 export class ElementLikeImpl extends AbstractElementLike<string> implements ElementLike {
 

@@ -26,19 +26,17 @@
 //       // foundLeave=true
 //       // }
 //       // let foundLeave = !!rr.find(dd=>!!findDescendant(dd, d=>isTextNodeLike(d))
-      
+
 //       // console.log(findDescendant(rr, d=>isElementLike(d)&&d.attrs['data-currentAmount']=='1'));
-      
-      
-      
-//       if (v.amount === -1 || v.currentAmount <= v.amount 
+
+//       if (v.amount === -1 || v.currentAmount <= v.amount
 //         || findDescendant(rr, d=>isElementLike(d)&&d.attrs['data-virtual']==id+'_'+'1')
 //         // ||!v. foundLeave
 //         ) {
-          
+
 //           // if (v.currentAmount > v.amount) {
 //             // v. foundLeave=v.foundLeave||!!rr.find(dd=>!!findDescendant(dd, d=> isTextNodeLike(d)))
-            
+
 //             // debugger
 //             // }
 //             const result= <div data-virtual={id+'_'+v.currentAmount}  onMouseUp={e => {
@@ -51,7 +49,7 @@
 //         {r}
 //       </div>
 //           v.currentAmount++
- 
+
 // //  if(!v.foundLeave){
 // //    //  // const findDescendant(dd, d=> isTextNodeLike(d)
 //     // var hasLeave =!!rr.find(dd=>!!findDescendant(dd, d=> isTextNodeLike(d)))
@@ -63,7 +61,7 @@
 //   //  v. foundLeave= !!(hasLeave&&!hasVirtual)
 //   // v.foundLeave=!!hasLeave
 // //    console.log(hasLeave, hasVirtual, jsonImplOutputElAsHtml(result as any));
-   
+
 //    // }
 //   // }
 //   return result

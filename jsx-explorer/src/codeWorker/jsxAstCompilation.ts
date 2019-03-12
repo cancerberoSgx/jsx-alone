@@ -2,7 +2,7 @@
 import Project, { Node as tsNode, ts, SourceFile } from 'ts-simple-ast'
 import { CodeWorkerRequest, CodeWorkerRequestJsxAst, CodeWorkerResponseJsxAsNode, CodeWorkerResponseJsxAst, CodeWorkerResponseJsxAstDiagnostic } from '../store/types'
 import { createProject, getChildrenForEachChild } from './ts-simple-ast'
-import { lastRequest } from './codeWorker';
+import { lastRequest } from './codeWorker'
 
 export let jsxAstLastResult: CodeWorkerResponseJsxAst
 export let jsxAstLastSourceFile: SourceFile
@@ -36,7 +36,7 @@ function buildJsxAstDiagnostics(project: Project): CodeWorkerResponseJsxAstDiagn
       startColumn: ts.getLineAndCharacterOfPosition(tsd.getSourceFile()!.compilerNode, tsd.getStart()!).character + 1,
       startLineNumber: ts.getLineAndCharacterOfPosition(tsd.getSourceFile()!.compilerNode, tsd.getStart()!).line + 1,
       endColumn: ts.getLineAndCharacterOfPosition(tsd.getSourceFile()!.compilerNode, tsd.getStart()! + tsd.getLength()!).character + 1,
-      endLineNumber: ts.getLineAndCharacterOfPosition(tsd.getSourceFile()!.compilerNode, tsd.getStart()! + tsd.getLength()!).line + 1,
+      endLineNumber: ts.getLineAndCharacterOfPosition(tsd.getSourceFile()!.compilerNode, tsd.getStart()! + tsd.getLength()!).line + 1
     }
     return d
   })

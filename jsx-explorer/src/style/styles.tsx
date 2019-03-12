@@ -6,7 +6,7 @@ import { darkCss } from './darkCss'
 import { globalStyles } from './globals'
 import { lightCss } from './lightCss'
 import { mintyCss } from './mintyCss'
-import { onStoreStarted } from '../store/store';
+import { onStoreStarted } from '../store/store'
 
 const _styles: { [k: string]: ClassRule } = {}
 

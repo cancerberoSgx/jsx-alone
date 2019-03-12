@@ -50,7 +50,7 @@ ${css('.section', `padding: 0; margin: 0;`, `padding: 3rem 1.5rem;`)}
   transition: height 600ms ease-out;
 }
 .tile.is-ancestor:last-child , .tile.is-ancestor {
-  margin: 0; 
+  margin: 0;
   padding: 0;
   margin-top: -2em;
 }

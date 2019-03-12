@@ -6,14 +6,14 @@ import {install} from 'jsx-alone-dom-dom'
 
 install()
 
-export let lastRequest : CodeWorkerRequest|undefined
+export let lastRequest: CodeWorkerRequest|undefined
 
 self.addEventListener('message', ({ data }: { data: CodeWorkerRequest }) => {
 
-  if(!lastRequest){
-    lastRequest={...data, code: ''}
+  if (!lastRequest) {
+    lastRequest = {...data, code: ''}
   }
-  
+
   const t0 = Date.now()
 
   const jsxAst = doJSXAst(data) // do it first so extractCodeDecorations can reuse generated sourceFile
@@ -26,7 +26,7 @@ self.addEventListener('message', ({ data }: { data: CodeWorkerRequest }) => {
       evaluate: evaluate(data.code),
       jsxAst
     },
-    totalTime: Date.now() - t0,
+    totalTime: Date.now() - t0
   }
   lastRequest = data
 

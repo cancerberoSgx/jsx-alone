@@ -1,10 +1,10 @@
-import { JSXAlone } from 'jsx-alone-dom';
-import { OPTIONS_ACTIONS } from '../store/options';
-import { dispatch } from '../store/store';
-import { ExplorerName } from '../store/types';
-import { isMobile } from '../util/media';
-import { P } from './app';
-import { Component } from './util/component';
+import { JSXAlone } from 'jsx-alone-dom'
+import { OPTIONS_ACTIONS } from '../store/options'
+import { dispatch } from '../store/store'
+import { ExplorerName } from '../store/types'
+import { isMobile } from '../util/media'
+import { P } from './app'
+import { Component } from './util/component'
 
 export class EditorExplorerMenu extends Component<P> {
 

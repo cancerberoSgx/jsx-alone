@@ -1,11 +1,11 @@
-import { all as merge } from 'deepmerge';
-import { Action, Reducer } from 'redux';
-import { all, call, put, select, takeEvery } from 'redux-saga/effects';
-import { requestCodeCompile } from '../codeWorker/codeWorkerManager';
-import { dispatchSyntaxHighlight } from '../monaco/jsxSyntaxHighlight';
-import { OPTIONS_ACTIONS } from './options';
-import { dispatch } from './store';
-import { CodeWorkerError, CodeWorkerRequest, CodeWorkerResponse, Compiled } from './types';
+import { all as merge } from 'deepmerge'
+import { Action, Reducer } from 'redux'
+import { all, call, put, select, takeEvery } from 'redux-saga/effects'
+import { requestCodeCompile } from '../codeWorker/codeWorkerManager'
+import { dispatchSyntaxHighlight } from '../monaco/jsxSyntaxHighlight'
+import { OPTIONS_ACTIONS } from './options'
+import { dispatch } from './store'
+import { CodeWorkerError, CodeWorkerRequest, CodeWorkerResponse, Compiled } from './types'
 
 const initialState: Compiled = {
   request: {
@@ -15,13 +15,13 @@ const initialState: Compiled = {
     code: '',
     title: 'main.tsx',
     version: -1
-  },
+  }
 }
 
 export enum COMPILED_ACTION {
   RENDER_COMPILED = 'RENDER_COMPILED',
   FETCH_COMPILED = 'FETCH_COMPILED',
-  ERROR_COMPILED = 'ERROR_COMPILED',
+  ERROR_COMPILED = 'ERROR_COMPILED'
 }
 
 export const compiled: Reducer<Compiled, FetchCompiledAction | RenderCompiledAction | ErrorCompiledAction> = (state = initialState, action) => {

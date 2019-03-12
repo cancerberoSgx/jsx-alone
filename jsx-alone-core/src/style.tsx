@@ -1,5 +1,5 @@
 import { indent as indentImpl, AbstractJSXAlone } from '.'
-import { stylePropertyNameToCssSyntax } from './util';
+import { stylePropertyNameToCssSyntax } from './util'
 
 declare const JSXAlone: typeof AbstractJSXAlone
 
