@@ -9,3 +9,9 @@ export function isSvgTag(t: string) {
   return SvgTags.some(name => r.test(name))
 }
 const SvgTags = ['path', 'svg', 'use', 'g']
+
+export function printStyleHtmlAttribute(value: any): any {
+  return `${Object.keys(value)
+    .map(p => `${p}: ${value[p]}`)
+    .join('; ')}`
+}

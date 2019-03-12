@@ -36,9 +36,9 @@ type Color = string
 
 export interface Compiled {
   response?: CodeWorkerResponse
-  request?: CodeWorkerRequest
+  request: CodeWorkerRequest
 
-  jsxAstOptions: CodeWorkerRequestJsxAst
+  // jsxAstOptions: CodeWorkerRequestJsxAst
 }
 
 export interface Saga<T extends AllActions['type']> {
@@ -77,11 +77,11 @@ export interface CodeWorkerRequest {
   code: string
   title: string
   version: number
-  jsxAst?: CodeWorkerRequestJsxAst
+  jsxAst: CodeWorkerRequestJsxAst
 }
 export interface CodeWorkerRequestJsxAst {
   showDiagnostics?: boolean
-  mode?: 'forEachChild' | 'getChildren'
+  mode: 'forEachChild' | 'getChildren'
   nodeTextLength?: number
 }
 export interface CodeWorkerResponseJsxAsNode {

@@ -5,11 +5,13 @@ import { Component } from '../../util/component'
 import { ExplorerProps } from '../explorers'
 import { NodeComponent } from './tsAstNode'
 import { DiagnosticComponent } from './tsAstDiagnostic'
+import { dispatch } from '../../../store/store';
+import { COMPILED_ACTION } from '../../../store/compiled';
 
 interface P extends ExplorerProps {
-  mode?: 'getChildren' | 'forEachChild'
+  // mode?: 'getChildren' | 'forEachChild'
   showDetailsOf?: string
-  showDiagnostics?: boolean
+  // showDiagnostics?: boolean
 }
 
 registerStyle(`
@@ -33,17 +35,24 @@ export class TsSimpleAstExplorer extends Component<P> {
     const compiled = this.props.compiled.response
     if (compiled) {
       const { diagnostics, ast } = compiled.jsxAst
+      const {mode, showDiagnostics} = this.props.compiled.request.jsxAst
       return <div className="tsAstExplorerContent">
 
         <button className="button is-small" onClick={e => {
-          this.updateProps({ mode: this.props.mode === 'forEachChild' ? 'getChildren' : 'forEachChild' })
-        }}>{this.props.mode === 'forEachChild' ? 'getChildren' : 'forEachChild'} mode</button>
+          debugger
+          // this.updateProps({ mode: mode === 'forEachChild' ? 'getChildren' : 'forEachChild' })
+          dispatch({type: COMPILED_ACTION.FETCH_COMPILED, payload: {request: {jsxAst: {mode:  mode === 'forEachChild' ? 'getChildren' : 'forEachChild'}
+        }
+      }})
+        }}>{mode === 'forEachChild' ? 'getChildren' : 'forEachChild'} mode</button>
 
         <button className="button is-small" onClick={e => {
-          this.updateProps({ showDiagnostics: !this.props.showDiagnostics })
-        }}>{this.props.showDiagnostics ? 'Hide' : 'Show'} Diagnostics</button>
+          // this.updateProps({ showDiagnostics: !showDiagnostics })
+          dispatch({type: COMPILED_ACTION.FETCH_COMPILED, payload: {request: {jsxAst: {showDiagnostics} as any}}})
 
-        {this.props.showDiagnostics && <div className="content">
+        }}>{showDiagnostics ? 'Hide' : 'Show'} Diagnostics</button>
+
+        {showDiagnostics && <div className="content">
           <h3>Diagnostics:</h3>
           {diagnostics && <ul>{diagnostics.map(d => <li>
             <DiagnosticComponent d={d} onSelectCode={this.props.onSelectCode} />
@@ -55,7 +64,7 @@ export class TsSimpleAstExplorer extends Component<P> {
           </p>
         </div>}
 
-        <NodeComponent mode={this.props.mode || 'forEachChild'} node={ast} showDetailsOf={this.props.showDetailsOf}
+        <NodeComponent mode={mode || 'forEachChild'} node={ast} showDetailsOf={this.props.showDetailsOf}
           onShowDetailsOf={(p, n) => {
             this.props.onSelectCode && this.props.onSelectCode(n)
             this.updateProps({ showDetailsOf: p as string })

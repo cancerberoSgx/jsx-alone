@@ -1,7 +1,7 @@
-import { ElementClass as AbstractElementClass, AbstractElementLike, AbstractTextNodeLike, printStyleHtmlAttribute } from 'jsx-alone-core'
-import { defaultRenderConfig, ElementLikeImplRenderConfig } from './config'
-import { indent } from './util'
-import { TextNodeLike, ElementLike } from './types'
+import { AbstractElementLike, AbstractTextNodeLike, ElementClass as AbstractElementClass, styleObjectToCss } from 'jsx-alone-core';
+import { defaultRenderConfig, ElementLikeImplRenderConfig } from './config';
+import { ElementLike, TextNodeLike } from './types';
+import { indent } from './util';
 
 export class ElementLikeImpl extends AbstractElementLike<string> implements ElementLike {
 
@@ -29,7 +29,7 @@ export class ElementLikeImpl extends AbstractElementLike<string> implements Elem
 
 function printHtmlAttribute(a: string, value: any) {
   if (a === 'style') {
-    value = printStyleHtmlAttribute(value)
+    value = styleObjectToCss(value)
   }
   else if (a === 'className') {
     a = 'class'

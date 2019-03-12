@@ -1,8 +1,28 @@
-// adapted from https://github.com/CompuIves/codesandbox-client/blob/196301c919dd032dccc08cbeb48cf8722eadd36b/packages/app/src/app/components/CodeEditor/Monaco/workers/syntax-highlighter.js
 
-import Project, { Node as tsNode, ts } from 'ts-simple-ast'
+import Project, { Node as tsNode, ts, SourceFile } from 'ts-simple-ast'
 import { CodeWorkerRequest, CodeWorkerRequestJsxAst, CodeWorkerResponseJsxAsNode, CodeWorkerResponseJsxAst, CodeWorkerResponseJsxAstDiagnostic } from '../store/types'
 import { createProject, getChildrenForEachChild } from './ts-simple-ast'
+import { lastRequest } from './codeWorker';
+
+export let jsxAstLastResult: CodeWorkerResponseJsxAst
+export let jsxAstLastSourceFile :  SourceFile
+
+export function doJSXAst(data: CodeWorkerRequest): CodeWorkerResponseJsxAst  {
+  if (data.code === lastRequest.code && JSON.stringify(data.jsxAst || {}) === JSON.stringify(lastRequest.jsxAst || {})) {
+    return jsxAstLastResult
+  }
+  const project = createProject([{
+    fileName: 't1.tsx',
+    content: data.code
+  }])
+  const config = data.jsxAst || {}
+  const sourceFile = project.getSourceFiles().find(s => s.getFilePath().endsWith('t1.tsx'))!
+  const ast = buildJsxAstNode(sourceFile, config)
+  const diagnostics = config.showDiagnostics ? buildJsxAstDiagnostics(project) : []
+  jsxAstLastResult = { ast, diagnostics }
+  jsxAstLastSourceFile = sourceFile
+  return jsxAstLastResult
+}
 
 function buildJsxAstDiagnostics(project: Project): CodeWorkerResponseJsxAstDiagnostic[] {
   const f = project.getSourceFiles().find(s => s.getFilePath().endsWith('t1.tsx'))!
@@ -16,18 +36,6 @@ function buildJsxAstDiagnostics(project: Project): CodeWorkerResponseJsxAstDiagn
     }
     return d
   })
-}
-
-export function doJSXAst(data: CodeWorkerRequest): CodeWorkerResponseJsxAst {
-  const project = createProject([{
-    fileName: 't1.tsx',
-    content: data.code
-  }])
-  const config = data.jsxAst || {}
-  const f = project.getSourceFiles().find(s => s.getFilePath().endsWith('t1.tsx'))!
-  const ast = buildJsxAstNode(f, config)
-  const diagnostics = config.showDiagnostics ? buildJsxAstDiagnostics(project) : []
-  return { ast, diagnostics }
 }
 
 function buildJsxAstNode(n: tsNode, config: CodeWorkerRequestJsxAst): CodeWorkerResponseJsxAsNode {

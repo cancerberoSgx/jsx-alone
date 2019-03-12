@@ -1,5 +1,5 @@
 import { combineReducers, createStore, ReducersMapObject } from 'redux'
-import { compiled, RenderCompiledAction, FetchCompiledAction } from './compiled'
+import { compiled, RenderCompiledAction, FetchCompiledAction, fetchCompiledSaga } from './compiled'
 import { changeCode, RequestCodeChangeAction, EditorModelChangedAction, editorModelChangedSaga, requestEditorChangeSaga } from './editor'
 import { optionsReducer, PushLogAction, ChangeAutoApply } from './options'
 import { changeTheme, ChangeThemeAction } from './theme'
@@ -55,8 +55,9 @@ function registerSaga<T extends AllActions['type']>(saga: Saga<T>) {
 
 type OnAfterActionDispatchListener<T extends AllActions['type']= AllActions['type']> = (action: ActionForType<T>, state: State) => void
 
+
 const allSagas = [
-  editorModelChangedSaga, requestEditorChangeSaga
+  editorModelChangedSaga, requestEditorChangeSaga, fetchCompiledSaga
 ]
 
-allSagas.forEach(saga => registerSaga(saga))
+allSagas.forEach(saga => registerSaga(saga as any))

@@ -50,12 +50,6 @@ export function printMs(ms: number, config: {
   return `${minutes ? `${minutes} minutes ` : ''}${seconds ? `${seconds} seconds ` : ''}${milliseconds ? `${milliseconds} ms ` : ''}`
 }
 
-export function printStyleHtmlAttribute(value: any): any {
-  return `${Object.keys(value)
-    .map(p => `${p}: ${value[p]}`)
-    .join('; ')}`
-}
-
 let _unique: number = 0
 export function unique(prefix: string= '_'): string {
   return prefix + _unique++
@@ -67,4 +61,20 @@ export function objectMap(o: {[k: string]: any}, f: (k: string, v: any) => any) 
     r[k] = f(k, o[k])
   })
   return r
+}
+
+export function styleObjectToCss(o:Partial<{[k:string]:string|null|undefined}>, propertiesSeparator=''){
+  return Object.keys(o)
+  .map(p =>
+    `${stylePropertyNameToCssSyntax(p)}: ${o[p]};`
+    )
+    // 
+    .join(propertiesSeparator)
+}
+export function stylePropertyNameToCssSyntax(s: string): string {
+ let t
+ while (t = /([A-Z])/.exec(s)) {
+   s = s.substring(0, t.index) + '-' + t[1].toLowerCase() + s.substring(t.index + 1, s.length)
+ }
+ return s
 }

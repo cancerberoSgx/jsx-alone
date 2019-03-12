@@ -13,6 +13,9 @@ const examplesPacked = examplesPacked_ as { [f: string]: File }
 const globals: any = {
   exampleLotsOfComponents: {
     PERSON_COUNT: 10, CONTACT_COUNT: 4, ADDRESS_COUNT: 3
+  },
+  renderInCustomImpls: {
+    WORD_COUNT: 20, PEOPLE_COUNT: 10
   }
 }
 

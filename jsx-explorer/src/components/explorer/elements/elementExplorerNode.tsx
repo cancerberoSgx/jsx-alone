@@ -1,4 +1,4 @@
-import { isJsonImplOutputEl, isJsonImplOutputText, JsonImplOutput, JsonImplOutputElAsHtml, JsonImplOutputEl } from 'jsx-alone-core'
+import { isJsonImplOutputEl, isJsonImplOutputText, JsonImplOutput, jsonImplOutputElAsHtml, JsonImplOutputEl } from 'jsx-alone-core'
 import { JSXAlone } from 'jsx-alone-dom'
 import { registerStyle } from '../../../style/styles'
 import { Component } from '../../util/component'
@@ -40,7 +40,7 @@ export class Node extends Component<P> {
             this.updateProps({ collapsed: !this.props.collapsed })
           }}></button>
 
-          <button className="button overlay is-small" title="HTML code" onClick={e => this.props.onShowHtml(JsonImplOutputElAsHtml(node))}>{`<>`}</button>
+          <button className="button overlay is-small" title="HTML code" onClick={e => this.props.onShowHtml(jsonImplOutputElAsHtml(node))}>{`<>`}</button>
 
           <button className="button overlay is-small" title="Outline in Editor" onClick={e => {
             const els = Array.from(document.querySelectorAll('.view-line'))

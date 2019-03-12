@@ -37,7 +37,7 @@ export function getMonacoInstance() {
 export function installEditor(code: string, theme: string, containerEl: HTMLElement) {
   if (editor) {
     return
-  }
+  } 
 
   monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
     target: monaco.languages.typescript.ScriptTarget.ES2016,
@@ -54,6 +54,7 @@ export function installEditor(code: string, theme: string, containerEl: HTMLElem
     model: monaco.editor.createModel(code, 'typescript', monaco.Uri.parse('file:///main.tsx')),
     language: 'typescript',
     theme,
+    wordWrap: 'on',
     lineNumbers: isDesktop() ? 'on' : 'off',
     glyphMargin: isDesktop(),
     folding: isDesktop(),
@@ -67,7 +68,6 @@ export function installEditor(code: string, theme: string, containerEl: HTMLElem
   editor.getModel()!.onDidChangeContent(
     throttle(
       (e: monaco.editor.IModelContentChangedEvent) => {
-
         dispatch({
           type: EDITOR_ACTION.EDITOR_MODEL_CHANGED,
           payload: {
@@ -75,9 +75,7 @@ export function installEditor(code: string, theme: string, containerEl: HTMLElem
             version: editor!.getModel()!.getVersionId()
           }
         })
-
-      }
-      , 4000) as any
+      }, 3000, { trailing: true }) as any
   )
 
   jsxSyntaxHighlightInstall(editor!)

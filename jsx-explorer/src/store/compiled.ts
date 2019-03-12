@@ -1,9 +1,19 @@
 import { Action, Reducer } from 'redux'
-import { Compiled, CodeWorkerRequest, CodeWorkerResponse } from './types'
+import { Compiled, CodeWorkerRequest, CodeWorkerResponse, Saga } from './types'
+import { all as merge } from 'deepmerge'
+import { postMessage } from '../codeWorker/codeWorkerManager';
 
 const initialState: Compiled = {
-  jsxAstOptions: {
+  // jsxAstOptions: {
 
+  // },
+  request: {
+    jsxAst: {
+      mode: 'forEachChild'
+    },  
+    code: '',
+    title: 'main.tsx',
+    version: -1
   }
 }
 
@@ -16,7 +26,14 @@ export enum COMPILED_ACTION {
 export const compiled: Reducer<Compiled, FetchCompiledAction | RenderCompiledAction> = (state = initialState, action) => {
   switch (action.type) {
     case COMPILED_ACTION.FETCH_COMPILED:
-      return { ...state, ...action.payload }
+    const s = {
+      ...state, 
+      // ...action.payload,
+      // request: merge(state.request||action.payload.request, action.payload.request)
+      request: merge([state.request || action.payload.request, action.payload.request]) as CodeWorkerRequest
+    }
+    // debugger
+      return s
     case COMPILED_ACTION.RENDER_COMPILED:
       return { ...state, ...action.payload }
     default:
@@ -26,13 +43,30 @@ export const compiled: Reducer<Compiled, FetchCompiledAction | RenderCompiledAct
 
 export interface FetchCompiledAction extends Action<COMPILED_ACTION.FETCH_COMPILED> {
   type: COMPILED_ACTION.FETCH_COMPILED
-  payload: {request: CodeWorkerRequest}
+  payload: { request: Partial<CodeWorkerRequest> }
 }
 
 export interface RenderCompiledAction extends Action<COMPILED_ACTION.RENDER_COMPILED> {
   type: COMPILED_ACTION.RENDER_COMPILED
-  payload: {response: CodeWorkerResponse}
+  payload: { response: CodeWorkerResponse }
 }
+
+
+export const fetchCompiledSaga: Saga<COMPILED_ACTION.FETCH_COMPILED> = {
+  // when FETCH_COMPILED we postMessage to webworker 
+  type: COMPILED_ACTION.FETCH_COMPILED,
+  actionDispatched(action, state) {
+    const m: CodeWorkerRequest = {
+      ...state.compiled.request,
+      // jsxAst: merge([state.compiled.request || {}, action.payload.request]),
+      code: state.editor.code,
+      version: state.editor.version
+    }
+    // debugger
+    postMessage(m)
+  }
+}
+
 
 // registerSaga({
 //   // after a FETCH_COMPILED we dispatch RENDER_COMPILED action

@@ -1,4 +1,4 @@
-/*DONT CHANGE THIS FIRST LINE*/import { JSXAloneJsonImpl as JSXAlone, JSXAloneJsonImpl as JSXAloneJson, JsonImplOutputElAsHtml, JsonImplOutputEl } from 'jsx-alone-core'; import { JSXAlone as JSXAloneDom } from 'jsx-alone-dom'; import { JSXAlone as JSXAloneString } from 'jsx-alone-string'
+/*DONT CHANGE THIS FIRST LINE*/import { JSXAloneJsonImpl as JSXAloneJson } from 'jsx-alone-core';import { JSXAlone as JSXAloneDom } from 'jsx-alone-dom'; import { JSXAlone as JSXAloneString } from 'jsx-alone-string'; let WORD_COUNT = 4, PEOPLE_COUNT = 5;
 
 function test() {
   // This test renders JS using different implementations altogether. This is
@@ -7,52 +7,61 @@ function test() {
   // The way of forcing a custom implementation in this context is creating the
   // JSXAlone variable and then declare JSX inside an inner function. Returning a
   // string instead of JSX will result in an element with the string as innerHTML
-
-  // @ts-ignore
+ 
   let JSXAlone = JSXAloneJson as any
 
   function render<T= any>(impl: 'json' | 'string' | 'dom', f: () => JSX.Element): T {
     JSXAlone = impl === 'dom' ? JSXAloneDom : impl === 'string' ? JSXAloneString : JSXAloneJson
-    console.log(impl, JSXAlone._Impl)
     const jsx = f()
     const result = JSXAlone.render(jsx)
     return result as any
   }
 
-  // (length=>new Array(Math.trunc(length/5)||1).fill(0).map(i=>Math.random().toString(36).substr(2, 5)).reduce((a, b) => a.concat(b)))(1145)
+  const arr = (a: number = number(10, 20), b = a) => new Array(Math.trunc(number(a, b)||1)).fill(0)
+  const string = (length: number = number(10, 20)) => arr(length / 5 + 1).map(i => Math.random().toString(36).substr(2, 5)).reduce((a, b) => a.concat(b))
+  const words = (wordCount = number(10, 20), wordLength = number(5, 10), wordCountB = wordCount, wordLengthB = wordLength) => arr(wordCount, wordCountB).map(i => string(number(wordLength, wordLengthB)))
+  const number = (a = 10, b = a) => Math.floor(Math.random() * b) + (a === b ? 0 : a)
 
-  const arr = (l: number = number(10) + 10) => new Array(Math.trunc(l) + 1).fill(0)
-  const string = (l: number = number(number(10) + 10)) => arr(l / 5 + 1).map(i => Math.random().toString(36).substr(2, 5)).reduce((a, b) => a.concat(b))
-  const number = (b: number = 100) => Math.floor(Math.random() * b)
+  const C = (props: { label: string }) => <div className="content"><h2>{props.label}</h2>
+    <div>test {string(3)} "{words(2, 5, 4, 10)}"</div>
+    <ul>{arr(PEOPLE_COUNT, PEOPLE_COUNT * 2).map(i =>
+      <li>Name: <strong> "{words(2, 2, 4, 10).join(' ')}"</strong>. Age: "{number(100)}". Answer: <i>"{words(WORD_COUNT, 2, WORD_COUNT * 2, 14).join('   ')}"</i></li>)}
+    </ul>
 
-  const C = (props: { label: string }) => <div className="content"><strong>{props.label}</strong><ul>{arr().map(i => <li>Name: {string()}, age: {number()}</li>)}</ul></div>
+  </div>
 
+let t0 = Date.now()
   const s = render('string', () => <C label="I once was a string, because JSXAlone string impl was used" />)
-  const json = render<JsonImplOutputEl>('json', () => <C label="I wasn't a string nor a DOM element since they used the json impl" />)
+const stringTime = Date.now()-t0
+  t0 = Date.now()
+  const json = render('json', () => <C label="I wasn't a string nor a DOM element since they used the json impl" />)
+  const jsonTime = Date.now()-t0
+  t0 = Date.now()
   const el = render<HTMLElement>('dom', () => <C label={'I was born being a DOM element, this is the proof: ' + JSON.stringify(self.performance.toJSON())} />)
+  const domTime = Date.now()-t0
 
   // At this point we need to restore the original implementation in order to
   // declare Elements that the test environment expect (which is the json one)
-  
-  // @ts-ignore
-  let JSXAlone = JSXAloneJson as any
-  return <div>
-    <p>Well, here we have three components that were rendered each using a different implementation: </p>
+  JSXAlone = JSXAloneJson as any
+
+  return <div className="content">
+    <h1>Rendering different implementations</h1>
+    <p>Well, here we have three components that were rendered using the three implementations, in this same page. </p>
+    <p>Render timings: </p>
     <ul>
+      <li>String: {stringTime}ms.</li>
+    <li>DOM: {domTime}ms.</li>
+    <li>JSON: {jsonTime}ms.</li>
+    </ul>
+    <ul style={{height: '400px', overflow: 'scroll'}}>
       <li>string {s.length + 'bytes'} - we use dangerouslySetInnerHTML to render the string output here.
-        {/* <div dangerouslySetInnerHTML={{__html: s}}></div> */}
-        <pre>{s}</pre>
+        <div>{s}</div>
       </li>
       <li>dom {el.outerHTML.length + 'bytes'} -DOM impl currently don't work because examples run in a webworker with has no DOM:
-        {/* <pre dangerouslySetInnerHTML={{__html: el.outerHTML}}></pre> */}
-        <pre>{el.outerHTML}</pre>
-
+        <div>{el.outerHTML}</div>
       </li>
-      <li>JSON: we use the tool JsonImplOutputElAsHtml that prints a dummy html string from the json object output:
-        {/* <div dangerouslySetInnerHTML={{__html: JsonImplOutputElAsHtml(json)}}></div> */}
-        <pre>{JSON.stringify(json, null, 2)}</pre>
-
-        {json}
+      <li>JSON: we use the tool jsonImplOutputElAsHtml that prints a dummy html string from the json object output:
+        <pre>{JSON.stringify(json)}</pre>
       </li>
     </ul>
   </div>

@@ -47,11 +47,12 @@ export const editorModelChangedSaga: Saga<EDITOR_ACTION.EDITOR_MODEL_CHANGED> = 
     if (state.options.autoApply) {
       const m: CodeWorkerRequest = {
         title: 'main.tsx',
+        ...state.compiled.request,
         ...action.payload,
-        jsxAst: {
-          mode: state.compiled.jsxAstOptions.mode,
-          showDiagnostics: state.compiled.jsxAstOptions.showDiagnostics
-        }
+        // jsxAst: {
+        //   mode: state.compiled.jsxAstOptions.mode,
+        //   showDiagnostics: state.compiled.jsxAstOptions.showDiagnostics
+        // }
       }
       postMessage(m)
     }

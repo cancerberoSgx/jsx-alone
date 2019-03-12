@@ -1,4 +1,4 @@
-/*DONT CHANGE THIS FIRST LINE*/import { JSXAloneJsonImpl as JSXAlone, JSXAloneJsonImpl as JSXAloneJson, JsonImplOutputElAsHtml, JsonImplOutputEl } from 'jsx-alone-core'; import { JSXAlone as JSXAloneDom } from 'jsx-alone-dom'; import { JSXAlone as JSXAloneString } from 'jsx-alone-string'
+/*DONT CHANGE THIS FIRST LINE*/import { JSXAloneJsonImpl as JSXAlone, JSXAloneJsonImpl as JSXAloneJson, jsonImplOutputElAsHtml, JsonImplOutputEl } from 'jsx-alone-core'; import { JSXAlone as JSXAloneDom } from 'jsx-alone-dom'; import { JSXAlone as JSXAloneString } from 'jsx-alone-string'
 
 // This test renders JS using different implementations altogether. This is
 // mostly a hack and you don't do this in the real world, it's just a demo.

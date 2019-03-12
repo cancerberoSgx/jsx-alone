@@ -5937,7 +5937,7 @@ export declare abstract class ElementClassDom<P = {}> extends ElementClassCore<P
     readonly eventManager: EventManager | undefined;
     afterRender(containerEl: HTMLElement): void
 }
-export interface JSXAloneDom<T, R extends ElementLikeDom<T> = ElementLikeDom<T>> {
+export interface JSXAloneDomType<T, R extends ElementLikeDom<T> = ElementLikeDom<T>> {
   createElement(tag: JSXAloneTag, attrs: JSXAloneAttrs, ...children: JSXAloneChild[]): R
   updateElement(element: R,   tag: JSXAloneTag, attrs: JSXAloneAttrs<string>, children: any[], create?: boolean): void
   render(el: JSX.Element, config?: RenderConfigDom): T
@@ -5959,6 +5959,7 @@ export interface ElementLikeImplRenderConfigDom<R extends ElementLikeDom = Eleme
     updateExisting?: HTMLElement;
     rootElementLike: ElementLikeDom;
 }
+export declare const JSXAloneDom: JSXAloneDomType<RenderOutputDom>
 
 
 
@@ -6005,6 +6006,7 @@ export declare interface ElementLikeJson  extends BaseElementLike<JsonImplOutput
 export declare abstract class ElementClassJson<P = {}> extends ElementClassCore<P> {
 }
 
-export declare const JSXAloneJson: JSXAloneType<any>;
+export declare const JSXAloneJson: JSXAloneType<JsonImplOutput>;
+
 
 export declare function renderWithImpl<T>(fn: ()=> JSX.Element, impl: 'json' | 'dom' | 'string', config?: any): T 

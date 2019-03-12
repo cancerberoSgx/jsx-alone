@@ -1,6 +1,9 @@
 // adapted from https://github.com/CompuIves/codesandbox-client/blob/196301c919dd032dccc08cbeb48cf8722eadd36b/packages/app/src/app/components/CodeEditor/Monaco/workers/syntax-highlighter.js
 
 import { ts } from 'ts-simple-ast'
+import { lastRequest } from './codeWorker';
+import { CodeWorkerRequest } from '../store/types';
+import { jsxAstLastSourceFile } from './jsxAstCompilation';
 
 export interface Classification {
   start: number
@@ -10,12 +13,18 @@ export interface Classification {
   type?: string
   startLine: number
   endLine: number
-}
+} 
 
-export function extractCodeDecorations(code: string, title= 'main.tsx' ) {
-  const classifications: Classification[] = []
-  const sourceFile = ts.createSourceFile(title, code, ts.ScriptTarget.ES2016, true)
-  const lines = code.split('\n').map(line => line.length)
+let classifications: Classification[] = []
+
+export function extractCodeDecorations(data: CodeWorkerRequest) {
+  if(data.code===lastRequest.code){
+    return classifications
+  }
+  classifications=[]
+  const sourceFile = jsxAstLastSourceFile && !jsxAstLastSourceFile.wasForgotten() && jsxAstLastSourceFile.compilerNode ? jsxAstLastSourceFile.compilerNode : ts.createSourceFile(data.title, data.code, ts.ScriptTarget.ES2016, true)
+
+  const lines = jsxAstLastSourceFile.compilerNode.getFullText().split('\n').map(line => line.length)
   addChildNodes(sourceFile, lines, classifications)
   return classifications
 }
