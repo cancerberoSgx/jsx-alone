@@ -1,12 +1,13 @@
-import { JSXAlone } from 'jsx-alone-dom'
-import { registerStyle } from '../../../style/styles'
-import { height } from '../../../util/media'
-import { escapeHtml, queryAll } from '../../../util/util'
-import { Component } from '../../util/component'
-import { Error } from '../../util/error'
-import { showInModal } from '../../util/showInModal'
-import { ExplorerProps } from '../explorers'
-import { Node } from './elementExplorerNode'
+import { jsonImplOutputElAsHtml } from 'jsx-alone-core';
+import { JSXAlone } from 'jsx-alone-dom';
+import { registerStyle } from '../../../style/styles';
+import { height } from '../../../util/media';
+import { escapeHtml, queryAll } from '../../../util/util';
+import { Component } from '../../util/component';
+import { Error } from '../../util/error';
+import { showInModal } from '../../util/showInModal';
+import { ExplorerProps } from '../explorers';
+import { Node } from './elementExplorerNode';
 
 interface P extends ExplorerProps {
 }
@@ -31,33 +32,27 @@ export class ElementExplorer extends Component<P> {
   render() {
     const compiled = this.props.compiled.response
     if (compiled) {
-      const {error, result, evaluated} =  compiled.evaluate
+      const { error, result, evaluated } = compiled.evaluate
       return <div className="explorer">
-      {!error && result && <Node node={result} onShowHtml={html => showInModal(<ElementNodeHtmlCodeModal html={html}/>, 'HTML')}></Node>}
-      {error && <Error evaluated={evaluated} error={error} />}
-    </div>
+
+        <button className="button" title="See HTML code" onClick={e => showInModal(<ElementNodeHtmlCodeModal html={jsonImplOutputElAsHtml(result!)} />, 'HTML')}>See Output HTML</button>
+
+        {!error && result && <Node node={result} onShowHtml={html => showInModal(<ElementNodeHtmlCodeModal html={html} />, 'HTML')}></Node>}
+
+        {error && <Error evaluated={evaluated} error={error} />}
+      </div>
     }
     else {
-    return <div className="content">
-      <h3>
-        NOT COMPILED YET
-      </h3><h3>
-        NOT COMPILED YET
-      </h3><h3>
-        NOT COMPILED YET
-      </h3><h3>
-        NOT COMPILED YET
-      </h3><h3>
-        NOT COMPILED YET
-      </h3><h3>
-        NOT COMPILED YET
-      </h3>
-    </div>
+      return <div className="content">
+        {/* <h3>
+          NOT COMPILED YET
+      </h3> */}
+      </div>
     }
   }
 }
 
-function ElementNodeHtmlCodeModal(props: {html: string}) {
+function ElementNodeHtmlCodeModal(props: { html: string }) {
   return <div id="getHtmlCodeModalContent">
     <div className="tabs is-small is-boxed is-toggle">
       <ul>

@@ -34,16 +34,16 @@ export const examples: Example[] = Object.values(examplesPacked).filter(f => f.f
 
 function fixCode(s: string, globals: any = {}) {
   const lines = s.split('\n')
-  const i = lines.findIndex(l => l.includes('function'))
+  let i = lines.findIndex(l => l.includes('function'))
   const code = `
-// Although you can import types from '.', only the the following implementations
-// are available in this examples:
+// Although you can import types from './index', only the following implementations
+// are available in this example:
 
-import {JSXAlone, JSXAloneDom, JSXAloneString, JSXAloneJson,
-  ElementClassDom, ElementClassJson, ElementClassString } from '.'
+import {JSXAlone, JSXAloneDom, JSXAloneString, JSXAloneJson, ElementClassDom, ElementClassJson,
+  ElementClassJson as ElementClass, ElementClassString } from './index'
 
 function test() {
-${Object.keys(globals).map(g => `  const ${g} = ${globals[g]};`).join('\n')}
+  ${Object.keys(globals).map(g => `  const ${g} = ${globals[g]};`).join('\n').trim()}
   ${lines.slice(i + 1, lines.length).join('\n').trim()}
 `.trim()
   return code

@@ -18,7 +18,7 @@ export interface Classification {
 let classifications: Classification[] = []
 
 export function extractCodeDecorations(data: CodeWorkerRequest) {
-  if(data.code===lastRequest.code){
+  if(lastRequest && data.code===lastRequest.code){
     return classifications
   }
   classifications=[]

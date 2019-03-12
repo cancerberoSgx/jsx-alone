@@ -43,12 +43,7 @@ ${css('.modal .modal-card', `width: 100%;`, `width: 80%;`)}
   font-size: 1.1em;
 }
 ${css('.section', `padding: 0; margin: 0;`, `padding: 3rem 1.5rem;`)}
-// .content li+li {
-//   margin: 0;
-// }
-// .content ul, .content ul ul {
-//   margin: 0;
-// }
+
 `
 
 }

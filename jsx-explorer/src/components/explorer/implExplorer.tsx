@@ -44,11 +44,9 @@ export class ImplExplorer extends Component<P> {
           <p>Here, you can see the output of JSX-Alone using JSX-Alone implementations independently. </p>
 
           <ul>
-
             <li><p>The <strong>string implementation</strong> renders JSX elements as string so it can be used in the server.</p>
               <p> Notice that in this implementation event handlers referencing external names won't work.</p>
             </li>
-
             <li><p>
               The <strong>DOM implementation</strong> renders JSX elements directly in the DOM, creating HTMLElements on the fly. This is the implementation used by this program.
             </p>

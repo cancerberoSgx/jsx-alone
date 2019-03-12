@@ -1,6 +1,3 @@
-
-import { AllActions } from './store'
-
 export interface State {
   readonly layout: Layout
   readonly editor: Editor
@@ -11,8 +8,10 @@ export interface State {
 export interface Options {
   readonly logs: string[]
   readonly autoApply: boolean
-
+  readonly selectedExplorer: ExplorerName
+  readonly working: boolean
 }
+export type ExplorerName = 'editor' | 'elements' | 'jsAst' | 'implementations'
 
 export interface Layout {
   readonly theme: Theme
@@ -37,17 +36,7 @@ type Color = string
 export interface Compiled {
   response?: CodeWorkerResponse
   request: CodeWorkerRequest
-
-  // jsxAstOptions: CodeWorkerRequestJsxAst
 }
-
-export interface Saga<T extends AllActions['type']> {
-  type: T
-  /** if an action is returned then it will be dispatched */
-  actionDispatched(action: ActionForType<T>, state: State): AllActions | void
-}
-
-export type ActionForType<T extends AllActions['type']> = AllActions extends infer R ? R extends AllActions ? T extends R['type'] ? R : never : never : never
 
 import { Classification } from '../codeWorker/extractCodeDecorations'
 import { JsonImplOutputEl } from 'jsx-alone-core'
@@ -63,6 +52,7 @@ export interface CodeWorkerResponse {
     evaluated: string;
   }
   jsxAst: CodeWorkerResponseJsxAst
+  error?: CodeWorkerError;
   totalTime: number
 }
 export interface EvaluateTimes {
@@ -84,19 +74,21 @@ export interface CodeWorkerRequestJsxAst {
   mode: 'forEachChild' | 'getChildren'
   nodeTextLength?: number
 }
-export interface CodeWorkerResponseJsxAsNode {
+interface SelectableInMonaco {
+  startColumn: number
+  startLineNumber: number
+  endColumn: number
+  endLineNumber: number
+}
+export interface CodeWorkerResponseJsxAsNode extends SelectableInMonaco {
   type: string
   text: string
   kind: string
   start: number
   end: number
-  startColumn: number
-  startLineNumber: number
-  endColumn: number
-  endLineNumber: number
   children: CodeWorkerResponseJsxAsNode[]
 }
-export interface CodeWorkerResponseJsxAstDiagnostic {
+export interface CodeWorkerResponseJsxAstDiagnostic extends SelectableInMonaco {
   message: string
   lineNumber: number | undefined
   start: number | undefined

@@ -1,40 +1,39 @@
-import { Action, Reducer } from 'redux'
-import { Compiled, CodeWorkerRequest, CodeWorkerResponse, Saga } from './types'
-import { all as merge } from 'deepmerge'
-import { postMessage } from '../codeWorker/codeWorkerManager';
+import { all as merge } from 'deepmerge';
+import { Action, Reducer } from 'redux';
+import { requestCodeCompile } from '../codeWorker/codeWorkerManager';
+import { dispatchSyntaxHighlight } from '../monaco/jsxSyntaxHighlight';
+import { OPTIONS_ACTIONS } from './options';
+import { dispatch, registerSaga, Saga } from './store';
+import { CodeWorkerError, CodeWorkerRequest, CodeWorkerResponse, Compiled } from './types';
 
 const initialState: Compiled = {
-  // jsxAstOptions: {
-
-  // },
   request: {
     jsxAst: {
       mode: 'forEachChild'
-    },  
+    },
     code: '',
     title: 'main.tsx',
     version: -1
-  }
+  },
 }
 
 export enum COMPILED_ACTION {
   RENDER_COMPILED = 'RENDER_COMPILED',
-  FETCH_COMPILED = 'FETCH_COMPILED'
+  FETCH_COMPILED = 'FETCH_COMPILED',
+  ERROR_COMPILED = 'ERROR_COMPILED',
 }
-// export type COMPILED_ACTION = 'RENDER_COMPILED' | 'FETCH_COMPILED'
 
-export const compiled: Reducer<Compiled, FetchCompiledAction | RenderCompiledAction> = (state = initialState, action) => {
+export const compiled: Reducer<Compiled, FetchCompiledAction | RenderCompiledAction | ErrorCompiledAction> = (state = initialState, action) => {
   switch (action.type) {
     case COMPILED_ACTION.FETCH_COMPILED:
-    const s = {
-      ...state, 
-      // ...action.payload,
-      // request: merge(state.request||action.payload.request, action.payload.request)
-      request: merge([state.request || action.payload.request, action.payload.request]) as CodeWorkerRequest
-    }
-    // debugger
+      const s = {
+        ...state,
+        request: merge([state.request || action.payload.request, action.payload.request]) as CodeWorkerRequest
+      }
       return s
     case COMPILED_ACTION.RENDER_COMPILED:
+      return { ...state, ...action.payload }
+    case COMPILED_ACTION.ERROR_COMPILED:
       return { ...state, ...action.payload }
     default:
       return state
@@ -51,27 +50,44 @@ export interface RenderCompiledAction extends Action<COMPILED_ACTION.RENDER_COMP
   payload: { response: CodeWorkerResponse }
 }
 
-
-export const fetchCompiledSaga: Saga<COMPILED_ACTION.FETCH_COMPILED> = {
-  // when FETCH_COMPILED we postMessage to webworker 
-  type: COMPILED_ACTION.FETCH_COMPILED,
-  actionDispatched(action, state) {
-    const m: CodeWorkerRequest = {
-      ...state.compiled.request,
-      // jsxAst: merge([state.compiled.request || {}, action.payload.request]),
-      code: state.editor.code,
-      version: state.editor.version
-    }
-    // debugger
-    postMessage(m)
-  }
+export interface ErrorCompiledAction extends Action<COMPILED_ACTION.ERROR_COMPILED> {
+  type: COMPILED_ACTION.ERROR_COMPILED
+  payload: { error: CodeWorkerError }
 }
 
 
-// registerSaga({
-//   // after a FETCH_COMPILED we dispatch RENDER_COMPILED action
-//   type: COMPILED_ACTION.FETCH_COMPILED,
-//   actionDispatched(action, state) {
-//     return { type: COMPILED_ACTION.RENDER_COMPILED, payload: {response: action.payload} }
-//   }
-// })
+export const fetchCompiledSaga: Saga<COMPILED_ACTION.FETCH_COMPILED> = {
+  type: COMPILED_ACTION.FETCH_COMPILED,
+  beforeActionDispatch(a, s){
+    dispatch({ type: OPTIONS_ACTIONS.SET_WORKING, payload: { working: true } })
+  },
+  afterActionDispatch(action, state) {
+    dispatch({ type: OPTIONS_ACTIONS.SET_WORKING, payload: { working: true } })
+    const m: CodeWorkerRequest = {
+      ...state.compiled.request,
+      code: state.editor.code,
+      version: state.editor.version
+    }
+    requestCodeCompile(m)
+  }
+}
+
+export const renderCompiledSaga: Saga<COMPILED_ACTION.RENDER_COMPILED> = {
+  type: COMPILED_ACTION.RENDER_COMPILED,
+  beforeActionDispatch(a, s){
+    dispatch({ type: OPTIONS_ACTIONS.SET_WORKING, payload: { working: true } })
+  },
+  afterActionDispatch(action, state) {
+    dispatchSyntaxHighlight(action.payload.response)
+    dispatch({ type: OPTIONS_ACTIONS.SET_WORKING, payload: { working: false } })
+  }
+}
+
+export const errorCompiledSaga: Saga<COMPILED_ACTION.ERROR_COMPILED> = {
+  type: COMPILED_ACTION.ERROR_COMPILED,
+  afterActionDispatch(action, state) {
+    dispatch({ type: OPTIONS_ACTIONS.SET_WORKING, payload: { working: false } })
+  }
+}
+
+  registerSaga(errorCompiledSaga, fetchCompiledSaga, renderCompiledSaga)

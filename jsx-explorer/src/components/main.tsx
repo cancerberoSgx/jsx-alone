@@ -14,6 +14,6 @@ export class Main extends Component<{
     </div>
   }
   onStateUpdate(state: State) {
-   this.updateProps({state})
+    this.updateProps({ state })
   }
 }

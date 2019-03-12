@@ -2,29 +2,53 @@ import { dispatch } from '../store/store'
 import { COMPILED_ACTION } from '../store/compiled'
 import { CodeWorkerListener, CodeWorkerRequest, CodeWorkerResponse } from '../store/types'
 
-const listeners: CodeWorkerListener[] = []
+// const listeners: CodeWorkerListener[] = []
 
-export function registerWorkerListener(l: CodeWorkerListener) {
-  listeners.push(l)
-}
+// export function registerWorkerListener(l: CodeWorkerListener) {
+//   listeners.push(l)
+// }
 
-export function getWorkerListeners() {
-  return listeners
-}
+// function getWorkerListeners() {
+//   return listeners
+// }
 
 let codeWorker: Worker
 
 export function installCodeWWorker() {
   codeWorker = new Worker('./codeWorker.ts')
-  getWorkerListeners().forEach(l => codeWorker.addEventListener('message', l))
+  codeWorker.addEventListener('message', ev => codeWorkerListener(ev))
+
+
+  codeWorker.addEventListener('error', ev => codeWorkerErrorListener(ev))
 }
 
-export function postMessage(m: CodeWorkerRequest) {
-  codeWorker.postMessage(m)
+export function requestCodeCompile(m: CodeWorkerRequest) {
+  // setTimeout(() => {
+    codeWorker.postMessage(m)
+  // }, 0);
 }
 
+// registerWorkerListener(
+//   function codeWorkerListener({ data }: { data: CodeWorkerResponse }) {
+//     dispatch({ type: COMPILED_ACTION.RENDER_COMPILED, payload: { response: data } })
+//   }
+// ) 
 function codeWorkerListener({ data }: { data: CodeWorkerResponse }) {
-  dispatch({type: COMPILED_ACTION.RENDER_COMPILED, payload: {response: data}})
+  dispatch({ type: COMPILED_ACTION.RENDER_COMPILED, payload: { response: data } })
+  // dispatch({ type: COMPILED_ACTION.ERROR_COMPILED, payload: { response: data } })
 }
+function codeWorkerErrorListener(ev: ErrorEvent) {
+  debugger
+  dispatch({ 
+    type: COMPILED_ACTION.ERROR_COMPILED, 
+    payload: {
+       error: { 
+      message: ev.message || ev + '', 
+      name:  ev + '', 
+      stack:ev+'' 
+    } } 
+  })
 
-registerWorkerListener(codeWorkerListener)
+  // dispatch({ type: COMPILED_ACTION.RENDER_COMPILED, payload: { response: {error: {message: ev.error.message||ev.error+'' ,name: ev.error.name||ev.error+'', stack: ev.error!.stack||''}} }}
+  // )
+}

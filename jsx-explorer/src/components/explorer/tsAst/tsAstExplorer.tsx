@@ -35,33 +35,30 @@ export class TsSimpleAstExplorer extends Component<P> {
     const compiled = this.props.compiled.response
     if (compiled) {
       const { diagnostics, ast } = compiled.jsxAst
-      const {mode, showDiagnostics} = this.props.compiled.request.jsxAst
+      const { mode, showDiagnostics } = this.props.compiled.request.jsxAst
       return <div className="tsAstExplorerContent">
 
         <button className="button is-small" onClick={e => {
-          debugger
-          // this.updateProps({ mode: mode === 'forEachChild' ? 'getChildren' : 'forEachChild' })
-          dispatch({type: COMPILED_ACTION.FETCH_COMPILED, payload: {request: {jsxAst: {mode:  mode === 'forEachChild' ? 'getChildren' : 'forEachChild'}
-        }
-      }})
-        }}>{mode === 'forEachChild' ? 'getChildren' : 'forEachChild'} mode</button>
+          dispatch({ type: COMPILED_ACTION.FETCH_COMPILED, payload: { request: { jsxAst: { mode: mode === 'forEachChild' ? 'getChildren' : 'forEachChild' } } } })
+        }}>
+          {mode === 'forEachChild' ? 'getChildren' : 'forEachChild'} mode</button>
 
         <button className="button is-small" onClick={e => {
-          // this.updateProps({ showDiagnostics: !showDiagnostics })
-          dispatch({type: COMPILED_ACTION.FETCH_COMPILED, payload: {request: {jsxAst: {showDiagnostics} as any}}})
-
-        }}>{showDiagnostics ? 'Hide' : 'Show'} Diagnostics</button>
+          dispatch({ type: COMPILED_ACTION.FETCH_COMPILED, payload: { request: { jsxAst: { showDiagnostics: !showDiagnostics } as any } } })
+        }}>
+          {showDiagnostics ? 'Hide' : 'Show'} Diagnostics</button>
 
         {showDiagnostics && <div className="content">
           <h3>Diagnostics:</h3>
-          {diagnostics && <ul>{diagnostics.map(d => <li>
+          <p>
+            <em>WARNING</em>: Diagnostics makes the experience very slow
+          </p>
+          {diagnostics && <ul>
+          {diagnostics.map(d => <li>
             <DiagnosticComponent d={d} onSelectCode={this.props.onSelectCode} />
           </li>)}
           </ul>}
           {diagnostics && diagnostics.length === 0 && <span>No problems diagnosed, congrats!</span>}
-          <p>
-            <em>(WARNING: Diagnostics makes the experience very slow)</em>
-          </p>
         </div>}
 
         <NodeComponent mode={mode || 'forEachChild'} node={ast} showDetailsOf={this.props.showDetailsOf}
@@ -75,19 +72,9 @@ export class TsSimpleAstExplorer extends Component<P> {
 
     else {
       return <div className="content">
-        <h3>
+        {/* <h3>
           NOT COMPILED YET
-      </h3><h3>
-          NOT COMPILED YET
-      </h3><h3>
-          NOT COMPILED YET
-      </h3><h3>
-          NOT COMPILED YET
-      </h3><h3>
-          NOT COMPILED YET
-      </h3><h3>
-          NOT COMPILED YET
-      </h3>
+      </h3> */}
       </div>
     }
 

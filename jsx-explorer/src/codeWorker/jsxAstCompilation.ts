@@ -5,9 +5,9 @@ import { createProject, getChildrenForEachChild } from './ts-simple-ast'
 import { lastRequest } from './codeWorker';
 
 export let jsxAstLastResult: CodeWorkerResponseJsxAst
-export let jsxAstLastSourceFile :  SourceFile
+export let jsxAstLastSourceFile: SourceFile
 
-export function doJSXAst(data: CodeWorkerRequest): CodeWorkerResponseJsxAst  {
+export function doJSXAst(data: CodeWorkerRequest): CodeWorkerResponseJsxAst {
   if (lastRequest && data.code === lastRequest.code && JSON.stringify(data.jsxAst || {}) === JSON.stringify(lastRequest.jsxAst || {})) {
     return jsxAstLastResult
   }
@@ -32,7 +32,11 @@ function buildJsxAstDiagnostics(project: Project): CodeWorkerResponseJsxAstDiagn
       code: tsd.getCode(),
       length: tsd.getLength(),
       lineNumber: tsd.getLineNumber(),
-      start: tsd.getStart()
+      start: tsd.getStart(),
+      startColumn: ts.getLineAndCharacterOfPosition(tsd.getSourceFile()!.compilerNode, tsd.getStart()!).character + 1,
+      startLineNumber: ts.getLineAndCharacterOfPosition(tsd.getSourceFile()!.compilerNode, tsd.getStart()!).line + 1,
+      endColumn: ts.getLineAndCharacterOfPosition(tsd.getSourceFile()!.compilerNode, tsd.getStart()! + tsd.getLength()!).character + 1,
+      endLineNumber: ts.getLineAndCharacterOfPosition(tsd.getSourceFile()!.compilerNode, tsd.getStart()! + tsd.getLength()!).line + 1,
     }
     return d
   })

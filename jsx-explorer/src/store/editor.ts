@@ -1,8 +1,10 @@
-import { Action, Reducer } from 'redux'
-import { postMessage } from '../codeWorker/codeWorkerManager'
-import { examples } from '../examples/examples'
-import { Editor, Saga, CodeWorkerRequest } from './types'
-import { getMonacoInstance } from '../monaco/monaco'
+import { Action, Reducer } from 'redux';
+import { examples } from '../examples/examples';
+import { getMonacoInstance } from '../monaco/monaco';
+import { COMPILED_ACTION } from './compiled';
+import { OPTIONS_ACTIONS } from './options';
+import { dispatch, registerSaga, Saga } from './store';
+import { Editor } from './types';
 
 const initialState = {
   code: examples[0].code,
@@ -43,18 +45,20 @@ export interface EditorModelChangedAction extends Action<EDITOR_ACTION.EDITOR_MO
 export const editorModelChangedSaga: Saga<EDITOR_ACTION.EDITOR_MODEL_CHANGED> = {
   // after EDITOR_MODEL_CHANGED we request the codeWorker to compile (when it's done a codeWorker listener will dispatch  RENDER_COMPILED)
   type: EDITOR_ACTION.EDITOR_MODEL_CHANGED,
-  actionDispatched(action, state) {
+  beforeActionDispatch(a, s){
+    dispatch({ type: OPTIONS_ACTIONS.SET_WORKING, payload: { working: true } })
+  },
+  afterActionDispatch(action, state) {
     if (state.options.autoApply) {
-      const m: CodeWorkerRequest = {
-        title: 'main.tsx',
-        ...state.compiled.request,
-        ...action.payload,
-        // jsxAst: {
-        //   mode: state.compiled.jsxAstOptions.mode,
-        //   showDiagnostics: state.compiled.jsxAstOptions.showDiagnostics
-        // }
-      }
-      postMessage(m)
+      dispatch({
+        type: COMPILED_ACTION.FETCH_COMPILED, payload: {
+          request:
+          {
+            ...state.compiled.request,
+            ...action.payload
+          }
+        }
+      })
     }
   }
 }
@@ -62,7 +66,11 @@ export const editorModelChangedSaga: Saga<EDITOR_ACTION.EDITOR_MODEL_CHANGED> = 
 export const requestEditorChangeSaga: Saga<EDITOR_ACTION.REQUEST_CODE_CHANGE> = {
   // when REQUEST_CODE_CHANGE we set monaco editor value (when selecting an example)
   type: EDITOR_ACTION.REQUEST_CODE_CHANGE,
-  actionDispatched(action, state) {
+  beforeActionDispatch(a,s){
+    dispatch({ type: OPTIONS_ACTIONS.SET_WORKING, payload: { working: true } })
+  },
+  afterActionDispatch(action, state) {
     getMonacoInstance()!.getModel()!.setValue(action.payload.code)
   }
 }
+  registerSaga( editorModelChangedSaga, requestEditorChangeSaga)

@@ -79,4 +79,13 @@ export function installEditor(code: string, theme: string, containerEl: HTMLElem
   )
 
   jsxSyntaxHighlightInstall(editor!)
+
+  dispatch({
+    type: EDITOR_ACTION.EDITOR_MODEL_CHANGED,
+    payload: {
+      code: editor!.getModel()!.getValue(),
+      version: editor!.getModel()!.getVersionId()
+    }
+  })
+  
 }

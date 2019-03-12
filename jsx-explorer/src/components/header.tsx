@@ -10,6 +10,7 @@ import { EditorExplorerMenu } from './editorExplorerMenu'
 import { dispatch } from '../store/store'
 import { EDITOR_ACTION } from '../store/editor'
 import { OPTIONS_ACTIONS } from '../store/options'
+import { isTablet } from '../util/media';
 
 interface P {
   state: State
@@ -22,7 +23,7 @@ export class Header extends Component<P> {
     const nextThemeName = theme.name === 'dark' ? 'minty' : theme.name === 'minty' ? 'light' : 'dark'
     const nextTheme = allThemes.find(t => t.name === nextThemeName)!
 
-    return <nav className="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+    return <nav className="navbar is-fixed-top is-primary" role="navigation" aria-label="main navigation">
       <ForkRibbon />
       <div className="navbar-brand">
         <EditorExplorerMenu {...this.props} />
@@ -34,7 +35,7 @@ export class Header extends Component<P> {
         </a>
       </div>
 
-      <div id="jsxExplorerNavbar" className="navbar-menu">
+      <div id="jsxExplorerNavbar" className={`navbar-menu`}>
 
         <div className="navbar-start">
 
@@ -90,6 +91,8 @@ export class Header extends Component<P> {
           </div>
 
         </div>
+        <div className="navbar-end">
+</div>
 
       </div>
 

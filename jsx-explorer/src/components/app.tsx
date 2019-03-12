@@ -15,7 +15,8 @@ export class App extends Component<P> {
   render() {
     return <section className="section">
       <Header {...this.props} />
-      <EditorExplorerBody {...this.props}/>
+        <EditorExplorerBody {...this.props}/>
+      
     </section>
   }
 }

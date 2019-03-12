@@ -1,13 +1,11 @@
-import { registerStyle } from '../style/styles'
-import * as monaco from 'monaco-editor'
-import { registerWorkerListener, postMessage } from '../codeWorker/codeWorkerManager'
-import { getMonacoInstance } from './monaco'
-import { CodeWorkerResponse } from '../store/types'
+import * as monaco from 'monaco-editor';
+import { CodeWorkerResponse } from '../store/types';
+import { registerStyle } from '../style/styles';
+import { getMonacoInstance } from './monaco';
 
 let lastJsxDecorations: string[] = []
 
-registerWorkerListener(dispatchSyntaxHighlight)
-function dispatchSyntaxHighlight({ data }: { data: CodeWorkerResponse }) {
+export function dispatchSyntaxHighlight(data: CodeWorkerResponse ) {
   const editor = getMonacoInstance()! // TODO
   const model = editor.getModel()
   if (model && model.getVersionId() !== data.version) {
@@ -25,9 +23,7 @@ function dispatchSyntaxHighlight({ data }: { data: CodeWorkerResponse }) {
       }
     }
   })
-
   lastJsxDecorations = editor.deltaDecorations(lastJsxDecorations, decorations)
-
 }
 
 export function jsxSyntaxHighlightInstall(editor: monaco.editor.IStandaloneCodeEditor) {

@@ -1,4 +1,3 @@
-
 export function query<T extends HTMLElement= HTMLElement>(s: string): T {
   return document.querySelector<T>(s)!
 }
