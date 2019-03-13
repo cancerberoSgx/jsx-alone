@@ -11,7 +11,7 @@
     "build": "npx tsc",
     "copy": "rm -rf ../docs/jsx-explorer/index.appcache && cp ./src/index.appcache ../docs/jsx-explorer  && cp ./src/favicon.ico ../docs/jsx-explorer",
     "build-dev": "export NODE_ENV=development ; parcel build src/index.html -d ../docs/jsx-explorer  --no-minify --no-content-hash --no-source-maps && rm -rf ../docs/jsx-explorer/index.appcache",
-    "start": "sh src-changed.sh",
+    "start": "export NODE_ENV=development ; sh src-changed.sh",
     "docs": "npx tsc && export NODE_ENV=production && npm run pack-all && rm -rf ../docs/jsx-explorer && sh build-workers.sh && parcel build src/index.html -d ../docs/jsx-explorer --no-content-hash --detailed-report --public-url './' && npm run copy",
     "clean": "rm -rf build/ dist/ .cache",
     "test-spec-js": "npx tsc && npx jest --passWithNoTests --testMatch \"**/dist/**/__tests__/**/*Test.js\"",
