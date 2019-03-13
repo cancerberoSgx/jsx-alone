@@ -1,11 +1,7 @@
-/**
- * @jest-environment jsdom
- */
-
- import { fromHtml, nodeAttributesPretty } from './testUtil'
- import { MDocument } from '../document'
- import { MNode } from '../node'
- import { nodeTypes, nodeTexts, nodeAttributes } from '../util/nodeUtil'
+ 
+ import { MDocument } from '../document';
+import { nodeAttributes, nodeTexts, nodeTypes } from '../util/nodeUtil';
+import { fromHtml } from './testUtil';
 
  test('use jsdom in this test file', () => {
   const element = document.createElement('div')

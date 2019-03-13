@@ -77,7 +77,7 @@ function isNotFalsy<T>(a: T): a is NotFalsy<T> { return !!a }
 
 export function getGlobal(): any {
   // return (typeof window === 'undefined' && typeof document === 'undefined') ? global : window
-  return typeof self.onmessage === 'object' ? self : global
+  return (typeof self !== 'undefined' && typeof self.onmessage === 'object') ? self : global
 }
 export function installJSXAloneAsGlobal(i: typeof JSXAlone) {
   getGlobal()['JSXAlone'] = i

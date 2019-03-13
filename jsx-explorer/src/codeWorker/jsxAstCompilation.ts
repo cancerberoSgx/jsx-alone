@@ -4,10 +4,14 @@ import { CodeWorkerRequest, CodeWorkerRequestJsxAst, CodeWorkerResponseJsxAsNode
 import { createProject, getChildrenForEachChild } from './ts-simple-ast'
 import { lastRequest } from './codeWorker'
 
-export let jsxAstLastResult: CodeWorkerResponseJsxAst
-export let jsxAstLastSourceFile: SourceFile
+interface JsxAstResult{
+  jsxAst: CodeWorkerResponseJsxAst, 
+  sourceFile: SourceFile, 
+  project: Project
+}
+export let jsxAstLastResult: JsxAstResult
 
-export function doJSXAst(data: CodeWorkerRequest): CodeWorkerResponseJsxAst {
+export function doJSXAst(data: CodeWorkerRequest): JsxAstResult {
   if (lastRequest && data.code === lastRequest.code && JSON.stringify(data.jsxAst || {}) === JSON.stringify(lastRequest.jsxAst || {})) {
     return jsxAstLastResult
   }
@@ -19,9 +23,9 @@ export function doJSXAst(data: CodeWorkerRequest): CodeWorkerResponseJsxAst {
   const sourceFile = project.getSourceFiles().find(s => s.getFilePath().endsWith('t1.tsx'))!
   const ast = buildJsxAstNode(sourceFile, config)
   const diagnostics = config.showDiagnostics ? buildJsxAstDiagnostics(project) : []
-  jsxAstLastResult = { ast, diagnostics, config: data.jsxAst } as any
-  jsxAstLastSourceFile = sourceFile
-  return jsxAstLastResult
+  const jsxAst = { ast, diagnostics, config: data.jsxAst } as any
+  jsxAstLastResult = {jsxAst, sourceFile, project}
+  return  jsxAstLastResult
 }
 
 function buildJsxAstDiagnostics(project: Project): CodeWorkerResponseJsxAstDiagnostic[] {

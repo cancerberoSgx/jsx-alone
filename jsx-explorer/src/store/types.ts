@@ -31,7 +31,7 @@ export interface Theme {
   }
 }
 
-type Color = string
+export type Color = string
 
 export interface Compiled {
   response?: CodeWorkerResponse

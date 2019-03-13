@@ -13,15 +13,15 @@ import { lastRequest } from './codeWorker'
 // let evaluateLastInputString: string | undefined
 // let evaluateLastOutputString: any
 
-interface Result<T = JsonImplOutputEl> {
+export interface EvaluateResult<T = JsonImplOutputEl> {
   result?: T, error?:
   CodeWorkerError,
   evaluated: string
 }
 
-let results: Result
+let results: EvaluateResult
 
-export function evaluate<T = JsonImplOutputEl>(jsx: string, impl: 'json' | 'dom' | 'string' = 'json', times?: EvaluateTimes): Result<T> {
+export function evaluate<T = JsonImplOutputEl>(jsx: string, impl: 'json' | 'dom' | 'string' = 'json', times?: EvaluateTimes): EvaluateResult<T> {
   if (lastRequest && jsx === lastRequest.code) {
     return results as any
   }

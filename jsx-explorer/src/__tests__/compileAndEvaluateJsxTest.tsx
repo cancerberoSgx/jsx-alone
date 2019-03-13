@@ -1,6 +1,12 @@
+/**
+ * @jest-environment jsdom
+ */
+
+
 import { evaluate } from '../codeWorker/evaluate'
 import { readFileSync } from 'fs'
 import { JsonImplOutputEl, isJsonImplOutputEl } from 'jsx-alone-core'
+
 describe('samples', () => {
 
   describe('compileAndEvaluateJsxTest', () => {
