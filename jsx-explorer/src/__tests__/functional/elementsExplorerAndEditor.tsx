@@ -52,13 +52,6 @@ function fooBarTest4() {
 
   it('should show html output', async () => {
     await page.screenshot({ path: './tmp/04-outputHtml1.png' })
-    // await expectNotExist(page, '#getHtmlCodeModalContent .html-code-container.html-code.is-active') 
-
-    // await expect(page).not.toHave({
-    //   selector:'#getHtmlCodeModalContent .html-code-container.html-code.is-active',
-    // })
-
-    // await expectElement(page, '.editorExplorerBodyMember.elements .explorer>.button', 'output html')
     await expect(page).toHave({
       selector:'.editorExplorerBodyMember.elements .explorer>.button',
       text: 'output html', 
@@ -69,12 +62,6 @@ function fooBarTest4() {
     await wait(500)
     await page.screenshot({ path: './tmp/04-outputHtml2.png' })
 
-//     // await expect(page).toClick('.editorExplorerBodyMember.elements .explorer>.button')
-//     // await page.screenshot({ path: './tmp/04-outputHtml3.png' })
-
-//     // await page.click('.editorExplorerBodyMember.elements .explorer>.button', {button: 'left'})
-//     // await page.screenshot({ path: './tmp/04-outputHtml4.png' })
-
     await expect(page).toHave({
       selector:'#getHtmlCodeModalContent .html-code-container.html-code',
       text: `&lt;p&gt;Hello
@@ -82,16 +69,7 @@ function fooBarTest4() {
           `,
           asCode: true,
       caseInsensitive: true,
-      // verb: 'includes'
     })
-// //     await expectElement(page, '#getHtmlCodeModalContent .html-code-container.html-code', `
-// // &lt;p&gt;Hello
-// // &lt;/p&gt;
-// //     `)
-
-
-
-//     await page.screenshot({ path: './tmp/05-outputHtml2.png' })
     await expect(page).toHave({
       selector:'#getHtmlCodeModalContent .html-code-container.html',
       text: 'html',
@@ -106,12 +84,7 @@ function fooBarTest4() {
       caseInsensitive: true,
       asCode: true,
       extractAs: 'outerHTML',
-      // verb: 'includes'
     })
-//     // await expectClick(page, '#getHtmlCodeModalContent .html-code-container.html', 'html')
-//     // await expectElement(page, '#getHtmlCodeModalContent .html-code-container.html', `
-//     // <p>Hello
-//     // </p>`)
     await page.screenshot({ path: './tmp/06-outputHtml3.png' })
     
   })
