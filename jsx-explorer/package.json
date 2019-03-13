@@ -18,10 +18,9 @@
     "test-spec-debug": "node --inspect-brk node_modules/.bin/jest --runInBand --no-cache --clearMocks",
     "test-spec": "npx jest --testRegex \"/__tests__/.*\\.*Test\\.[t]sx?$\" ",
     "test-spec-watch": "npm test-spec -- --watch",
-    "test-functional-all": "npm run test-functional",
     "test-functional": "rm -rf tmp && mkdir -p tmp && npx tsc && npx jest --testRegex \"/dist/src/__tests__/.*\\.*TestFunctional\\.[j]sx?$\" -c ./jest-functional.config.js",
     "test-functional-watch": "npm run test-functional -- --watch ",
-    "test": "npm run test-spec && npm run test-functional-all",
+    "test": "npm run test-spec && npm run test-functional",
     "pack-all": "npm run pack-examples && npm run pack-files ",
     "pack-examples": "npx fs-to-json --input src/examples/toPack/**/* --output src/examples/examplesPacked.json",
     "pack-files": "mkdir -p ./src/util/filesPacked && npx embed-json-in-ts --mode string --input \"filesPacked/*\" --output \"./src/util/filesPacked\" --preserveExtension --debug"
