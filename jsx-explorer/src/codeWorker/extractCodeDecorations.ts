@@ -1,49 +1,38 @@
-import Project, { ts, SourceFile, TypeChecker, createWrappedNode, Node, TypeGuards } from 'ts-simple-ast'
+// adapted from https://github.com/CompuIves/codesandbox-client/blob/196301c919dd032dccc08cbeb48cf8722eadd36b/packages/app/src/app/components/CodeEditor/Monaco/workers/syntax-highlighter.js
+
+import Project, { SourceFile, TypeChecker, createWrappedNode, Node, TypeGuards, Type } from 'ts-simple-ast'
 import { lastRequest } from './codeWorker'
 import { CodeWorkerRequest } from '../store/types'
+import { buildBaseKind, buildBaseKindOfNode, ParentShipKind, buildParentShipKind } from './typeStructure';
+import { tryTo } from '../util/util';
 
 type Modifier = string//'readonly'
-type Type = string//'name'|'type'
 
 export interface Classification {
   start: number
-  modifiers?: Modifier[]
+  // modifiers?: Modifier[]
   end: number
   kind: string
-  parentKind: string
-  type?: Type
+  parentKind?: string
+  type?: ParentShipKind
   startLine: number
   endLine: number
-  nodeType?: string
+  // nodeType?: string
 }
 
 let classifications: Classification[] = []
 
-export function extractCodeDecorations(data: CodeWorkerRequest, sourceFile: SourceFile, project: Project ) {
+export function extractCodeDecorations(data: CodeWorkerRequest, sourceFile: SourceFile, project: Project) {
   if (lastRequest && data.code === lastRequest.code) {
     return classifications
   }
   classifications = []
-  // const sourceFile = sf && !sf.wasForgotten() ? sf  : 
-  // jsxAstLastSourceFile && !jsxAstLastSourceFile.wasForgotten() ? jsxAstLastSourceFile.compilerNode :
-  
-  // tsAstSourceFile.compilerNode
-  
-  //  && jsxAstLastSourceFile.compilerNode
-  //   ? jsxAstLastSourceFile.compilerNode 
-    
-     
-  //   // && tsAstSourceFile.compilerNode 
-  //   // ? tsAstSourceFile.compilerNode : 
-    // undefined
-  
-  if(!sourceFile){
+
+  if (!sourceFile) {
     throw `extractCodeDecorations now needs a tsa sourceFile`
   }
-  // ts.createSourceFile(data.title, data.code, ts.ScriptTarget.ES2016, true)
-
   const lines = sourceFile.getFullText().split('\n').map(line => line.length)
-  addChildNodes(sourceFile, lines, classifications, sourceFile)
+  addChildNodes(sourceFile, lines, classifications, sourceFile, project)
   return classifications
 }
 
@@ -57,7 +46,7 @@ function getLineNumberAndOffset(start: number, lines: number[]) {
   return { line: line + 1, offset }
 }
 
-function nodeToRange(node: ts.Node) {
+function nodeToRange(node: Node) {
   if (
     typeof node.getStart === 'function' &&
     typeof node.getEnd === 'function'
@@ -65,23 +54,24 @@ function nodeToRange(node: ts.Node) {
     return [node.getStart(), node.getEnd()]
   }
   else if (
-    typeof node.pos !== 'undefined' &&
-    typeof node.end !== 'undefined'
+    typeof node.getPos() !== 'undefined' &&
+    typeof node.getEnd() !== 'undefined'
   ) {
-    return [node.pos, node.end]
+    return [node.getPos(), node.getEnd()]
   }
   return [0, 0]
 }
 
-function getNodeType(parent: any, node: ts.Node) {
-  return Object.keys(parent).find(key => parent[key] === node)
+function getNodeType(parent: Node, node: Node) {
+  return Object.keys(parent.compilerNode).find(key => (parent.compilerNode as any)[key] === node.compilerNode)
 }
 
-function getParentRanges(node: ts.Node) {
+function getParentRanges(node: Node) {
   const ranges = []
   const [start, end] = nodeToRange(node)
   let lastEnd = start
-  ts.forEachChild(node, child => {
+  node.forEachChild(child => {
+    // ts.forEachChild(node, child => {
     const [start, end] = nodeToRange(child)
     ranges.push({
       start: lastEnd,
@@ -89,7 +79,7 @@ function getParentRanges(node: ts.Node) {
     })
     lastEnd = end
   })
-  if (lastEnd !== end) {  
+  if (lastEnd !== end) {
     ranges.push({
       start: lastEnd,
       end
@@ -98,48 +88,58 @@ function getParentRanges(node: ts.Node) {
   return ranges
 }
 
-function jsxRelatedDescendants(n: Node){
-  if(n.getKindName()!.toLowerCase().includes('jsx')){
-    return true
-  }
-  const parentK = n.getParent()&&n.getParent()!.getKindName()
-  return parentK && parentK.toLowerCase().includes('jsx')
+function filterNonJsxRelatedNodes(n: Node) {
+  // this is faster - we just dont want syntax list since they pollute a lot the JSX. 
+  return n.getKindName()!=='SyntaxList'
+
+  // But these are other more elegant ways:
+
+  // // only pass those with ancestors or with first-level children which are JSX :
+  // if (n.getKindName()!.toLowerCase().includes('jsx')) {
+  //   return true
+  // }
+  // else if(n.getFirstAncestor(a=>a.getKindName()!.toLowerCase().includes('jsx'))){
+  //   return true
+  // }
+  // else {
+  //   return n.getFirstChild(a=>a.getKindName()!.toLowerCase().includes('jsx')))
+  // }
+
 }
-function addChildNodes(node: Node, lines: number[], classifications: Classification[], f?: SourceFile ) {
-  const parentKind = node.getKindName()
 
-node.getDescendants()
-// .filter(jsxRelatedDescendants)
-.forEach(id=>{
+function addChildNodes(node: Node, lines: number[], classifications: Classification[], sourceFile: SourceFile, project: Project) {
 
-  const nodeType = id.getType().getText()
-    const cid = id.compilerNode
-    const modifiers = TypeGuards.isModifierableNode(id) && id.getModifiers().map(m=>m.getText()) || []
-    // id.modicid.modifiers ? cid.modifiers.map(n=>n.getText()) : []
+  node.getDescendants()
+    .filter(filterNonJsxRelatedNodes)
+    .forEach(id => {
+      const parent = id.getParent()
+      const parentKind = parent && parent.getKindName()
+      // const nodeType = [...buildBaseKind({node,project}), ...[]]
+      // const modifiers: string[] = []//TypeGuards.isModifierableNode(id) && id.getModifiers().map(m=>m.getText()) || []
 
-    const type = getNodeType(node, cid)
-
-    classifications.push(
-      ...getParentRanges(cid)
-      .map(({ start, end }) => {
-        const { offset, line: startLine } = getLineNumberAndOffset(
-          start,
-          lines
-        )
-        const { line: endLine } = getLineNumberAndOffset(end, lines)
-        return {
-          start: start + 1 - offset,
-          end: end + 1 - offset,
-          modifiers,
-          kind: id.getKindName(),
-          parentKind, 
-          type,
-          // text: id.getText(),
-          nodeType,
-          startLine,
-          endLine
-        }
-      })
-    )
-  })
+      // const type2 = id.getParent() && getNodeType(id.getParent(), id)
+      const type = tryTo(() => buildParentShipKind({ node: id, project })[0]) || undefined
+      classifications.push(
+        ...getParentRanges(id)
+          .map(({ start, end }) => {
+            const { offset, line: startLine } = getLineNumberAndOffset(
+              start,
+              lines
+            )
+            const { line: endLine } = getLineNumberAndOffset(end, lines)
+            return {
+              start: start + 1 - offset,
+              end: end + 1 - offset,
+              startLine,
+              endLine,
+              // modifiers,
+              kind: id.getKindName(),
+              parentKind,
+              type,
+              // text: id.getText(),
+              // nodeType,
+            }
+          })
+      )
+    })
 }

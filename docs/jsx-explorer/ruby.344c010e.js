@@ -1,4 +1,559 @@
-parcelRequire=function(e,r,n,t){var i="function"==typeof parcelRequire&&parcelRequire,o="function"==typeof require&&require;function u(n,t){if(!r[n]){if(!e[n]){var f="function"==typeof parcelRequire&&parcelRequire;if(!t&&f)return f(n,!0);if(i)return i(n,!0);if(o&&"string"==typeof n)return o(n);var c=new Error("Cannot find module '"+n+"'");throw c.code="MODULE_NOT_FOUND",c}p.resolve=function(r){return e[n][1][r]||r},p.cache={};var l=r[n]=new u.Module(n);e[n][0].call(l.exports,p,l,l.exports,this)}return r[n].exports;function p(e){return u(p.resolve(e))}}u.isParcelRequire=!0,u.Module=function(e){this.id=e,this.bundle=u,this.exports={}},u.modules=e,u.cache=r,u.parent=i,u.register=function(r,n){e[r]=[function(e,r){r.exports=n},{}]};for(var f=0;f<n.length;f++)u(n[f]);if(n.length){var c=u(n[n.length-1]);"object"==typeof exports&&"undefined"!=typeof module?module.exports=c:"function"==typeof define&&define.amd?define(function(){return c}):t&&(this[t]=c)}return u}({"fBmj":[function(require,module,exports) {
-"use strict";Object.defineProperty(exports,"__esModule",{value:!0}),exports.language=exports.conf=void 0;var e={comments:{lineComment:"#",blockComment:["=begin","=end"]},brackets:[["(",")"],["{","}"],["[","]"]],autoClosingPairs:[{open:"{",close:"}"},{open:"[",close:"]"},{open:"(",close:")"},{open:'"',close:'"'},{open:"'",close:"'"}],surroundingPairs:[{open:"{",close:"}"},{open:"[",close:"]"},{open:"(",close:")"},{open:'"',close:'"'},{open:"'",close:"'"}]};exports.conf=e;var t={tokenPostfix:".ruby",keywords:["__LINE__","__ENCODING__","__FILE__","BEGIN","END","alias","and","begin","break","case","class","def","defined?","do","else","elsif","end","ensure","for","false","if","in","module","next","nil","not","or","redo","rescue","retry","return","self","super","then","true","undef","unless","until","when","while","yield"],keywordops:["::","..","...","?",":","=>"],builtins:["require","public","private","include","extend","attr_reader","protected","private_class_method","protected_class_method","new"],declarations:["module","class","def","case","do","begin","for","if","while","until","unless"],linedecls:["def","case","do","begin","for","if","while","until","unless"],operators:["^","&","|","<=>","==","===","!~","=~",">",">=","<","<=","<<",">>","+","-","*","/","%","**","~","+@","-@","[]","[]=","`","+=","-=","*=","**=","/=","^=","%=","<<=",">>=","&=","&&=","||=","|="],brackets:[{open:"(",close:")",token:"delimiter.parenthesis"},{open:"{",close:"}",token:"delimiter.curly"},{open:"[",close:"]",token:"delimiter.square"}],symbols:/[=><!~?:&|+\-*\/\^%\.]+/,escape:/(?:[abefnrstv\\"'\n\r]|[0-7]{1,3}|x[0-9A-Fa-f]{1,2}|u[0-9A-Fa-f]{4})/,escapes:/\\(?:C\-(@escape|.)|c(@escape|.)|@escape)/,decpart:/\d(_?\d)*/,decimal:/0|@decpart/,delim:/[^a-zA-Z0-9\s\n\r]/,heredelim:/(?:\w+|'[^']*'|"[^"]*"|`[^`]*`)/,regexpctl:/[(){}\[\]\$\^|\-*+?\.]/,regexpesc:/\\(?:[AzZbBdDfnrstvwWn0\\\/]|@regexpctl|c[A-Z]|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4})?/,tokenizer:{root:[[/^(\s*)([a-z_]\w*[!?=]?)/,["white",{cases:{"for|until|while":{token:"keyword.$2",next:"@dodecl.$2"},"@declarations":{token:"keyword.$2",next:"@root.$2"},end:{token:"keyword.$S2",next:"@pop"},"@keywords":"keyword","@builtins":"predefined","@default":"identifier"}}]],[/[a-z_]\w*[!?=]?/,{cases:{"if|unless|while|until":{token:"keyword.$0x",next:"@modifier.$0x"},for:{token:"keyword.$2",next:"@dodecl.$2"},"@linedecls":{token:"keyword.$0",next:"@root.$0"},end:{token:"keyword.$S2",next:"@pop"},"@keywords":"keyword","@builtins":"predefined","@default":"identifier"}}],[/[A-Z][\w]*[!?=]?/,"constructor.identifier"],[/\$[\w]*/,"global.constant"],[/@[\w]*/,"namespace.instance.identifier"],[/@@[\w]*/,"namespace.class.identifier"],[/<<[-~](@heredelim).*/,{token:"string.heredoc.delimiter",next:"@heredoc.$1"}],[/[ \t\r\n]+<<(@heredelim).*/,{token:"string.heredoc.delimiter",next:"@heredoc.$1"}],[/^<<(@heredelim).*/,{token:"string.heredoc.delimiter",next:"@heredoc.$1"}],{include:"@whitespace"},[/"/,{token:"string.d.delim",next:'@dstring.d."'}],[/'/,{token:"string.sq.delim",next:"@sstring.sq"}],[/%([rsqxwW]|Q?)/,{token:"@rematch",next:"pstring"}],[/`/,{token:"string.x.delim",next:"@dstring.x.`"}],[/:(\w|[$@])\w*[!?=]?/,"string.s"],[/:"/,{token:"string.s.delim",next:'@dstring.s."'}],[/:'/,{token:"string.s.delim",next:"@sstring.s"}],[/\/(?=(\\\/|[^\/\n])+\/)/,{token:"regexp.delim",next:"@regexp"}],[/[{}()\[\]]/,"@brackets"],[/@symbols/,{cases:{"@keywordops":"keyword","@operators":"operator","@default":""}}],[/[;,]/,"delimiter"],[/0[xX][0-9a-fA-F](_?[0-9a-fA-F])*/,"number.hex"],[/0[_oO][0-7](_?[0-7])*/,"number.octal"],[/0[bB][01](_?[01])*/,"number.binary"],[/0[dD]@decpart/,"number"],[/@decimal((\.@decpart)?([eE][\-+]?@decpart)?)/,{cases:{$1:"number.float","@default":"number"}}]],dodecl:[[/^/,{token:"",switchTo:"@root.$S2"}],[/[a-z_]\w*[!?=]?/,{cases:{end:{token:"keyword.$S2",next:"@pop"},do:{token:"keyword",switchTo:"@root.$S2"},"@linedecls":{token:"@rematch",switchTo:"@root.$S2"},"@keywords":"keyword","@builtins":"predefined","@default":"identifier"}}],{include:"@root"}],modifier:[[/^/,"","@pop"],[/[a-z_]\w*[!?=]?/,{cases:{end:{token:"keyword.$S2",next:"@pop"},"then|else|elsif|do":{token:"keyword",switchTo:"@root.$S2"},"@linedecls":{token:"@rematch",switchTo:"@root.$S2"},"@keywords":"keyword","@builtins":"predefined","@default":"identifier"}}],{include:"@root"}],sstring:[[/[^\\']+/,"string.$S2"],[/\\\\|\\'|\\$/,"string.$S2.escape"],[/\\./,"string.$S2.invalid"],[/'/,{token:"string.$S2.delim",next:"@pop"}]],dstring:[[/[^\\`"#]+/,"string.$S2"],[/#/,"string.$S2.escape","@interpolated"],[/\\$/,"string.$S2.escape"],[/@escapes/,"string.$S2.escape"],[/\\./,"string.$S2.escape.invalid"],[/[`"]/,{cases:{"$#==$S3":{token:"string.$S2.delim",next:"@pop"},"@default":"string.$S2"}}]],heredoc:[[/^(\s*)(@heredelim)$/,{cases:{"$2==$S2":["string.heredoc",{token:"string.heredoc.delimiter",next:"@pop"}],"@default":["string.heredoc","string.heredoc"]}}],[/.*/,"string.heredoc"]],interpolated:[[/\$\w*/,"global.constant","@pop"],[/@\w*/,"namespace.class.identifier","@pop"],[/@@\w*/,"namespace.instance.identifier","@pop"],[/[{]/,{token:"string.escape.curly",switchTo:"@interpolated_compound"}],["","","@pop"]],interpolated_compound:[[/[}]/,{token:"string.escape.curly",next:"@pop"}],{include:"@root"}],pregexp:[{include:"@whitespace"},[/[^\(\{\[\\]/,{cases:{"$#==$S3":{token:"regexp.delim",next:"@pop"},"$#==$S2":{token:"regexp.delim",next:"@push"},"~[)}\\]]":"@brackets.regexp.escape.control","~@regexpctl":"regexp.escape.control","@default":"regexp"}}],{include:"@regexcontrol"}],regexp:[{include:"@regexcontrol"},[/[^\\\/]/,"regexp"],["/[ixmp]*",{token:"regexp.delim"},"@pop"]],regexcontrol:[[/(\{)(\d+(?:,\d*)?)(\})/,["@brackets.regexp.escape.control","regexp.escape.control","@brackets.regexp.escape.control"]],[/(\[)(\^?)/,["@brackets.regexp.escape.control",{token:"regexp.escape.control",next:"@regexrange"}]],[/(\()(\?[:=!])/,["@brackets.regexp.escape.control","regexp.escape.control"]],[/\(\?#/,{token:"regexp.escape.control",next:"@regexpcomment"}],[/[()]/,"@brackets.regexp.escape.control"],[/@regexpctl/,"regexp.escape.control"],[/\\$/,"regexp.escape"],[/@regexpesc/,"regexp.escape"],[/\\\./,"regexp.invalid"],[/#/,"regexp.escape","@interpolated"]],regexrange:[[/-/,"regexp.escape.control"],[/\^/,"regexp.invalid"],[/\\$/,"regexp.escape"],[/@regexpesc/,"regexp.escape"],[/[^\]]/,"regexp"],[/\]/,"@brackets.regexp.escape.control","@pop"]],regexpcomment:[[/[^)]+/,"comment"],[/\)/,{token:"regexp.escape.control",next:"@pop"}]],pstring:[[/%([qws])\(/,{token:"string.$1.delim",switchTo:"@qstring.$1.(.)"}],[/%([qws])\[/,{token:"string.$1.delim",switchTo:"@qstring.$1.[.]"}],[/%([qws])\{/,{token:"string.$1.delim",switchTo:"@qstring.$1.{.}"}],[/%([qws])</,{token:"string.$1.delim",switchTo:"@qstring.$1.<.>"}],[/%([qws])(@delim)/,{token:"string.$1.delim",switchTo:"@qstring.$1.$2.$2"}],[/%r\(/,{token:"regexp.delim",switchTo:"@pregexp.(.)"}],[/%r\[/,{token:"regexp.delim",switchTo:"@pregexp.[.]"}],[/%r\{/,{token:"regexp.delim",switchTo:"@pregexp.{.}"}],[/%r</,{token:"regexp.delim",switchTo:"@pregexp.<.>"}],[/%r(@delim)/,{token:"regexp.delim",switchTo:"@pregexp.$1.$1"}],[/%(x|W|Q?)\(/,{token:"string.$1.delim",switchTo:"@qqstring.$1.(.)"}],[/%(x|W|Q?)\[/,{token:"string.$1.delim",switchTo:"@qqstring.$1.[.]"}],[/%(x|W|Q?)\{/,{token:"string.$1.delim",switchTo:"@qqstring.$1.{.}"}],[/%(x|W|Q?)</,{token:"string.$1.delim",switchTo:"@qqstring.$1.<.>"}],[/%(x|W|Q?)(@delim)/,{token:"string.$1.delim",switchTo:"@qqstring.$1.$2.$2"}],[/%([rqwsxW]|Q?)./,{token:"invalid",next:"@pop"}],[/./,{token:"invalid",next:"@pop"}]],qstring:[[/\\$/,"string.$S2.escape"],[/\\./,"string.$S2.escape"],[/./,{cases:{"$#==$S4":{token:"string.$S2.delim",next:"@pop"},"$#==$S3":{token:"string.$S2.delim",next:"@push"},"@default":"string.$S2"}}]],qqstring:[[/#/,"string.$S2.escape","@interpolated"],{include:"@qstring"}],whitespace:[[/[ \t\r\n]+/,""],[/^\s*=begin\b/,"comment","@comment"],[/#.*$/,"comment"]],comment:[[/[^=]+/,"comment"],[/^\s*=begin\b/,"comment.invalid"],[/^\s*=end\b.*/,"comment","@pop"],[/[=]/,"comment"]]}};exports.language=t;
+// modules are defined as an array
+// [ module function, map of requires ]
+//
+// map of requires is short require name -> numeric require
+//
+// anything defined in a previous bundle is accessed via the
+// orig method which is the require for previous bundles
+
+// eslint-disable-next-line no-global-assign
+parcelRequire = (function (modules, cache, entry, globalName) {
+  // Save the require from previous bundle to this closure if any
+  var previousRequire = typeof parcelRequire === 'function' && parcelRequire;
+  var nodeRequire = typeof require === 'function' && require;
+
+  function newRequire(name, jumped) {
+    if (!cache[name]) {
+      if (!modules[name]) {
+        // if we cannot find the module within our internal map or
+        // cache jump to the current global require ie. the last bundle
+        // that was added to the page.
+        var currentRequire = typeof parcelRequire === 'function' && parcelRequire;
+        if (!jumped && currentRequire) {
+          return currentRequire(name, true);
+        }
+
+        // If there are other bundles on this page the require from the
+        // previous one is saved to 'previousRequire'. Repeat this as
+        // many times as there are bundles until the module is found or
+        // we exhaust the require chain.
+        if (previousRequire) {
+          return previousRequire(name, true);
+        }
+
+        // Try the node require function if it exists.
+        if (nodeRequire && typeof name === 'string') {
+          return nodeRequire(name);
+        }
+
+        var err = new Error('Cannot find module \'' + name + '\'');
+        err.code = 'MODULE_NOT_FOUND';
+        throw err;
+      }
+
+      localRequire.resolve = resolve;
+      localRequire.cache = {};
+
+      var module = cache[name] = new newRequire.Module(name);
+
+      modules[name][0].call(module.exports, localRequire, module, module.exports, this);
+    }
+
+    return cache[name].exports;
+
+    function localRequire(x){
+      return newRequire(localRequire.resolve(x));
+    }
+
+    function resolve(x){
+      return modules[name][1][x] || x;
+    }
+  }
+
+  function Module(moduleName) {
+    this.id = moduleName;
+    this.bundle = newRequire;
+    this.exports = {};
+  }
+
+  newRequire.isParcelRequire = true;
+  newRequire.Module = Module;
+  newRequire.modules = modules;
+  newRequire.cache = cache;
+  newRequire.parent = previousRequire;
+  newRequire.register = function (id, exports) {
+    modules[id] = [function (require, module) {
+      module.exports = exports;
+    }, {}];
+  };
+
+  for (var i = 0; i < entry.length; i++) {
+    newRequire(entry[i]);
+  }
+
+  if (entry.length) {
+    // Expose entry point to Node, AMD or browser globals
+    // Based on https://github.com/ForbesLindesay/umd/blob/master/template.js
+    var mainExports = newRequire(entry[entry.length - 1]);
+
+    // CommonJS
+    if (typeof exports === "object" && typeof module !== "undefined") {
+      module.exports = mainExports;
+
+    // RequireJS
+    } else if (typeof define === "function" && define.amd) {
+     define(function () {
+       return mainExports;
+     });
+
+    // <script>
+    } else if (globalName) {
+      this[globalName] = mainExports;
+    }
+  }
+
+  // Override the current require with this new one
+  return newRequire;
+})({"fBmj":[function(require,module,exports) {
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.language = exports.conf = void 0;
+var conf = {
+  comments: {
+    lineComment: '#',
+    blockComment: ['=begin', '=end']
+  },
+  brackets: [['(', ')'], ['{', '}'], ['[', ']']],
+  autoClosingPairs: [{
+    open: '{',
+    close: '}'
+  }, {
+    open: '[',
+    close: ']'
+  }, {
+    open: '(',
+    close: ')'
+  }, {
+    open: '"',
+    close: '"'
+  }, {
+    open: '\'',
+    close: '\''
+  }],
+  surroundingPairs: [{
+    open: '{',
+    close: '}'
+  }, {
+    open: '[',
+    close: ']'
+  }, {
+    open: '(',
+    close: ')'
+  }, {
+    open: '"',
+    close: '"'
+  }, {
+    open: '\'',
+    close: '\''
+  }]
+};
+/*
+ * Ruby language definition
+ *
+ * Quite a complex language due to elaborate escape sequences
+ * and quoting of literate strings/regular expressions, and
+ * an 'end' keyword that does not always apply to modifiers like until and while,
+ * and a 'do' keyword that sometimes starts a block, but sometimes is part of
+ * another statement (like 'while').
+ *
+ * (1) end blocks:
+ * 'end' may end declarations like if or until, but sometimes 'if' or 'until'
+ * are modifiers where there is no 'end'. Also, 'do' sometimes starts a block
+ * that is ended by 'end', but sometimes it is part of a 'while', 'for', or 'until'
+ * To do proper brace matching we do some elaborate state manipulation.
+ * some examples:
+ *
+ *   until bla do
+ *     work until tired
+ *     list.each do
+ *       something if test
+ *     end
+ *   end
+ *
+ * or
+ *
+ * if test
+ *  something (if test then x end)
+ *  bar if bla
+ * end
+ *
+ * or, how about using class as a property..
+ *
+ * class Test
+ *   def endpoint
+ *     self.class.endpoint || routes
+ *   end
+ * end
+ *
+ * (2) quoting:
+ * there are many kinds of strings and escape sequences. But also, one can
+ * start many string-like things as '%qx' where q specifies the kind of string
+ * (like a command, escape expanded, regular expression, symbol etc.), and x is
+ * some character and only another 'x' ends the sequence. Except for brackets
+ * where the closing bracket ends the sequence.. and except for a nested bracket
+ * inside the string like entity. Also, such strings can contain interpolated
+ * ruby expressions again (and span multiple lines). Moreover, expanded
+ * regular expression can also contain comments.
+ */
+
+exports.conf = conf;
+var language = {
+  tokenPostfix: '.ruby',
+  keywords: ['__LINE__', '__ENCODING__', '__FILE__', 'BEGIN', 'END', 'alias', 'and', 'begin', 'break', 'case', 'class', 'def', 'defined?', 'do', 'else', 'elsif', 'end', 'ensure', 'for', 'false', 'if', 'in', 'module', 'next', 'nil', 'not', 'or', 'redo', 'rescue', 'retry', 'return', 'self', 'super', 'then', 'true', 'undef', 'unless', 'until', 'when', 'while', 'yield'],
+  keywordops: ['::', '..', '...', '?', ':', '=>'],
+  builtins: ['require', 'public', 'private', 'include', 'extend', 'attr_reader', 'protected', 'private_class_method', 'protected_class_method', 'new'],
+  // these are closed by 'end' (if, while and until are handled separately)
+  declarations: ['module', 'class', 'def', 'case', 'do', 'begin', 'for', 'if', 'while', 'until', 'unless'],
+  linedecls: ['def', 'case', 'do', 'begin', 'for', 'if', 'while', 'until', 'unless'],
+  operators: ['^', '&', '|', '<=>', '==', '===', '!~', '=~', '>', '>=', '<', '<=', '<<', '>>', '+', '-', '*', '/', '%', '**', '~', '+@', '-@', '[]', '[]=', '`', '+=', '-=', '*=', '**=', '/=', '^=', '%=', '<<=', '>>=', '&=', '&&=', '||=', '|='],
+  brackets: [{
+    open: '(',
+    close: ')',
+    token: 'delimiter.parenthesis'
+  }, {
+    open: '{',
+    close: '}',
+    token: 'delimiter.curly'
+  }, {
+    open: '[',
+    close: ']',
+    token: 'delimiter.square'
+  }],
+  // we include these common regular expressions
+  symbols: /[=><!~?:&|+\-*\/\^%\.]+/,
+  // escape sequences
+  escape: /(?:[abefnrstv\\"'\n\r]|[0-7]{1,3}|x[0-9A-Fa-f]{1,2}|u[0-9A-Fa-f]{4})/,
+  escapes: /\\(?:C\-(@escape|.)|c(@escape|.)|@escape)/,
+  decpart: /\d(_?\d)*/,
+  decimal: /0|@decpart/,
+  delim: /[^a-zA-Z0-9\s\n\r]/,
+  heredelim: /(?:\w+|'[^']*'|"[^"]*"|`[^`]*`)/,
+  regexpctl: /[(){}\[\]\$\^|\-*+?\.]/,
+  regexpesc: /\\(?:[AzZbBdDfnrstvwWn0\\\/]|@regexpctl|c[A-Z]|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4})?/,
+  // The main tokenizer for our languages
+  tokenizer: {
+    // Main entry.
+    // root.<decl> where decl is the current opening declaration (like 'class')
+    root: [// identifiers and keywords
+    // most complexity here is due to matching 'end' correctly with declarations.
+    // We distinguish a declaration that comes first on a line, versus declarations further on a line (which are most likey modifiers)
+    [/^(\s*)([a-z_]\w*[!?=]?)/, ['white', {
+      cases: {
+        'for|until|while': {
+          token: 'keyword.$2',
+          next: '@dodecl.$2'
+        },
+        '@declarations': {
+          token: 'keyword.$2',
+          next: '@root.$2'
+        },
+        'end': {
+          token: 'keyword.$S2',
+          next: '@pop'
+        },
+        '@keywords': 'keyword',
+        '@builtins': 'predefined',
+        '@default': 'identifier'
+      }
+    }]], [/[a-z_]\w*[!?=]?/, {
+      cases: {
+        'if|unless|while|until': {
+          token: 'keyword.$0x',
+          next: '@modifier.$0x'
+        },
+        'for': {
+          token: 'keyword.$2',
+          next: '@dodecl.$2'
+        },
+        '@linedecls': {
+          token: 'keyword.$0',
+          next: '@root.$0'
+        },
+        'end': {
+          token: 'keyword.$S2',
+          next: '@pop'
+        },
+        '@keywords': 'keyword',
+        '@builtins': 'predefined',
+        '@default': 'identifier'
+      }
+    }], [/[A-Z][\w]*[!?=]?/, 'constructor.identifier'], [/\$[\w]*/, 'global.constant'], [/@[\w]*/, 'namespace.instance.identifier'], [/@@[\w]*/, 'namespace.class.identifier'], // here document
+    [/<<[-~](@heredelim).*/, {
+      token: 'string.heredoc.delimiter',
+      next: '@heredoc.$1'
+    }], [/[ \t\r\n]+<<(@heredelim).*/, {
+      token: 'string.heredoc.delimiter',
+      next: '@heredoc.$1'
+    }], [/^<<(@heredelim).*/, {
+      token: 'string.heredoc.delimiter',
+      next: '@heredoc.$1'
+    }], // whitespace
+    {
+      include: '@whitespace'
+    }, // strings
+    [/"/, {
+      token: 'string.d.delim',
+      next: '@dstring.d."'
+    }], [/'/, {
+      token: 'string.sq.delim',
+      next: '@sstring.sq'
+    }], // % literals. For efficiency, rematch in the 'pstring' state
+    [/%([rsqxwW]|Q?)/, {
+      token: '@rematch',
+      next: 'pstring'
+    }], // commands and symbols
+    [/`/, {
+      token: 'string.x.delim',
+      next: '@dstring.x.`'
+    }], [/:(\w|[$@])\w*[!?=]?/, 'string.s'], [/:"/, {
+      token: 'string.s.delim',
+      next: '@dstring.s."'
+    }], [/:'/, {
+      token: 'string.s.delim',
+      next: '@sstring.s'
+    }], // regular expressions. Lookahead for a (not escaped) closing forwardslash on the same line
+    [/\/(?=(\\\/|[^\/\n])+\/)/, {
+      token: 'regexp.delim',
+      next: '@regexp'
+    }], // delimiters and operators
+    [/[{}()\[\]]/, '@brackets'], [/@symbols/, {
+      cases: {
+        '@keywordops': 'keyword',
+        '@operators': 'operator',
+        '@default': ''
+      }
+    }], [/[;,]/, 'delimiter'], // numbers
+    [/0[xX][0-9a-fA-F](_?[0-9a-fA-F])*/, 'number.hex'], [/0[_oO][0-7](_?[0-7])*/, 'number.octal'], [/0[bB][01](_?[01])*/, 'number.binary'], [/0[dD]@decpart/, 'number'], [/@decimal((\.@decpart)?([eE][\-+]?@decpart)?)/, {
+      cases: {
+        '$1': 'number.float',
+        '@default': 'number'
+      }
+    }]],
+    // used to not treat a 'do' as a block opener if it occurs on the same
+    // line as a 'do' statement: 'while|until|for'
+    // dodecl.<decl> where decl is the declarations started, like 'while'
+    dodecl: [[/^/, {
+      token: '',
+      switchTo: '@root.$S2'
+    }], [/[a-z_]\w*[!?=]?/, {
+      cases: {
+        'end': {
+          token: 'keyword.$S2',
+          next: '@pop'
+        },
+        'do': {
+          token: 'keyword',
+          switchTo: '@root.$S2'
+        },
+        '@linedecls': {
+          token: '@rematch',
+          switchTo: '@root.$S2'
+        },
+        '@keywords': 'keyword',
+        '@builtins': 'predefined',
+        '@default': 'identifier'
+      }
+    }], {
+      include: '@root'
+    }],
+    // used to prevent potential modifiers ('if|until|while|unless') to match
+    // with 'end' keywords.
+    // modifier.<decl>x where decl is the declaration starter, like 'if'
+    modifier: [[/^/, '', '@pop'], [/[a-z_]\w*[!?=]?/, {
+      cases: {
+        'end': {
+          token: 'keyword.$S2',
+          next: '@pop'
+        },
+        'then|else|elsif|do': {
+          token: 'keyword',
+          switchTo: '@root.$S2'
+        },
+        '@linedecls': {
+          token: '@rematch',
+          switchTo: '@root.$S2'
+        },
+        '@keywords': 'keyword',
+        '@builtins': 'predefined',
+        '@default': 'identifier'
+      }
+    }], {
+      include: '@root'
+    }],
+    // single quote strings (also used for symbols)
+    // sstring.<kind>  where kind is 'sq' (single quote) or 's' (symbol)
+    sstring: [[/[^\\']+/, 'string.$S2'], [/\\\\|\\'|\\$/, 'string.$S2.escape'], [/\\./, 'string.$S2.invalid'], [/'/, {
+      token: 'string.$S2.delim',
+      next: '@pop'
+    }]],
+    // double quoted "string".
+    // dstring.<kind>.<delim> where kind is 'd' (double quoted), 'x' (command), or 's' (symbol)
+    // and delim is the ending delimiter (" or `)
+    dstring: [[/[^\\`"#]+/, 'string.$S2'], [/#/, 'string.$S2.escape', '@interpolated'], [/\\$/, 'string.$S2.escape'], [/@escapes/, 'string.$S2.escape'], [/\\./, 'string.$S2.escape.invalid'], [/[`"]/, {
+      cases: {
+        '$#==$S3': {
+          token: 'string.$S2.delim',
+          next: '@pop'
+        },
+        '@default': 'string.$S2'
+      }
+    }]],
+    // literal documents
+    // heredoc.<close> where close is the closing delimiter
+    heredoc: [[/^(\s*)(@heredelim)$/, {
+      cases: {
+        '$2==$S2': ['string.heredoc', {
+          token: 'string.heredoc.delimiter',
+          next: '@pop'
+        }],
+        '@default': ['string.heredoc', 'string.heredoc']
+      }
+    }], [/.*/, 'string.heredoc']],
+    // interpolated sequence
+    interpolated: [[/\$\w*/, 'global.constant', '@pop'], [/@\w*/, 'namespace.class.identifier', '@pop'], [/@@\w*/, 'namespace.instance.identifier', '@pop'], [/[{]/, {
+      token: 'string.escape.curly',
+      switchTo: '@interpolated_compound'
+    }], ['', '', '@pop']],
+    // any code
+    interpolated_compound: [[/[}]/, {
+      token: 'string.escape.curly',
+      next: '@pop'
+    }], {
+      include: '@root'
+    }],
+    // %r quoted regexp
+    // pregexp.<open>.<close> where open/close are the open/close delimiter
+    pregexp: [{
+      include: '@whitespace'
+    }, // turns out that you can quote using regex control characters, aargh!
+    // for example; %r|kgjgaj| is ok (even though | is used for alternation)
+    // so, we need to match those first
+    [/[^\(\{\[\\]/, {
+      cases: {
+        '$#==$S3': {
+          token: 'regexp.delim',
+          next: '@pop'
+        },
+        '$#==$S2': {
+          token: 'regexp.delim',
+          next: '@push'
+        },
+        '~[)}\\]]': '@brackets.regexp.escape.control',
+        '~@regexpctl': 'regexp.escape.control',
+        '@default': 'regexp'
+      }
+    }], {
+      include: '@regexcontrol'
+    }],
+    // We match regular expression quite precisely
+    regexp: [{
+      include: '@regexcontrol'
+    }, [/[^\\\/]/, 'regexp'], ['/[ixmp]*', {
+      token: 'regexp.delim'
+    }, '@pop']],
+    regexcontrol: [[/(\{)(\d+(?:,\d*)?)(\})/, ['@brackets.regexp.escape.control', 'regexp.escape.control', '@brackets.regexp.escape.control']], [/(\[)(\^?)/, ['@brackets.regexp.escape.control', {
+      token: 'regexp.escape.control',
+      next: '@regexrange'
+    }]], [/(\()(\?[:=!])/, ['@brackets.regexp.escape.control', 'regexp.escape.control']], [/\(\?#/, {
+      token: 'regexp.escape.control',
+      next: '@regexpcomment'
+    }], [/[()]/, '@brackets.regexp.escape.control'], [/@regexpctl/, 'regexp.escape.control'], [/\\$/, 'regexp.escape'], [/@regexpesc/, 'regexp.escape'], [/\\\./, 'regexp.invalid'], [/#/, 'regexp.escape', '@interpolated']],
+    regexrange: [[/-/, 'regexp.escape.control'], [/\^/, 'regexp.invalid'], [/\\$/, 'regexp.escape'], [/@regexpesc/, 'regexp.escape'], [/[^\]]/, 'regexp'], [/\]/, '@brackets.regexp.escape.control', '@pop']],
+    regexpcomment: [[/[^)]+/, 'comment'], [/\)/, {
+      token: 'regexp.escape.control',
+      next: '@pop'
+    }]],
+    // % quoted strings
+    // A bit repetitive since we need to often special case the kind of ending delimiter
+    pstring: [[/%([qws])\(/, {
+      token: 'string.$1.delim',
+      switchTo: '@qstring.$1.(.)'
+    }], [/%([qws])\[/, {
+      token: 'string.$1.delim',
+      switchTo: '@qstring.$1.[.]'
+    }], [/%([qws])\{/, {
+      token: 'string.$1.delim',
+      switchTo: '@qstring.$1.{.}'
+    }], [/%([qws])</, {
+      token: 'string.$1.delim',
+      switchTo: '@qstring.$1.<.>'
+    }], [/%([qws])(@delim)/, {
+      token: 'string.$1.delim',
+      switchTo: '@qstring.$1.$2.$2'
+    }], [/%r\(/, {
+      token: 'regexp.delim',
+      switchTo: '@pregexp.(.)'
+    }], [/%r\[/, {
+      token: 'regexp.delim',
+      switchTo: '@pregexp.[.]'
+    }], [/%r\{/, {
+      token: 'regexp.delim',
+      switchTo: '@pregexp.{.}'
+    }], [/%r</, {
+      token: 'regexp.delim',
+      switchTo: '@pregexp.<.>'
+    }], [/%r(@delim)/, {
+      token: 'regexp.delim',
+      switchTo: '@pregexp.$1.$1'
+    }], [/%(x|W|Q?)\(/, {
+      token: 'string.$1.delim',
+      switchTo: '@qqstring.$1.(.)'
+    }], [/%(x|W|Q?)\[/, {
+      token: 'string.$1.delim',
+      switchTo: '@qqstring.$1.[.]'
+    }], [/%(x|W|Q?)\{/, {
+      token: 'string.$1.delim',
+      switchTo: '@qqstring.$1.{.}'
+    }], [/%(x|W|Q?)</, {
+      token: 'string.$1.delim',
+      switchTo: '@qqstring.$1.<.>'
+    }], [/%(x|W|Q?)(@delim)/, {
+      token: 'string.$1.delim',
+      switchTo: '@qqstring.$1.$2.$2'
+    }], [/%([rqwsxW]|Q?)./, {
+      token: 'invalid',
+      next: '@pop'
+    }], [/./, {
+      token: 'invalid',
+      next: '@pop'
+    }]],
+    // non-expanded quoted string.
+    // qstring.<kind>.<open>.<close>
+    //  kind = q|w|s  (single quote, array, symbol)
+    //  open = open delimiter
+    //  close = close delimiter
+    qstring: [[/\\$/, 'string.$S2.escape'], [/\\./, 'string.$S2.escape'], [/./, {
+      cases: {
+        '$#==$S4': {
+          token: 'string.$S2.delim',
+          next: '@pop'
+        },
+        '$#==$S3': {
+          token: 'string.$S2.delim',
+          next: '@push'
+        },
+        '@default': 'string.$S2'
+      }
+    }]],
+    // expanded quoted string.
+    // qqstring.<kind>.<open>.<close>
+    //  kind = Q|W|x  (double quote, array, command)
+    //  open = open delimiter
+    //  close = close delimiter
+    qqstring: [[/#/, 'string.$S2.escape', '@interpolated'], {
+      include: '@qstring'
+    }],
+    // whitespace & comments
+    whitespace: [[/[ \t\r\n]+/, ''], [/^\s*=begin\b/, 'comment', '@comment'], [/#.*$/, 'comment']],
+    comment: [[/[^=]+/, 'comment'], [/^\s*=begin\b/, 'comment.invalid'], [/^\s*=end\b.*/, 'comment', '@pop'], [/[=]/, 'comment']]
+  }
+};
+exports.language = language;
 },{}]},{},["fBmj"], null)
-//# sourceMappingURL=ruby.344c010e.map

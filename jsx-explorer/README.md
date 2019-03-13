@@ -12,15 +12,18 @@ While JSXAlone is a lightweight library, this application is not since it loads 
 
 # TODO
 
+ * finish src/codeWorker/typeStructure.ts and put it in another repo
+ * syntax highlight could be improved : by using hierarchy we dont repeat classes and we have more flexibnilty - test if monaco supports it - is monaco supports adding a classname to a range ?
  * add "Working..." on the state so we show visual progress feedback
  * move test src/__tests__/compileAndEvaluateJsxTest.tsx to a independent project since is good test  of all impls
  * lots of props in both explorers are not managed by the store.
  * another explorer that shows emitted js code with the createElements
  * use monaco to highlight html snippets : https://microsoft.github.io/monaco-editor/playground.html#creating-the-editor-syntax-highlighting-for-html-elements
 
+ * issue to ts-simple-ast: getEndLinePos doesn't exist
+ * idea for better representing and understanding Types: could be a feature for ts-simple-ast Type.getStructure() : see src/codeWorker/typeStructure.ts 
 # Notes
 
-issue to ts-simple-ast: getEndLinePos doesn't exist
 
 
 <!-- export NODE_PATH=~/.npm-prefix/lib/node_modules/:../jsx-alone-dom-dom/node_modules/:../../ts-simple-ast/node_modules/ && rm -rf node_modules/ && npm i --prefer-offline -->

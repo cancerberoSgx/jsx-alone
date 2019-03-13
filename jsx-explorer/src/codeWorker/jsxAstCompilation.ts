@@ -3,6 +3,7 @@ import Project, { Node as tsNode, ts, SourceFile } from 'ts-simple-ast'
 import { CodeWorkerRequest, CodeWorkerRequestJsxAst, CodeWorkerResponseJsxAsNode, CodeWorkerResponseJsxAst, CodeWorkerResponseJsxAstDiagnostic } from '../store/types'
 import { createProject, getChildrenForEachChild } from './ts-simple-ast'
 import { lastRequest } from './codeWorker'
+import { tryTo } from '../util/util';
 
 interface JsxAstResult {
   jsxAst: CodeWorkerResponseJsxAst,
@@ -50,7 +51,7 @@ function buildJsxAstNode(n: tsNode, config: CodeWorkerRequestJsxAst): CodeWorker
   let text = n.getText().trim()
   const children = config.mode === 'forEachChild' ? getChildrenForEachChild(n) : n.getChildren()
   text = text.substring(0, Math.max(config.nodeTextLength || 20, text.length))
-  const type = n.getType().getApparentType().getText() || n.getType().getText()
+  const type =tryTo(()=> n.getType().getApparentType().getText() || n.getType().getText())||'TODO'
   const node: CodeWorkerResponseJsxAsNode = {
     kind: n.getKindName(),
     type,

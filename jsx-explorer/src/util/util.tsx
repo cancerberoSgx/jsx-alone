@@ -14,3 +14,10 @@ export function shorter(s: string, l = 20) {
   const postFix = s.length > l ? '...' : ''
   return `"${s.trim().substring(0, Math.min(s.length, l))}${postFix}"`
 }
+
+export function tryTo<F extends (...args: any[]) => any>(f: F): ReturnType<F> | undefined {
+  try {
+    return f()
+  } catch (error) {
+  }
+}

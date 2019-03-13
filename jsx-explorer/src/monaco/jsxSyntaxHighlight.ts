@@ -5,16 +5,18 @@ import { getMonacoInstance } from './monaco'
 
 let lastJsxDecorations: string[] = []
 
+
+//TODO: this could be improved  with hierarchy - is monaco supports adding a classname to a range ?
+
 export function dispatchSyntaxHighlight(data: CodeWorkerResponse ) {
   const editor = getMonacoInstance()! // TODO
   const model = editor.getModel()
+  
   if (model && model.getVersionId() !== data.version) {
     return
   }
-  const decorations: monaco.editor.IModelDeltaDecoration[] = data.jsxSyntaxHighLight.classifications.map((classification: any) => {
-    const inlineClassName = classification.type
-      ? `${classification.kind} ${classification.type}-of-${classification.parentKind}`
-      : classification.kind
+  const decorations: monaco.editor.IModelDeltaDecoration[] = data.jsxSyntaxHighLight.classifications.map(classification => {
+    const inlineClassName = classification.type ? `${classification.type}-of-${classification.parentKind}`: classification.kind
     return {
       range: new monaco.Range(classification.startLine, classification.start, classification.endLine, classification.end),
       options: {

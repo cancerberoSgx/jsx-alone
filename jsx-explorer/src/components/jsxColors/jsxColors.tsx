@@ -1,31 +1,31 @@
-// import { JSXAlone } from 'jsx-alone-dom'
-// import * as monaco from 'monaco-editor'
-// import { registerStyle } from '../../style/styles';
-// import { Component } from '../util/component';
-// import { Color } from '../../store/types';
+import { JSXAlone } from 'jsx-alone-dom'
+import * as monaco from 'monaco-editor'
+import { registerStyle } from '../../style/styles';
+import { Component } from '../util/component';
+import { Color } from '../../store/types';
 
-// interface P {
-// }
+interface P {
+}
 
-// registerStyle(`
-// `)
+registerStyle(`
+`)
 
-// export class Editor extends Component<P> {
+export class Editor extends Component<P> {
 
-//   render() {
-//     return <div id="editorContainer" className="editorContainer" />
-//   }
+  render() {
+    return <div id="editorContainer" className="editorContainer" />
+  }
 
-// }
+}
 
-// interface JsxColors {
-//   text:Color
-//   expressionBraces: Color
-//   attrEquals: Color
-//   openingElement: Color
-//   closingElement: Color 
-//   selfClosingElement: Color
-// }
+interface JsxColors {
+  text:Color
+  expressionBraces: Color
+  attrEquals: Color
+  openingElement: Color
+  closingElement: Color 
+  selfClosingElement: Color
+}
 
 // const lightStyles = `
 // .JsxText {
