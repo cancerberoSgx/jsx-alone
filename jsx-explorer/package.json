@@ -18,8 +18,11 @@
     "test-spec-debug": "node --inspect-brk node_modules/.bin/jest --runInBand --no-cache --clearMocks",
     "test-spec": "npx jest --testRegex \"/__tests__/.*\\.*Test\\.[t]sx?$\" ",
     "test-spec-watch": "npm test-spec -- --watch",
-    "test-functional": "rm -rf tmp && mkdir -p tmp && npx tsc && npx jest --testRegex \"/dist/src/__tests__/.*\\.*TestFunctional\\.[j]sx?$\" -c ./jest-functional.config.js",
-    "test-functional-watch": "npm run test-functional -- --watch ",
+    "test-functional": "killall node && npx http-server ../docs/jsx-explorer/ & rm -rf tmp && mkdir -p tmp && npx tsc && npm run test-functional-run && killall node",
+    "test-functional-watch": "npm run test-functional-run -- --watch",
+    "test-functional-run": "npx jest --testRegex \"/src/__tests__/functional/.*\\.tsx?$\" --runInBand",
+    "test-functional-js-run": "npx jest --testRegex \"/dist/src/__tests__/functional/.*\\.[j]sx?$\" -c ./jest-functional.config.js ",
+    "test-functional-js-watch": "npm run test-functional-js-run -- --watch",
     "test": "npm run test-spec && npm run test-functional",
     "pack-all": "npm run pack-examples && npm run pack-files ",
     "pack-examples": "npx fs-to-json --input src/examples/toPack/**/* --output src/examples/examplesPacked.json",
@@ -48,11 +51,11 @@
     "fs-to-json": "^0.1.7",
     "jest": "^24.1.0",
     "jest-puppeteer": "^3.5.0",
+    "p-queue": "^3.0.0",
     "parcel": "^1.11.0",
     "puppeteer": "^1.8.0",
     "terser": "^3.16.1",
     "ts-jest": "^24.0.0",
-    "p-queue": "^3.0.0",
     "typescript": "^3.2.2"
   },
   "repository": {
@@ -71,6 +74,19 @@
   "license": "MIT",
   "homepage": "https://github.com/cancerberoSgx/jsx-alone",
   "jest": {
-    "preset": "ts-jest"
+    "transform": {
+      ".(ts|tsx)": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|Editor))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+
+  "preset": "jest-puppeteer",
+  "globalSetup": "jest-environment-puppeteer/setup",
+  "globalTeardown": "jest-environment-puppeteer/teardown",
+  "testEnvironment": "jest-environment-puppeteer"
   }
 }

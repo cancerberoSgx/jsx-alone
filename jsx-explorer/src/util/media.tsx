@@ -32,7 +32,7 @@ ${sel.trim()} {
   ${s.trim()}
 }
 ${ds ? `
-@media (min-width: 1023px) {
+@media (min-width: 768px) {
   ${sel.trim()} {
     ${ds.trim()}
   }
