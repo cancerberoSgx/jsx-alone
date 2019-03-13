@@ -1,4 +1,4 @@
-import { clearText, expectElement, enter, wait } from './testUtil';
+import { clearText, expectElement, enter, wait, expectNotExist } from './testUtil';
 
 describe('basic - jest-puppeteer', () => {
 
@@ -17,38 +17,39 @@ describe('basic - jest-puppeteer', () => {
     await expectElement(page, '#editorContainer', 'function')
   })
  
-  it('should clear text text', async () => {
+  it('should wait until explorer renders', async () => {
+    await page.screenshot({ path: './tmp/01-explorer1.png' })
+    await page.waitForSelector('.explorer .media-content em')
+    await expectElement(page, '.explorer .media-content em', 'className')
+    await page.screenshot({ path: './tmp/01-explorer2.png' })
+  })
     
-    try {
-      await page.screenshot({ path: './tmp/test1.png' })
-      await wait(2000) 
+  it('should clear text', async () => {
     await clearText(page, '#editorContainer')
-    await page.screenshot({ path: './tmp/test2.png' }) 
-  } catch (error) {
-    console.log(error  ); 
-  }
+    await wait(500)
+    await page.screenshot({ path: './tmp/02-clear.png' }) 
+    await expectNotExist(page, '.explorer .media-content em')
   })
 
-  it('should wait until explorer renders', async () => {
-    
-    // await page.waitFor('.editorExplorerBodyMember.elements .explorer .button')
-    
-    try { 
-      await wait(2000) 
-      await enter(page,  '#editorContainer', 'a', true )
-      await wait(2000)
-      await page.screenshot({ path: './tmp/test3.png' })
-    } catch (error) {
-      console.log(error  );
-      
-    }
-      // await page.keyboard.type('#editorContainer', 'function test(){ return <p>hello</p>; }')
-  
-   
+  it('should enter new code', async () => {
+    await enter(page,  '#editorContainer', `
+import {JSXAlone} from './index'
+function test() {
+  return <p>Hello</p>
+}
+    `, true )
+    await wait(3500)
+    await page.screenshot({ path: './tmp/03-newCode1.png' }) 
+    await page.waitForSelector('.explorer .media-content .textNodeContent')
+    await expectElement(page, '.explorer .media-content .textNodeContent', '"Hello"')
+    await page.screenshot({ path: './tmp/03-newCode2.png' }) 
 
-    // await clearText(page, '#editorContainer')
-    // await page.screenshot({path: './tmp/test2.png'})
 
+  })
+
+
+  it('should should show editor on one side', async () => {
+    await expectElement(page, '#editorContainer', 'function')
   })
 })
 

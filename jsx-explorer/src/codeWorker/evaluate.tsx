@@ -96,7 +96,7 @@ function evaluateOnly<T = JsonImplOutputEl>(s: string, impl: 'json' | 'dom' | 's
     impl === 'json' && removeCirclesJsonImplOutput(result)
   } catch (ex) {
     error = { message: ex.message || ex + '', stack: ex.stack, name: ex.name || ex + '' }
-    throw ex
+    // throw ex
   }
   return { result, error }
 }
