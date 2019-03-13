@@ -15,7 +15,7 @@ export function doJSXAst(data: CodeWorkerRequest): CodeWorkerResponseJsxAst {
     fileName: 't1.tsx',
     content: data.code
   }])
-  const config = data.jsxAst || {}
+  const config: CodeWorkerRequestJsxAst = data.jsxAst || {mode: 'forEachChild'}
   const sourceFile = project.getSourceFiles().find(s => s.getFilePath().endsWith('t1.tsx'))!
   const ast = buildJsxAstNode(sourceFile, config)
   const diagnostics = config.showDiagnostics ? buildJsxAstDiagnostics(project) : []

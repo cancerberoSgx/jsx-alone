@@ -1,13 +1,16 @@
 {  
   "extends": "../common/tsconfig.json",
   "compilerOptions": {
+    // "target": "esnext",
     "composite": false,
     "outDir": "./dist",
     "rootDir": ".",
+    // "lib": ["es2018", "dom"],
     "jsx": "react",
     "jsxFactory": "JSXAlone.createElement",
-    "allowJs": true,
+    // "allowJs": true,
     "declaration": false,
+    // "esModuleInterop": true
   },
   "include": [
     "src"

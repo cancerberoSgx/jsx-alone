@@ -1,4 +1,4 @@
-killall node
+# killall node
 # rm -rf ../docs/jsx-explorer
 npm run build-dev
 http-server ../docs/jsx-explorer & 

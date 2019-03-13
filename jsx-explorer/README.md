@@ -21,3 +21,36 @@ While JSXAlone is a lightweight library, this application is not since it loads 
 # Notes
 
 issue to ts-simple-ast: getEndLinePos doesn't exist
+
+
+<!-- export NODE_PATH=~/.npm-prefix/lib/node_modules/:../jsx-alone-dom-dom/node_modules/:../../ts-simple-ast/node_modules/ && rm -rf node_modules/ && npm i --prefer-offline -->
+
+
+    <!-- "preset": "ts-jest/presets/js-with-ts",
+    "modulePaths": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/src",
+      "<rootDir>",
+      "<rootDir>/dist/",
+      "<rootDir>/dist/src/"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json",
+      "jsx",
+      "node"
+    ],
+    "browser": true,
+    "roots": [
+      "<rootDir>",
+      "<rootDir>/src",
+      "<rootDir>/dist",
+      "<rootDir>/dist/src"
+    ] -->
+
+
+
+    <!-- "test-functional": "npx jest --testRegex \"/__tests__/.*\\.*TestFunctional\\.[t]sx?$\" -c ./jest-functional.config.js",
+    "test-functional-watch": "npm run test-functional -- --watch ", -->
