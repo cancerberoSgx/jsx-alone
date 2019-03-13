@@ -108,26 +108,16 @@ function jsxRelatedDescendants(n: Node){
 function addChildNodes(node: Node, lines: number[], classifications: Classification[], f?: SourceFile ) {
   const parentKind = node.getKindName()
 
-// console.log('name1sssss: ' + f!.getDescendants().filter(e=>e.getKindName()!.toLowerCase().includes('jsx')).map(e=>e.getType().getText() + ' - '+e.getKindName()))
-
 node.getDescendants()
-.filter(jsxRelatedDescendants)
+// .filter(jsxRelatedDescendants)
 .forEach(id=>{
-
-// })
-  // node.forEachDescendant(id=>{
-
-  // })
-  // node.forEachChild(id=> {
 
   const nodeType = id.getType().getText()
     const cid = id.compilerNode
-    const modifiers = cid.modifiers ? cid.modifiers.map(n=>n.getText()) : [] as any
+    const modifiers = TypeGuards.isModifierableNode(id) && id.getModifiers().map(m=>m.getText()) || []
+    // id.modicid.modifiers ? cid.modifiers.map(n=>n.getText()) : []
 
-  // }
-  // ts.forEachChild(node, id => {
     const type = getNodeType(node, cid)
-    // const nodeType = getType(tc, id, f) 
 
     classifications.push(
       ...getParentRanges(cid)
@@ -143,7 +133,7 @@ node.getDescendants()
           modifiers,
           kind: id.getKindName(),
           parentKind, 
-          type: type as any,
+          type,
           // text: id.getText(),
           nodeType,
           startLine,
@@ -151,54 +141,5 @@ node.getDescendants()
         }
       })
     )
-    // addChildNodes(id, lines, classifications)
   })
 }
-// }
-// function getType(tc: TypeChecker | undefined, id: Node, f?: SourceFile) : string|undefined{
-
-//   // if(tc){
-    
-//     // given an existing node and type checker
-//     // const classNode: ts.ClassDeclaration = ...;
-//     // const compilerTypeChecker: ts.TypeChecker = ...;
-    
-//     // create and use a wrapped node
-//     // const n = createWrappedNode(id, { typeChecker: tc.compilerObject })
-//     // n.getDescendants()
-//     // n.getAncestors()
-//     return id.getType().getText()
-//     // Node
-    
-//     // console.log(classDec.getPropertyOrThrow("propName").getType().getText()); // ok, because a type checker was provided
-
-// //     // const n = id as any
-// // //     let symbol = tc.compilerObject.getSymbolAtLocation(id) ||tc.compilerObject.getSymbolAtLocation((id as any).name)
-
-// // // let type = symbol && tc.compilerObject.typeToString(tc.compilerObject.getTypeOfSymbolAtLocation(symbol, symbol.valueDeclaration))
-// // // return type
-
-// //   const nodeType = tc ? tc.compilerObject!.typeToString(tc.compilerObject.getTypeAtLocation(id)) : undefined
-
-// //   return nodeType
-
-// // }
-
-// // function getttt(n: any) {}
-
-// // let details = serializeSymbol(symbol);
-
-//         // };
-
- 
-//   // const nodeType = tc ? tc.compilerObject!.typeToString(tc.compilerObject.getTypeAtLocation(id)) : undefined
-//   // let nodeType = tc ? tc.compilerObject.typeToString(tc.compilerObject.getApparentType(tc.compilerObject.getTypeAtLocation(id))) : undefined 
-// // if(!nodeType){
-// //   nodeType = tc ? tc.compilerObject.typeToString(
-// //     tc.compilerObject.getApparentType(id.s)
-// //     // tc.compilerObject.getTypeAtLocation(id.parent)
-// //     )) : undefined 
-// // }
-//   // return nodeType
-// }
-

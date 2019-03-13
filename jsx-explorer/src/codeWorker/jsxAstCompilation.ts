@@ -4,9 +4,9 @@ import { CodeWorkerRequest, CodeWorkerRequestJsxAst, CodeWorkerResponseJsxAsNode
 import { createProject, getChildrenForEachChild } from './ts-simple-ast'
 import { lastRequest } from './codeWorker'
 
-interface JsxAstResult{
-  jsxAst: CodeWorkerResponseJsxAst, 
-  sourceFile: SourceFile, 
+interface JsxAstResult {
+  jsxAst: CodeWorkerResponseJsxAst,
+  sourceFile: SourceFile,
   project: Project
 }
 export let jsxAstLastResult: JsxAstResult
@@ -19,13 +19,13 @@ export function doJSXAst(data: CodeWorkerRequest): JsxAstResult {
     fileName: 't1.tsx',
     content: data.code
   }])
-  const config: CodeWorkerRequestJsxAst = data.jsxAst || {mode: 'forEachChild'}
+  const config: CodeWorkerRequestJsxAst = data.jsxAst || { mode: 'forEachChild' }
   const sourceFile = project.getSourceFiles().find(s => s.getFilePath().endsWith('t1.tsx'))!
   const ast = buildJsxAstNode(sourceFile, config)
   const diagnostics = config.showDiagnostics ? buildJsxAstDiagnostics(project) : []
   const jsxAst = { ast, diagnostics, config: data.jsxAst } as any
-  jsxAstLastResult = {jsxAst, sourceFile, project}
-  return  jsxAstLastResult
+  jsxAstLastResult = { jsxAst, sourceFile, project }
+  return jsxAstLastResult
 }
 
 function buildJsxAstDiagnostics(project: Project): CodeWorkerResponseJsxAstDiagnostic[] {
@@ -50,9 +50,10 @@ function buildJsxAstNode(n: tsNode, config: CodeWorkerRequestJsxAst): CodeWorker
   let text = n.getText().trim()
   const children = config.mode === 'forEachChild' ? getChildrenForEachChild(n) : n.getChildren()
   text = text.substring(0, Math.max(config.nodeTextLength || 20, text.length))
+  const type = n.getType().getApparentType().getText() || n.getType().getText()
   const node: CodeWorkerResponseJsxAsNode = {
     kind: n.getKindName(),
-    type: 'TODO',
+    type,
     text,
     start: n.getStart(),
     end: n.getEnd(),

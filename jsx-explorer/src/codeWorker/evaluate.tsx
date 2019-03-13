@@ -6,13 +6,6 @@ import { JSXAlone as JSXAloneStringImpl, ElementClass as ElementClassString } fr
 import { JSXAlone as JSXAloneDomImpl, ElementClass as ElementClassDom } from 'jsx-alone-dom'
 import { lastRequest } from './codeWorker'
 
-// let evaluateLastInputJson: string | undefined
-// let evaluateLastOutputJson: any
-// let evaluateLastInputDom: string | undefined
-// let evaluateLastOutputDom: any
-// let evaluateLastInputString: string | undefined
-// let evaluateLastOutputString: any
-
 export interface EvaluateResult<T = JsonImplOutputEl> {
   result?: T, error?:
   CodeWorkerError,
@@ -25,36 +18,12 @@ export function evaluate<T = JsonImplOutputEl>(jsx: string, impl: 'json' | 'dom'
   if (lastRequest && jsx === lastRequest.code) {
     return results as any
   }
-  // if (!times && impl === 'json' && jsx === evaluateLastInputJson && evaluateLastOutputJson) {
-  //   return evaluateLastOutputJson
-  // }
-  // if (!times && impl === 'dom' && jsx === evaluateLastInputDom && evaluateLastOutputDom) {
-  //   return evaluateLastOutputDom
-  // }
-  // if (!times && impl === 'string' && jsx === evaluateLastInputString && evaluateLastOutputString) {
-  //   return evaluateLastOutputString
-  // }
-
   const jsxFixed = jsx.substring(jsx.indexOf('function'), jsx.length)
-  // code = code.split('\n').filter(l=>!l.startsWith('import ')).join('\n')
   const emitted = compileTs(jsxFixed)
-
   const s = `(${emitted})()`
 
   const { result, error } = evaluateOnly(s, impl, times)
 
-  // if (impl === 'json') {
-  //   evaluateLastInputJson = jsx
-  //   evaluateLastOutputJson = result
-  // }
-  // if (impl === 'dom') {
-  //   evaluateLastInputDom = jsx
-  //   evaluateLastOutputDom = result
-  // }
-  // if (impl === 'string') {
-  //   evaluateLastInputString = jsx
-  //   evaluateLastOutputString = result
-  // }
   results = { result, error, evaluated: s }
   return results as any
 }
@@ -96,7 +65,9 @@ function evaluateOnly<T = JsonImplOutputEl>(s: string, impl: 'json' | 'dom' | 's
     impl === 'json' && removeCirclesJsonImplOutput(result)
   } catch (ex) {
     error = { message: ex.message || ex + '', stack: ex.stack, name: ex.name || ex + '' }
-    // throw ex
+    console.error('Error in worker: ', ex);
+    
+    // throw   ex
   }
   return { result, error }
 }
