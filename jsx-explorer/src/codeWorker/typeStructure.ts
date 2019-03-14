@@ -331,7 +331,7 @@ export function buildBaseKind({ node, type, project }: BuildMemberOptions): Type
 //   const type = buildTypeFor(options)
 //   return buildParentShipKind({ ...options, type })
 // }
-const parentShipwhiteList = enumKeys(ParentShipKind)//.map(p => p.toLowerCase())
+// const parentShipwhiteList = enumKeys(ParentShipKind)//.map(p => p.toLowerCase())
 
 export function buildParentShipKind({ node, type, project }: Partial<BuildMemberOptions> & { node: Node }): ParentShipKind[] {
   const r = extractParentPropertiesForChild(node)!
@@ -351,13 +351,6 @@ export function buildParentShipKind({ node, type, project }: Partial<BuildMember
   return r as any
 }
 
-function enumKeys(anEnum: any): string[] {
-  const a = []
-  for (let i in anEnum) {
-    a.push(i)
-  }
-  return a
-}
 
 function extractParentPropertiesForChild(node: Node): string[] | undefined {
   const parent = node.getParent() && node.getParent()!.compilerNode

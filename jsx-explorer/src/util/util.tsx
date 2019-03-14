@@ -23,6 +23,23 @@ export function tryTo<F extends (...args: any[]) => any>(f: F): ReturnType<F> | 
 }
 
 
+export function getEnumKey(anEnum: any, value: any): string {
+  for (const key in anEnum) {
+    if (value === anEnum[key]) {
+      return key
+    }
+  }
+  return ''
+}
+
+
+export function enumKeys<T=string>(anEnum: any): T[] {
+  const a = []
+  for (let i in anEnum) {
+    a.push(i)
+  }
+  return a as any
+}
 // // TODO: import misc
 
 // export type ValueOfStringKey<T extends {

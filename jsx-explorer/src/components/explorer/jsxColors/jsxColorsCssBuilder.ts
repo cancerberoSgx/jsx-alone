@@ -1,17 +1,16 @@
 import { JsxSyntaxSkin } from './jsxColorsTypes';
 import { printStyleHtmlAttribute } from 'jsx-alone-dom';
-import { CSSProperties } from 'jsx-alone-core';
+import { CSSProperties, styleObjectToCss } from 'jsx-alone-core';
 import { ClassName } from './classesData';
 
-export function buildCssForSkin(s: JsxSyntaxSkin):  {lightStyles: string, darkStyles: string} {
-  
-  const safeOrder : ClassName[] = [ClassName.JsxText, ClassName.JsxExpression] 
+export function buildCssForSkin(s: JsxSyntaxSkin): { lightStyles: string, darkStyles: string } {
+
+  // const safeOrder : ClassName[] = [ClassName.JsxText, ClassName.JsxExpression] 
 
   const lightStyles = `
 ${s.JsxText ? `
 .JsxText {
-  ${ printStyleHtmlAttribute(s.JsxText)}
-  // color: #5c6773;
+  ${ styleObjectToCss(s.JsxText)}
 }
 ` : ``}
 
@@ -25,70 +24,57 @@ ${s.JsxText ? `
 // .JsxClosingElement {
 //   color: #888811;
 // }
-// .JsxSelfClosingElement,
-// .tagName-of-JsxOpeningElement,
-// .tagName-of-JsxClosingElement,
-// .tagName-of-JsxSelfClosingElement {
-//   color: #41a6d9;
-// }
-// .name-of-JsxAttribute {
-//   color: #f08c36;
-// }
+${s.JsxTagName && `
+.JsxSelfClosingElement,
+.tagName-of-JsxOpeningElement,
+.tagName-of-JsxClosingElement,
+.tagName-of-JsxSelfClosingElement {
+  ${ styleObjectToCss(s.JsxTagName)}
+}
+`}
+
+${s.JsxAttributeName ? `
+.name-of-JsxAttribute {
+  ${ styleObjectToCss(s.JsxAttributeName)}
+}
+` : defaultCssFor(ClassName['JsxAttributeName'])}
+
+
 `
 
   const darkStyles = `
   `
 
-  return {lightStyles, darkStyles}
+  return { lightStyles, darkStyles }
 
 
 }
 
-
-
-export function getPropertyDefaultValueForType(t?: Type) {
-  return t === 'string' ? '' : t === 'date' ? formatDate(new Date()) : t === 'size' ? '1em' : 'sans-serif'
+function defaultCssFor(n: ClassName) {
+  if (n === ClassName.JsxAttributeName) {
+    return `
+.name-of-JsxAttribute {
+  color: #f08c36;
 }
-
-
-export function formatDate(date: Date, format: 'YYYY-MM-DD' | 'MM/DD/YYYY' = 'YYYY-MM-DD'): string {
-  if (typeof date === 'string') { // happens when serializing dates to json for testing
-    date = new Date(date)
-  }
-  var dd: any = date.getDay();
-  var mm: any = date.getMonth() + 1; //January is 0!
-  var yyyy = date.getFullYear();
-  if (dd < 10) {
-    dd = '0' + dd;
-  }
-  if (mm < 10) {
-    mm = '0' + mm;
-  }
-  if (format === 'YYYY-MM-DD') {
-    return yyyy + '-' + mm + '-' + dd;
-  }
-  else {
-    return `${mm}/${dd}/${yyyy}`;
+`
   }
 }
 
-export function formatDateTime(date: Date, format: 'YYYY-MM-DDTHH:MMZ'): string {
-  if (typeof date === 'string') { // happens when serializing dates to json for testing
-    date = new Date(date)
-  }
-  let hh = `${date.getHours()}`.length < 2 ? `0${date.getHours()}` : `${date.getHours()}`
-  let mm = `${date.getMinutes()}`.length < 2 ? `0${date.getMinutes()}` : `${date.getMinutes()}`
-  return `${formatDate(date, 'YYYY-MM-DD')}T${hh}:${mm}`
+// function buildCssForClass()
+
+
+export function getPropertyDefaultValueForType(t?: PropertyType) {
+  return t === 'string' ? '' : t === 'size' ? '1em' : 'sans-serif'
 }
 
-type Type = 'string' | 'color' | 'date' | 'size' | 'font'
+export type PropertyType = 'string' | 'color' | 'size' | 'font'
 
 
 export interface SupportedProperty<T extends keyof CSSProperties= keyof CSSProperties> {
   // p: SyntaxSkinProperty
   propertyName: T
   propertyValue?: CSSProperties[T]
-  propertyType?: Type
+  propertyType?: PropertyType
 }
 
 export const supportedProperties: SupportedProperty[] = [
@@ -96,6 +82,37 @@ export const supportedProperties: SupportedProperty[] = [
   { propertyName: 'color', propertyType: 'color' },
   { propertyName: 'fontSize', propertyType: 'string' }
 ]
+
+
+// export function formatDate(date: Date, format: 'YYYY-MM-DD' | 'MM/DD/YYYY' = 'YYYY-MM-DD'): string {
+//   if (typeof date === 'string') { // happens when serializing dates to json for testing
+//     date = new Date(date)
+//   }
+//   var dd: any = date.getDay();
+//   var mm: any = date.getMonth() + 1; //January is 0!
+//   var yyyy = date.getFullYear();
+//   if (dd < 10) {
+//     dd = '0' + dd;
+//   }
+//   if (mm < 10) {
+//     mm = '0' + mm;
+//   }
+//   if (format === 'YYYY-MM-DD') {
+//     return yyyy + '-' + mm + '-' + dd;
+//   }
+//   else {
+//     return `${mm}/${dd}/${yyyy}`;
+//   }
+// }
+
+// export function formatDateTime(date: Date, format: 'YYYY-MM-DDTHH:MMZ'): string {
+//   if (typeof date === 'string') { // happens when serializing dates to json for testing
+//     date = new Date(date)
+//   }
+//   let hh = `${date.getHours()}`.length < 2 ? `0${date.getHours()}` : `${date.getHours()}`
+//   let mm = `${date.getMinutes()}`.length < 2 ? `0${date.getMinutes()}` : `${date.getMinutes()}`
+//   return `${formatDate(date, 'YYYY-MM-DD')}T${hh}:${mm}`
+// }
 
 // export function jsxSyntaxHighlightInstall(editor: monaco.editor.IStandaloneCodeEditor) {
 

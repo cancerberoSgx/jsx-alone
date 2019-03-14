@@ -1,3 +1,4 @@
+import { CSSProperties } from './declarations/domElementDeclarations';
 
 export function checkThrow<T>(r?: T, msg = 'Throwing on undefined value'): T {
   if (!r) { throw new Error(msg) }
@@ -63,10 +64,10 @@ export function objectMap(o: {[k: string]: any}, f: (k: string, v: any) => any) 
   return r
 }
 
-export function styleObjectToCss(o: Partial<{[k: string]: string|null|undefined}>, propertiesSeparator= '') {
+export function styleObjectToCss(o: Partial<{[k: string]: string|null|undefined}>|CSSProperties, propertiesSeparator= '') {
   return Object.keys(o)
   .map(p =>
-    `${stylePropertyNameToCssSyntax(p)}: ${o[p]};`
+    `${stylePropertyNameToCssSyntax(p)}: ${(o as any)[p]};`
     )
     //
     .join(propertiesSeparator)

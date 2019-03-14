@@ -1,4 +1,5 @@
 import { ts } from 'ts-simple-ast'
+import { getEnumKey } from '../util/util';
 
 export function compileTs(code: string) {
 
@@ -102,13 +103,4 @@ export function printNode(node: ts.Node, index: number = -1, level: number = 0, 
 /** get the kind name as string of given kind value or node */
 export function getKindName(kind: number | ts.Node): string {
   return (kind || kind === 0) ? getEnumKey(ts.SyntaxKind, (kind as ts.Node).kind || kind) : 'undefined'
-}
-
-export function getEnumKey(anEnum: any, value: any): string {
-  for (const key in anEnum) {
-    if (value === anEnum[key]) {
-      return key
-    }
-  }
-  return ''
 }

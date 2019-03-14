@@ -6,7 +6,6 @@ import { JsxColorsState } from './jsxColorsTypes';
 import { jsxColorSkins } from './skinsData';
 import { dispatch } from '../../../store/store';
 import { JSX_COLORS_ACTIONS } from '../../../store/jsxColors';
-import { JsxColorsEditor } from './JsxColorsSkinEditor';
 
 registerStyle(`
 `);

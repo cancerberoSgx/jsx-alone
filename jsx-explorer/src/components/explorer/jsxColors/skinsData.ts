@@ -6,7 +6,7 @@ export const jsxColorSkins: JsxSyntaxSkin[] = [
     name: 'crazy',
     description: 'first toy',
 
-    tagName: {
+    JsxTagName: {
       backgroundColor: '#0f0',
       fontSize: '3em',
       fontWeight: 'bolder'
@@ -21,7 +21,7 @@ export const jsxColorSkins: JsxSyntaxSkin[] = [
   {
     name: 'Mojigata', 
     description: 'second one just for have a second',
-    tagName: {
+    JsxTagName: {
       backgroundColor: '#0000ff',
       fontSize: '1em',
     },

@@ -67,9 +67,11 @@ function* watchForEditorSkinChange() {
   // when user modifies the skin (current) in the editor we update the styles
   yield takeEvery(JSX_COLORS_ACTIONS.EDITOR_SKIN_CHANGED,
     function* skinSelected(action: EditorChangePropValueAction) {
+      debugger
 
       const { lightStyles, darkStyles } = buildCssForSkin(action.payload.changed)
 
+      debugger
       yield registerStyle(lightStyles.split('\n').map(l => l.trim().startsWith('.') ? '.vs ' + l : l).join('\n'))
 
       yield registerStyle(darkStyles.split('\n').map(l => l.trim().startsWith('.') ? '.vs-dark ' + l : l).join('\n'))
