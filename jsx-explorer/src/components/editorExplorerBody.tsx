@@ -1,6 +1,6 @@
 import { JSXAlone } from 'jsx-alone-dom'
 import { registerStyle } from '../style/styles'
-import { isMobile } from '../util/media'
+import { isMobile, css } from '../util/media'
 import { P } from './app'
 import { Editor } from './editor'
 import { ElementExplorer } from './explorer/elements/elementExplorer'
@@ -8,6 +8,7 @@ import { onSelectCode } from './explorer/explorers'
 import { ImplExplorer } from './explorer/implExplorer'
 import { TsSimpleAstExplorer } from './explorer/tsAst/tsAstExplorer'
 import { Component } from './util/component'
+import { JsxColorsMain } from './explorer/jsxColors/jsxColorsMain';
 
 registerStyle(theme => `
 .editorExplorerBodyOverlay{
@@ -18,9 +19,9 @@ registerStyle(theme => `
   height: 2em;
   color: ${theme.colors.fg};
   font-weight: bolder;
-  margin: 2.5em auto .5em auto;
+  // margin: 2.5em auto .5em auto;
   z-index: 3;
-  padding-top: .3em;
+  // padding-top: .3em;
   opacity: 0.0;
   text-align: center;
   border-radius: 1em;
@@ -29,13 +30,15 @@ registerStyle(theme => `
 }
 body.working .editorExplorerBodyOverlay {
   visibility: visible;
-  opacity: .98;
+  opacity: .8;
   transition: opacity 600ms easy-out;
+}
 
-}
-.editorExplorerBody {
-  padding-top: 2em;
-}
+
+
+${css(`
+.tile.editorExplorerBody.is-ancestor:last-child, .tile.editorExplorerBody.is-ancestor`, ``, `padding-top: 4em;`)}
+
 .editorExplorerBodyMember {
   display:none;
   width: 100%;
@@ -62,6 +65,9 @@ export class EditorExplorerBody extends Component<P> {
         <div className={`editorExplorerBodyMember jsAst ${this.props.state.options.selectedExplorer === 'jsAst' ? 'is-active' : ''}`}>
           <TsSimpleAstExplorer editor={this.props.state.editor} compiled={this.props.state.compiled} onSelectCode={onSelectCode} />
         </div>
+        <div className={`editorExplorerBodyMember jsxColors ${this.props.state.options.selectedExplorer === 'jsxColors' ? 'is-active' : ''}`}>
+          <JsxColorsMain onSelectCode={onSelectCode} {...this.props.state.jsxColors} />
+        </div>
         <div className={`editorExplorerBodyMember implementations ${this.props.state.options.selectedExplorer === 'implementations' ? 'is-active' : ''}`}>
           <ImplExplorer editor={this.props.state.editor} compiled={this.props.state.compiled} onSelectCode={onSelectCode} />
         </div>
@@ -78,6 +84,9 @@ export class EditorExplorerBody extends Component<P> {
           </article>
           <article className={`editorExplorerBodyMember jsAst ${this.props.state.options.selectedExplorer === 'jsAst' ? 'is-active' : ''}`}>
             <TsSimpleAstExplorer editor={this.props.state.editor} compiled={this.props.state.compiled} onSelectCode={onSelectCode} />
+          </article>
+          <article className={`editorExplorerBodyMember jsxColors ${this.props.state.options.selectedExplorer === 'jsxColors' ? 'is-active' : ''}`}>
+            <JsxColorsMain onSelectCode={onSelectCode} {...this.props.state.jsxColors} />
           </article>
           <article className={`editorExplorerBodyMember implementations ${this.props.state.options.selectedExplorer === 'implementations' ? 'is-active' : ''}`}>
             <ImplExplorer editor={this.props.state.editor} compiled={this.props.state.compiled} onSelectCode={onSelectCode} />

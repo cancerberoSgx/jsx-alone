@@ -21,3 +21,29 @@ export function tryTo<F extends (...args: any[]) => any>(f: F): ReturnType<F> | 
   } catch (error) {
   }
 }
+
+
+// // TODO: import misc
+
+// export type ValueOfStringKey<T extends {
+// 	[k: string]: any
+	
+// }, K extends string> = T[K]
+// export type StringKeyOf<T extends any> = Extract<keyof T, string>;
+
+// /** NameOfStringKeyInArray<[{f: 1}, {f: 2}], 'f'>  will be 1|2 */
+// export type ValueOfStringKeyInArray<a extends any[], k extends string> = ValueOfStringKey<UnionOf<a>, k>;
+
+// /** NameOfStringKeyInArray<[{f: 1}, {f: 2}], 'f'>  will be 1|2 */
+// export type StringKeyInArray<a extends any[]> = StringKeyOf<UnionOf<a>>;
+
+// /**
+//  * Creates a union from the types of an Array or tuple
+//  */
+// export type UnionOf<T extends any[]> = T[number];
+
+// export type arrayItemKeyUnion<T extends any[]> = keyof T[arrayIndexUnion<T>];
+
+// export type arrayIndexUnion<T extends any[], K extends Exclude<keyof T, keyof []> = Exclude<keyof T, keyof []>> = T extends {
+// 	[k in K]: any;
+// } ? K : never;

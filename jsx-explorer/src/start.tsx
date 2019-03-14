@@ -12,6 +12,7 @@ import { optionsReducer } from './store/options'
 import { AllActions, setStore } from './store/store'
 import { changeTheme } from './store/theme'
 import { State } from './store/types'
+import { jsxColorsReducer, jsxColorsSagas } from './store/jsxColors';
 
 export function start() {
 
@@ -19,7 +20,8 @@ export function start() {
     layout: changeTheme,
     editor: changeCode,
     options: optionsReducer,
-    compiled
+    compiled, 
+    jsxColors: jsxColorsReducer
   }
 
   const reducers = combineReducers<State>(reducerStateMap)
@@ -32,7 +34,7 @@ export function start() {
 
   function* rootSaga() {
     yield all([
-      editorSagas(), compiledSagas()
+      editorSagas(), compiledSagas(), jsxColorsSagas()
     ])
   }
   sagaMiddleware.run(rootSaga)

@@ -1,17 +1,21 @@
+import { Classification } from '../codeWorker/extractCodeDecorations'
+import { JsonImplOutputEl } from 'jsx-alone-core'
+import { JsxColorsState } from "../components/explorer/jsxColors/jsxColorsTypes";
+
 export interface State {
   readonly layout: Layout
   readonly editor: Editor
   readonly compiled: Compiled
   readonly options: Options
+  readonly jsxColors: JsxColorsState
 }
-
 export interface Options {
   readonly logs: string[]
   readonly autoApply: boolean
   readonly selectedExplorer: ExplorerName
   readonly working: boolean
 }
-export type ExplorerName = 'editor' | 'elements' | 'jsAst' | 'implementations'
+export type ExplorerName = 'editor' | 'elements' | 'jsAst' | 'implementations'|'jsxColors'
 
 export interface Layout {
   readonly theme: Theme
@@ -32,14 +36,15 @@ export interface Theme {
 }
 
 export type Color = string
+export type FontFamily = string
+export type Size = string|{value: number, unit?: Unit}
+export type Unit = 'em'|'px'
 
 export interface Compiled {
   response?: CodeWorkerResponse
   request: CodeWorkerRequest
 }
 
-import { Classification } from '../codeWorker/extractCodeDecorations'
-import { JsonImplOutputEl } from 'jsx-alone-core'
 
 export interface CodeWorkerResponse {
   version: number

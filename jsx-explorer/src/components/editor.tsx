@@ -19,7 +19,7 @@ registerStyle(`
 .editorContainer {
   width: 100%;
   height: ${height()}px;
-  margin-top: 3em;
+  // margin-top: 3em;
 }
 `)
 

@@ -39,7 +39,10 @@ export class Header extends Component<P> {
         <div className="navbar-start">
 
           <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link" onClick={e => e.currentTarget.nextElementSibling!.classList.toggle('collapsed')}>Examples</a>
+            <a className="navbar-link" onClick={e => e.currentTarget.nextElementSibling!.classList.toggle('collapsed')}>
+            
+            Examples</a>
+            
             <div className="navbar-dropdown">
               {examples.map(example => <a className="navbar-item" onClick={e => {
                 dispatch({ type: EDITOR_ACTION.REQUEST_CODE_CHANGE, payload: { code: example.code } })
@@ -56,15 +59,24 @@ export class Header extends Component<P> {
                   <input checked={this.props.state.options.autoApply} type="checkbox" onChange={e =>
                     dispatch({ type: OPTIONS_ACTIONS.CHANGE_AUTO_APPLY, payload: { autoApply: e.currentTarget.checked } })
                   }
-                  /> Auto apply
-            </label></a>
+                  />
+                  
+                  Auto apply
+            
+            </label>
+            </a>
               <hr className="dropdown-divider"></hr>
               <a className="navbar-item" onClick={e => showInModal(<WhatsThis />, 'What\'s this?')}>What's this</a>
             </div>
           </div>
 
+
           <div className="navbar-item has-dropdown is-hoverable">
-            <a className="navbar-link" onClick={e => e.currentTarget.nextElementSibling!.classList.toggle('collapsed')}>Themes</a>
+            <a className="navbar-link" onClick={e => e.currentTarget.nextElementSibling!.classList.toggle('collapsed')}>
+            
+            Themes
+            
+            </a>
             <div className="navbar-dropdown">
               <a className="navbar-item" style={{
                 border: `2px solid ${nextTheme.colors.brand}`,
@@ -93,6 +105,23 @@ export class Header extends Component<P> {
 
         </div>
         <div className="navbar-end">
+
+
+        <div className="navbar-item has-dropdown is-hoverable">
+            <a className="navbar-link" onClick={e => e.currentTarget.nextElementSibling!.classList.toggle('collapsed')}>
+            
+            Explorers
+            
+            </a>
+            
+            <div className="navbar-dropdown">
+            <a className="navbar-item" onClick={e => 
+              dispatch({ type: OPTIONS_ACTIONS.SELECT_EXPLORER, payload: { selectedExplorer: 'implementations'  } })
+              
+              }>Implementations</a>
+            </div>
+          </div>
+
 </div>
 
       </div>

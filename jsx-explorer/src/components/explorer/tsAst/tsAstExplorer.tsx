@@ -16,7 +16,7 @@ registerStyle(`
 .tsAstExplorerContent {
   height: 100%;
   overflow: scroll;
-  margin-top: 3em;
+  // margin-top: 3em;
 }
 .tsAstExplorerContent {
   width: 100%;

@@ -28,6 +28,8 @@ export function dispatchSyntaxHighlight(data: CodeWorkerResponse ) {
   lastJsxDecorations = editor.deltaDecorations(lastJsxDecorations, decorations)
 }
 
+
+
 export function jsxSyntaxHighlightInstall(editor: monaco.editor.IStandaloneCodeEditor) {
 
   const lightStyles = `

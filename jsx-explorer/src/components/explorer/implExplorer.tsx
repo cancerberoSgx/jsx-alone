@@ -113,16 +113,6 @@ export class ImplExplorer extends Component<P> {
     return <div className="content">
       <h3>
         NOT COMPILED YET
-      </h3><h3>
-        NOT COMPILED YET
-      </h3><h3>
-        NOT COMPILED YET
-      </h3><h3>
-        NOT COMPILED YET
-      </h3><h3>
-        NOT COMPILED YET
-      </h3><h3>
-        NOT COMPILED YET
       </h3>
     </div>
     }
