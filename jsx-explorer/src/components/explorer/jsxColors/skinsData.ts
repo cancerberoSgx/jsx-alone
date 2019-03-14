@@ -12,26 +12,26 @@ export const jsxColorSkins: JsxSyntaxSkin[] = [
       fontWeight: 'bolder'
     },
 
-    text: {
+    JsxText: {
       opacity: 0.6,
       fontSize: '1.1em',
       color: '#ee9911'
     }
   },
   {
-    name: 'Mojigata',
+    name: 'Mojigata', 
     description: 'second one just for have a second',
     tagName: {
       backgroundColor: '#0000ff',
       fontSize: '1em',
     },
-    text: {
+    JsxText: {
       fontFamily: 'courier monospace',
       backgroundColor: 'yellow'
     },
-    attributeName: {
+    // attributeName: {
 
-      color: '#f08c36'
-    }
+    //   color: '#f08c36'
+    // }
   }
 ]

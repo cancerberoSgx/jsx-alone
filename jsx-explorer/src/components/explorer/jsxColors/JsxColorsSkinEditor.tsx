@@ -32,7 +32,7 @@ export class JsxColorsEditor extends Component<P> {
          ...previous,
         text: {
        
-          ...previous.text, 
+          ...previous.JsxText, 
           color: newVal
       }}
 

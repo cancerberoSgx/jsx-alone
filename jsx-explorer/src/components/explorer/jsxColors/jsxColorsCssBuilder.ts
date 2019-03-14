@@ -1,13 +1,16 @@
 import { JsxSyntaxSkin } from './jsxColorsTypes';
 import { printStyleHtmlAttribute } from 'jsx-alone-dom';
 import { CSSProperties } from 'jsx-alone-core';
+import { ClassName } from './classesData';
 
 export function buildCssForSkin(s: JsxSyntaxSkin):  {lightStyles: string, darkStyles: string} {
+  
+  const safeOrder : ClassName[] = [ClassName.JsxText, ClassName.JsxExpression] 
 
   const lightStyles = `
-${s.text ? `
+${s.JsxText ? `
 .JsxText {
-  ${ printStyleHtmlAttribute(s.text)}
+  ${ printStyleHtmlAttribute(s.JsxText)}
   // color: #5c6773;
 }
 ` : ``}
@@ -47,15 +50,6 @@ export function getPropertyDefaultValueForType(t?: Type) {
   return t === 'string' ? '' : t === 'date' ? formatDate(new Date()) : t === 'size' ? '1em' : 'sans-serif'
 }
 
-
-
-
-// export interface PP<T extends keyof CSSProperties> {
-//   // p: SyntaxSkinProperty
-//   propertyName: T
-//   propertyValue?: CSSProperties[T]
-//   propertyType?: Type
-// }
 
 export function formatDate(date: Date, format: 'YYYY-MM-DD' | 'MM/DD/YYYY' = 'YYYY-MM-DD'): string {
   if (typeof date === 'string') { // happens when serializing dates to json for testing
