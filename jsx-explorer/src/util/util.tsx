@@ -40,6 +40,10 @@ export function enumKeys<T=string>(anEnum: any): T[] {
   }
   return a as any
 }
+
+export function keys<T extends string>(o: Partial<{[k in T]: any}>): T[] {
+  return Object.keys(o) as T[]
+}
 // // TODO: import misc
 
 // export type ValueOfStringKey<T extends {

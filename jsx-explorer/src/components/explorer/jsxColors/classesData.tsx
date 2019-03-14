@@ -5,7 +5,7 @@ import { Base } from './jsxColorsTypes';
  * Is like css but here the selectors are ClassName (that target node types/like) and properties are SyntaxSkinProperty
  *
  */
-interface Class extends Base {
+export interface JsxColorsClass extends Base {
   /** a human name to identify this kind of node/class. It doesn't need to exist in the DOM , unlink value and jsxValue
    * */
   name: ClassName
@@ -18,7 +18,9 @@ interface Class extends Base {
   value?: ClassName[];
 
   /** 
-   * In case value is not null, the selector will be built with classes in values. Default is 'union'
+   * In case value is not null, the selector will be built with classes in values. 
+   * 
+   * Default is 'union'
    *
    * If selectorMode === 'intersection' then the selector will be `.name1, .name2, .name3, ...` 
    *
@@ -66,7 +68,7 @@ export enum ClassName {
 
 }
 
-const classes: Class[] = [
+export const jsxColorsClasses: JsxColorsClass[] = [
 
   {
     // buildClass(ClassName['JsxText'], 'any HTMLText inside elements. THe equivalent to HTMLTextNode'),

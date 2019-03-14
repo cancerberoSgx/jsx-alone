@@ -4,7 +4,7 @@ import { EditorModelChangedAction, RequestCodeChangeAction } from './editor'
 import { ChangeAutoApply, PushLogAction, SelectExplorer, SetWorking } from './options'
 import { ChangeThemeAction } from './theme'
 import { State } from './types'
-import { ChangeToolAction, SelectSkinAction, EditorChangePropValueAction } from './jsxColors';
+import {  JSXColorsActions } from './jsxColors';
 
 export type ActionForType<T extends AllActions['type']> = AllActions extends infer R ? R extends AllActions ? T extends R['type'] ? R : never : never : never
 
@@ -47,16 +47,16 @@ export function dispatch(action: AllActions) {
   onAfterActionDispatchListeners!.filter(i => i.type === action.type).forEach(l => l.listener(action, state2))
 }
 
-export type AllActions = 
+export type AllActions =
 
-RequestCodeChangeAction | EditorModelChangedAction | 
+  RequestCodeChangeAction | EditorModelChangedAction |
 
-PushLogAction | 
+  PushLogAction |
 
-ChangeAutoApply | SelectExplorer | SetWorking | 
+  ChangeAutoApply | SelectExplorer | SetWorking |
 
-ChangeThemeAction | 
+  ChangeThemeAction |
 
-FetchCompiledAction | RenderCompiledAction | ErrorCompiledAction | 
+  FetchCompiledAction | RenderCompiledAction | ErrorCompiledAction |
 
-ChangeToolAction|SelectSkinAction|EditorChangePropValueAction
+  JSXColorsActions

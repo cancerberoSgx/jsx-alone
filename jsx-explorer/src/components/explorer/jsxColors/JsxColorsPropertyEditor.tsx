@@ -11,27 +11,24 @@ interface P<T extends keyof CSSProperties= keyof CSSProperties> extends Supporte
   onChange(newValue: CSSProperties[T]): void
 }
 
-export class JsxColorsPropertyEditor
+export class JsxColorsPropertyEditor<T extends keyof CSSProperties= keyof CSSProperties> extends Component<P<T>> {
 
-  <T extends keyof CSSProperties= keyof CSSProperties>
-  extends Component<P<T>> {
   render() {
     return <div className="JsxColorsPropertyEditor">
 
-      <label>{this.props.propertyName || 'property'} {this.props.propertyType || 'text'}:
-      
-        <input type={this.getInputType(this.props.propertyType)} value={this.props.propertyValue || getPropertyDefaultValueForType(this.props.propertyType)}
-          onChange={e => {
-            this.props.onChange(e.currentTarget.value)
-          }
-          }>
-          </input>
-      </label>
+      {/* <label>{this.props.propertyName || 'property'}: */}
+
+      <input type={this.getInputType(this.props.propertyType)} value={this.props.propertyValue || getPropertyDefaultValueForType(this.props.propertyType)}
+        onChange={e => {
+          this.props.onChange(e.currentTarget.value)
+        }
+        } />
+      {/* </label> */}
     </div>
   }
 
   getInputType(t: PropertyType | undefined): string | undefined {
-    return t === 'color' ? 'color' : t === 'size' ? 'number' : 'string'
+    return t === 'color' ? 'color' : t === 'size' ? 'string' : 'string'
   }
 }
 
