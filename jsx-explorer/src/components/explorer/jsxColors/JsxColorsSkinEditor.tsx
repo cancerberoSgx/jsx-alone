@@ -6,9 +6,11 @@ import { registerStyle } from '../../../style/styles';
 import { Component } from '../../util/component';
 import { showInModal } from '../../util/showInModal';
 import { SelectCode } from '../explorers';
-import { jsxColorsClasses } from './classesData';
+import { jsxColorsClasses, ClassName } from './classesData';
 import { JsxColorsPropertyEditor } from './JsxColorsPropertyEditor';
 import { JsxColorsState, JsxSyntaxSkin } from "./jsxColorsTypes";
+import { keys } from '../../../util/util';
+import { allCssPropertyNames, getCssPropertyInfo } from './jsxColorsCssHelper';
 
 registerStyle(`
 `);
@@ -27,7 +29,7 @@ export class JsxColorsEditor extends Component<P> {
         <h3>"{selected.name}" Skin</h3>
 
         <p>Touch the controls, read the classes description and see how affect the syntax highlight in the editor. If you like the current thing, you can get the actual CSS code or skin object definition with buttons below. Ready?</p>
-        
+
         <button onClick={e => showInModal(<CurrentStyleCode {...this.props} />, 'Current skin styles CSS code')}>See style CSS code</button>
 
         <button onClick={e => showInModal(<SkinDefinition {...this.props} />, 'Current skin definition')}>See skin definition</button>
@@ -37,8 +39,16 @@ export class JsxColorsEditor extends Component<P> {
           <h4>{c.name}</h4>
           <p><i>{c.description}</i></p>
 
+          <select onChange={e => {
+            dispatch({ type: JSX_COLORS_ACTIONS.EDITOR_SKIN_CHANGED, payload: { changed: { ...this.props.selected!, [c.name]: { ...this.props.selected![c.name] || {}, [e.currentTarget.value]: '' } } } })
+          }}>
+            <option>Add new Property</option>
+            {allCssPropertyNames.map(p => <option value={p}>{p}</option>)}
+          </select>
+
           <table>
-            {supportedProperties.map(p => <tr>
+            {this.props.selected![c.name]! && keys<keyof CSSProperties>(this.props.selected![c.name]!).map(p => getCssPropertyInfo(p)).map(p => <tr>
+
               <td>{p.propertyName}</td>
               <td>
                 <JsxColorsPropertyEditor {...p}
@@ -100,24 +110,3 @@ const SkinDefinition = (props: P) => props.selected ? <article>
 
 
 
-
-export interface SupportedProperty<T extends keyof CSSProperties= keyof CSSProperties> {
-  propertyName: T
-  propertyValue?: CSSProperties[T]
-  propertyType?: PropertyType
-}
-
-export const supportedProperties: SupportedProperty[] = [
-  { propertyName: 'backgroundColor', propertyType: 'color' },
-  { propertyName: 'color', propertyType: 'color' },
-  { propertyName: 'fontSize', propertyType: 'size' }
-]
-
-
-export type PropertyType = 'string' | 'color' | 'size' | 'font'
-
-
-
-export function getDefaultPropertyValue(t?: PropertyType) {
-  return t === 'string' ? '' : t === 'size' ? '1em' : 'sans-serif'
-}

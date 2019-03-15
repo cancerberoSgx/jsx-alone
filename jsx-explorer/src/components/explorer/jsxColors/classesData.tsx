@@ -51,7 +51,10 @@ export enum ClassName {
   'tagName-of-JsxClosingElement' = 'tagName-of-JsxClosingElement',
   'tagName-of-JsxSelfClosingElement' = 'tagName-of-JsxSelfClosingElement',
   'JsxElement' = "JsxElement",
+
   'closingElement-of-JsxElement' = 'closingElement-of-JsxElement',
+  'openingElement-of-JsxElement' = 'openingElement-of-JsxElement',
+
   'JsxExpression' = "JsxExpression",
 
   'JsxAttribute' = 'JsxAttribute',
@@ -59,11 +62,31 @@ export enum ClassName {
   'name-of-JsxAttribute' = 'name-of-JsxAttribute',
   'JsxAttributeNameOpeningElement' = 'JsxAttributeNameOpeningElement',
   'attributes-of-JsxOpeningElement' = 'attributes-of-JsxOpeningElement',
-  // 'attributes-of-JsxOpeningElement'='attributes-of-JsxOpeningElement',
   'initializer-of-JsxAttribute' = 'initializer-of-JsxAttribute',
   'JsxAttributeInitializer' = 'JsxAttributeInitializer',
   'JsxAttributeEqualsToken' = 'JsxAttributeEqualsToken',
-  'EqualsToken' = 'EqualsToken'
+  'EqualsToken' = 'EqualsToken',
+  'JSXTagGreaterThanTokenSelfClosingElement' = 'JSXTagGreaterThanTokenSelfClosingElement',
+
+  'JsxSelfClosingElement' = 'JsxSelfClosingElement',
+  'GreaterThanToken' = 'GreaterThanToken',
+  'JSXTagLessThanTokenSelfClosingElement' = 'JSXTagLessThanTokenSelfClosingElement',
+  'LessThanToken' = 'LessThanToken',
+  'JSXTagSlashTokenSelfClosingElement' = 'JSXTagSlashTokenSelfClosingElement',
+  'SlashToken' = 'SlashToken',
+
+  'JSXTagGreaterThanTokenOpeningElement' = 'JSXTagGreaterThanTokenOpeningElement',
+  'JSXTagLessThanTokenOpeningElement' = 'JSXTagLessThanTokenOpeningElement',
+  'JSXTagGreaterThanTokenClosingElement' = 'JSXTagGreaterThanTokenClosingElement',
+  'JSXTagLessThanTokenClosingElement' = 'JSXTagLessThanTokenClosingElement',
+  'JSXTagSlashTokenClosingElement' = 'JSXTagSlashTokenClosingElement',
+
+  'JSXTagGreaterThanToken' = 'JSXTagGreaterThanToken',
+  'JSXTagLessThanToken' = 'JSXTagLessThanToken',
+  'JSXTagSlashToken' = 'JSXTagSlashToken',
+   
+  'JSXTagLessThanOrGreaterThanToken' = 'JSXTagLessThanOrGreaterThanToken',
+  'JSXTagTokens'='JSXTagTokens',  
 
 }
 
@@ -102,10 +125,10 @@ export const jsxColorsClasses: JsxColorsClass[] = [
     name: ClassName['JsxAttributeEqualsToken'],
     description: 'Equals token (`=`) in a JSX attribute assignment like `id="foo"`',
     value: [
-      ClassName['JsxAttribute'], 
-    ClassName['EqualsToken']
-  ] ,
-  selectorMode: 'intersection'
+      ClassName['JsxAttribute'],
+      ClassName['EqualsToken']
+    ],
+    selectorMode: 'intersection'
   },
   {
     name: ClassName['JsxExpression'],
@@ -113,19 +136,77 @@ export const jsxColorsClasses: JsxColorsClass[] = [
   },
 
 
+  // TOKENS
+  {
+    name: ClassName['JSXTagTokens'],
+    description: `The '<', '>' or '/' characters in any JSX element tag like '<p>', '</p>' or '<br/>'`,
+    value: [
+      ClassName['JSXTagLessThanTokenOpeningElement'],
+      ClassName['JSXTagLessThanTokenClosingElement'],
+      ClassName['JSXTagLessThanTokenSelfClosingElement'],
+      ClassName['JSXTagGreaterThanTokenOpeningElement'],
+      ClassName['JSXTagGreaterThanTokenClosingElement'],
+      ClassName['JSXTagGreaterThanTokenSelfClosingElement'],
+      ClassName['JSXTagSlashTokenClosingElement'],
+      ClassName['JSXTagSlashTokenSelfClosingElement']
+    ],
+    selectorMode: 'union'
+  },
+  {
+    name: ClassName['JSXTagLessThanOrGreaterThanToken'],
+    description: `The '<' or '>' characters in any JSX element tag like '<p>', '</p>' or '<br/>'`,
+    value: [
+      ClassName['JSXTagLessThanTokenOpeningElement'],
+      ClassName['JSXTagLessThanTokenClosingElement'],
+      ClassName['JSXTagLessThanTokenSelfClosingElement'],
+      ClassName['JSXTagGreaterThanTokenOpeningElement'],
+      ClassName['JSXTagGreaterThanTokenClosingElement'],
+      ClassName['JSXTagGreaterThanTokenSelfClosingElement']
+    ],
+    selectorMode: 'union'
+  },
+  {
+    name: ClassName['JSXTagLessThanToken'],
+    description: `The '<' character in any JSX element tag like '<p>', '</p>' or '<br/>'`,
+    value: [
+      ClassName['JSXTagLessThanTokenOpeningElement'],
+      ClassName['JSXTagLessThanTokenClosingElement'],
+      ClassName['JSXTagLessThanTokenSelfClosingElement']
+    ],
+    selectorMode: 'union'
+  },
+  {
+    name: ClassName['JSXTagSlashToken'],
+    description: `The '/' character in a JSX element tag like '</p>' or '<br/>'`,
+    value: [
+      ClassName['JSXTagSlashTokenClosingElement'],
+      ClassName['JSXTagSlashTokenSelfClosingElement']
+    ],
+    selectorMode: 'union'
+  },
+  {
+    name: ClassName['JSXTagGreaterThanToken'],
+    description: `The '>' character in any JSX element tag like '<p>', '</p>' or '<br/>'`,
+    value: [
+      ClassName['JSXTagGreaterThanTokenOpeningElement'],
+      ClassName['JSXTagGreaterThanTokenClosingElement'],
+      ClassName['JSXTagGreaterThanTokenSelfClosingElement']
+    ],
+    selectorMode: 'union'
+  },
 
 
   // LessThanToken JsxSelfClosingElement  -  mtk1 
   // openingElement-of-JsxElement LessThanToken 
-  
+
   // //  *  JsxSelfClosingElement GreaterThanToken
   //  * SlashToken  JsxSelfClosingElement
 
   // DotDotDotToken JsxSpreadAttribute 
-// OpenBraceToken JsxSpreadAttribute   (the first '{' in `{...{p}}`)
-// expression-of-JsxSpreadAttribute OpenBraceToken (the second '{' in `{...{p}}`)
-//  expression-of-JsxSpreadAttribute CloseBraceToken 
-// OpenBraceToken JsxSpreadAttribute  ( the second '}' in   `{...{p}}`)
+  // OpenBraceToken JsxSpreadAttribute   (the first '{' in `{...{p}}`)
+  // expression-of-JsxSpreadAttribute OpenBraceToken (the second '{' in `{...{p}}`)
+  //  expression-of-JsxSpreadAttribute CloseBraceToken 
+  // OpenBraceToken JsxSpreadAttribute  ( the second '}' in   `{...{p}}`)
 
   // more refined tagName:
   {
@@ -155,7 +236,7 @@ export const jsxColorsClasses: JsxColorsClass[] = [
     name: ClassName['JsxAttributeNameOpeningElement'],
     description: 'Attribute names only in opening elements (not in self closing elements). tagName of an closing element (identifier)',
     value: [
-      ClassName['attributes-of-JsxOpeningElement'], 
+      ClassName['attributes-of-JsxOpeningElement'],
       ClassName['name-of-JsxAttribute']
     ],
     selectorMode: 'intersection'
@@ -181,13 +262,70 @@ export const jsxColorsClasses: JsxColorsClass[] = [
     description: 'Attribute expressions in any JSX Element.',
   },
 
+
+
+
+ // more refined tokens
+
+  {
+    name: ClassName['JSXTagGreaterThanTokenOpeningElement'],
+    description: `The '>' character in a JSX opening element tag like '<p>'`,
+    value: [ClassName['openingElement-of-JsxElement'], ClassName['GreaterThanToken']],
+    selectorMode: 'intersection'
+  },
+  {
+    name: ClassName['JSXTagLessThanTokenOpeningElement'],
+    description: `The '<' character in a JSX opening element tag like '<p>'`,
+    value: [ClassName['openingElement-of-JsxElement'], ClassName['LessThanToken']],
+    selectorMode: 'intersection'
+  },
+
+  {
+    name: ClassName['JSXTagGreaterThanTokenClosingElement'],
+    description: `The '>' character in a JSX closing element tag like '</div>'`,
+    value: [ClassName['closingElement-of-JsxElement'], ClassName['GreaterThanToken']],
+    selectorMode: 'intersection'
+  },
+  {
+    name: ClassName['JSXTagLessThanTokenClosingElement'],
+    description: `The '<' character in a JSX closing element tag like '</div>'`,
+    value: [ClassName['closingElement-of-JsxElement'], ClassName['LessThanToken']],
+    selectorMode: 'intersection'
+  },
+  {
+    name: ClassName['JSXTagSlashTokenClosingElement'],
+    description: `The '/' character in a JSX closing element tag like '</div>'`,
+    value: [ClassName['closingElement-of-JsxElement'], ClassName['SlashToken']],
+    selectorMode: 'intersection'
+  },
+
+  {
+    name: ClassName['JSXTagGreaterThanTokenSelfClosingElement'],
+    description: `The '>' character in a JSX self closing element tag like '<br/>'`,
+    value: [ClassName['JsxSelfClosingElement'], ClassName['GreaterThanToken']],
+    selectorMode: 'intersection'
+  },
+  {
+    name: ClassName['JSXTagLessThanTokenSelfClosingElement'],
+    description: `The '<' character in a JSX self closing element tag like '<br/>'`,
+    value: [ClassName['JsxSelfClosingElement'], ClassName['LessThanToken']],
+    selectorMode: 'intersection'
+  },
+  {
+    name: ClassName['JSXTagSlashTokenSelfClosingElement'],
+    description: `The '/' character in a JSX self closing element tag like '<br/>'`,
+    value: [ClassName['JsxSelfClosingElement'], ClassName['SlashToken']],
+    selectorMode: 'intersection'
+  },
+
+  // mtk1 SlashToken expression-of-ReturnStatement JsxSelfClosingElement
   // LessThanToken GreaterThanToken SlashToken
   // * LessThanToken JsxSelfClosingElement  - 
   //  *  JsxSelfClosingElement GreaterThanToken
   //  * 
-// SlashToken  JsxSelfClosingElement
+  // SlashToken  JsxSelfClosingElement
 
-// openingElement-of-JsxElement GreaterThanToken
+  // openingElement-of-JsxElement GreaterThanToken
 
   // LessThanToken closingElement-of-JsxElement 
   // GreaterThanToken closingElement-of-JsxElement 
@@ -210,8 +348,8 @@ export const jsxColorsClasses: JsxColorsClass[] = [
 *
 * ## Attributes
 *
-* attribute name:mtk1 name-of-JsxAttribute attributes-of-JsxOpeningElement attribute's 
- * equal token: mtk1 JsxAttribute EqualsToken JsxText attribute 
+* attribute name:mtk1 name-of-JsxAttribute attributes-of-JsxOpeningElement attribute's
+ * equal token: mtk1 JsxAttribute EqualsToken JsxText attribute
  * value (string):  initializer-of-JsxAttribute  body-of-FunctionDeclaration attribute's
 * braces, a={'{'}}, : initializer-of-JsxAttribute OpenBraceToken attributes-of-JsxOpeningElement attribute expression's
 * braces (the inner one in a={'{'}{'{'}}) :  expression-of-JsxExpression OpenBraceToken JsxText attribute's expression
