@@ -2,7 +2,7 @@ import { AbstractJSXAlone as JSXAlone } from 'jsx-alone-core'
 
 function conditionals() {
 
-  function makeNode(p= 0.5): Node|undefined {
+  function makeNode(p = 0.5): Node | undefined {
     return Math.random() < p ? {
       getKindName() {
         return unique('Kind')
@@ -15,7 +15,6 @@ function conditionals() {
       },
       getChildren() {
         return [makeNode() || makeNode() || makeNode()].filter(e => e)
-        // return new Array(2).fill(0).map(i=>makeNode(.3)).filter(e=>e)
       }
     } as Node : undefined
   }
@@ -70,7 +69,7 @@ function conditionals() {
 
 interface Node {
   getKindName(): string
-  getType(): Node|undefined
+  getType(): Node | undefined
   getText(): string
   getChildren(): Node[]
 }

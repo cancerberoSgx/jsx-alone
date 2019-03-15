@@ -6,7 +6,7 @@
 // The way of forcing a custom implementation in this context is creating the
 // JSXAlone variable and then declare JSX inside an inner function.
 
-                               function test() {
+function test() {
   let JSXAlone = JSXAloneString
   const s: string = (() => {
     const el = <div className="string">Hello</div>

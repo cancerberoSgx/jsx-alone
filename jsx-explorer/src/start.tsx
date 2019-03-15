@@ -10,7 +10,7 @@ import { compiled, compiledSagas } from './store/compiled'
 import { changeCode, editorSagas } from './store/editor'
 import { optionsReducer } from './store/options'
 import { AllActions, setStore } from './store/store'
-import { changeTheme } from './store/theme'
+import { changeTheme, themeSagas } from './store/theme'
 import { State } from './store/types'
 import { jsxColorsReducer, jsxColorsSagas } from './store/jsxColors';
 
@@ -34,7 +34,7 @@ export function start() {
 
   function* rootSaga() {
     yield all([
-      editorSagas(), compiledSagas(), jsxColorsSagas()
+      editorSagas(), compiledSagas(), jsxColorsSagas(), themeSagas()
     ])
   }
   sagaMiddleware.run(rootSaga)

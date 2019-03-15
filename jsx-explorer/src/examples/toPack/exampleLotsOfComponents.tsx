@@ -170,19 +170,19 @@
 
 // THE APP TYPES
 
-                                interface Contact {
+interface Contact {
   addresses: Address[]
   phone: string
 }
-                                interface Address {
+interface Address {
   name: string,
   number: number
 }
-                                interface Person {
+interface Person {
   name: string,
   age: number
   contacts: Contact[]
 }
-                                interface AppProps {
+interface AppProps {
   people: Person[]
 }

@@ -18,6 +18,7 @@ export interface Classification {
   parentKind?: string
   type?: ParentShipKind
   // nodeType?: string
+  extra?: string[],
 }
 
 let classifications: Classification[] = []
@@ -56,30 +57,43 @@ function filterNonJsxRelatedNodes(n: Node) {
 }
 
 function addChildNodes(node: Node, classifications: Classification[], sourceFile: SourceFile, project: Project) {
-
   const lines = sourceFile.getFullText().split('\n').map(line => line.length)
   node.getDescendants()
     .filter(filterNonJsxRelatedNodes)
-    .forEach(id => {
-      const parent = id.getParent()
+    .forEach(node => {
+      const parent = node.getParent()
       const parentKind = parent && parent.getKindName()
-      const type = tryTo(() => buildParentShipKind({ node: id, project })[0]) || undefined
-      const kind = id.getKindName()
-      getNodeRangesForMonaco(id, lines).forEach(r => {
+      const type = tryTo(() => buildParentShipKind({ node: node, project })[0]) || undefined
+      const kind = node.getKindName()
+      const extra = getExtra(node)
+      getNodeRangesForMonaco(node, lines).forEach(r => {
         classifications.push(
           {
             ...r,
             kind,
             parentKind,
-            type,
+            // type,
+            extra,
           }
         )
       })
     })
 }
 
+function getExtra(node: Node) {
+  const extras = []
+  if (TypeGuards.isJsxTagNamedNode(node)) {
+    extras.push(node.getTagNameNode().getText().match(/^[a-z]/) ? 'JSXIntrinsicElement' : 'JSXNonIntrinsicElement')
+  }
+  const parent = node.getParent()
+  if (parent && TypeGuards.isJsxTagNamedNode(parent)) {
+    extras.push(parent.getTagNameNode().getText().match(/^[a-z]/) ? 'JSXIntrinsicElementChild' : 'JSXNonIntrinsicElementChild')
+  }
+  return extras.length ? extras : undefined
+}
+
 function getNodeRangesForMonaco(node: Node, lines: number[]) {
-    return getParentRanges(node)
+  return getParentRanges(node)
     .map(({ start, end }) => {
       const { offset, line: startLineNumber } = getLineNumberAndOffset(start, lines, node)
       const { line: endLineNumber } = getLineNumberAndOffset(end, lines, node)
@@ -92,8 +106,6 @@ function getNodeRangesForMonaco(node: Node, lines: number[]) {
       }
     })
 }
-
-
 function getLineNumberAndOffset(start: number, lines: number[], node: Node) {
   let line = 0
   let offset = 0
@@ -103,19 +115,17 @@ function getLineNumberAndOffset(start: number, lines: number[], node: Node) {
   }
   return { line: line + 1, offset }
 }
-
-
 function getParentRanges(node: Node) {
   const ranges = []
-  const [start, end] =  [node.getStart(), node.getEnd()]
+  const [start, end] = [node.getStart(), node.getEnd()]
   let lastEnd = start
   node.forEachChild(child => {
-        const [start, end] =  [child.getStart(), child.getEnd()]
-        ranges.push({
-          start: lastEnd,
-          end: start
-        })
-        lastEnd = end
+    const [start, end] = [child.getStart(), child.getEnd()]
+    ranges.push({
+      start: lastEnd,
+      end: start
+    })
+    lastEnd = end
   })
   if (lastEnd !== end) {
     ranges.push({
@@ -125,6 +135,8 @@ function getParentRanges(node: Node) {
   }
   return ranges
 }
+
+
 
 // function getNodeRangeForMonaco(node: Node, lines: number[]){
 //   return {

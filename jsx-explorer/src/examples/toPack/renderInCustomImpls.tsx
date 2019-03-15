@@ -1,6 +1,6 @@
 /*DONT CHANGE THIS FIRST LINE*/import { JSXAloneJsonImpl as JSXAloneJson } from 'jsx-alone-core'; import { JSXAlone as JSXAloneDom } from 'jsx-alone-dom'; import { JSXAlone as JSXAloneString } from 'jsx-alone-string'; const WORD_COUNT = 4, PEOPLE_COUNT = 5
 
-                               function test() {
+function test() {
   // This test renders JS using different implementations altogether. This is
   // mostly a hack and you don't do this in the real world, it's just a demo.
 

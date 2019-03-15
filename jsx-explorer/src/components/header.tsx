@@ -10,6 +10,7 @@ import { WhatsThis } from './content/whatsThis'
 import { EditorExplorerMenu } from './editorExplorerMenu'
 import { Component } from './util/component'
 import { showInModal } from './util/showInModal'
+import { THEME_ACTIONS } from '../store/theme';
 
 interface P {
   state: State
@@ -84,7 +85,7 @@ export class Header extends Component<P> {
                 color: `${nextTheme.colors.fg}`
               }}
                 onClick={e =>
-                  dispatch({ type: 'CHANGE_THEME', theme: nextTheme })
+                  dispatch({ type: THEME_ACTIONS.CHANGE_THEME, theme: nextTheme })
                 }>
                 Next theme: {nextThemeName}
               </a>
@@ -96,7 +97,7 @@ export class Header extends Component<P> {
                   color: `${t.colors.fg}`
                 }}
                 onClick={e => {
-                  dispatch({ type: 'CHANGE_THEME', theme: allThemes.find(t2 => t2.name === t.name)! })
+                  dispatch({ type: THEME_ACTIONS.CHANGE_THEME, theme: allThemes.find(t2 => t2.name === t.name)! })
                 }}>
                 Set {t.name} theme
               </a>)}

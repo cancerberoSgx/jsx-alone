@@ -2,6 +2,7 @@ import { Theme } from '../store/types'
 
 export const darkTheme: Theme = {
   name: 'dark',
+  type: 'dark',
   colors: {
     bg: '#1e1e1e',
     fg: '#d4d4d4',
@@ -11,6 +12,7 @@ export const darkTheme: Theme = {
 
 export const lightTheme: Theme = {
   name: 'light',
+  type: 'light',
   colors: {
     bg: '#d4d4d4',
     fg: '#1e1e1e',
@@ -20,6 +22,7 @@ export const lightTheme: Theme = {
 
 export const mintyTheme: Theme = {
   name: 'minty',
+  type: 'light',
   colors: {
     bg: '#d4d4d4',
     fg: '#1e1e1e',

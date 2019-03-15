@@ -16,7 +16,8 @@ export function dispatchSyntaxHighlight(data: CodeWorkerResponse) {
     return
   }
   const decorations: monaco.editor.IModelDeltaDecoration[] = data.jsxSyntaxHighLight.classifications.map(classification => {
-    const inlineClassName = classification.type ? `${classification.type}-of-${classification.parentKind}` : classification.kind
+    // const inlineClassName = `${classification.type ? `${classification.type}-of-${classification.parentKind}` : ''} ${classification.kind} ${(classification.extra||[]).join(' ')}`
+    const inlineClassName = `${classification.kind} ${classification.parentKind} ${classification.parentKind} ${(classification.extra||[]).join(' ')} ${classification.type ||''}`
     return {
       range: new monaco.Range(classification.startLineNumber, classification.startColumn, classification.endLineNumber, classification.endColumn),
       options: {
@@ -32,10 +33,6 @@ export function dispatchSyntaxHighlight(data: CodeWorkerResponse) {
 export function jsxSyntaxHighlightInstall(editor: monaco.editor.IStandaloneCodeEditor) {
   const { styles: lightStyles } = buildCssForSkin(jsxColorSkins.find(t => t.name === 'Default Light') || jsxColorSkins[0])
 
-  const { styles: darkStyles } = buildCssForSkin(jsxColorSkins.find(t => t.name === 'Default Dark') || jsxColorSkins[0])
-
-  registerStyle(lightStyles.split('\n').map(l => l.trim().startsWith('.') ? '.vs ' + l : l).join('\n'))
-
-  registerStyle(darkStyles.split('\n').map(l => l.trim().startsWith('.') ? '.vs-dark ' + l : l).join('\n'))
+  registerStyle(lightStyles)
 
 }

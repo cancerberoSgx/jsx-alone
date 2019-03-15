@@ -78,8 +78,7 @@ function* watchForCssChange() {
   // when there is new styles to apply we use registerStyle to render them in the DOM
   yield takeEvery(JSX_COLORS_ACTIONS.APPLY_SKIN_STYLES,
     function* skinSelected(action: ApplySkinStylesAction) {
-      yield registerStyle(action.payload.styles.split('\n').map(l => l.trim().startsWith('.') ? '.vs ' + l : l).join('\n'))
-      // yield registerStyle(action.payload.darkStyles.split('\n').map(l => l.trim().startsWith('.') ? '.vs-dark ' + l : l).join('\n'))
+      yield registerStyle(action.payload.styles)
     }
   )
 }

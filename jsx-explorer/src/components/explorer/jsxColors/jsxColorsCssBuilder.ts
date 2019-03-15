@@ -37,8 +37,8 @@ function getOrderedClasses(skin: JsxSyntaxSkin): JsxColorsClass[] {
     .filter(c=>c) as JsxColorsClass[]
 }
 
-function buildSelectorFor(c: JsxColorsClass): string {
-  return (c.value || [c.name]).map(className => {
+export function buildSelectorFor(c: JsxColorsClass): string {
+  return c.selector || (c.value || [c.name]).map(className => {
     const valueClass = jsxColorsClasses.find(c=>c.name===className)
     if(valueClass && valueClass.value){
       if(valueClass.name===c.name){

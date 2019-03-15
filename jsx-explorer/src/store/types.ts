@@ -26,8 +26,10 @@ export interface Editor {
   readonly version: number
 }
 
+export type ThemeType = 'light'|'dark'
 export interface Theme {
   readonly name: string,
+  readonly type: ThemeType,
   readonly colors: {
     readonly bg: Color
     readonly fg: Color

@@ -4,7 +4,6 @@ import { all, call, put, select, takeEvery } from 'redux-saga/effects'
 import { requestCodeCompile } from '../codeWorker/codeWorkerManager'
 import { dispatchSyntaxHighlight } from '../monaco/jsxSyntaxHighlight'
 import { OPTIONS_ACTIONS } from './options'
-import { dispatch } from './store'
 import { CodeWorkerError, CodeWorkerRequest, CodeWorkerResponse, Compiled } from './types'
 
 const initialState: Compiled = {
