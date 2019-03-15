@@ -47,7 +47,10 @@ export class JsxColorsEditor extends Component<P> {
           </select>
 
           <table>
-            {this.props.selected![c.name]! && keys<keyof CSSProperties>(this.props.selected![c.name]!).map(p => getCssPropertyInfo(p)).map(p => <tr>
+            {this.props.selected![c.name]! && keys<keyof CSSProperties>(this.props.selected![c.name]!)
+              .filter(p=>typeof this.props.selected![c.name]![p]!=='undefined')
+              .map(p => getCssPropertyInfo(p))
+              .map(p => <tr>
 
               <td>{p.propertyName}</td>
               <td>
@@ -55,7 +58,7 @@ export class JsxColorsEditor extends Component<P> {
                   propertyValue={selected[c.name] ? selected[c.name]![p.propertyName] : undefined}
                   onChange={newVal => {
                     const previous: JsxSyntaxSkin = {
-                      ...this.props.predefined[0],
+                      // ...this.props.predefined[0],
                       ...selected || {}
                     }
                     const changed: JsxSyntaxSkin = {
@@ -72,6 +75,10 @@ export class JsxColorsEditor extends Component<P> {
                     })
                   }} />
               </td>
+              <td><button onClick={e => {
+            dispatch({ type: JSX_COLORS_ACTIONS.EDITOR_SKIN_CHANGED, payload: { changed: { ...this.props.selected!, [c.name]: { ...this.props.selected![c.name] || {}, [p.propertyName]: undefined } } } })
+          }}
+          >Remove</button></td>
             </tr>)}
           </table>
 

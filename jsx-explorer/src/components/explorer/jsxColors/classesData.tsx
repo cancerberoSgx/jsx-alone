@@ -86,7 +86,13 @@ export enum ClassName {
   'JSXTagSlashToken' = 'JSXTagSlashToken',
    
   'JSXTagLessThanOrGreaterThanToken' = 'JSXTagLessThanOrGreaterThanToken',
+  
   'JSXTagTokens'='JSXTagTokens',  
+  'JSXTagTokensSelfClosingElement'='JSXTagTokensSelfClosingElement',  
+  'JSXTagTokensOpeningElement'='JSXTagTokensOpeningElement',  
+  'JSXTagTokensClosingElement'='JSXTagTokensClosingElement',  
+
+     
 
 }
 
@@ -152,6 +158,7 @@ export const jsxColorsClasses: JsxColorsClass[] = [
     ],
     selectorMode: 'union'
   },
+ 
   {
     name: ClassName['JSXTagLessThanOrGreaterThanToken'],
     description: `The '<' or '>' characters in any JSX element tag like '<p>', '</p>' or '<br/>'`,
@@ -195,7 +202,35 @@ export const jsxColorsClasses: JsxColorsClass[] = [
     selectorMode: 'union'
   },
 
-
+  {
+    name: ClassName['JSXTagTokensOpeningElement'],
+    description: `The '<', '>' characters in a JSX opening element tag like '<p>'`,
+    value: [
+      ClassName['JSXTagLessThanTokenOpeningElement'],
+      ClassName['JSXTagGreaterThanTokenOpeningElement'],
+    ],
+    selectorMode: 'union'
+  },
+  {
+    name: ClassName['JSXTagTokensClosingElement'],
+    description: `The '<', '>' or '/' characters in a JSX closing element tag like '</p>'`,
+    value: [
+      ClassName['JSXTagLessThanTokenClosingElement'],
+      ClassName['JSXTagGreaterThanTokenClosingElement'],
+      ClassName['JSXTagSlashTokenClosingElement'],
+    ],
+    selectorMode: 'union'
+  },
+  {
+    name: ClassName['JSXTagTokensSelfClosingElement'],
+    description: `The '<', '>' or '/' characters in a JSX self closing element tag like '</p>'`,
+    value: [
+      ClassName['JSXTagLessThanTokenSelfClosingElement'],
+      ClassName['JSXTagGreaterThanTokenSelfClosingElement'],
+      ClassName['JSXTagSlashTokenSelfClosingElement'],
+    ],
+    selectorMode: 'union'
+  },
   // LessThanToken JsxSelfClosingElement  -  mtk1 
   // openingElement-of-JsxElement LessThanToken 
 

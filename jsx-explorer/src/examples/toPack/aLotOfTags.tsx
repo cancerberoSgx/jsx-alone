@@ -7,7 +7,9 @@ function simple1() {
 
     <h1>People</h1>
 
-    <p>This example contains lots of combinations of <i>JSX</i> so it's ideal to test <a href="https://cancerberosgx.github.io/jsx-alone/jsx-explorer/">JSX Syntax Highlight</a></p>
+    <p>This example contains lots of combinations of <i>JSX</i> so it's ideal to test 
+    <a href="https://cancerberosgx.github.io/jsx-alone/jsx-explorer/">JSX Syntax Highlight</a>
+    </p>
 
     <hr className="hr" />
 

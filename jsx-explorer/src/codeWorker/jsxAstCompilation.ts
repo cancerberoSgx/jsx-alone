@@ -1,5 +1,5 @@
 
-import Project, { Node as tsNode, ts, SourceFile } from 'ts-simple-ast'
+import Project, { Node as tsNode, ts, SourceFile, Node } from 'ts-simple-ast'
 import { CodeWorkerRequest, CodeWorkerRequestJsxAst, CodeWorkerResponseJsxAsNode, CodeWorkerResponseJsxAst, CodeWorkerResponseJsxAstDiagnostic } from '../store/types'
 import { createProject, getChildrenForEachChild } from './ts-simple-ast'
 import { lastRequest } from './codeWorker'

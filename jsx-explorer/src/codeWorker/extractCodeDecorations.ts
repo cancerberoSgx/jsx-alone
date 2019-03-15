@@ -1,6 +1,6 @@
 // adapted from https://github.com/CompuIves/codesandbox-client/blob/196301c919dd032dccc08cbeb48cf8722eadd36b/packages/app/src/app/components/CodeEditor/Monaco/workers/syntax-highlighter.js
 
-import Project, { SourceFile, TypeChecker, createWrappedNode, Node, TypeGuards, Type } from 'ts-simple-ast'
+import Project, { SourceFile, TypeChecker, createWrappedNode, Node, TypeGuards, Type, ts } from 'ts-simple-ast'
 import { lastRequest } from './codeWorker'
 import { CodeWorkerRequest } from '../store/types'
 import { buildBaseKind, buildBaseKindOfNode, ParentShipKind, buildParentShipKind } from './typeStructure';
@@ -9,14 +9,14 @@ import { tryTo } from '../util/util';
 type Modifier = string//'readonly'
 
 export interface Classification {
-  start: number
+  startColumn: number
+  startLineNumber: number
+  endLineNumber: number
   // modifiers?: Modifier[]
-  end: number
+  endColumn: number
   kind: string
   parentKind?: string
   type?: ParentShipKind
-  startLine: number
-  endLine: number
   // nodeType?: string
 }
 
@@ -31,66 +31,14 @@ export function extractCodeDecorations(data: CodeWorkerRequest, sourceFile: Sour
   if (!sourceFile) {
     throw `extractCodeDecorations now needs a tsa sourceFile`
   }
-  const lines = sourceFile.getFullText().split('\n').map(line => line.length)
-  addChildNodes(sourceFile, lines, classifications, sourceFile, project)
+  addChildNodes(sourceFile, classifications, sourceFile, project)
   return classifications
 }
 
-function getLineNumberAndOffset(start: number, lines: number[]) {
-  let line = 0
-  let offset = 0
-  while (offset + lines[line] < start) {
-    offset += lines[line] + 1
-    line += 1
-  }
-  return { line: line + 1, offset }
-}
-
-function nodeToRange(node: Node) {
-  if (
-    typeof node.getStart === 'function' &&
-    typeof node.getEnd === 'function'
-  ) {
-    return [node.getStart(), node.getEnd()]
-  }
-  else if (
-    typeof node.getPos() !== 'undefined' &&
-    typeof node.getEnd() !== 'undefined'
-  ) {
-    return [node.getPos(), node.getEnd()]
-  }
-  return [0, 0]
-}
-
-function getNodeType(parent: Node, node: Node) {
-  return Object.keys(parent.compilerNode).find(key => (parent.compilerNode as any)[key] === node.compilerNode)
-}
-
-function getParentRanges(node: Node) {
-  const ranges = []
-  const [start, end] = nodeToRange(node)
-  let lastEnd = start
-  node.forEachChild(child => {
-    // ts.forEachChild(node, child => {
-    const [start, end] = nodeToRange(child)
-    ranges.push({
-      start: lastEnd,
-      end: start
-    })
-    lastEnd = end
-  })
-  if (lastEnd !== end) {
-    ranges.push({
-      start: lastEnd,
-      end
-    })
-  }
-  return ranges
-}
 
 function filterNonJsxRelatedNodes(n: Node) {
   // this is faster - we just dont want syntax list since they pollute a lot the JSX. 
-  return n.getKindName()!=='SyntaxList'
+  return n.getKindName() !== 'SyntaxList'
 
   // But these are other more elegant ways:
 
@@ -107,39 +55,90 @@ function filterNonJsxRelatedNodes(n: Node) {
 
 }
 
-function addChildNodes(node: Node, lines: number[], classifications: Classification[], sourceFile: SourceFile, project: Project) {
+function addChildNodes(node: Node, classifications: Classification[], sourceFile: SourceFile, project: Project) {
 
+  const lines = sourceFile.getFullText().split('\n').map(line => line.length)
   node.getDescendants()
     .filter(filterNonJsxRelatedNodes)
     .forEach(id => {
       const parent = id.getParent()
       const parentKind = parent && parent.getKindName()
-      // const nodeType = [...buildBaseKind({node,project}), ...[]]
-      // const modifiers: string[] = []//TypeGuards.isModifierableNode(id) && id.getModifiers().map(m=>m.getText()) || []
-
-      // const type2 = id.getParent() && getNodeType(id.getParent(), id)
       const type = tryTo(() => buildParentShipKind({ node: id, project })[0]) || undefined
-      classifications.push(
-        ...getParentRanges(id)
-          .map(({ start, end }) => {
-            const { offset, line: startLine } = getLineNumberAndOffset(
-              start,
-              lines
-            )
-            const { line: endLine } = getLineNumberAndOffset(end, lines)
-            return {
-              start: start + 1 - offset,
-              end: end + 1 - offset,
-              startLine,
-              endLine,
-              // modifiers,
-              kind: id.getKindName(),
-              parentKind,
-              type,
-              // text: id.getText(),
-              // nodeType,
-            }
-          })
-      )
+      const kind = id.getKindName()
+      getNodeRangesForMonaco(id, lines).forEach(r => {
+        classifications.push(
+          {
+            ...r,
+            kind,
+            parentKind,
+            type,
+          }
+        )
+      })
     })
 }
+
+function getNodeRangesForMonaco(node: Node, lines: number[]) {
+    return getParentRanges(node)
+    .map(({ start, end }) => {
+      const { offset, line: startLineNumber } = getLineNumberAndOffset(start, lines, node)
+      const { line: endLineNumber } = getLineNumberAndOffset(end, lines, node)
+      return {
+        startLineNumber,
+        // Heads up : following sum fixes an error of original implementation when JSXText has multiple lines:
+        endLineNumber: endLineNumber + (TypeGuards.isJsxText(node) && node.getText().includes('\n') ? -1 : 0),
+        startColumn: start + 1 - offset,
+        endColumn: end + 1 - offset,
+      }
+    })
+}
+
+
+function getLineNumberAndOffset(start: number, lines: number[], node: Node) {
+  let line = 0
+  let offset = 0
+  while (offset + lines[line] < start) {
+    offset += lines[line] + 1
+    line += 1
+  }
+  return { line: line + 1, offset }
+}
+
+
+function getParentRanges(node: Node) {
+  const ranges = []
+  const [start, end] =  [node.getStart(), node.getEnd()]
+  let lastEnd = start
+  node.forEachChild(child => {
+        const [start, end] =  [child.getStart(), child.getEnd()]
+        ranges.push({
+          start: lastEnd,
+          end: start
+        })
+        lastEnd = end
+  })
+  if (lastEnd !== end) {
+    ranges.push({
+      start: lastEnd,
+      end
+    })
+  }
+  return ranges
+}
+
+// function getNodeRangeForMonaco(node: Node, lines: number[]){
+//   return {
+//     startColumn: node.getStartLinePos()+1,//  n.getst ts.getLineAndCharacterOfPosition(n.getSourceFile().compilerNode, n.compilerNode.getStart()).character + 1,
+//     startLineNumber: node.getStartLineNumber()+1,
+//     endColumn: ts.getLineAndCharacterOfPosition(node.getSourceFile().compilerNode, node.compilerNode.getEnd()).character + 1,
+//     endLineNumber: node.getEndLineNumber()+1////ts.getLineAndCharacterOfPosition(n.getSourceFile().compilerNode, n.compilerNode.getEnd()).line + 1,
+//   }
+// }
+// function getNodeRangesForMonaco2(node: Node, lines: number[]){
+//   return [getNodeRangeForMonaco(node, lines)]
+//   // const ranges:any[] = []
+//   // node.forEachChild(child=>{
+//   //   ranges.push(getNodeRangeForMonaco(child, lines))
+//   // })
+//   // return ranges
+// }
