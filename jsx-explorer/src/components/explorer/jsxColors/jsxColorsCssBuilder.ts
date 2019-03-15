@@ -4,20 +4,17 @@ import { CSSProperties, styleObjectToCss } from 'jsx-alone-core';
 import { ClassName, JsxColorsClass, jsxColorsClasses } from './classesData';
 import { keys } from '../../../util/util';
 
-export function buildCssForSkin(skin: JsxSyntaxSkin): { lightStyles: string, darkStyles: string } {
+export function buildCssForSkin(skin: JsxSyntaxSkin) {
 
   const orderedClasses = getOrderedClasses(skin)
 
-  const lightStyles = orderedClasses.map(c => `
+  const styles = orderedClasses.map(c => `
 ${buildSelectorFor(c)} {
   ${styleObjectToCss(skin[c.name]!, '\n  ')}
 }
 `.trim()).join('\n')
 
-  const darkStyles = `
-  `
-
-  return { lightStyles, darkStyles }
+  return {styles}
 }
 
 const classesSafeOrderForCss: ClassName[] = [ClassName.JsxText, ClassName.JsxExpression]

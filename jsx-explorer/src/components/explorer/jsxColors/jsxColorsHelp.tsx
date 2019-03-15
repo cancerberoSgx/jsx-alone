@@ -7,17 +7,13 @@ export const Help = () => <article className="content">
 
   <p>Here, like in no other editor, you will be able to control every aspect of how your code is shown.</p>
 
-  <p>
-    Visualize the Language Abstract syntax tree plyaing with existing skings, and when you are ready go and create your own syntax highlight theme.
-    </p>
+  <p>Visualize the Language Abstract syntax tree playing with existing skins, and when you are ready go and create your own syntax highlight theme.</p>
 
   <p> have 100% control on  Use the menu below to learn how to use it, experiment existing JSx syntax themes and finally make your own!</p>
 
   <p>Hope you learn something about JSX syntax while visualizing its parts, and don't worry playing with different font sizes , decorations, colors, etc (nobody is watching)</p>
 
-  <p>Also, make sure you test your syntax highlight in both the dark and light application themes</p>
-
-  <h3>CSS classesOF JSX language elements</h3>
+  <h3>CSS classes of JSX language elements</h3>
 
   (TODO: visually document these names)
 

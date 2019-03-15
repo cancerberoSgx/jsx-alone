@@ -1,15 +1,13 @@
-import { JSXAlone } from 'jsx-alone-dom'
-import * as monaco from 'monaco-editor'
-import { getMonacoInstance, installEditor } from '../monaco/monaco'
-import { EDITOR_ACTION } from '../store/editor'
-import { dispatch } from '../store/store'
-import { State } from '../store/types'
-import { registerStyle } from '../style/styles'
-import { height } from '../util/media'
-import { query } from '../util/util'
-import { Component } from './util/component'
-import { jsxSyntaxHighlightInstall } from '../monaco/jsxSyntaxHighlight'
-import { throttle } from '../util/throttle'
+import { JSXAlone } from 'jsx-alone-dom';
+import * as monaco from 'monaco-editor';
+import { getMonacoInstance, installEditor } from '../monaco/monaco';
+import { EDITOR_ACTION } from '../store/editor';
+import { dispatch } from '../store/store';
+import { State } from '../store/types';
+import { registerStyle } from '../style/styles';
+import { throttle } from '../util/throttle';
+import { query } from '../util/util';
+import { Component } from './util/component';
 
 interface P {
   state: State
@@ -18,9 +16,6 @@ interface P {
 registerStyle(`
 .editorContainer {
   width: 100%;
-  // height: 100%;
-  // height: ${height()}px;
-  // margin-top: 3em;
 }
 `)
 
@@ -42,7 +37,7 @@ export class Editor extends Component<P> {
     this.eventManager && this.eventManager.addAppendToDomListener(() => {
       installEditor(this.props.state.editor.code, this.getMonacoTheme(), query('#editorContainer'))
       const editor = getMonacoInstance()
-      editor!.getModel()!.onDidChangeContent(throttle(this.dispatchModelChanged, 3000, {trailing: true}))
+      editor!.getModel()!.onDidChangeContent(throttle(this.dispatchModelChanged, 3000, { trailing: true }))
       this.dispatchModelChanged(false)
     })
     if (this.props.state.layout.theme.name !== this.lastTheme) {

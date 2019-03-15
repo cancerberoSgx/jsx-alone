@@ -10,8 +10,7 @@ export interface JsxColorsState {
 }
 
 export interface JsxColorsSkinStyles {
-  lightStyles: string,
-  darkStyles: string
+  styles: string,
 }
 
 export interface Base<Name extends string = string> {

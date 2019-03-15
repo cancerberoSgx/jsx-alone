@@ -34,7 +34,6 @@ export class JsxColorsEditor extends Component<P> {
 
         <button onClick={e => showInModal(<SkinDefinition {...this.props} />, 'Current skin definition')}>See skin definition</button>
 
-
         <ul>{jsxColorsClasses.map(c => <li>
           <h4>{c.name}</h4>
           <p><i>{c.description}</i></p>
@@ -58,7 +57,6 @@ export class JsxColorsEditor extends Component<P> {
                   propertyValue={selected[c.name] ? selected[c.name]![p.propertyName] : undefined}
                   onChange={newVal => {
                     const previous: JsxSyntaxSkin = {
-                      // ...this.props.predefined[0],
                       ...selected || {}
                     }
                     const changed: JsxSyntaxSkin = {
@@ -88,30 +86,20 @@ export class JsxColorsEditor extends Component<P> {
     }
 
     else {
-      return <div>IMPOSSIBLE</div>
+      return <div>JsxColorsSkinEditor IMPOSSIBLE</div>
     }
 
 
   }
 }
 
-
 const CurrentStyleCode = (props: P) => props.selectedSkinCurrentStyles ? <article>
-
-  <h3>Styles for Light Themes</h3>
-  <pre dangerouslySetInnerHTML={{ __html: props.selectedSkinCurrentStyles!.lightStyles }} />
-
-  <h3>Styles for Dark Themes</h3>
-  <pre dangerouslySetInnerHTML={{ __html: props.selectedSkinCurrentStyles!.darkStyles }} />
+  <pre dangerouslySetInnerHTML={{ __html: props.selectedSkinCurrentStyles!.styles }} />
 
 </article> : <div>Error: no skin styles ready yet</div>
 
-
-
 const SkinDefinition = (props: P) => props.selected ? <article>
-
   <pre dangerouslySetInnerHTML={{ __html: JSON.stringify(props.selected, null, 2) }} />
-
 </article> : <div>Error: no skin styles ready yet</div>
 
 

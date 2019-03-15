@@ -1,4 +1,3 @@
-import { JsxColorSkins } from './JsxColorSkins';
 import { JsxSyntaxSkin } from './jsxColorsTypes';
 
 export const jsxColorSkins: JsxSyntaxSkin[] = [
@@ -44,7 +43,7 @@ export const jsxColorSkins: JsxSyntaxSkin[] = [
       backgroundColor: "#fdecff"
     }
   },
-  
+
   {
     name: "Open Close",
     description: "Differentiate opening and closing tags with colors",
@@ -78,7 +77,7 @@ export const jsxColorSkins: JsxSyntaxSkin[] = [
     },
     JsxTagNameSelfClosingElement: {
       color: "#041cda",
-      backgroundColor: "#ccd5ff",      
+      backgroundColor: "#ccd5ff",
       fontWeight: "bolder",
     },
     JsxAttributeInitializer: {
@@ -90,5 +89,48 @@ export const jsxColorSkins: JsxSyntaxSkin[] = [
     JsxAttributeEqualsToken: {
       color: "#0090ff"
     }
+  },
+
+
+  {
+    name: 'Default Light',
+    description: 'A simple JSX skin for light editor themes. This is the one used by default in this application and perhaps a good starting point to start building a new theme',
+    JsxText: {
+      color: '#5c6773'
+    },
+    JsxExpression: {
+      color: '#00990'
+    },
+    JSXTagTokens: {
+      color: '#888811'
+    },
+    JsxTagName: {
+      color: '#41a6d9'
+    },
+    JsxAttributeName: {
+      color: '#f08c36'
+    }
+  },
+
+
+  {
+    name: 'Default Dark',
+    description: 'A simple JSX skin for dark editor themes. This is the one used by default in this application and perhaps a good starting point to start building a new theme',
+    JsxText: {
+      color: '#8a97b3'
+    },
+    JsxExpression: {
+      color: '#00bb00'
+    },
+    JSXTagTokens: {
+      color: '#cccc88'
+    },
+    JsxTagName: {
+      color: '#8dc5d5'
+    },
+    JsxAttributeName: {
+      color: '#f08c36'
+    }
   }
+  
 ]

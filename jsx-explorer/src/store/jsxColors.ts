@@ -1,12 +1,10 @@
 import { Action, Reducer } from 'redux';
-import { all, takeEvery, put } from 'redux-saga/effects';
+import { all, takeEvery } from 'redux-saga/effects';
 import { buildCssForSkin } from '../components/explorer/jsxColors/jsxColorsCssBuilder';
-import { JsxColorsState, JsxColorsTools, JsxSyntaxSkin, JsxColorsSkinStyles } from "../components/explorer/jsxColors/jsxColorsTypes";
+import { JsxColorsSkinStyles, JsxColorsState, JsxColorsTools, JsxSyntaxSkin } from "../components/explorer/jsxColors/jsxColorsTypes";
 import { jsxColorSkins } from '../components/explorer/jsxColors/skinsData';
-import { dispatch } from './store';
 import { registerStyle } from '../style/styles';
-import { JsxColorSkins } from '../components/explorer/jsxColors/JsxColorSkins';
-
+import { dispatch } from './store';
 
 const initialState: JsxColorsState = {
   predefined: jsxColorSkins,
@@ -55,17 +53,14 @@ interface ApplySkinStylesAction extends Action<JSX_COLORS_ACTIONS.APPLY_SKIN_STY
   payload: JsxColorsSkinStyles
 }
 
-
 export type JSXColorsActions = ChangeToolAction | SelectSkinAction | EditorChangePropValueAction | ApplySkinStylesAction
 
 function* watchForSkinSelected() {
   // when skin is selected we change the tool to editor and make sure selected skin is applied (by dispatching EDITOR_SKIN_CHANGED)
   yield takeEvery(JSX_COLORS_ACTIONS.SELECT_SKIN,
     function* skinSelected(action: SelectSkinAction) {
-
       yield dispatch({ type: JSX_COLORS_ACTIONS.CHANGE_TOOL, payload: { tool: 'editor' } })
       yield dispatch({ type: JSX_COLORS_ACTIONS.EDITOR_SKIN_CHANGED, payload: { changed: action.payload.selected } })
-
     }
   )
 }
@@ -83,10 +78,9 @@ function* watchForCssChange() {
   // when there is new styles to apply we use registerStyle to render them in the DOM
   yield takeEvery(JSX_COLORS_ACTIONS.APPLY_SKIN_STYLES,
     function* skinSelected(action: ApplySkinStylesAction) {
-
-      yield registerStyle(action.payload.lightStyles.split('\n').map(l => l.trim().startsWith('.') ? '.vs ' + l : l).join('\n'))
-      yield registerStyle(action.payload.darkStyles.split('\n').map(l => l.trim().startsWith('.') ? '.vs-dark ' + l : l).join('\n'))
-}
+      yield registerStyle(action.payload.styles.split('\n').map(l => l.trim().startsWith('.') ? '.vs ' + l : l).join('\n'))
+      // yield registerStyle(action.payload.darkStyles.split('\n').map(l => l.trim().startsWith('.') ? '.vs-dark ' + l : l).join('\n'))
+    }
   )
 }
 
