@@ -1,6 +1,6 @@
 import { JSXAlone } from 'jsx-alone-dom'
 import { registerStyle } from '../style/styles'
-import { isMobile, css } from '../util/media'
+import { isMobile, css, height } from '../util/media'
 import { P } from './app'
 import { Editor } from './editor'
 import { ElementExplorer } from './explorer/elements/elementExplorer'
@@ -15,6 +15,7 @@ registerStyle(theme => `
   visibility: hidden;
   display: block;
   background-color: ${theme.colors.brand};
+  margin-top: 2em;
   width: 70%;
   height: 2em;
   color: ${theme.colors.fg};
@@ -34,19 +35,30 @@ body.working .editorExplorerBodyOverlay {
   transition: opacity 600ms easy-out;
 }
 
-
-
-${css(`
-.tile.editorExplorerBody.is-ancestor:last-child, .tile.editorExplorerBody.is-ancestor`, ``, `padding-top: 4em;`)}
+${css(`.tile.editorExplorerBody.is-ancestor:last-child, .tile.editorExplorerBody.is-ancestor`, ``, `padding-top: 4em;`)}
 
 .editorExplorerBodyMember {
   display:none;
   width: 100%;
+  margin-top: 50px;
 }
+
+${css(`.editorExplorerBodyMember`, ``, `overflow: scroll;`)}
+
+
+.editorExplorerBodyMember>* {
+  width: 100%;
+}
+
+${css(`.editorExplorerBody, .editorExplorerBody .editorContainer`, 
+`height: ${height()-100}px;`, 
+`height: ${height()-160}px;`)}
+
 .editorExplorerBodyMember.is-active {
   display: flex;
 }
 `)
+
 
 export class EditorExplorerBody extends Component<P> {
 
@@ -92,6 +104,7 @@ export class EditorExplorerBody extends Component<P> {
             <ImplExplorer editor={this.props.state.editor} compiled={this.props.state.compiled} onSelectCode={onSelectCode} />
           </article>
         </div>
+
         <div className="tile is-vertical is-8">
           <article className="tile is-child">
             <Editor {...this.props} />

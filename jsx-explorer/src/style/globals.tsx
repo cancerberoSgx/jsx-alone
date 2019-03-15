@@ -42,7 +42,9 @@ ${css('.modal .modal-card', `width: 100%;`, `width: 80%;`)}
   font-weight: bolder;
   font-size: 1.1em;
 }
-${css('.section', `padding: 0; margin: 0;`, `padding: 3rem 1.5rem;`)}
+
+
+${css('.section', `padding: 0; margin: 0;`, `padding: 0 1.5em;`)}
 
 .navbar-dropdown.collapsed{
   height: 10px;

@@ -13,15 +13,6 @@ interface P extends ExplorerProps {
 }
 
 registerStyle(`
-.tsAstExplorerContent {
-  height: 100%;
-  overflow: scroll;
-  // margin-top: 3em;
-}
-.tsAstExplorerContent {
-  width: 100%;
-  height: ${height()}px;
-}
 ${css('.tsAstExplorerContent li ul', `padding-left: .7em`, `padding-left 1.2em`)}
 .tsAstExplorerContent ul {
   list-style: none;

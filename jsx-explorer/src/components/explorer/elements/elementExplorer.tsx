@@ -13,12 +13,6 @@ interface P extends ExplorerProps {
 }
 
 registerStyle(`
-.explorer {
-  overflow: scroll;
-  width: 100%;
-  height: ${height()}px;
-  // margin-top: 3em;
-}
 .html-code-container {
   display: none;
 }
@@ -33,7 +27,7 @@ export class ElementExplorer extends Component<P> {
     const compiled = this.props.compiled.response
     if (compiled) {
       const { error, result, evaluated } = compiled.evaluate
-      return <div className="explorer">
+      return <div className="ElementExplorer">
 
         <button className="button" title="See HTML code" onClick={e => showInModal(<ElementNodeHtmlCodeModal html={jsonImplOutputElAsHtml(result!)} />, 'HTML')}>See Output HTML</button>
 

@@ -18,7 +18,8 @@ interface P {
 registerStyle(`
 .editorContainer {
   width: 100%;
-  height: ${height()}px;
+  // height: 100%;
+  // height: ${height()}px;
   // margin-top: 3em;
 }
 `)

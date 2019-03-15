@@ -1,15 +1,14 @@
+import { CSSProperties } from 'jsx-alone-core';
 import { JSXAlone } from 'jsx-alone-dom';
+import { JSX_COLORS_ACTIONS } from '../../../store/jsxColors';
+import { dispatch } from '../../../store/store';
 import { registerStyle } from '../../../style/styles';
 import { Component } from '../../util/component';
-import { SelectCode } from '../explorers';
-import { JsxColorsState, JsxSyntaxSkin } from "./jsxColorsTypes";
-import { JsxColorsPropertyEditor } from './JsxColorsPropertyEditor';
-import { supportedProperties } from './jsxColorsCssBuilder';
-import { dispatch } from '../../../store/store';
-import { JSX_COLORS_ACTIONS } from '../../../store/jsxColors';
-import { ClassName, jsxColorsClasses } from './classesData';
-import { getEnumKey, enumKeys } from '../../../util/util';
 import { showInModal } from '../../util/showInModal';
+import { SelectCode } from '../explorers';
+import { jsxColorsClasses } from './classesData';
+import { JsxColorsPropertyEditor } from './JsxColorsPropertyEditor';
+import { JsxColorsState, JsxSyntaxSkin } from "./jsxColorsTypes";
 
 registerStyle(`
 `);
@@ -98,3 +97,27 @@ const SkinDefinition = (props: P) => props.selected ? <article>
 
 </article> : <div>Error: no skin styles ready yet</div>
 
+
+
+
+
+export interface SupportedProperty<T extends keyof CSSProperties= keyof CSSProperties> {
+  propertyName: T
+  propertyValue?: CSSProperties[T]
+  propertyType?: PropertyType
+}
+
+export const supportedProperties: SupportedProperty[] = [
+  { propertyName: 'backgroundColor', propertyType: 'color' },
+  { propertyName: 'color', propertyType: 'color' },
+  { propertyName: 'fontSize', propertyType: 'size' }
+]
+
+
+export type PropertyType = 'string' | 'color' | 'size' | 'font'
+
+
+
+export function getDefaultPropertyValue(t?: PropertyType) {
+  return t === 'string' ? '' : t === 'size' ? '1em' : 'sans-serif'
+}

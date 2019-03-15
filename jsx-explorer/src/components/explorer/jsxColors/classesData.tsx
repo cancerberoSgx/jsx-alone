@@ -1,42 +1,41 @@
 import { Base } from './jsxColorsTypes';
 /** 
- * Represents all the classnames supporting for styling the code. 
- *
- * Is like css but here the selectors are ClassName (that target node types/like) and properties are SyntaxSkinProperty
- *
+ * Represents class names supported for styling JSX code which is implemented using CSS matching 
+ * HTML classes existing in monaco-editor HTML nodes.
+ * 
+ * Besides defining name and description of a node kind, it defines how to build the CSS selector
+ * that match the correct nodes in monaco-editor.
+ * 
  */
 export interface JsxColorsClass extends Base {
-  /** a human name to identify this kind of node/class. It doesn't need to exist in the DOM , unlink value and jsxValue
-   * */
-  name: ClassName
+
   /** 
-   * If defined then the style will be built with a selector based on classes in `value` instead of using name. the pure
-   * class name for any node that can appear in a jsx expression. These classes need to exist in the DOM . Remember that
-   * are nodes that can also appear outside, like `LessThanToken` , GreaterThanToken, SlashToken., etc So if you use
-   * this class alone you could effecting the rest of the code. If you only want to affect JSX nodes, then use jsxName
+   * Identifies a node kind like tag name, attribute name, etc. 
+   */
+  name: ClassName
+
+  /** 
+   * If not defined then just the class in `name` property will be used to build the selector. 
+   * 
+   * If defined, the style will be built with a selector based on classes in on this property instead of using `name`. 
+   * 
+   * If a class name in `value` references a class with `value` defined, then also those classes will be used 
+   * to build the CSS selector 
+   * 
    */
   value?: ClassName[];
 
   /** 
    * In case value is not null, the selector will be built with classes in values. 
    * 
-   * Default is 'union'
+   * Default is 'intersection'
    *
-   * If selectorMode === 'intersection' then the selector will be `.name1, .name2, .name3, ...` 
+   * If selectorMode is 'union' then the selector will be `.name1, .name2, .name3, ...` 
    *
-   * while if selectorMode is 'union' then the selector will be `.name1.name2.name3...` 
+   * while if selectorMode is 'intersection' then the selector will be `.name1.name2.name3...` 
    * 
    */
   selectorMode?: 'intersection' | 'union'
-  
-  //  /** 
-  //  * Use this multiple class to make sure you wont affect non JSX nodes in the code. See docfor `value`  .The
-  //    selector  should bemore or as equal as specific to value's
-  //    */
-  //  jsxValue: ClassName[];
-
-  // /** if true this name won't be available as a HTML class name in the editor. Was creating to add better/simple
-  // names and will be resolved on non-virtual  `value` or jsx-value` selectors  */ isVirtual?: boolean
 
 }
 
@@ -44,10 +43,10 @@ export interface JsxColorsClass extends Base {
 export enum ClassName {
   'JsxText' = 'JsxText',
   'JsxTagName' = 'JsxTagName',
-  'JsxTagNameOpeningElement'= 'JsxTagNameOpeningElement',
-  'JsxTagNameClosingElement'='JsxTagNameClosingElement',
-  'JsxTagNameSelfClosingElement'='JsxTagNameSelfClosingElement',
-  'JsxAttributesOpeningElement'='JsxAttributesOpeningElement',
+  'JsxTagNameOpeningElement' = 'JsxTagNameOpeningElement',
+  'JsxTagNameClosingElement' = 'JsxTagNameClosingElement',
+  'JsxTagNameSelfClosingElement' = 'JsxTagNameSelfClosingElement',
+  'JsxAttributesOpeningElement' = 'JsxAttributesOpeningElement',
   'tagName-of-JsxOpeningElement' = 'tagName-of-JsxOpeningElement',
   'tagName-of-JsxClosingElement' = 'tagName-of-JsxClosingElement',
   'tagName-of-JsxSelfClosingElement' = 'tagName-of-JsxSelfClosingElement',
@@ -71,130 +70,127 @@ export enum ClassName {
 export const jsxColorsClasses: JsxColorsClass[] = [
 
   {
-    // buildClass(ClassName['JsxText'], 'any HTMLText inside elements. THe equivalent to HTMLTextNode'),
-      name: ClassName['JsxText'],
-      description: 'Any HTMLText inside elements. THe equivalent to HTMLTextNode'
-    },
-    
-    {
-      // buildClass(, 'Parent JSX Element node that contains an entire tag, with attributes, children, text and the
-      // closing tag. etc'),
-      name: ClassName['JsxElement'],
-      description: 'Parent JSX Element node that contains an entire tag, with attributes, children, text and the closing tag. etc'
-    },
+    name: ClassName['JsxText'],
+    description: 'Text in JSX elements body. THe equivalent to HTMLTextNode. For example the expression `<i>hello</i>` has the JSXText `hello`'
+  },
 
-    {
-      // buildClass(ClassName['JsxTagName'], 'Any tagname in a JSX expression (opening, closing or self closing
-      // elements)', [ClassName['tagName-of-JsxOpeningElement'], ClassName['tagName-of-JsxClosingElement'],
-      // ClassName['tagName-of-JsxSelfClosingElement']], true),
-      name: ClassName['JsxTagName'],
-      description: 'Any tagname in a JSX expression (opening, closing or self closing elements)', 
-      value: [
-        ClassName['tagName-of-JsxOpeningElement'], 
-        ClassName['tagName-of-JsxClosingElement'], 
-        ClassName['tagName-of-JsxSelfClosingElement']
-      ],
-      selectorMode: 'union'
-    },
-
-
-
-    {
-      //   buildClass(ClassName['tagName-of-JsxOpeningElement'], 'tagName of an opening element (identifier)'),
-      name: ClassName['JsxTagNameOpeningElement'],
-      description: 'Tag name of an opening element.',
-      value: [ClassName['tagName-of-JsxOpeningElement']],
-    },
-
-    {
-      // buildClass(ClassName['tagName-of-JsxClosingElement'], 'tagName of an closing element. Also applies to self closing element tag names.'),
-      name: ClassName['JsxTagNameClosingElement'],
-      description: 'Tag name of an closing element.',
-      value: [ClassName['tagName-of-JsxClosingElement']],
-    },
-
-    {
-      // buildClass(ClassName['tagName-of-JsxSelfClosingElement'], 'tagName of self closing element.'),
-      name: ClassName['JsxTagNameSelfClosingElement'],
-      description: 'Tag name of self closing elements.',
-      value: [ClassName['tagName-of-JsxSelfClosingElement']],
-
-    },
-
-
-
-    {
-      // buildClass(ClassName['JsxAttribute'], 'A parent tag for attributes in any element.'),
-      name: ClassName['JsxAttribute'],
-      description: 'Attribute expressions in any JSX Element.',
-    },
-
-
-    {
-      // buildClass(ClassName['JsxAttributeName'], 'Any attribute name. Can be on an opening tag or on a sel closing element tag.', [ClassName['name-of-JsxAttribute']], true),
-      name: ClassName['JsxAttributeName'],
-      description:  'Any attribute name. Can be on an opening tag or on a sel closing element tag.',
-      value: [ClassName['name-of-JsxAttribute']]
-
-    },
-    {
-      // buildClass(ClassName['JsxAttributeNameOpeningElement'], 'Attribute names only in opening elements (not in self closing elements). tagName of an closing element (identifier)', [ClassName['attributes-of-JsxOpeningElement'], ClassName['name-of-JsxAttribute']]),
-      name: ClassName['JsxAttributeNameOpeningElement'],
-      description:  'Attribute names only in opening elements (not in self closing elements). tagName of an closing element (identifier)',
-      value: [ClassName['attributes-of-JsxOpeningElement'], ClassName['name-of-JsxAttribute']],
-      selectorMode: 'intersection'
-
-    },
-    {
-      // buildClass(ClassName['JsxAttribute'], 'A parent tag for attributes in any element.'),
-      name: ClassName['JsxAttributesOpeningElement'],
-      description: 'Attributes on opening element (not on self closing element).',
-      value: [ClassName['attributes-of-JsxOpeningElement']]
-    },
-    {
-      // buildClass(ClassName['JsxAttributeInitializer'], 'The right-size - initialized expression of an attribute, for example `"foo"` in the expression `<div id="foo"`', [ClassName['initializer-of-JsxAttribute']]),
-      name: ClassName['JsxAttributeInitializer'],
-      description: 'The right-size - initialized expression of an attribute, for example `"foo"` in the expression `<div id="foo"`',
-      value: [ClassName['initializer-of-JsxAttribute']]
-    },
-
-  // buildClass(ClassName['initializer-of-JsxAttribute'], 'The right-size - initialized expression of an attribute, for example `"foo"` in the expression `<div id="foo"`'),
 
   {
-    // buildClass(ClassName['JsxAttributeEqualsToken'], 'equals (=) token in attribute assignment', [ClassName['JsxAttribute'], ClassName['EqualsToken']]),
-    name: ClassName['JsxAttributeEqualsToken'],
-    description: 'Equals token (`=`) in a JSX attribute assignment like `id="foo"`',
+    name: ClassName['JsxTagName'],
+    description: 'Any tagname in a JSX expression (opening, closing or self closing elements)',
+    value: [
+      ClassName['tagName-of-JsxOpeningElement'],
+      ClassName['tagName-of-JsxClosingElement'],
+      ClassName['tagName-of-JsxSelfClosingElement']
+    ],
+    selectorMode: 'union'
+  },
+
+
+  {
+    name: ClassName['JsxAttributeName'],
+    description: 'Any attribute name. Can be on an opening tag or on a self closing element tag.',
+    value: [ClassName['name-of-JsxAttribute']]
+
+  },
+  {
+    name: ClassName['JsxAttributeInitializer'],
+    description: 'The right-size - initialized expression of an attribute, for example `"foo"` in the expression `<div id="foo"`',
     value: [ClassName['initializer-of-JsxAttribute']]
   },
+  {
+    name: ClassName['JsxAttributeEqualsToken'],
+    description: 'Equals token (`=`) in a JSX attribute assignment like `id="foo"`',
+    value: [
+      ClassName['JsxAttribute'], 
+    ClassName['EqualsToken']
+  ] ,
+  selectorMode: 'intersection'
+  },
+  {
+    name: ClassName['JsxExpression'],
+    description: 'JSxExpression is the JavaScript code wrapped with braces inside JSX. For example: `<h1>{props.title}</h1> jas a JSXExpression `{props.title}`. Expressions can exists as text or attribute values. Note: This class has impact only on the braces, not on the inner code.'
+  },
+
+
+
+
+  // LessThanToken JsxSelfClosingElement  -  mtk1 
+  // openingElement-of-JsxElement LessThanToken 
+  
+  // //  *  JsxSelfClosingElement GreaterThanToken
+  //  * SlashToken  JsxSelfClosingElement
+
+  // DotDotDotToken JsxSpreadAttribute 
+// OpenBraceToken JsxSpreadAttribute   (the first '{' in `{...{p}}`)
+// expression-of-JsxSpreadAttribute OpenBraceToken (the second '{' in `{...{p}}`)
+//  expression-of-JsxSpreadAttribute CloseBraceToken 
+// OpenBraceToken JsxSpreadAttribute  ( the second '}' in   `{...{p}}`)
+
+  // more refined tagName:
+  {
+    name: ClassName['JsxTagNameOpeningElement'],
+    description: 'Tag name of an opening element.',
+    value: [ClassName['tagName-of-JsxOpeningElement']],
+  },
+  {
+    name: ClassName['JsxTagNameClosingElement'],
+    description: 'Tag name of an closing element.',
+    value: [ClassName['tagName-of-JsxClosingElement']],
+  },
+
+  {
+    name: ClassName['JsxTagNameSelfClosingElement'],
+    description: 'Tag name of self closing elements.',
+    value: [ClassName['tagName-of-JsxSelfClosingElement']],
+  },
+
+
+
+
+  // more refined attributes
 
 
   {
-    // buildClass(ClassName.JsxExpression, 'The inner braces on JSX attribute expressions like `<button onClick={e=>}`'),
-    name: ClassName['JsxExpression'],
-    description:'The inner braces on JSX attribute expressions like `<button onClick={e=>}`'
+    name: ClassName['JsxAttributeNameOpeningElement'],
+    description: 'Attribute names only in opening elements (not in self closing elements). tagName of an closing element (identifier)',
+    value: [
+      ClassName['attributes-of-JsxOpeningElement'], 
+      ClassName['name-of-JsxAttribute']
+    ],
+    selectorMode: 'intersection'
+
+  },
+  {
+    name: ClassName['JsxAttributesOpeningElement'],
+    description: 'Attributes on opening element (not on self closing element).',
+    value: [ClassName['attributes-of-JsxOpeningElement']]
   },
 
 
 
 
 
+  {
+    name: ClassName['JsxElement'],
+    description: 'Parent JSX Element node that contains an entire tag, with attributes, children, text and the closing tag. etc'
+  },
 
+  {
+    name: ClassName['JsxAttribute'],
+    description: 'Attribute expressions in any JSX Element.',
+  },
+
+  // LessThanToken GreaterThanToken SlashToken
   // * LessThanToken JsxSelfClosingElement  - 
   //  *  JsxSelfClosingElement GreaterThanToken
   //  * 
-  //  * 
-  //  * text in between attributes JsxElement JsxText
+// SlashToken  JsxSelfClosingElement
 
-  //   LessThanToken JsxSelfClosingElement  - 
-  //   *  JsxSelfClosingElement GreaterThanToken
-  //   * slash token of self closing elements: SlashToken  JsxSelfClosingElement
-
-
-
+// openingElement-of-JsxElement GreaterThanToken
 
   // LessThanToken closingElement-of-JsxElement 
-
-  // LessThanToken
+  // GreaterThanToken closingElement-of-JsxElement 
 
   // SlashToken
 
@@ -214,14 +210,14 @@ export const jsxColorsClasses: JsxColorsClass[] = [
 *
 * ## Attributes
 *
-* attribute name:mtk1 name-of-JsxAttribute attributes-of-JsxOpeningElement attribute's equal token: mtk1 JsxAttribute
-* EqualsToken JsxText attribute value (string):  initializer-of-JsxAttribute  body-of-FunctionDeclaration attribute's
+* attribute name:mtk1 name-of-JsxAttribute attributes-of-JsxOpeningElement attribute's 
+ * equal token: mtk1 JsxAttribute EqualsToken JsxText attribute 
+ * value (string):  initializer-of-JsxAttribute  body-of-FunctionDeclaration attribute's
 * braces, a={'{'}}, : initializer-of-JsxAttribute OpenBraceToken attributes-of-JsxOpeningElement attribute expression's
 * braces (the inner one in a={'{'}{'{'}}) :  expression-of-JsxExpression OpenBraceToken JsxText attribute's expression
 * body: (have a JsxText class): name-of-PropertyAssignment JsxText   , JsxText head-of-TemplateExpression space/text in
 * between attributes : .JxtText.openingElement-of-JsxElement or closingElement-of-JsxElement text inside element:
 * JsxElement JsxText attribute expressions without name (like {'<'}p {'{'}...this.props} >) :
-*   * OpenBraceToken JsxSpreadAttribute
 *   * OpenBraceToken JsxSpreadAttribute
 *   * expression-of-JsxSpreadAttribute DotToken
 *   *  JsxSpreadAttribute CloseBraceToken
