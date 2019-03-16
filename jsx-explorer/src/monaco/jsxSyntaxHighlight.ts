@@ -17,7 +17,7 @@ export function dispatchSyntaxHighlight(data: CodeWorkerResponse) {
   }
   const decorations: monaco.editor.IModelDeltaDecoration[] = data.jsxSyntaxHighLight.classifications.map(classification => {
     // const inlineClassName = `${classification.type ? `${classification.type}-of-${classification.parentKind}` : ''} ${classification.kind} ${(classification.extra||[]).join(' ')}`
-    const inlineClassName = `${classification.kind} ${classification.parentKind} ${classification.parentKind} ${(classification.extra||[]).join(' ')} ${classification.type ||''}`
+    const inlineClassName = `${classification.kind} ${classification.parentKind} ${classification.parentKind} ${(classification.extra||[]).join(' ')}`
     return {
       range: new monaco.Range(classification.startLineNumber, classification.startColumn, classification.endLineNumber, classification.endColumn),
       options: {

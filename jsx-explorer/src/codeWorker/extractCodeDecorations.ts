@@ -16,7 +16,7 @@ export interface Classification {
   endColumn: number
   kind: string
   parentKind?: string
-  type?: ParentShipKind
+  // type?: ParentShipKind
   // nodeType?: string
   extra?: string[],
 }
@@ -63,7 +63,7 @@ function addChildNodes(node: Node, classifications: Classification[], sourceFile
     .forEach(node => {
       const parent = node.getParent()
       const parentKind = parent && parent.getKindName()
-      const type = tryTo(() => buildParentShipKind({ node: node, project })[0]) || undefined
+      // const type = tryTo(() => buildParentShipKind({ node: node, project })[0]) || undefined
       const kind = node.getKindName()
       const extra = getExtra(node)
       getNodeRangesForMonaco(node, lines).forEach(r => {
