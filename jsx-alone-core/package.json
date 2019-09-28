@@ -1,6 +1,6 @@
 {
   "name": "jsx-alone-core",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Write JSX without React or any other library, both in browser and server. Core package. ",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
@@ -17,9 +17,8 @@
     "clean": "rm -rf build/ dist/  ",
     "all": "npm run clean && npm run build",
     "prepare": "npm run build && npx shx rm -rf dist/**/__tests__",
-    "docs": "exit 0",    
+    "docs": "exit 0",
     "all-publish": "npm run all && git commit -a -m 'version patch' && npm version patch && npm publish"
-
   },
   "dependencies": {},
   "devDependencies": {
