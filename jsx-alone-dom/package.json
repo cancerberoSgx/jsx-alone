@@ -1,6 +1,6 @@
 {
   "name": "jsx-alone-dom",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Write JSX without React or any other library, both in browser and server. DOM implementation",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
