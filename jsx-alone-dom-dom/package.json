@@ -1,6 +1,6 @@
 {
   "name": "jsx-alone-dom-dom",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A minimal DOM implementation that jsx-alone-dom supports",
   "main": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
