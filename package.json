@@ -40,6 +40,5 @@
     "typescript": "^3.3.3333",
     "yamat": "^0.1.2"
   },
-  "dependencies": {
-  }
+  "dependencies": {}
 }
