@@ -32,7 +32,7 @@ export function getMarkedDescendants(e: Element, label = '_jsxa_') {
   return Array.from(e.querySelectorAll(getMarkSSelector(label)))
 }
 
-export function getMarkedElement<T extends Element = Element>(key: string, parent: NodeSelector = document, label = '_jsxa_') {
+export function getMarkedElement<T extends Element = Element>(key: string, parent:  HTMLElement|HTMLDocument = document, label = '_jsxa_') {
   return parent.querySelector<T>(getMarkSSelector(label, key))
 }
 

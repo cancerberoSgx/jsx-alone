@@ -16,7 +16,8 @@
     "clean": "rm -rf build/ dist/",
     "all": "npm run clean && npm run build && npm test",
     "prepare": "npm run build && npx shx rm -rf dist/**/__tests__",
-    "docs": "exit 0"
+    "docs": "exit 0",
+    "all-publish": "npm run all && git commit -a -m 'version patch' && npm version patch && npm publish"
   },
   "dependencies": {
     "jsx-alone-core": "0.0.4"
